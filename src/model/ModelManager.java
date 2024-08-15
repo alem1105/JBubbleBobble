@@ -24,9 +24,6 @@ public class ModelManager extends Observable {
     }
 
     public void update() {
-        if (menu == null) {
-            menu = Menu.getInstance();
-        }
 
         switch (Gamestate.state) {
             case PLAYING -> player.update();

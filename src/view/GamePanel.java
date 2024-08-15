@@ -1,9 +1,8 @@
 package view;
 
-import model.entities.PlayerModel;
 import model.gamestate.Gamestate;
-import view.entities.PlayerView;
 import view.stateview.MenuView;
+import view.stateview.PlayingView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +13,7 @@ import static model.utilz.Constants.GameConstants.*;
 
 public class GamePanel extends JPanel implements Observer {
 
-    private PlayerView playerView;
+    private PlayingView playingView;
     private MenuView menuView;
 
     public GamePanel() {
@@ -25,7 +24,7 @@ public class GamePanel extends JPanel implements Observer {
     }
 
     private void loadViews() {
-        this.playerView = new PlayerView(PlayerModel.getInstance());
+        this.playingView = new PlayingView();
         this.menuView = new MenuView();
     }
 
@@ -37,7 +36,7 @@ public class GamePanel extends JPanel implements Observer {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         switch(Gamestate.state) {
-            case PLAYING -> playerView.render(g);
+            case PLAYING -> playingView.render(g);
             case MENU -> menuView.draw(g);
         }
     }
@@ -45,7 +44,7 @@ public class GamePanel extends JPanel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         switch(Gamestate.state) {
-            case PLAYING -> playerView.updateAnimationTick(); // Ci va la playing
+            case PLAYING -> playingView.update(); // Ci va la playing
             case MENU -> System.out.println("ci va animation click");
         }
         repaint();
