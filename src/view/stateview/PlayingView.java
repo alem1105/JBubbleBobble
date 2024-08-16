@@ -26,7 +26,7 @@ public class PlayingView {
     }
 
     public void update(){
-        playerView.updateAnimationTick();
+        playerView.update();
     }
 
 }

@@ -4,9 +4,17 @@ import model.entities.PlayerModel;
 
 public class Playing {
 
-    private final PlayerModel player;
+    private PlayerModel player;
+    private static Playing instance;
 
-    public Playing() {
+    public static Playing getInstance() {
+        if (instance == null) {
+            instance = new Playing();
+        }
+        return instance;
+    }
+
+    private Playing() {
         player = PlayerModel.getInstance();
     }
 

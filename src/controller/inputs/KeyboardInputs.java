@@ -36,6 +36,7 @@ public class KeyboardInputs implements KeyListener {
                     case KeyEvent.VK_ESCAPE -> Gamestate.state = MENU;
                     case KeyEvent.VK_D -> PlayerModel.getInstance().setRight(true);
                     case KeyEvent.VK_A -> PlayerModel.getInstance().setLeft(true);
+                    case KeyEvent.VK_SPACE -> PlayerModel.getInstance().setJump(true);
                 }
             }
         }
@@ -48,6 +49,7 @@ public class KeyboardInputs implements KeyListener {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_D -> PlayerModel.getInstance().setRight(false);
                     case KeyEvent.VK_A -> PlayerModel.getInstance().setLeft(false);
+                    case KeyEvent.VK_SPACE -> PlayerModel.getInstance().setJump(false);
                 }
             }
         }

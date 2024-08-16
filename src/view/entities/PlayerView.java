@@ -6,6 +6,7 @@ import view.utilz.LoadSave;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import static model.utilz.Constants.GameConstants.SCALE;
 import static model.utilz.Constants.PlayerConstants.*;
 import static model.utilz.Constants.GameConstants.ANI_SPEED;
 
@@ -15,15 +16,45 @@ public class PlayerView {
 
     private BufferedImage[][] animations;
 
+    private float xDrawOffset = 3 * SCALE;
+    private float yDrawOffset = 3 * SCALE;
+
+    private int flipW = 1, flipX = 0;
+
     public PlayerView(PlayerModel playerModel) {
         this.playerModel = playerModel;
         loadAnimations();
     }
 
+    public void update() {
+        updateAnimationTick();
+        updateDirections();
+        checkAniTick();
+    }
+
+    private void checkAniTick() {
+        if (playerModel.isResetAniTick()) {
+            aniTick = 0;
+            aniIndex = 0;
+        }
+    }
+
+    private void updateDirections() {
+        if (playerModel.isLeft()) {
+            flipX = playerModel.getWidth();
+            flipW = -1;
+        }
+        if (playerModel.isRight()) {
+            flipX = 0;
+            flipW = 1;
+        }
+    }
+
     public void render(Graphics g) {
         g.drawImage(animations[playerModel.getPlayerAction()][aniIndex],
-                (int) (playerModel.getX()), (int) (playerModel.getY()),
-                playerModel.getWidth(), playerModel.getHeight(), null);
+                (int) (playerModel.getHitbox().x - xDrawOffset) + flipX, (int) (playerModel.getHitbox().y - yDrawOffset),
+                playerModel.getWidth() * flipW, playerModel.getHeight(), null);
+        drawHitbox(g);
     }
 
     private void loadAnimations() {
@@ -52,5 +83,13 @@ public class PlayerView {
             case JUMP, FALL, IDLE, RUNNING -> 2;
             default -> 1; // Comprende anche Attack
         };
+    }
+
+    protected void drawHitbox(Graphics g) {
+        // For debugging the hitbox
+        g.setColor(Color.PINK);
+        g.drawRect((int) (playerModel.getHitbox().x), (int) (playerModel.getHitbox().y),
+                (int) playerModel.getHitbox().width,
+                (int) playerModel.getHitbox().height);
     }
 }

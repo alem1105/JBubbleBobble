@@ -3,16 +3,19 @@ package model;
 import model.entities.PlayerModel;
 import model.gamestate.Gamestate;
 import model.gamestate.Menu;
+import model.gamestate.Playing;
 
 import java.util.Observable;
 
 public class ModelManager extends Observable {
-    private PlayerModel player;
+
     private static ModelManager instance;
+
+    private Playing playing;
     private Menu menu;
 
     private ModelManager() {
-        player = PlayerModel.getInstance();
+        playing = Playing.getInstance();
         menu = Menu.getInstance();
     }
 
@@ -26,14 +29,11 @@ public class ModelManager extends Observable {
     public void update() {
 
         switch (Gamestate.state) {
-            case PLAYING -> player.update();
+            case PLAYING -> playing.update();
             case MENU -> menu.update();
         }
         setChanged();
         notifyObservers();
     }
 
-    public PlayerModel getPlayer() {
-        return player;
-    }
 }
