@@ -1,11 +1,13 @@
 package model.gamestate;
 
 import model.entities.PlayerModel;
+import model.entities.enemies.EnemyManagerModel;
 
 public class Playing {
 
     private PlayerModel player;
     private static Playing instance;
+    private EnemyManagerModel enemyManagerModel;
 
     public static Playing getInstance() {
         if (instance == null) {
@@ -16,10 +18,12 @@ public class Playing {
 
     private Playing() {
         player = PlayerModel.getInstance();
+        enemyManagerModel = EnemyManagerModel.getInstance();
     }
 
     public void update() {
         player.update();
+        enemyManagerModel.update();
     }
 
     public PlayerModel getPlayer() {

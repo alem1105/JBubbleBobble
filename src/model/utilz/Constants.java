@@ -33,5 +33,25 @@ public class Constants {
         public static final int DOWN = 3;
 
     }
+    
+    public static class Enemies {
 
+        public static final int ZEN_CHAN = 0;
+        public static final int MAITA = 1;
+
+        public static final int RUNNING = 0;
+        public static final int RUNNING_ANGRY = 1;
+        public static final int CAPTURED = 2;
+        public static final int CAPTURED_ANGRY = 3;
+        public static final int DEAD = 4;
+        public static final int ATTACK = 5;
+
+
+        public static final int ZEN_CHAN_DEFAULT_WIDTH = 16;
+        public static final int ZEN_CHAN_DEFAULT_HEIGHT = 16;
+
+        public static final int ZEN_CHAN_WIDTH = (int) (ZEN_CHAN_DEFAULT_WIDTH * GameConstants.SCALE);
+        public static final int ZEN_CHAN_HEIGHT = (int) (ZEN_CHAN_DEFAULT_HEIGHT * GameConstants.SCALE);
+
+    }
 }

@@ -8,8 +8,9 @@ import java.io.InputStream;
 public class LoadSave {
 
     public static final String PLAYER_SPRITE = "player_sprite.png";
-    public static final String LEVEL_SPRITE = "levelSprite.png";
+    public static final String LEVEL_SPRITE = "level_sprite.png";
     public static final String ICON = "icon.png";
+    public static final String ZEN_CHAN_SPRITE = "enemies/zen_chan_sprite.png";
 
     public static BufferedImage GetSpriteAtlas(String fileName) {
         BufferedImage img = null;

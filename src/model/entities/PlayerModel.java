@@ -3,8 +3,6 @@ package model.entities;
 import model.LevelManager;
 import model.utilz.Constants;
 
-import java.awt.geom.Rectangle2D;
-
 import static model.utilz.Constants.GameConstants.SCALE;
 import static model.utilz.Constants.PlayerConstants.*;
 import static model.utilz.Gravity.*;
@@ -39,7 +37,7 @@ public class PlayerModel extends EntityModel {
         levelManager = LevelManager.getInstance();
         this.x = levelManager.getLevels().get(levelManager.getLvlIndex()).getPlayerSpawn().x;
         this.y = levelManager.getLevels().get(levelManager.getLvlIndex()).getPlayerSpawn().y;
-        initHitbox((int) (13 * SCALE), (int) (14 * SCALE));
+        initHitbox((int) (13), (int) (14));
     }
 
     public void update() {

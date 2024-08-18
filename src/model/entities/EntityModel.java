@@ -1,7 +1,8 @@
 package model.entities;
 
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
+
+import static model.utilz.Constants.GameConstants.SCALE;
 
 public abstract class EntityModel {
 
@@ -17,7 +18,7 @@ public abstract class EntityModel {
     }
 
     protected void initHitbox(int width, int height) {
-        hitbox = new Rectangle2D.Float(x, y, width, height);
+        hitbox = new Rectangle2D.Float(x, y, width * SCALE, height * SCALE);
     }
 
     public Rectangle2D.Float getHitbox() {

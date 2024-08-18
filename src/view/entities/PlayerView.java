@@ -85,7 +85,7 @@ public class PlayerView {
         };
     }
 
-    protected void drawHitbox(Graphics g) {
+    private void drawHitbox(Graphics g) {
         // For debugging the hitbox
         g.setColor(Color.PINK);
         g.drawRect((int) (playerModel.getHitbox().x), (int) (playerModel.getHitbox().y),
