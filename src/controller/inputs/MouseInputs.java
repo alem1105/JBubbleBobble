@@ -24,14 +24,6 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        switch (Gamestate.state) {
-            case LEVEL_EDITOR -> {
-                if (levelEditorView.getSaveButtonView().getButtonModel().getBounds().contains(e.getX(), e.getY()))
-                    levelEditorView.getSaveButtonView().getButtonModel().setPressed(true);
-                if (levelEditorView.getXButtonView().getButtonModel().getBounds().contains(e.getX(), e.getY()))
-                    levelEditorView.getXButtonView().getButtonModel().setPressed(true);
-            }
-        }
     }
 
     @Override
@@ -54,7 +46,11 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
 
             }
         }
-    }
+        if (levelEditorView.getSaveButtonView().getButtonModel().getBounds().contains(e.getX(), e.getY()))
+            levelEditorView.getSaveButtonView().getButtonModel().setPressed(true);
+        if (levelEditorView.getXButtonView().getButtonModel().getBounds().contains(e.getX(), e.getY()))
+            levelEditorView.getXButtonView().getButtonModel().setPressed(true);
+        }
 
     @Override
     public void mouseReleased(MouseEvent e) {
@@ -99,5 +95,4 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
             }
         }
     }
-
 }
