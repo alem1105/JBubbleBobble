@@ -18,21 +18,9 @@ public class LevelView {
     private LevelManager lvlManager;
 
     public LevelView() {
-        importSprites();
+        lvlSprites = LoadSave.importSprites();
         lvlManager = LevelManager.getInstance();
         levels = lvlManager.getLevels();
-    }
-
-    private void importSprites() {
-        BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.LEVEL_SPRITE);
-        int index = 0;
-        lvlSprites = new BufferedImage[230];
-        for (int j = 0; j < 46; j++) {
-            for (int i = 0; i < 5; i++) {
-                lvlSprites[index] = img.getSubimage(i * 16, j * 16, 16, 16);
-                index++;
-            }
-        }
     }
 
     public void render(Graphics g) {

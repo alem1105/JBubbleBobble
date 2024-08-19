@@ -8,25 +8,18 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import static model.utilz.Constants.Enemies.*;
+import static view.utilz.LoadSave.*;
 
 public class ZenChanView extends EnemyView {
-    
+
+    private static final int ROW_INDEX = 5;
+    private static final int COL_INDEX = 4;
+
     public ZenChanView(ZenChanModel zenChan) {
         super(zenChan);
-        loadAnimations(LoadSave.ZEN_CHAN_SPRITE);
+        animations = loadAnimations(LoadSave.ZEN_CHAN_SPRITE, ROW_INDEX, COL_INDEX);
         xDrawOffset = (int) (1 * Constants.GameConstants.SCALE);
         yDrawOffset = (int) (1 * Constants.GameConstants.SCALE);
-    }
-
-    @Override
-    public void loadAnimations(String path) {
-        BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.ZEN_CHAN_SPRITE);
-        animations = new BufferedImage[5][4];
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 4; j++) {
-                animations[i][j] = img.getSubimage(j * 18, i * 18, 18, 18);
-            }
-        }
     }
 
     @Override

@@ -6,6 +6,7 @@ import view.stateview.PlayingView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,17 +16,19 @@ public class GamePanel extends JPanel implements Observer {
 
     private PlayingView playingView;
     private MenuView menuView;
+    private LevelEditorView levelEditorView;
 
     public GamePanel() {
         setPanelSize();
         setFocusable(true);
-        requestFocusInWindow();
+        requestFocus();
         loadViews();
     }
 
     private void loadViews() {
         this.playingView = new PlayingView();
         this.menuView = new MenuView();
+        this.levelEditorView = LevelEditorView.getInstance();
     }
 
     private void setPanelSize() {
@@ -38,6 +41,7 @@ public class GamePanel extends JPanel implements Observer {
         switch(Gamestate.state) {
             case PLAYING -> playingView.render(g);
             case MENU -> menuView.draw(g);
+            case LEVEL_EDITOR -> levelEditorView.draw(g);
         }
     }
 
@@ -46,6 +50,7 @@ public class GamePanel extends JPanel implements Observer {
         switch(Gamestate.state) {
             case PLAYING -> playingView.update(); // Ci va la playing
             case MENU -> System.out.println("ci va animation click");
+            case LEVEL_EDITOR -> levelEditorView.update();
         }
         repaint();
     }

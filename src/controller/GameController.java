@@ -1,5 +1,6 @@
 package controller;
 
+import controller.inputs.MouseInputs;
 import model.ModelManager;
 import view.GamePanel;
 import view.GameWindow;
@@ -24,7 +25,9 @@ public class GameController implements Runnable {
         modelManager = ModelManager.getInstance();
         gamePanel = new GamePanel();
         gameWindow = new GameWindow(gamePanel);
-        gamePanel.addKeyListener(new KeyboardInputs(modelManager));
+        gamePanel.addKeyListener(new KeyboardInputs());
+        gamePanel.addMouseListener(new MouseInputs());
+        gamePanel.addMouseMotionListener(new MouseInputs());
         modelManager.addObserver(gamePanel);
     }
 

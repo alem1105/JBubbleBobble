@@ -11,6 +11,10 @@ import static model.utilz.Constants.PlayerConstants.*;
 import static model.utilz.Constants.GameConstants.ANI_SPEED;
 
 public class PlayerView {
+
+    private static final int ROW_INDEX = 6;
+    private static final int COL_INDEX = 4;
+
     private int aniTick, aniIndex;
     private PlayerModel playerModel;
 
@@ -23,7 +27,7 @@ public class PlayerView {
 
     public PlayerView(PlayerModel playerModel) {
         this.playerModel = playerModel;
-        loadAnimations();
+        animations = LoadSave.loadAnimations(LoadSave.PLAYER_SPRITE, ROW_INDEX, COL_INDEX);
     }
 
     public void update() {
@@ -55,16 +59,6 @@ public class PlayerView {
                 (int) (playerModel.getHitbox().x - xDrawOffset) + flipX, (int) (playerModel.getHitbox().y - yDrawOffset),
                 playerModel.getWidth() * flipW, playerModel.getHeight(), null);
         drawHitbox(g);
-    }
-
-    private void loadAnimations() {
-        BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_SPRITE);
-        animations = new BufferedImage[6][4];
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 4; j++) {
-                animations[i][j] = img.getSubimage(j * 18, i * 18, 18, 18);
-            }
-        }
     }
 
     public void updateAnimationTick() {

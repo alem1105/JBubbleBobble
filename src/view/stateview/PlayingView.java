@@ -25,8 +25,8 @@ public class PlayingView {
 
     public void render(Graphics g) {
         levelView.render(g);
-        playerView.render(g);
         enemiesManagerView.render(g);
+        playerView.render(g);
     }
 
     public void update(){

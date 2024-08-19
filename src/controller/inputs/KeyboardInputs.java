@@ -7,15 +7,11 @@ import model.gamestate.Gamestate;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import static model.gamestate.Gamestate.MENU;
-import static model.gamestate.Gamestate.PLAYING;
+import static model.gamestate.Gamestate.*;
 
 public class KeyboardInputs implements KeyListener {
 
-    private ModelManager modelManager;
-
-    public KeyboardInputs(ModelManager modelManager) {
-        this.modelManager = modelManager;
+    public KeyboardInputs() {
     }
 
     @Override
@@ -29,6 +25,7 @@ public class KeyboardInputs implements KeyListener {
             case MENU -> {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_ENTER -> Gamestate.state = PLAYING;
+                    case KeyEvent.VK_L -> Gamestate.state = LEVEL_EDITOR;
                 }
             }
             case PLAYING -> {
@@ -37,6 +34,11 @@ public class KeyboardInputs implements KeyListener {
                     case KeyEvent.VK_D -> PlayerModel.getInstance().setRight(true);
                     case KeyEvent.VK_A -> PlayerModel.getInstance().setLeft(true);
                     case KeyEvent.VK_SPACE -> PlayerModel.getInstance().setJump(true);
+                }
+            }
+            case LEVEL_EDITOR -> {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_ENTER -> Gamestate.state = MENU;
                 }
             }
         }

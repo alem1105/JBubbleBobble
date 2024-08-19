@@ -1,6 +1,7 @@
 package view.entities.enemies;
 
 import model.entities.enemies.EnemyModel;
+import view.utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -63,6 +64,5 @@ public abstract class EnemyView {
     }
 
     protected abstract int getSpriteAmount();
-    protected abstract void loadAnimations(String path);
     protected abstract void render(Graphics g);
 }
