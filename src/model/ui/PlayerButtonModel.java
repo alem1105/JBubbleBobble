@@ -1,17 +1,23 @@
 package model.ui;
 
-import model.entities.PlayerModel;
-
-import javax.swing.*;
-
 public class PlayerButtonModel extends CustomButtonModel {
 
     private boolean alreadyThere;
     private boolean selected;
 
-    public PlayerButtonModel(int x, int y, int width, int height) {
+    private static PlayerButtonModel instance;
+
+    private PlayerButtonModel(int x, int y, int width, int height) {
         super(x, y, width, height);
     }
+
+    public static PlayerButtonModel getInstance(int x, int y, int width, int height) {
+        if (instance == null) {
+            instance = new PlayerButtonModel(x, y, width, height);
+        }
+        return instance;
+    }
+
 
     public void setAlreadyThere(boolean alreadyThere) {
         this.alreadyThere = alreadyThere;

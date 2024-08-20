@@ -4,11 +4,15 @@ import model.LevelManager;
 import model.gamestate.Gamestate;
 import view.LevelEditorView;
 import view.ui.BlockButtonView;
+import view.ui.CustomButtonView;
 import view.ui.EnemyButtonView;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 import static model.utilz.Constants.GameConstants.TILES_SIZE;
 
@@ -29,7 +33,6 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // if (bounds.contains(e.getX(), e.getY())
         switch (Gamestate.state) {
             case LEVEL_EDITOR -> {
                 checkClicks(e);
@@ -46,39 +49,89 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
             int[][] lvlData = levelManager.getLevels().get(levelManager.getLvlIndex()).getLvlData();
             int[][] enemiesData = levelManager.getLevels().get(levelManager.getLvlIndex()).getEnemiesData();
             lvlData[currentTileY][currentTileX] = levelEditorView.getBlockIndex();
-            if(levelEditorView.getEnemyIndex() > 0)
+
+            checkPlayerButtonClick(currentTileX, currentTileY);
+
+            if(levelEditorView.getEnemyIndex() > 0 || levelEditorView.getPlayerButtonView().getButtonModel().isSelected())
                 lvlData[currentTileY][currentTileX] = 0;
             enemiesData[currentTileY][currentTileX] = levelEditorView.getEnemyIndex();
         }
     }
 
+    private void checkPlayerButtonClick(int currentTileX, int currentTileY) {
+        if(levelEditorView.getPlayerButtonView().getButtonModel().isPressed())
+            LevelManager.getInstance()
+                    .getLevels()
+                    .get(LevelManager.getInstance().getLvlIndex())
+                    .setPlayerSpawn(
+                            new Point(currentTileX * TILES_SIZE, currentTileY * TILES_SIZE));
+    }
+
     private void checkClicks(MouseEvent e) {
-        for (BlockButtonView button : levelEditorView.getButtons()) {
-            if (button.getButtonModel().getBounds().contains(e.getX(), e.getY())) {
-                levelEditorView.setBlockIndex(button.getButtonModel().getIndex());
-                levelEditorView.getEraserButtonView().getButtonModel().setPressed(false);
-                levelEditorView.setEnemyIndex(0);
-            }
-        }
-        for (EnemyButtonView button : levelEditorView.getEnemies()) {
-            if (button.getButtonModel().getBounds().contains(e.getX(), e.getY())) {
-                levelEditorView.setEnemyIndex(button.getButtonModel().getIndex());
-                levelEditorView.getEraserButtonView().getButtonModel().setPressed(false);
-                levelEditorView.setBlockIndex(0);
+        // TODO ABBIAMO USATO GLI STREAM QUI
+        CustomButtonView[] allButtons = Stream.concat(
+                Arrays.stream(levelEditorView.getButtons()),
+                Arrays.stream(levelEditorView.getEnemies()))
+                .toArray(CustomButtonView[]::new);
+
+        for(CustomButtonView button : allButtons){
+            if(isIn(button, e)) {
+                if(button.getClass().equals(BlockButtonView.class))
+                    blockButtonClick((BlockButtonView) button);
+                else if(button.getClass().equals(EnemyButtonView.class))
+                    enemyButtonClick((EnemyButtonView) button);
             }
         }
     }
 
+    private void enemyButtonClick(EnemyButtonView button) {
+        levelEditorView.setEnemyIndex(button.getButtonModel().getIndex());
+        levelEditorView.getEraserButtonView().getButtonModel().setPressed(false);
+        levelEditorView.getPlayerButtonView().getButtonModel().setPressed(false);
+        levelEditorView.setBlockIndex(0);
+    }
+
+    private void blockButtonClick(BlockButtonView button) {
+        levelEditorView.setBlockIndex(button.getButtonModel().getIndex());
+        levelEditorView.getEraserButtonView().getButtonModel().setPressed(false);
+        levelEditorView.getPlayerButtonView().getButtonModel().setPressed(false);
+        levelEditorView.setEnemyIndex(0);
+    }
+
+    private <T extends CustomButtonView> boolean isIn(T button, MouseEvent e) {
+        if(button.getButtonModel().getBounds().contains(e.getX(), e.getY()))
+            return true;
+        else
+            return false;
+    }
+
     private void checkPressed(MouseEvent e) {
-        if (levelEditorView.getSaveButtonView().getButtonModel().getBounds().contains(e.getX(), e.getY()))
+        if (isIn(levelEditorView.getSaveButtonView(), e))
             levelEditorView.getSaveButtonView().getButtonModel().setPressed(true);
-        if (levelEditorView.getXButtonView().getButtonModel().getBounds().contains(e.getX(), e.getY()))
+
+        if (isIn(levelEditorView.getXButtonView(), e))
             levelEditorView.getXButtonView().getButtonModel().setPressed(true);
-        if (levelEditorView.getEraserButtonView().getButtonModel().getBounds().contains(e.getX(), e.getY())) {
-            levelEditorView.getEraserButtonView().getButtonModel().setPressed(true);
-            levelEditorView.setBlockIndex(0);
-            levelEditorView.setEnemyIndex(0);
+
+        if (isIn(levelEditorView.getEraserButtonView(), e)) {
+            eraserButtonClick();
         }
+
+        if(isIn(levelEditorView.getPlayerButtonView(), e)) {
+            playerButtonClick();
+        }
+    }
+
+    private void eraserButtonClick() {
+        levelEditorView.getEraserButtonView().getButtonModel().setPressed(true);
+        levelEditorView.setBlockIndex(0);
+        levelEditorView.setEnemyIndex(0);
+        levelEditorView.getPlayerButtonView().getButtonModel().setPressed(false);
+    }
+
+    private void playerButtonClick() {
+        levelEditorView.setBlockIndex(0);
+        levelEditorView.setEnemyIndex(0);
+        levelEditorView.getPlayerButtonView().getButtonModel().setPressed(true);
     }
 
     @Override
@@ -103,7 +156,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
 
     @Override
     public void mouseDragged(MouseEvent e) {
-
+        mousePressed(e);
     }
 
     @Override

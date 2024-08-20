@@ -88,4 +88,8 @@ public class LevelModel {
     public ArrayList<ZenChanModel> getZenChans() {
         return zenChans;
     }
+
+    public void setPlayerSpawn(Point playerSpawn) {
+        this.playerSpawn = playerSpawn;
+    }
 }

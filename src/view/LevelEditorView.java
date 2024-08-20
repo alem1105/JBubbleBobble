@@ -25,12 +25,15 @@ public class LevelEditorView {
     private SaveButtonView saveButton;
     private XButtonView XButton;
     private EraserButtonView eraserButton;
+    private PlayerButtonView playerButton;
 
     private int levelHeight = TILES_IN_HEIGHT * (TILES_SIZE - drawOffset);
     private int levelWidth;
 
     private BufferedImage[] blocksImages; // contiene le immagini di tutte le tile/blocchi
     private BufferedImage[] enemiesImages; // contiene immagini dei nemici (una riga)
+
+    private boolean firstDraw = false;
 
     private LevelEditorView() {
         levelManager = LevelManager.getInstance();
@@ -47,6 +50,14 @@ public class LevelEditorView {
 
     private void initButtons() {
         initTileButtons();
+        playerButton = PlayerButtonView.getInstance(
+                PlayerButtonModel.getInstance(
+                        levelWidth + (int) (30 * SCALE),
+                        120 + (int) (30 * SCALE),
+                        (int) (24 * SCALE),
+                        (int) (24 * SCALE)
+                ), LoadSave.GetSpriteAtlas(LoadSave.PLAYER_BUTTON)
+        );
         saveButton = new SaveButtonView(new SaveButtonModel(levelWidth + 50, levelHeight + 120, (int) (18 * SCALE) + 26, (int) (18 * SCALE) + 26));
         XButton = new XButtonView(new XButtonModel(levelWidth + 80 + (int) (18 * SCALE), levelHeight + 120, (int) (18 * SCALE) + 26, (int) (18 * SCALE) + 26));
         eraserButton = new EraserButtonView(new EraserButtonModel(levelWidth + 80 + (int) (18 * SCALE), levelHeight + 60, (int) (18 * SCALE) + 26, (int) (18 * SCALE) + 26));
@@ -97,6 +108,7 @@ public class LevelEditorView {
     }
 
     public void update() {
+        playerButton.update();
         saveButton.update();
         XButton.update();
         eraserButton.update();
@@ -112,6 +124,7 @@ public class LevelEditorView {
         for(BlockButtonView button : buttons) {
             button.draw(g);
         }
+        playerButton.draw(g);
         saveButton.draw(g);
         XButton.draw(g);
         eraserButton.draw(g);
@@ -133,7 +146,9 @@ public class LevelEditorView {
                     g.drawImage(blocksImages[blockIndex - 1],
                             x * (TILES_SIZE - drawOffset),
                             y * (TILES_SIZE - drawOffset),
-                            TILES_SIZE - drawOffset, TILES_SIZE - drawOffset, null);
+                            TILES_SIZE - drawOffset,
+                            TILES_SIZE - drawOffset,
+                            null);
                     continue;
                 }
 
@@ -141,11 +156,21 @@ public class LevelEditorView {
                     g.drawImage(enemiesImages[255 - enemyIndex],
                             x * (TILES_SIZE - drawOffset),
                             y * (TILES_SIZE - drawOffset),
-                            TILES_SIZE - drawOffset, TILES_SIZE - drawOffset, null);
+                            TILES_SIZE - drawOffset,
+                            TILES_SIZE - drawOffset,
+                            null);
                 }
 
             }
         }
+        // disegniamo il player
+        Point playerSpawn = LevelManager.getInstance().getLevels().get(levelManager.getLvlIndex()).getPlayerSpawn();
+        g.drawImage(playerButton.getImageButton(),
+                (playerSpawn.x / TILES_SIZE) * (TILES_SIZE - drawOffset),
+                (playerSpawn.y / TILES_SIZE) * (TILES_SIZE - drawOffset),
+                TILES_SIZE - drawOffset,
+                TILES_SIZE - drawOffset,
+                null);
     }
 
     private void drawGrid(Graphics g) {
@@ -198,5 +223,9 @@ public class LevelEditorView {
 
     public void setEnemyIndex(int enemyIndex) {
         this.enemyIndex = enemyIndex;
+    }
+
+    public PlayerButtonView getPlayerButtonView() {
+        return playerButton;
     }
 }

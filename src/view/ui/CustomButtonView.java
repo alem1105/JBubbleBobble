@@ -6,7 +6,7 @@ import model.ui.CustomButtonModel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public abstract class CustomButtonView<T extends CustomButtonModel> {
+public class CustomButtonView<T extends CustomButtonModel> {
 
     protected BufferedImage[][] sprites;
     protected T buttonModel;

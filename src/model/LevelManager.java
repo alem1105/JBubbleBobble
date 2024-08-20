@@ -70,4 +70,5 @@ public class LevelManager {
     public int getLvlIndex() {
         return lvlIndex;
     }
+
 }

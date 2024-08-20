@@ -201,4 +201,5 @@ public class PlayerModel extends EntityModel {
     public void setJump(boolean jump) {
         this.jump = jump;
     }
+
 }
