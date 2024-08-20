@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import static model.utilz.Constants.GameConstants.TILES_SIZE;
 
 public class LevelModel {
-    private int[][] lvlData;
+    private int[][] lvlData, enemiesData;
     private BufferedImage lvlImg;
     private ArrayList<ZenChanModel> zenChans;
     private Point playerSpawn;
@@ -23,13 +23,17 @@ public class LevelModel {
     }
 
     private void loadEnemies() {
+        enemiesData = new int[lvlImg.getHeight()][lvlImg.getWidth()];
         zenChans = new ArrayList<>();
         for(int y = 0; y < lvlImg.getHeight(); y++) {
             for(int x = 0; x < lvlImg.getWidth(); x++) {
                 Color color = new Color(lvlImg.getRGB(x, y));
                 if (color.getRed() != 255 && color.getBlue() != 255) {
                     switch (color.getGreen()) {
-                        case 255 -> zenChans.add(new ZenChanModel(x * TILES_SIZE, y * TILES_SIZE));
+                        case 255 -> {
+                            zenChans.add(new ZenChanModel(x * TILES_SIZE, y * TILES_SIZE));
+                            enemiesData[y][x] = 255;
+                        }
                     }
                 }
             }
@@ -55,6 +59,14 @@ public class LevelModel {
                     playerSpawn = new Point((int) (x * TILES_SIZE), (int) (y * TILES_SIZE));
             }
         }
+    }
+
+    public int[][] getEnemiesData() {
+        return enemiesData;
+    }
+
+    public int getEnemyIndex(int x, int y) {
+        return enemiesData[y][x];
     }
 
     public Point getPlayerSpawn() {

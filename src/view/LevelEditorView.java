@@ -1,12 +1,8 @@
 package view;
 
 import model.LevelManager;
-import model.ui.BlockButtonModel;
-import model.ui.SaveButtonModel;
-import model.ui.XButtonModel;
-import view.ui.BlockButtonView;
-import view.ui.SaveButtonView;
-import view.ui.XButtonView;
+import model.ui.*;
+import view.ui.*;
 import view.utilz.LoadSave;
 
 import java.awt.*;
@@ -20,13 +16,21 @@ public class LevelEditorView {
 
     private LevelManager levelManager;
     private int drawOffset = 10;
+
+    private int blockIndex = 1;
+    private int enemyIndex = 0;
+
     private BlockButtonView[] buttons;
-    private int blockIndex = 0;
+    private EnemyButtonView[] enemies;
     private SaveButtonView saveButton;
     private XButtonView XButton;
+    private EraserButtonView eraserButton;
 
     private int levelHeight = TILES_IN_HEIGHT * (TILES_SIZE - drawOffset);
     private int levelWidth;
+
+    private BufferedImage[] blocksImages; // contiene le immagini di tutte le tile/blocchi
+    private BufferedImage[] enemiesImages; // contiene immagini dei nemici (una riga)
 
     private LevelEditorView() {
         levelManager = LevelManager.getInstance();
@@ -43,12 +47,35 @@ public class LevelEditorView {
 
     private void initButtons() {
         initTileButtons();
-        saveButton = new SaveButtonView(new SaveButtonModel(levelWidth, levelHeight + 10, (int) (18 * SCALE), (int) (18 * SCALE)));
-        XButton = new XButtonView(new XButtonModel(levelWidth + 10 + (int) (18 * SCALE), levelHeight + 10, (int) (18 * SCALE), (int) (18 * SCALE)));
+        saveButton = new SaveButtonView(new SaveButtonModel(levelWidth + 50, levelHeight + 120, (int) (18 * SCALE) + 26, (int) (18 * SCALE) + 26));
+        XButton = new XButtonView(new XButtonModel(levelWidth + 80 + (int) (18 * SCALE), levelHeight + 120, (int) (18 * SCALE) + 26, (int) (18 * SCALE) + 26));
+        eraserButton = new EraserButtonView(new EraserButtonModel(levelWidth + 80 + (int) (18 * SCALE), levelHeight + 60, (int) (18 * SCALE) + 26, (int) (18 * SCALE) + 26));
+        initEnemyButtons();
+    }
+
+    private void initEnemyButtons() {
+        BufferedImage[][] enemiesImagesMatrix = LoadSave.loadAnimations(LoadSave.ENEMIES_BUTTON, 1, 6);
+        enemiesImages = enemiesImagesMatrix[0];
+        enemies = new EnemyButtonView[6];
+        int y = 0;
+        int x = 0;
+        int i = 0;
+        for (BufferedImage enemyImage : enemiesImages) {
+            if(x >= 3) {
+                x = 0;
+                y++;
+            }
+            // TODO SISTEMARE
+            enemies[i] = new EnemyButtonView(new EnemyButtonModel(levelWidth + (int)(x++ * (30 * SCALE)) + 20,
+                    50 + ((int)(30 * y * SCALE)),
+                    (int)(24 * SCALE),
+                    (int)(24 * SCALE), 255 - i), enemiesImages[i]);
+            i++;
+        }
     }
 
     public void initTileButtons(){
-        BufferedImage[] blocksImages = LoadSave.importSprites();
+        blocksImages = LoadSave.importSprites();
         blocksImages = Arrays.copyOf(blocksImages, 27);
         buttons = new BlockButtonView[27];
         int y = 0;
@@ -64,7 +91,7 @@ public class LevelEditorView {
             buttons[i] = new BlockButtonView(new BlockButtonModel(10 + x++ * (int)(24 * SCALE),
                     levelHeight + 10 + ((int)(18 * y * SCALE)),
                     (int)(16 * SCALE),
-                    (int)(16 * SCALE), i), blocksImages[i]);
+                    (int)(16 * SCALE), i + 1), blocksImages[i]);
             i++;
         }
     }
@@ -72,6 +99,7 @@ public class LevelEditorView {
     public void update() {
         saveButton.update();
         XButton.update();
+        eraserButton.update();
     }
 
     public void draw(Graphics g) {
@@ -86,6 +114,10 @@ public class LevelEditorView {
         }
         saveButton.draw(g);
         XButton.draw(g);
+        eraserButton.draw(g);
+        for (EnemyButtonView button : enemies) {
+            button.draw(g);
+        }
     }
 
     public void drawLevel(Graphics g) {
@@ -94,13 +126,24 @@ public class LevelEditorView {
 
         for (int y = 0; y < TILES_IN_HEIGHT; y++) {
             for (int x = 0; x < levelManager.getLevels().get(levelManager.getLvlIndex()).getLvlData()[0].length; x++) {
-                int index = levelManager.getLevels().get(levelManager.getLvlIndex()).getSpriteIndex(x, y);
-                if (index == 0 || index == 255) continue;
+                int blockIndex = levelManager.getLevels().get(levelManager.getLvlIndex()).getSpriteIndex(x, y);
+                int enemyIndex = levelManager.getLevels().get(levelManager.getLvlIndex()).getEnemyIndex(x, y);
 
-                g.drawImage(LoadSave.importSprites()[index - 1],
-                        x * (TILES_SIZE - drawOffset),
-                        y * (TILES_SIZE - drawOffset),
-                        TILES_SIZE - drawOffset, TILES_SIZE - drawOffset, null);
+                if (blockIndex > 0 && blockIndex < 255) {
+                    g.drawImage(blocksImages[blockIndex - 1],
+                            x * (TILES_SIZE - drawOffset),
+                            y * (TILES_SIZE - drawOffset),
+                            TILES_SIZE - drawOffset, TILES_SIZE - drawOffset, null);
+                    continue;
+                }
+
+                if (enemyIndex >= 250) {
+                    g.drawImage(enemiesImages[255 - enemyIndex],
+                            x * (TILES_SIZE - drawOffset),
+                            y * (TILES_SIZE - drawOffset),
+                            TILES_SIZE - drawOffset, TILES_SIZE - drawOffset, null);
+                }
+
             }
         }
     }
@@ -139,5 +182,21 @@ public class LevelEditorView {
 
     public void setBlockIndex(int blockIndex) {
         this.blockIndex = blockIndex;
+    }
+
+    public EraserButtonView getEraserButtonView() {
+        return eraserButton;
+    }
+
+    public int getEnemyIndex() {
+        return enemyIndex;
+    }
+
+    public EnemyButtonView[] getEnemies() {
+        return enemies;
+    }
+
+    public void setEnemyIndex(int enemyIndex) {
+        this.enemyIndex = enemyIndex;
     }
 }

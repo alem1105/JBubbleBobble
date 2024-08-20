@@ -1,18 +1,19 @@
 package view.ui;
 
-import model.ui.BlockButtonModel;
+import model.ui.EnemyButtonModel;
 import view.LevelEditorView;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class BlockButtonView extends CustomButtonView<BlockButtonModel> {
+public class EnemyButtonView extends CustomButtonView<EnemyButtonModel>{
 
     private BufferedImage imageButton;
 
-    public BlockButtonView(BlockButtonModel blockButtonModel, BufferedImage image) {
-        super(blockButtonModel);
-        this.imageButton = image;
+    public EnemyButtonView(EnemyButtonModel buttonModel, BufferedImage imageButton) {
+        super(buttonModel);
+        this.buttonModel = buttonModel;
+        this.imageButton = imageButton;
     }
 
     @Override
@@ -20,8 +21,7 @@ public class BlockButtonView extends CustomButtonView<BlockButtonModel> {
         g.drawImage(imageButton,
                 buttonModel.getX(), buttonModel.getY(),
                 buttonModel.getWidth(), buttonModel.getHeight(), null);
-        if (buttonModel.getIndex() == LevelEditorView.getInstance().getBlockIndex())
+        if (buttonModel.getIndex() == LevelEditorView.getInstance().getEnemyIndex())
             drawSelectedBox(g);
     }
-
 }

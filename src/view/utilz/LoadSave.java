@@ -13,6 +13,9 @@ public class LoadSave {
     public static final String ZEN_CHAN_SPRITE = "enemies/zen_chan_sprite.png";
     public static final String SAVE_BUTTON = "ui/save_button.png";
     public static final String X_BUTTON = "ui/x_button.png";
+    public static final String ERASER_BUTTON = "ui/eraser_button.png";
+    public static final String ENEMIES_BUTTON = "ui/enemies_button.png";
+    public static final String PLAYER_BUTTON = "ui/player_button.png";
 
     public static BufferedImage GetSpriteAtlas(String fileName) {
         BufferedImage img = null;
