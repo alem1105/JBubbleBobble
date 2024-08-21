@@ -56,7 +56,7 @@ public class LevelModel {
             for(int x = 0; x < lvlImg.getWidth(); x++) {
                 Color color = new Color(lvlImg.getRGB(x, y));
                 if(color.getBlue() == 255 && color.getRed() != 255 && color.getGreen() != 255)
-                    playerSpawn = new Point((int) (x * TILES_SIZE), (int) (y * TILES_SIZE));
+                    playerSpawn = new Point(x * TILES_SIZE, y * TILES_SIZE);
             }
         }
     }

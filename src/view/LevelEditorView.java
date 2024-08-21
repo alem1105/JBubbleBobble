@@ -15,7 +15,7 @@ public class LevelEditorView {
     private static LevelEditorView instance;
 
     private LevelManager levelManager;
-    private int drawOffset = 10;
+    private int drawOffset = (int)(5 * SCALE);
 
     private int blockIndex = 1;
     private int enemyIndex = 0;
@@ -52,15 +52,24 @@ public class LevelEditorView {
         initTileButtons();
         playerButton = PlayerButtonView.getInstance(
                 PlayerButtonModel.getInstance(
-                        levelWidth + (int) (30 * SCALE),
-                        120 + (int) (30 * SCALE),
+                        levelWidth + (int) (10 * SCALE) + (int) (30 * SCALE),
+                        (int)(90 * SCALE) + (int)(25 * SCALE),
                         (int) (24 * SCALE),
                         (int) (24 * SCALE)
                 ), LoadSave.GetSpriteAtlas(LoadSave.PLAYER_BUTTON)
         );
-        saveButton = new SaveButtonView(new SaveButtonModel(levelWidth + 50, levelHeight + 120, (int) (18 * SCALE) + 26, (int) (18 * SCALE) + 26));
-        XButton = new XButtonView(new XButtonModel(levelWidth + 80 + (int) (18 * SCALE), levelHeight + 120, (int) (18 * SCALE) + 26, (int) (18 * SCALE) + 26));
-        eraserButton = new EraserButtonView(new EraserButtonModel(levelWidth + 80 + (int) (18 * SCALE), levelHeight + 60, (int) (18 * SCALE) + 26, (int) (18 * SCALE) + 26));
+        saveButton = new SaveButtonView(new SaveButtonModel(levelWidth + (int) (58 * SCALE),
+                levelHeight + (int) (46 * SCALE),
+                (int) (32 * SCALE),
+                (int) (32 * SCALE)));
+        XButton = new XButtonView(new XButtonModel(levelWidth + (int) (23 * SCALE),
+                levelHeight + (int) (46 * SCALE),
+                (int) (32 * SCALE),
+                (int) (32 * SCALE)));
+        eraserButton = new EraserButtonView(new EraserButtonModel(levelWidth + (int) (58 * SCALE),
+                levelHeight + (int) (11 * SCALE),
+                (int) (32 * SCALE),
+                (int) (32 * SCALE)));
         initEnemyButtons();
     }
 
@@ -70,18 +79,15 @@ public class LevelEditorView {
         enemies = new EnemyButtonView[6];
         int y = 0;
         int x = 0;
-        int i = 0;
-        for (BufferedImage enemyImage : enemiesImages) {
+        for (int i = 0; i < enemies.length; i++) {
             if(x >= 3) {
                 x = 0;
                 y++;
             }
-            // TODO SISTEMARE
-            enemies[i] = new EnemyButtonView(new EnemyButtonModel(levelWidth + (int)(x++ * (30 * SCALE)) + 20,
-                    50 + ((int)(30 * y * SCALE)),
+            enemies[i] = new EnemyButtonView(new EnemyButtonModel(levelWidth + (int)(x++ * (30 * SCALE)) + (int)(10 * SCALE),
+                    (int)(30 * y * SCALE) + (int) (25 * SCALE),
                     (int)(24 * SCALE),
                     (int)(24 * SCALE), 255 - i), enemiesImages[i]);
-            i++;
         }
     }
 
@@ -90,10 +96,9 @@ public class LevelEditorView {
         blocksImages = Arrays.copyOf(blocksImages, 27);
         buttons = new BlockButtonView[27];
         int y = 0;
-        int i = 0;
         int x = 0;
 
-        for (BufferedImage blocksImage : blocksImages) {
+        for (int i = 0; i < blocksImages.length; i++) {
             if(x >= 9) {
                 x = 0;
                 y++;
@@ -103,7 +108,6 @@ public class LevelEditorView {
                     levelHeight + 10 + ((int)(18 * y * SCALE)),
                     (int)(16 * SCALE),
                     (int)(16 * SCALE), i + 1), blocksImages[i]);
-            i++;
         }
     }
 

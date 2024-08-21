@@ -48,8 +48,8 @@ public class GamePanel extends JPanel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         switch(Gamestate.state) {
-            case PLAYING -> playingView.update(); // Ci va la playing
-            case MENU -> System.out.println("ci va animation click");
+            case PLAYING -> playingView.update();
+            case MENU -> System.out.println("Sto in GamePanel al posto di menu.update()");
             case LEVEL_EDITOR -> levelEditorView.update();
         }
         repaint();
