@@ -1,12 +1,12 @@
 package view;
 
 import model.gamestate.Gamestate;
+import view.stateview.LevelEditorView;
 import view.stateview.MenuView;
 import view.stateview.PlayingView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.Observable;
 import java.util.Observer;
 

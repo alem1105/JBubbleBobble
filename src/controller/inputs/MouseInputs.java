@@ -2,7 +2,7 @@ package controller.inputs;
 
 import model.LevelManager;
 import model.gamestate.Gamestate;
-import view.LevelEditorView;
+import view.stateview.LevelEditorView;
 import view.ui.BlockButtonView;
 import view.ui.CustomButtonView;
 import view.ui.EnemyButtonView;

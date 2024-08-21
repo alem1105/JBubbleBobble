@@ -1,7 +1,7 @@
 package view.ui;
 
 import model.ui.BlockButtonModel;
-import view.LevelEditorView;
+import view.stateview.LevelEditorView;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

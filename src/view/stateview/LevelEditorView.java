@@ -1,4 +1,4 @@
-package view;
+package view.stateview;
 
 import model.LevelManager;
 import model.ui.*;
