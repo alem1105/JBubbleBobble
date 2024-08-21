@@ -63,6 +63,10 @@ public class LevelManager {
         return imgs;
     }
 
+    public void nextLvl(){
+        lvlIndex++;
+    }
+
     public ArrayList<LevelModel> getLevels() {
         return levels;
     }
@@ -71,4 +75,7 @@ public class LevelManager {
         return lvlIndex;
     }
 
+    public void setLvlIndex(int lvlIndex) {
+        this.lvlIndex = lvlIndex;
+    }
 }
