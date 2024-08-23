@@ -27,7 +27,7 @@ public class SaveButtonModel extends CustomButtonModel {
         }
 
         try {
-            File outputfile = new File("./res/lvls/" + levelIndex + ".png");
+            File outputfile = new File("./res/lvls/" + (levelIndex + 1) + ".png");
             ImageIO.write(image, "png", outputfile);
         } catch (IOException e) {
             System.out.println("ERRORE NEL SALVATAGGIO IMMAGINE");

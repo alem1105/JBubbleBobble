@@ -97,4 +97,8 @@ public class LevelModel {
     public void setLvlData(int[][] lvlData) {
         this.lvlData = lvlData;
     }
+
+    public void setEnemiesData(int[][] enemiesData){
+        this.enemiesData = enemiesData;
+    }
 }

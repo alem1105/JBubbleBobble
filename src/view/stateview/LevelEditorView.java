@@ -38,7 +38,7 @@ public class LevelEditorView {
         levelManager = LevelManager.getInstance();
         levelWidth = levelManager.getLevels().get(levelIndex).getLvlData()[0].length * (TILES_SIZE - drawOffset);
         initButtons();
-        XButton.getButtonModel().updateLvlData(levelIndex);
+        XButton.getButtonModel().updateData(levelIndex);
     }
 
     public static LevelEditorView getInstance() {

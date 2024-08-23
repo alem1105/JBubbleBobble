@@ -55,6 +55,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                     else{
                         levelEditorView.setLevelIndex(levelEditorView.getLevelIndex() + 1);
                     }
+                    levelEditorView.getXButtonView().getButtonModel().updateData(levelEditorView.getLevelIndex());
 
                 }
 
@@ -65,6 +66,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                     else{
                         levelEditorView.setLevelIndex(levelEditorView.getLevelIndex() - 1);
                     }
+                    levelEditorView.getXButtonView().getButtonModel().updateData(levelEditorView.getLevelIndex());
 
                 }
 
@@ -112,7 +114,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
             setEraserButtonPressed(false);
             LevelManager.getInstance()
                     .getLevels()
-                    .get(LevelManager.getInstance().getLvlIndex())
+                    .get(levelEditorView.getLevelIndex())
                     .setPlayerSpawn(
                             new Point(currentTileX * TILES_SIZE, currentTileY * TILES_SIZE));
         }
@@ -122,7 +124,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
         return LevelManager
                 .getInstance()
                 .getLevels()
-                .get(LevelManager.getInstance().getLvlIndex())
+                .get(levelEditorView.getLevelIndex())
                 .getPlayerSpawn();
     }
 
@@ -167,7 +169,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     private void checkPressed(MouseEvent e) {
         if (isIn(levelEditorView.getSaveButtonView(), e)) {
             setSaveButtonPressed(true);
-            getSaveButtonModel().saveNewLevelImage(getLevelData(), getEnemiesData(), getPlayerSpawn(), 1);
+            getSaveButtonModel().saveNewLevelImage(getLevelData(), getEnemiesData(), getPlayerSpawn(), levelEditorView.getLevelIndex());
             Gamestate.state = Gamestate.MENU;
         }
 
@@ -259,14 +261,14 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     private int[][] getLevelData() {
         return levelManager
                 .getLevels()
-                .get(levelManager.getLvlIndex())
+                .get(levelEditorView.getLevelIndex())
                 .getLvlData();
     }
 
     private int[][] getEnemiesData() {
         return levelManager
                 .getLevels()
-                .get(levelManager.getLvlIndex())
+                .get(levelEditorView.getLevelIndex())
                 .getEnemiesData();
     }
 

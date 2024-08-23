@@ -3,6 +3,7 @@ package model.ui;
 import model.LevelManager;
 import view.stateview.LevelEditorView;
 
+import java.awt.*;
 import java.util.Arrays;
 
 import static model.utilz.Constants.GameConstants.*;
@@ -10,17 +11,31 @@ import static model.utilz.Constants.GameConstants.*;
 public class XButtonModel extends CustomButtonModel {
 
     private int[][] oldLvlData;
+    private int[][] oldEnemiesData;
+    private Point oldPlayerSpawn;
 
     public XButtonModel(int x, int y, int width, int height) {
         super(x, y, width, height);
     }
 
-    public void updateLvlData(int index) {
+    private void updateLvlData(int index) {
         int[][] lvlData = LevelManager.getInstance().getLevels().get(index).getLvlData();
         oldLvlData = new int[TILES_IN_HEIGHT][TILES_IN_WIDTH];
         for (int i = 0; i < lvlData.length; i++) {
             oldLvlData[i] = Arrays.copyOf(lvlData[i], TILES_IN_WIDTH);
         }
+    }
+
+    private void updateEnemiesData(int index) {
+        int[][] enemiesData = LevelManager.getInstance().getLevels().get(index).getEnemiesData();
+        oldEnemiesData = new int[TILES_IN_HEIGHT][TILES_IN_WIDTH];
+        for (int i = 0; i < enemiesData.length; i++) {
+            oldEnemiesData[i] = Arrays.copyOf(enemiesData[i], TILES_IN_WIDTH);
+        }
+    }
+
+    private void updatePlayerSpawn(int index){
+        oldPlayerSpawn = LevelManager.getInstance().getLevels().get(index).getPlayerSpawn();
     }
 
     public void isClicked() {
@@ -30,6 +45,26 @@ public class XButtonModel extends CustomButtonModel {
                         .getInstance()
                         .getLevelIndex())
                 .setLvlData(oldLvlData);
+        LevelManager.getInstance()
+                .getLevels()
+                .get(LevelEditorView
+                        .getInstance()
+                        .getLevelIndex())
+                .setEnemiesData(oldEnemiesData);
+        LevelManager.getInstance()
+                .getLevels()
+                .get(LevelEditorView
+                        .getInstance()
+                        .getLevelIndex())
+                .setPlayerSpawn(oldPlayerSpawn);
+
+        LevelEditorView.getInstance().setLevelIndex(0);
+    }
+
+    public void updateData(int index){
+        updateLvlData(index);
+        updateEnemiesData(index);
+        updatePlayerSpawn(index);
     }
 
 }
