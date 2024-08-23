@@ -5,7 +5,7 @@ import view.utilz.LoadSave;
 
 import java.awt.*;
 
-public class XButtonView extends CustomButtonView {
+public class XButtonView extends CustomButtonView<XButtonModel> {
 
     public XButtonView(XButtonModel XButton) {
         super(XButton);

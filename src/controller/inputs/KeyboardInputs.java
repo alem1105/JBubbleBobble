@@ -26,7 +26,7 @@ public class KeyboardInputs implements KeyListener {
             case MENU -> {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_ENTER -> Gamestate.state = PLAYING;
-                    case KeyEvent.VK_L -> Gamestate.state = LEVEL_EDITOR;
+                    case KeyEvent.VK_L -> Gamestate.state = LEVEL_SELECTOR;
                 }
             }
             case PLAYING -> {
@@ -40,7 +40,6 @@ public class KeyboardInputs implements KeyListener {
             }
             case LEVEL_EDITOR -> {
                 switch (e.getKeyCode()) {
-                    case KeyEvent.VK_ENTER -> Gamestate.state = MENU;
                 }
             }
         }

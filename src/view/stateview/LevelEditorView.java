@@ -17,6 +17,7 @@ public class LevelEditorView {
     private LevelManager levelManager;
     private int drawOffset = (int)(5 * SCALE);
 
+    private int levelIndex;
     private int blockIndex = 1;
     private int enemyIndex = 0;
 
@@ -33,12 +34,11 @@ public class LevelEditorView {
     private BufferedImage[] blocksImages; // contiene le immagini di tutte le tile/blocchi
     private BufferedImage[] enemiesImages; // contiene immagini dei nemici (una riga)
 
-    private boolean firstDraw = false;
-
     private LevelEditorView() {
         levelManager = LevelManager.getInstance();
-        levelWidth = levelManager.getLevels().get(levelManager.getLvlIndex()).getLvlData()[0].length * (TILES_SIZE - drawOffset);
+        levelWidth = levelManager.getLevels().get(levelIndex).getLvlData()[0].length * (TILES_SIZE - drawOffset);
         initButtons();
+        XButton.getButtonModel().updateLvlData(levelIndex);
     }
 
     public static LevelEditorView getInstance() {
@@ -141,10 +141,25 @@ public class LevelEditorView {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
+        drawTilesAndEnemies(g);
+        drawPlayer(g);
+    }
+
+    public void drawPlayer(Graphics g) {
+        Point playerSpawn = LevelManager.getInstance().getLevels().get(levelIndex).getPlayerSpawn();
+        g.drawImage(playerButton.getImageButton(),
+                (playerSpawn.x / TILES_SIZE) * (TILES_SIZE - drawOffset),
+                (playerSpawn.y / TILES_SIZE) * (TILES_SIZE - drawOffset),
+                TILES_SIZE - drawOffset,
+                TILES_SIZE - drawOffset,
+                null);
+    }
+
+    public void drawTilesAndEnemies(Graphics g) {
         for (int y = 0; y < TILES_IN_HEIGHT; y++) {
-            for (int x = 0; x < levelManager.getLevels().get(levelManager.getLvlIndex()).getLvlData()[0].length; x++) {
-                int blockIndex = levelManager.getLevels().get(levelManager.getLvlIndex()).getSpriteIndex(x, y);
-                int enemyIndex = levelManager.getLevels().get(levelManager.getLvlIndex()).getEnemyIndex(x, y);
+            for (int x = 0; x < levelManager.getLevels().get(levelIndex).getLvlData()[0].length; x++) {
+                int blockIndex = levelManager.getLevels().get(levelIndex).getSpriteIndex(x, y);
+                int enemyIndex = levelManager.getLevels().get(levelIndex).getEnemyIndex(x, y);
 
                 if (blockIndex > 0 && blockIndex < 255) {
                     g.drawImage(blocksImages[blockIndex - 1],
@@ -167,14 +182,6 @@ public class LevelEditorView {
 
             }
         }
-        // disegniamo il player
-        Point playerSpawn = LevelManager.getInstance().getLevels().get(levelManager.getLvlIndex()).getPlayerSpawn();
-        g.drawImage(playerButton.getImageButton(),
-                (playerSpawn.x / TILES_SIZE) * (TILES_SIZE - drawOffset),
-                (playerSpawn.y / TILES_SIZE) * (TILES_SIZE - drawOffset),
-                TILES_SIZE - drawOffset,
-                TILES_SIZE - drawOffset,
-                null);
     }
 
     private void drawGrid(Graphics g) {
@@ -231,5 +238,21 @@ public class LevelEditorView {
 
     public PlayerButtonView getPlayerButtonView() {
         return playerButton;
+    }
+
+    public int getLevelIndex() {
+        return levelIndex;
+    }
+
+    public int getLevelHeight() {
+        return levelHeight;
+    }
+
+    public int getLevelWidth() {
+        return levelWidth;
+    }
+    
+    public void setLevelIndex(int index){
+        levelIndex = index;
     }
 }

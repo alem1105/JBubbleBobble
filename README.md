@@ -5,8 +5,7 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 
 ## TODO - Lo aggiorniamo man mano 🙃
 
-- Nemici (Movimento)
-- LevelEditor
+## 🚨 DA CONTROLLARE PROBLEMA DEL CANCELLARE LE MODIFICHE NEL LEVELEDITOR 🚨
 
 ### Cose importanti
 - [ ] salvataggio immagine level editor

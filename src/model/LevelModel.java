@@ -6,6 +6,7 @@ import model.entities.enemies.ZenChanModel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static model.utilz.Constants.GameConstants.TILES_SIZE;
 
@@ -91,5 +92,9 @@ public class LevelModel {
 
     public void setPlayerSpawn(Point playerSpawn) {
         this.playerSpawn = playerSpawn;
+    }
+
+    public void setLvlData(int[][] lvlData) {
+        this.lvlData = lvlData;
     }
 }

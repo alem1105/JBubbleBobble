@@ -1,9 +1,13 @@
 package view.utilz;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
+import static model.utilz.Constants.GameConstants.SCALE;
 
 public class LoadSave {
 
@@ -16,6 +20,10 @@ public class LoadSave {
     public static final String ERASER_BUTTON = "ui/eraser_button.png";
     public static final String ENEMIES_BUTTON = "ui/enemies_button.png";
     public static final String PLAYER_BUTTON = "ui/player_button.png";
+    public static final String CHANGE_LVL_BUTTON = "ui/change_lvl_button.png";
+
+
+    public static Font CUSTOM_FONT;
 
     public static BufferedImage GetSpriteAtlas(String fileName) {
         BufferedImage img = null;
@@ -58,5 +66,17 @@ public class LoadSave {
             }
         }
         return lvlSprites;
+    }
+
+    public static void loadCustomFont() {
+        try {
+            CUSTOM_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("./res/BubbleFont.ttf")).deriveFont(16f * SCALE);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(CUSTOM_FONT);
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+            // Se il font non viene caricato, usa un font di fallback
+            CUSTOM_FONT = new Font("Serif", Font.PLAIN, 24);
+        }
     }
 }

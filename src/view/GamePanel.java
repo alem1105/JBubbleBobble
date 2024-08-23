@@ -2,8 +2,10 @@ package view;
 
 import model.gamestate.Gamestate;
 import view.stateview.LevelEditorView;
+import view.stateview.LevelSelectorView;
 import view.stateview.MenuView;
 import view.stateview.PlayingView;
+import view.utilz.LoadSave;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,8 +19,10 @@ public class GamePanel extends JPanel implements Observer {
     private PlayingView playingView;
     private MenuView menuView;
     private LevelEditorView levelEditorView;
+    private LevelSelectorView levelSelectorView;
 
     public GamePanel() {
+        LoadSave.loadCustomFont();
         setPanelSize();
         setFocusable(true);
         requestFocus();
@@ -29,6 +33,7 @@ public class GamePanel extends JPanel implements Observer {
         this.playingView = new PlayingView();
         this.menuView = new MenuView();
         this.levelEditorView = LevelEditorView.getInstance();
+        this.levelSelectorView = LevelSelectorView.getInstance();
     }
 
     private void setPanelSize() {
@@ -42,6 +47,7 @@ public class GamePanel extends JPanel implements Observer {
             case PLAYING -> playingView.render(g);
             case MENU -> menuView.draw(g);
             case LEVEL_EDITOR -> levelEditorView.draw(g);
+            case LEVEL_SELECTOR -> levelSelectorView.draw(g);
         }
     }
 
@@ -49,8 +55,9 @@ public class GamePanel extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
         switch(Gamestate.state) {
             case PLAYING -> playingView.update();
-            case MENU -> System.out.println("Sto in GamePanel al posto di menu.update()");
+            //case MENU -> System.out.println("Sto in GamePanel al posto di menu.update()");
             case LEVEL_EDITOR -> levelEditorView.update();
+            case LEVEL_SELECTOR -> levelSelectorView.update();
         }
         repaint();
     }
