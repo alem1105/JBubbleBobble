@@ -2,6 +2,7 @@ package controller.inputs;
 
 import model.LevelManager;
 import model.gamestate.Gamestate;
+import model.ui.PlayerButtonModel;
 import view.stateview.LevelEditorView;
 import view.ui.BlockButtonView;
 import view.ui.CustomButtonView;
@@ -14,6 +15,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
+import static model.utilz.Constants.GameConstants.TILES_IN_HEIGHT;
 import static model.utilz.Constants.GameConstants.TILES_SIZE;
 
 
@@ -46,32 +48,58 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
         int currentTileX = (e.getX()) / (TILES_SIZE - levelEditorView.getDrawOffset());
         int currentTileY = (e.getY()) / (TILES_SIZE - levelEditorView.getDrawOffset());
         if (currentTileX < 20 && currentTileY < 18) {
-            int[][] lvlData = levelManager.getLevels().get(levelManager.getLvlIndex()).getLvlData();
-            int[][] enemiesData = levelManager.getLevels().get(levelManager.getLvlIndex()).getEnemiesData();
-            lvlData[currentTileY][currentTileX] = levelEditorView.getBlockIndex();
+            int[][] lvlData = getLevelData();
+            int[][] enemiesData = getEnemiesData();
+
+            int playerTileX = (int) (getPlayerSpawn().getX() / TILES_SIZE);
+            int playerTileY = (int) (getPlayerSpawn().getY() / TILES_SIZE);
+
+            if ((currentTileX != playerTileX) || (currentTileY != playerTileY)) {
+                if((checkRoofAndBottomTile(currentTileY))) {
+                    lvlData[0][currentTileX] = 0;
+                    lvlData[TILES_IN_HEIGHT - 2][currentTileX] = 0;
+                }
+                else {
+                    lvlData[currentTileY][currentTileX] = levelEditorView.getBlockIndex();
+                }
+            }
 
             checkPlayerButtonClick(currentTileX, currentTileY);
 
-            if(levelEditorView.getEnemyIndex() > 0 || levelEditorView.getPlayerButtonView().getButtonModel().isSelected())
+            if(levelEditorView.getEnemyIndex() > 0 || isPlayerButtonSelected())
                 lvlData[currentTileY][currentTileX] = 0;
             enemiesData[currentTileY][currentTileX] = levelEditorView.getEnemyIndex();
         }
     }
 
+    private boolean checkRoofAndBottomTile(int currentTileY) {
+        return (currentTileY == TILES_IN_HEIGHT - 2 || currentTileY == 0) && (isEraserButtonPressed() || isPlayerButtonPressed());
+    }
+
     private void checkPlayerButtonClick(int currentTileX, int currentTileY) {
-        if(levelEditorView.getPlayerButtonView().getButtonModel().isPressed())
+        if(isPlayerButtonPressed()) {
+            setEraserButtonPressed(false);
             LevelManager.getInstance()
                     .getLevels()
                     .get(LevelManager.getInstance().getLvlIndex())
                     .setPlayerSpawn(
                             new Point(currentTileX * TILES_SIZE, currentTileY * TILES_SIZE));
+        }
+    }
+
+    private Point getPlayerSpawn() {
+        return LevelManager
+                .getInstance()
+                .getLevels()
+                .get(LevelManager.getInstance().getLvlIndex())
+                .getPlayerSpawn();
     }
 
     private void checkClicks(MouseEvent e) {
         // TODO ABBIAMO USATO GLI STREAM QUI
         CustomButtonView[] allButtons = Stream.concat(
-                Arrays.stream(levelEditorView.getButtons()),
-                Arrays.stream(levelEditorView.getEnemies()))
+                        Arrays.stream(levelEditorView.getButtons()),
+                        Arrays.stream(levelEditorView.getEnemies()))
                 .toArray(CustomButtonView[]::new);
 
         for(CustomButtonView button : allButtons){
@@ -85,17 +113,17 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     }
 
     private void enemyButtonClick(EnemyButtonView button) {
-        levelEditorView.setEnemyIndex(button.getButtonModel().getIndex());
-        levelEditorView.getEraserButtonView().getButtonModel().setPressed(false);
-        levelEditorView.getPlayerButtonView().getButtonModel().setPressed(false);
-        levelEditorView.setBlockIndex(0);
+        setLevelEditorEnemyIndex(button.getButtonModel().getIndex());
+        setEraserButtonPressed(false);
+        setPlayerButtonPressed(false);
+        setLevelEditorBlockIndex(0);
     }
 
     private void blockButtonClick(BlockButtonView button) {
-        levelEditorView.setBlockIndex(button.getButtonModel().getIndex());
-        levelEditorView.getEraserButtonView().getButtonModel().setPressed(false);
-        levelEditorView.getPlayerButtonView().getButtonModel().setPressed(false);
-        levelEditorView.setEnemyIndex(0);
+        setLevelEditorBlockIndex(button.getButtonModel().getIndex());
+        setEraserButtonPressed(false);
+        setPlayerButtonPressed(false);
+        setLevelEditorEnemyIndex(0);
     }
 
     private <T extends CustomButtonView> boolean isIn(T button, MouseEvent e) {
@@ -107,10 +135,10 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
 
     private void checkPressed(MouseEvent e) {
         if (isIn(levelEditorView.getSaveButtonView(), e))
-            levelEditorView.getSaveButtonView().getButtonModel().setPressed(true);
+            setSaveButtonPressed(true);
 
         if (isIn(levelEditorView.getXButtonView(), e))
-            levelEditorView.getXButtonView().getButtonModel().setPressed(true);
+            setXButtonPressed(true);
 
         if (isIn(levelEditorView.getEraserButtonView(), e)) {
             eraserButtonClick();
@@ -122,24 +150,24 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     }
 
     private void eraserButtonClick() {
-        levelEditorView.getEraserButtonView().getButtonModel().setPressed(true);
-        levelEditorView.setBlockIndex(0);
-        levelEditorView.setEnemyIndex(0);
-        levelEditorView.getPlayerButtonView().getButtonModel().setPressed(false);
+        setEraserButtonPressed(true);
+        setLevelEditorBlockIndex(0);
+        setLevelEditorEnemyIndex(0);
+        setPlayerButtonPressed(false);
     }
 
     private void playerButtonClick() {
-        levelEditorView.setBlockIndex(0);
-        levelEditorView.setEnemyIndex(0);
-        levelEditorView.getPlayerButtonView().getButtonModel().setPressed(true);
+        setLevelEditorBlockIndex(0);
+        setLevelEditorEnemyIndex(0);
+        setPlayerButtonPressed(true);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         switch (Gamestate.state) {
             case LEVEL_EDITOR -> {
-                levelEditorView.getXButtonView().getButtonModel().setPressed(false);
-                levelEditorView.getSaveButtonView().getButtonModel().setPressed(false);
+                setXButtonPressed(false);
+                setSaveButtonPressed(false);
             }
         }
     }
@@ -164,17 +192,111 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
         switch (Gamestate.state) {
             case LEVEL_EDITOR -> {
                 if (levelEditorView.getSaveButtonView().getButtonModel().getBounds().contains(e.getX(), e.getY())) {
-                    levelEditorView.getSaveButtonView().getButtonModel().setHover(true);
+                    setSaveButtonHover(true);
                 }
                 else {
-                    levelEditorView.getSaveButtonView().getButtonModel().setHover(false);
+                    setSaveButtonHover(false);
                 }
                 if (levelEditorView.getXButtonView().getButtonModel().getBounds().contains(e.getX(), e.getY())) {
-                    levelEditorView.getXButtonView().getButtonModel().setHover(true);
+                    setXButtonHover(true);
                 } else {
-                    levelEditorView.getXButtonView().getButtonModel().setHover(false);
+                    setXButtonHover(false);
                 }
             }
         }
     }
+
+    // METODI HELPER
+
+    private int[][] getLevelData() {
+        return levelManager
+                .getLevels()
+                .get(levelManager.getLvlIndex())
+                .getLvlData();
+    }
+
+    private int[][] getEnemiesData() {
+        return levelManager
+                .getLevels()
+                .get(levelManager.getLvlIndex())
+                .getEnemiesData();
+    }
+
+    private void setPlayerButtonPressed(boolean pressed) {
+        levelEditorView
+                .getPlayerButtonView()
+                .getButtonModel()
+                .setPressed(pressed);
+    }
+
+    private void setEraserButtonPressed(boolean pressed) {
+        levelEditorView
+                .getEraserButtonView()
+                .getButtonModel()
+                .setPressed(pressed);
+    }
+
+    private boolean isPlayerButtonPressed() {
+        return levelEditorView
+                .getPlayerButtonView()
+                .getButtonModel()
+                .isPressed();
+    }
+
+    private void setLevelEditorBlockIndex(int index) {
+        levelEditorView.setBlockIndex(index);
+    }
+
+    private void setLevelEditorEnemyIndex(int index) {
+        levelEditorView.setEnemyIndex(index);
+    }
+
+    private boolean isEraserButtonPressed() {
+        return levelEditorView
+                .getEraserButtonView()
+                .getButtonModel()
+                .isPressed();
+    }
+
+    private boolean isPlayerButtonSelected() {
+        return levelEditorView
+                .getPlayerButtonView()
+                .getButtonModel()
+                .isSelected();
+    }
+
+    private void setXButtonPressed(boolean pressed) {
+        levelEditorView
+                .getXButtonView()
+                .getButtonModel()
+                .setPressed(pressed);
+    }
+
+    private void setSaveButtonPressed(boolean pressed) {
+        levelEditorView
+                .getSaveButtonView()
+                .getButtonModel()
+                .setPressed(pressed);
+    }
+
+    private PlayerButtonModel getPlayerButtonModel() {
+        return levelEditorView
+                .getPlayerButtonView()
+                .getButtonModel();
+    }
+
+    private void setSaveButtonHover(boolean hover) {
+        levelEditorView
+                .getSaveButtonView()
+                .getButtonModel()
+                .setHover(hover);
+    }
+
+    private void setXButtonHover(boolean hover) {
+        levelEditorView
+                .getXButtonView()
+                .getButtonModel()
+                .setHover(hover);
+    }
+
 }
