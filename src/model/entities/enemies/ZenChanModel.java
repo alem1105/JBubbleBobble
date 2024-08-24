@@ -33,7 +33,8 @@ public class ZenChanModel extends EnemyModel{
         if(!goingUp) {
             if (inAir)
                 fallingChecks(walkSpeed);
-            updateXPos(walkSpeed);
+            else
+                updateXPos(walkSpeed);
         } else {
             if( (int) (hitbox.y / TILES_SIZE) != targetYTile) {
                 hitbox.y -= 1.5F;
@@ -45,9 +46,9 @@ public class ZenChanModel extends EnemyModel{
 
     @Override
     protected void updateXPos(float walkSpeed) {
-        if (CanMoveHere(hitbox.x + walkSpeed, hitbox.y, hitbox.width, hitbox.height,
-                getLvlData()))
+        if (CanMoveHere(hitbox.x + walkSpeed, hitbox.y, hitbox.width, hitbox.height, getLvlData())) {
             hitbox.x += walkSpeed;
+        }
         else {
             hitbox.x = GetEntityXPosNextToWall(hitbox, walkSpeed);
             if(walkDir == RIGHT) {
