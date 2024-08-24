@@ -1,6 +1,9 @@
 package model.entities.enemies;
 
 import model.LevelManager;
+import model.utilz.Gravity;
+
+import java.util.Random;
 
 import static model.utilz.Constants.Directions.LEFT;
 import static model.utilz.Constants.Directions.RIGHT;
@@ -11,28 +14,33 @@ import static model.utilz.Gravity.GetEntityXPosNextToWall;
 
 
 public class ZenChanModel extends EnemyModel{
-    
+
     public ZenChanModel(int x, int y) {
         super(x, y, (int) (18 * SCALE), (int) (18 * SCALE));
         this.walkSpeed = 0.55f * SCALE;
         initHitbox(14, 16);
     }
-    
+
     public void update() {
         updatePos();
+        updateUpTick();
         updateEnemyState();
     }
 
     private void updatePos() {
         isInAirCheck();
 
-        if (inAir)
-            fallingChecks(walkSpeed);
-        else {
-            if (dirChangedTimes == 2) {
-                checkUpSolid(getLvlData());
-            }
+        if(!goingUp) {
+            if (inAir)
+                fallingChecks(walkSpeed);
             updateXPos(walkSpeed);
+        } else {
+            if( (int) (hitbox.y / TILES_SIZE) != targetYTile) {
+                hitbox.y -= 1.5F;
+            } else {
+                goingUp = false;
+                dirChangedTimes = 0;
+            }
         }
     }
 
@@ -63,10 +71,10 @@ public class ZenChanModel extends EnemyModel{
             else
                 enemyState = CAPTURED;
         else
-            if (angry)
-                enemyState = RUNNING_ANGRY;
+        if (angry)
+            enemyState = RUNNING_ANGRY;
 
-            // manca DEAD
+        // manca DEAD
 
         if (startAni != enemyState)
             resetAniTick = true;

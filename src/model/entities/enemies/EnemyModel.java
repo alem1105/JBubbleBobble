@@ -2,6 +2,9 @@ package model.entities.enemies;
 
 import model.LevelManager;
 import model.entities.EntityModel;
+
+import java.util.Random;
+
 import static model.utilz.Constants.Directions.*;
 import static model.utilz.Constants.Enemies.*;
 
@@ -23,27 +26,42 @@ public abstract class EnemyModel extends EntityModel {
     protected int walkDir = RIGHT;
     protected float walkSpeed;
     protected int dirChangedTimes = 0;
-    protected boolean goUp = false;
-    protected int targetY;
+    protected boolean goingUp = false;
+    protected int targetYTile;
+    private int upTick;
 
     public EnemyModel(float x, float y, int width, int height) {
         super(x, y - 1, width, height);
     }
 
-    protected void checkUpSolid(int[][] lvlData) { // controlla se sopra il nemico si hanno almeno tre tile su cui saltare
-        for (int y = lvlData.length - 1; y > 1; y--) { // Scorro al contrario per trovare la più vicina
-            if (y < hitbox.y / TILES_SIZE) {
-                for (int x = 0; x < lvlData[y].length; x++) {
-                    if (x == (int) (hitbox.x / TILES_SIZE)) {
-                        // Siamo nella stessa x del nemico, controlliamo se la y è percorribile
-                        if (IsTileSolid(x, y, lvlData) && IsTileSolid(x - 1, y, lvlData) && IsTileSolid(x + 1, y, lvlData)) {
-                            goUp = true;
-                            targetY = y;
-                            return;
-                        }
-                    }
-                }
-            }
+    protected boolean checkUpSolid(int[][] lvlData) { // controlla se sopra il nemico si hanno almeno tre tile su cui saltare
+        int currentTileY = (int) (hitbox.y / TILES_SIZE);
+        int currentTileX = (int) (hitbox.x / TILES_SIZE);
+        if(checkThreeYTilesSolid(currentTileY - 2, currentTileX, lvlData)) {
+            targetYTile = currentTileY - 4;
+            return true;
+        } else if(checkThreeYTilesSolid(currentTileY - 1, currentTileX, lvlData)) {
+            targetYTile = currentTileY - 3;
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    protected boolean checkThreeYTilesSolid(int yTile, int xTile, int[][] lvldata) {
+        if (xTile - 2 >= 0 && yTile -2 >= 0 && xTile + 1 >= 0)
+            return IsTileSolid(xTile - 2, yTile, lvldata) && IsTileSolid(xTile, yTile, lvldata) && IsTileSolid(xTile + 1, yTile, lvldata);
+        return false;
+    }
+
+    protected void updateUpTick() {
+        Random random = new Random();
+        int upTickSpeed = 400 + random.nextInt(701); // 701 rappresenta 1000 - 300 + 1
+        upTick++;
+        if (upTick >= upTickSpeed) {
+            upTick = 0;
+            if (checkUpSolid(getLvlData()))
+                goingUp = true;
         }
     }
 
