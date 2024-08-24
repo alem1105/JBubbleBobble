@@ -138,9 +138,9 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
 
         for(CustomButtonView button : allButtons){
             if(isIn(button, e)) {
-                if(button.getClass().equals(BlockButtonView.class))
+                if(button instanceof BlockButtonView)
                     blockButtonClick((BlockButtonView) button);
-                else if(button.getClass().equals(EnemyButtonView.class))
+                else if(button instanceof EnemyButtonView)
                     enemyButtonClick((EnemyButtonView) button);
             }
         }

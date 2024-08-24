@@ -1,6 +1,5 @@
 package model.entities;
 
-import model.LevelManager;
 import model.utilz.Constants;
 
 import static model.utilz.Constants.GameConstants.SCALE;
@@ -11,19 +10,13 @@ public class PlayerModel extends EntityModel {
 
     private static PlayerModel instance;
 
-    private LevelManager levelManager;
-
     private int playerAction = IDLE;
     private boolean left, right, jump, resetAniTick;
     private boolean moving = false;
     private float playerSpeed = 1.0f * SCALE;
 
     // Gravity
-    private float airSpeed = 0f;
-    private float gravity = 0.04f * SCALE, jumpSpeed = -2.25f * SCALE;
-    private float fallSpeedAfterCollision = 0.5f * SCALE;
-    private boolean inAir = true;
-
+    private float jumpSpeed = -2.25f * SCALE;
 
     public static PlayerModel getInstance() {
         if (instance == null) {
@@ -34,10 +27,10 @@ public class PlayerModel extends EntityModel {
 
     private PlayerModel(float x, float y, int width, int height) {
         super(x, y, width, height);
-        levelManager = LevelManager.getInstance();
-        this.x = levelManager.getLevels().get(levelManager.getLvlIndex()).getPlayerSpawn().x;
-        this.y = levelManager.getLevels().get(levelManager.getLvlIndex()).getPlayerSpawn().y;
-        initHitbox((int) (13), (int) (14));
+        //getLevelManager() = getLevelManager().getInstance();
+        this.x = getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getPlayerSpawn().x;
+        this.y = getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getPlayerSpawn().y;
+        initHitbox(13, 14);
     }
 
     public void update() {
@@ -85,11 +78,7 @@ public class PlayerModel extends EntityModel {
             xSpeed += playerSpeed;
         }
 
-        if (!inAir) {
-            if (!IsEntityOnFloor(hitbox, levelManager.getLevels().get(levelManager.getLvlIndex()).getLvlData())) {
-                inAir = true;
-            }
-        }
+        isInAirCheck();
 
         if (inAir) {
             // In aria
@@ -100,36 +89,22 @@ public class PlayerModel extends EntityModel {
                 if (canJumpHere(xSpeed)) hitbox.x += xSpeed;
             }
             else {
-                // Stiamo cadendo
-                // Bloccati dentro un muro
-                if (!CanMoveHere(hitbox.x, hitbox.y, hitbox.width, hitbox.height,levelManager.getLevels().get(levelManager.getLvlIndex()).getLvlData())) {
-                    hitbox.y += airSpeed;
-                    airSpeed = 0.65f * SCALE;
-                }
-                // Caduta normale
-                else if (CanMoveHere(hitbox.x, hitbox.y + airSpeed,
-                    hitbox.width, hitbox.height,
-                    levelManager.getLevels().get(levelManager.getLvlIndex()).getLvlData())) {
-                        airSpeed = 0.65f * SCALE; // Discesa lenta
-                        hitbox.y += airSpeed;
-                        updateXPos(xSpeed);
-                }
-                // Finita Caduta
-                else {
-                    hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
-                    if (airSpeed > 0) {
-                        resetInAir();
-                    } else {
-                        airSpeed = fallSpeedAfterCollision;
-                    }
-                    updateXPos(xSpeed);
-                }
+                fallingChecks(xSpeed);
             }
         }
         else {
             updateXPos(xSpeed);
         }
         moving = true;
+    }
+
+    @ Override
+    protected void updateXPos(float xSpeed) {
+        if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height,
+                getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getLvlData()))
+            hitbox.x += xSpeed;
+        else
+            hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
     }
 
     private boolean canJumpHere(float xSpeed) {
@@ -159,19 +134,6 @@ public class PlayerModel extends EntityModel {
             return;
         inAir = true;
         airSpeed = jumpSpeed;
-    }
-
-    private void resetInAir() {
-        inAir = false;
-        airSpeed = 0;
-    }
-
-    private void updateXPos(float xSpeed) {
-        if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height,
-                levelManager.getLevels().get(levelManager.getLvlIndex()).getLvlData()))
-            hitbox.x += xSpeed;
-        else
-            hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
     }
 
     public int getPlayerAction() {

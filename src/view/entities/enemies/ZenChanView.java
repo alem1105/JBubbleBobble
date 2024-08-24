@@ -5,7 +5,6 @@ import model.utilz.Constants;
 import view.utilz.LoadSave;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 import static model.utilz.Constants.Enemies.*;
 import static view.utilz.LoadSave.*;

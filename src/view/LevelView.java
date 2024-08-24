@@ -24,7 +24,6 @@ public class LevelView {
     }
 
     public void render(Graphics g) {
-        System.out.println("LEVEL VIEW: " + levels.get(lvlManager.getLvlIndex()).getLvlData().hashCode());
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         for (int y = 0; y < TILES_IN_HEIGHT; y++) {

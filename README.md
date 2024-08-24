@@ -6,7 +6,7 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 ## TODO - Lo aggiorniamo man mano 🙃
 
 ### Cose importanti
-- [ ] salvataggio immagine level editor
+- [x] salvataggio immagine level editor
 - [ ] movimento nemici
 - [ ] attacco nemici
 - [ ] aggiungere tutti i nemici
@@ -21,9 +21,10 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 
 ### Easy things to do
 - [ ] gestire la caduta del player fuori dalla schermata
-- [ ] schermata scegliere livello level editor
+- [x] schermata scegliere livello level editor
 - [ ] sistemare menu
 - [ ] classifica(?) *non so cosa sia*
+- [ ] metodo per il caricamento del metodo successivo
 
 ### We may or may not do that
 - [ ] livello finale con boss

@@ -51,7 +51,6 @@ public abstract class EnemyView {
             flipW = -1;
         else
             flipW = 1;
-
     }
 
     // TODO RIMUOVERE
