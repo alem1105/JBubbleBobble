@@ -21,6 +21,7 @@ public class LoadSave {
     public static final String ENEMIES_BUTTON = "ui/enemies_button.png";
     public static final String PLAYER_BUTTON = "ui/player_button.png";
     public static final String CHANGE_LVL_BUTTON = "ui/change_lvl_button.png";
+    public static final String EDIT_BUTTON = "ui/edit_button.png";
 
 
     public static Font CUSTOM_FONT;

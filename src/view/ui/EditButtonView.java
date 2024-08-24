@@ -13,12 +13,16 @@ public class EditButtonView extends CustomButtonView<EditButtonModel> {
         font = LoadSave.CUSTOM_FONT;
     }
 
+//    @Override
+//    public void draw(Graphics g) {
+//        g.setColor(Color.WHITE);
+//        g.drawRect(getButtonModel().getX(), getButtonModel().getY(), getButtonModel().getWidth(), getButtonModel().getHeight());
+//        g.setFont(font);
+//        g.setColor(Color.GREEN);
+//        g.drawString("EDIT", getButtonModel().getX() + getButtonModel().getWidth() / 4, (int)(getButtonModel().getY() + getButtonModel().getHeight() / 1.25));
+//    }
     @Override
-    public void draw(Graphics g) {
-        g.setColor(Color.WHITE);
-        g.drawRect(getButtonModel().getX(), getButtonModel().getY(), getButtonModel().getWidth(), getButtonModel().getHeight());
-        g.setFont(font);
-        g.setColor(Color.GREEN);
-        g.drawString("EDIT", getButtonModel().getX() + getButtonModel().getWidth() / 4, (int)(getButtonModel().getY() + getButtonModel().getHeight() / 1.25));
+    protected void loadSprites() {
+        sprites = LoadSave.loadAnimations(LoadSave.EDIT_BUTTON, 1, 3);
     }
 }

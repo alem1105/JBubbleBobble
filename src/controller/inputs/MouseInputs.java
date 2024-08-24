@@ -71,6 +71,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                 }
 
                 if(isIn(levelSelectorView.getEditButtonView(), e)) {
+                    setEditButtonHover(false);
                     Gamestate.state = Gamestate.LEVEL_EDITOR;
                 }
             }
@@ -202,6 +203,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
             case LEVEL_SELECTOR -> {
                 setNextLvlButtonPressed(false);
                 setPrevLvlButtonPressed(false);
+                setEditButtonPressed(false);
             }
         }
     }
@@ -241,16 +243,20 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
             case LEVEL_SELECTOR -> {
                 if (isIn(levelSelectorView.getNextLevelButtonView(), e)){
                     setNextLvlButtonHover(true);
-                }
-                else{
+                } else{
                     setNextLvlButtonHover(false);
                 }
 
                 if (isIn(levelSelectorView.getPrevLevelButtonView(), e)){
                     setPrevLvlButtonHover(true);
-                }
-                else{
+                } else{
                     setPrevLvlButtonHover(false);
+                }
+
+                if (isIn(levelSelectorView.getEditButtonView(), e)){
+                    setEditButtonHover(true);
+                } else {
+                    setEditButtonHover(false);
                 }
             }
         }
@@ -337,6 +343,10 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                 .setPressed(pressed);
     }
 
+    private void setEditButtonPressed(boolean pressed) {
+        levelSelectorView.getEditButtonView().getButtonModel().setPressed(pressed);
+    }
+
     private PlayerButtonModel getPlayerButtonModel() {
         return levelEditorView
                 .getPlayerButtonView()
@@ -356,6 +366,10 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
 
     private void setPrevLvlButtonHover(boolean hover) {
         levelSelectorView.getPrevLevelButtonView().getButtonModel().setHover(hover);
+    }
+
+    private void setEditButtonHover(boolean hover) {
+        levelSelectorView.getEditButtonView().getButtonModel().setHover(hover);
     }
 
     private void setXButtonHover(boolean hover) {
