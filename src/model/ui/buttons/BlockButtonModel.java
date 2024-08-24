@@ -1,6 +1,4 @@
-package model.ui;
-
-import java.awt.geom.Rectangle2D;
+package model.ui.buttons;
 
 public class BlockButtonModel extends CustomButtonModel{
     private int index;

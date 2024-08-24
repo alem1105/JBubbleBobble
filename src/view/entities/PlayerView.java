@@ -27,7 +27,7 @@ public class PlayerView {
 
     public PlayerView(PlayerModel playerModel) {
         this.playerModel = playerModel;
-        animations = LoadSave.loadAnimations(LoadSave.PLAYER_SPRITE, ROW_INDEX, COL_INDEX);
+        animations = LoadSave.loadAnimations(LoadSave.PLAYER_SPRITE, ROW_INDEX, COL_INDEX, 18);
     }
 
     public void update() {
@@ -66,8 +66,11 @@ public class PlayerView {
         if (aniTick >= ANI_SPEED) {
             aniTick = 0;
             aniIndex++;
-            if (aniIndex >= getSpriteAmount(playerModel.getPlayerAction()))
+            if (aniIndex >= getSpriteAmount(playerModel.getPlayerAction())) {
+                if (playerModel.getPlayerAction() == DEATH)
+                    playerModel.setPlayerAction(IDLE);
                 aniIndex = 0;
+            }
         }
     }
 
@@ -85,5 +88,9 @@ public class PlayerView {
         g.drawRect((int) (playerModel.getHitbox().x), (int) (playerModel.getHitbox().y),
                 (int) playerModel.getHitbox().width,
                 (int) playerModel.getHitbox().height);
+    }
+
+    public PlayerModel getPlayerModel() {
+        return playerModel;
     }
 }

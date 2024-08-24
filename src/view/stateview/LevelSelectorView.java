@@ -1,10 +1,9 @@
 package view.stateview;
 
-import model.ui.ChangeLvlButtonModel;
-import model.ui.EditButtonModel;
-import model.utilz.Constants;
-import view.ui.ChangeLvlButtonView;
-import view.ui.EditButtonView;
+import model.ui.buttons.ChangeLvlButtonModel;
+import model.ui.buttons.EditButtonModel;
+import view.ui.buttons.ChangeLvlButtonView;
+import view.ui.buttons.EditButtonView;
 import view.utilz.LoadSave;
 
 import java.awt.*;

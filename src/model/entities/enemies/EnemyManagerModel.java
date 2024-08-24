@@ -1,8 +1,11 @@
 package model.entities.enemies;
 
 import model.LevelManager;
+import model.entities.PlayerModel;
 
 import java.util.ArrayList;
+
+import static model.utilz.Constants.PlayerConstants.DEATH;
 
 public class EnemyManagerModel {
 
@@ -30,10 +33,18 @@ public class EnemyManagerModel {
     public void update() {
         for (ZenChanModel zenChan : zenChans) {
             zenChan.update();
+            if (zenChan.getHitbox().intersects(getPlayerModel().getHitbox())) {
+                if (getPlayerModel().getPlayerAction() != DEATH)
+                    getPlayerModel().playerHasBeenHit();
+            }
         }
     }
 
     public ArrayList<ZenChanModel> getZenChans() {
         return zenChans;
+    }
+
+    private PlayerModel getPlayerModel() {
+        return PlayerModel.getInstance();
     }
 }

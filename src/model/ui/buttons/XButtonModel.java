@@ -1,4 +1,4 @@
-package model.ui;
+package model.ui.buttons;
 
 import model.LevelManager;
 import view.stateview.LevelEditorView;

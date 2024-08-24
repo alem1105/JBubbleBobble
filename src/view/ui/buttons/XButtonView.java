@@ -1,9 +1,7 @@
-package view.ui;
+package view.ui.buttons;
 
-import model.ui.XButtonModel;
+import model.ui.buttons.XButtonModel;
 import view.utilz.LoadSave;
-
-import java.awt.*;
 
 public class XButtonView extends CustomButtonView<XButtonModel> {
 
@@ -13,7 +11,7 @@ public class XButtonView extends CustomButtonView<XButtonModel> {
 
     @Override
     protected void loadSprites() {
-        sprites = LoadSave.loadAnimations(LoadSave.X_BUTTON, 1, 3);
+        sprites = LoadSave.loadAnimations(LoadSave.X_BUTTON, 1, 3, 18);
     }
 
 }

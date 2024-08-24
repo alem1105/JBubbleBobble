@@ -1,4 +1,4 @@
-package model.ui;
+package model.ui.buttons;
 
 public class EditButtonModel extends CustomButtonModel{
 

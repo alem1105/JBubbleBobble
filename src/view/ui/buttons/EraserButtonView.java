@@ -1,10 +1,7 @@
-package view.ui;
+package view.ui.buttons;
 
-import model.ui.EraserButtonModel;
+import model.ui.buttons.EraserButtonModel;
 import view.utilz.LoadSave;
-
-import java.awt.*;
-import java.time.chrono.Era;
 
 public class EraserButtonView extends CustomButtonView<EraserButtonModel> {
 
@@ -14,7 +11,7 @@ public class EraserButtonView extends CustomButtonView<EraserButtonModel> {
 
     @Override
     protected void loadSprites() {
-        sprites = LoadSave.loadAnimations(LoadSave.ERASER_BUTTON, 1, 3);
+        sprites = LoadSave.loadAnimations(LoadSave.ERASER_BUTTON, 1, 3, 18);
     }
 
     public EraserButtonModel getButtonModel() {

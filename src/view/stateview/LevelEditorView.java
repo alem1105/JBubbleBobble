@@ -1,8 +1,8 @@
 package view.stateview;
 
 import model.LevelManager;
-import model.ui.*;
-import view.ui.*;
+import model.ui.buttons.*;
+import view.ui.buttons.*;
 import view.utilz.LoadSave;
 
 import java.awt.*;
@@ -74,7 +74,7 @@ public class LevelEditorView {
     }
 
     private void initEnemyButtons() {
-        BufferedImage[][] enemiesImagesMatrix = LoadSave.loadAnimations(LoadSave.ENEMIES_BUTTON, 1, 6);
+        BufferedImage[][] enemiesImagesMatrix = LoadSave.loadAnimations(LoadSave.ENEMIES_BUTTON, 1, 6, 18);
         enemiesImages = enemiesImagesMatrix[0];
         enemies = new EnemyButtonView[6];
         int y = 0;

@@ -1,6 +1,6 @@
-package view.ui;
+package view.ui.buttons;
 
-import model.ui.PlayerButtonModel;
+import model.ui.buttons.PlayerButtonModel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

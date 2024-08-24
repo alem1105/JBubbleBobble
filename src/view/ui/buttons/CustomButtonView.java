@@ -1,7 +1,6 @@
-package view.ui;
+package view.ui.buttons;
 
-import model.ui.BlockButtonModel;
-import model.ui.CustomButtonModel;
+import model.ui.buttons.CustomButtonModel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

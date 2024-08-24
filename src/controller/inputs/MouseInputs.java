@@ -1,15 +1,17 @@
 package controller.inputs;
 
 import model.LevelManager;
+import model.entities.PlayerModel;
 import model.gamestate.Gamestate;
-import model.ui.PlayerButtonModel;
-import model.ui.SaveButtonModel;
-import model.ui.XButtonModel;
+import model.ui.buttons.PlayerButtonModel;
+import model.ui.buttons.SaveButtonModel;
+import view.entities.PlayerView;
 import view.stateview.LevelEditorView;
 import view.stateview.LevelSelectorView;
-import view.ui.BlockButtonView;
-import view.ui.CustomButtonView;
-import view.ui.EnemyButtonView;
+import view.stateview.PlayingView;
+import view.ui.buttons.BlockButtonView;
+import view.ui.buttons.CustomButtonView;
+import view.ui.buttons.EnemyButtonView;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -27,11 +29,13 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     private LevelEditorView levelEditorView;
     private LevelManager levelManager;
     private LevelSelectorView levelSelectorView;
+    private PlayingView playingView;
 
     public MouseInputs(){
         this.levelEditorView = LevelEditorView.getInstance();
         this.levelManager = LevelManager.getInstance();
         this.levelSelectorView = LevelSelectorView.getInstance();
+        this.playingView = new PlayingView();
     }
 
     @Override
@@ -41,6 +45,12 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         switch (Gamestate.state) {
+            case PLAYING -> {
+                if(PlayerModel.getInstance().isGameOver()){
+                    if(isIn(playingView.getQuitButtonView(), e))
+                        System.exit(0);
+                }
+            }
             case LEVEL_EDITOR -> {
                 checkClicks(e);
                 checkEditedTiles(e);
@@ -226,6 +236,14 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     @Override
     public void mouseMoved(MouseEvent e) {
         switch (Gamestate.state) {
+
+            case PLAYING -> {
+                if(PlayerModel.getInstance().isGameOver()){
+                    if(isIn(playingView.getQuitButtonView(), e))
+                        playingView.getQuitButtonView().getButtonModel().setHover(true);
+                }
+            }
+
             case LEVEL_EDITOR -> {
                 if (isIn(levelEditorView.getSaveButtonView(), e)) {
                     setSaveButtonHover(true);

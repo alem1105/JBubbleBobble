@@ -1,6 +1,6 @@
-package view.ui;
+package view.ui.buttons;
 
-import model.ui.ChangeLvlButtonModel;
+import model.ui.buttons.ChangeLvlButtonModel;
 import view.utilz.LoadSave;
 
 import java.awt.*;
@@ -27,7 +27,7 @@ public class ChangeLvlButtonView extends CustomButtonView<ChangeLvlButtonModel> 
 
     @Override
     protected void loadSprites() {
-        sprites = LoadSave.loadAnimations(LoadSave.CHANGE_LVL_BUTTON, 1, 3);
+        sprites = LoadSave.loadAnimations(LoadSave.CHANGE_LVL_BUTTON, 1, 3, 18);
     }
 
     @Override

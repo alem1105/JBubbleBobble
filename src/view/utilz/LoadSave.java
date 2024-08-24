@@ -22,6 +22,8 @@ public class LoadSave {
     public static final String PLAYER_BUTTON = "ui/player_button.png";
     public static final String CHANGE_LVL_BUTTON = "ui/change_lvl_button.png";
     public static final String EDIT_BUTTON = "ui/edit_button.png";
+    public static final String HEART_LIFE_BUTTON = "ui/life.png";
+    public static final String QUIT_BUTTON = "ui/restart_button.png";
 
 
     public static Font CUSTOM_FONT;
@@ -45,12 +47,12 @@ public class LoadSave {
         return img;
     }
 
-    public static BufferedImage[][] loadAnimations(String path, int rowIndex, int colIndex) {
+    public static BufferedImage[][] loadAnimations(String path, int rowIndex, int colIndex, int side) {
         BufferedImage img = LoadSave.GetSpriteAtlas(path);
         BufferedImage[][] animations = new BufferedImage[rowIndex][colIndex];
         for (int i = 0; i < rowIndex; i++) {
             for (int j = 0; j < colIndex; j++) {
-                animations[i][j] = img.getSubimage(j * 18, i * 18, 18, 18);
+                animations[i][j] = img.getSubimage(j * side, i * side, side, side);
             }
         }
         return animations;

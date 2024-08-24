@@ -1,8 +1,4 @@
-package model.ui;
-
-import model.utilz.Constants.Directions;
-
-import javax.swing.*;
+package model.ui.buttons;
 
 public class ChangeLvlButtonModel extends CustomButtonModel {
 

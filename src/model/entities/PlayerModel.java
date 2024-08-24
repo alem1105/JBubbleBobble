@@ -18,6 +18,11 @@ public class PlayerModel extends EntityModel {
     // Gravity
     private float jumpSpeed = -2.25f * SCALE;
 
+    private int lives = 3;
+
+    // segnala che ha perso tutte le vite
+    private boolean gameOver = false;
+
     public static PlayerModel getInstance() {
         if (instance == null) {
             instance = new PlayerModel(100, 100, (int) (18 * SCALE), (int) (18 * SCALE));
@@ -33,17 +38,23 @@ public class PlayerModel extends EntityModel {
         initHitbox(13, 14);
     }
 
+    public void playerHasBeenHit() {
+        lives--;
+        playerAction = DEATH;
+    }
+
     public void update() {
         updatePos();
         setPlayerAction();
-        updatePlayerAction();
+        if(lives <= 0)
+            gameOver = true;
     }
 
     private void setPlayerAction() {
         int startAni = playerAction;
 
         if (moving) playerAction = RUNNING;
-        else playerAction = IDLE;
+        else if( playerAction != DEATH) playerAction = IDLE;
 
         if (inAir) {
             if (airSpeed < 0) playerAction = JUMP;
@@ -114,21 +125,6 @@ public class PlayerModel extends EntityModel {
         return false;
     }
 
-    private void updatePlayerAction() {
-        int startAni = playerAction;
-
-        if (moving) playerAction = RUNNING;
-        else playerAction = IDLE;
-
-        if (inAir) {
-            if (airSpeed < 0) playerAction = JUMP;
-            else playerAction = FALL;
-        }
-
-        if (startAni != playerAction) resetAniTick = true;
-    }
-
-
     private void jump() {
         if (inAir)
             return;
@@ -164,4 +160,15 @@ public class PlayerModel extends EntityModel {
         this.jump = jump;
     }
 
+    public void setPlayerAction(int playerAction) {
+        this.playerAction = playerAction;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public boolean isGameOver(){
+        return gameOver;
+    }
 }

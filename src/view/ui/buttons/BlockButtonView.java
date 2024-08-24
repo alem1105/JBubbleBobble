@@ -1,6 +1,6 @@
-package view.ui;
+package view.ui.buttons;
 
-import model.ui.BlockButtonModel;
+import model.ui.buttons.BlockButtonModel;
 import view.stateview.LevelEditorView;
 
 import java.awt.*;

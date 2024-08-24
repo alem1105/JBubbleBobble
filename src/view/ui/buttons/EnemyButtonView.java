@@ -1,6 +1,6 @@
-package view.ui;
+package view.ui.buttons;
 
-import model.ui.EnemyButtonModel;
+import model.ui.buttons.EnemyButtonModel;
 import view.stateview.LevelEditorView;
 
 import java.awt.*;

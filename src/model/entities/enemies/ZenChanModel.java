@@ -39,7 +39,6 @@ public class ZenChanModel extends EnemyModel{
                 hitbox.y -= 1.5F;
             } else {
                 goingUp = false;
-                dirChangedTimes = 0;
             }
         }
     }

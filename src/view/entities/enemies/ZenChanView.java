@@ -16,7 +16,7 @@ public class ZenChanView extends EnemyView {
 
     public ZenChanView(ZenChanModel zenChan) {
         super(zenChan);
-        animations = loadAnimations(LoadSave.ZEN_CHAN_SPRITE, ROW_INDEX, COL_INDEX);
+        animations = loadAnimations(LoadSave.ZEN_CHAN_SPRITE, ROW_INDEX, COL_INDEX, 18);
         xDrawOffset = (int) (1 * Constants.GameConstants.SCALE);
         yDrawOffset = (int) (1 * Constants.GameConstants.SCALE);
     }

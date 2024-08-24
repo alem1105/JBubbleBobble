@@ -3,6 +3,8 @@ package model.gamestate;
 import model.entities.PlayerModel;
 import model.entities.enemies.EnemyManagerModel;
 
+import static model.utilz.Constants.PlayerConstants.DEATH;
+
 public class Playing {
 
     private PlayerModel player;
@@ -22,8 +24,11 @@ public class Playing {
     }
 
     public void update() {
-        player.update();
-        enemyManagerModel.update();
+        if (!(player.isGameOver())) {
+            if (player.getPlayerAction() != DEATH)
+                player.update();
+            enemyManagerModel.update();
+        }
     }
 
     public PlayerModel getPlayer() {

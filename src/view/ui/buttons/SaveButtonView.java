@@ -1,10 +1,7 @@
-package view.ui;
+package view.ui.buttons;
 
-import model.ui.CustomButtonModel;
-import model.ui.SaveButtonModel;
+import model.ui.buttons.SaveButtonModel;
 import view.utilz.LoadSave;
-
-import java.awt.*;
 
 public class SaveButtonView extends CustomButtonView<SaveButtonModel> {
 
@@ -14,7 +11,7 @@ public class SaveButtonView extends CustomButtonView<SaveButtonModel> {
 
     @Override
     protected void loadSprites() {
-        sprites = LoadSave.loadAnimations(LoadSave.SAVE_BUTTON, 1, 3);
+        sprites = LoadSave.loadAnimations(LoadSave.SAVE_BUTTON, 1, 3, 18);
     }
 
 }

@@ -1,6 +1,4 @@
-package model.ui;
-
-import model.LevelManager;
+package model.ui.buttons;
 
 import javax.imageio.ImageIO;
 

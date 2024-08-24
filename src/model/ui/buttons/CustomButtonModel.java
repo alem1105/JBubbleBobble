@@ -1,6 +1,4 @@
-package model.ui;
-
-import view.ui.CustomButtonView;
+package model.ui.buttons;
 
 import java.awt.geom.Rectangle2D;
 
