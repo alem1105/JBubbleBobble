@@ -1,5 +1,6 @@
 package view.entities;
 
+import model.LevelManager;
 import model.entities.PlayerModel;
 import view.utilz.LoadSave;
 
@@ -67,8 +68,12 @@ public class PlayerView {
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= getSpriteAmount(playerModel.getPlayerAction())) {
-                if (playerModel.getPlayerAction() == DEATH)
+                if (playerModel.getPlayerAction() == DEATH) {
                     playerModel.setPlayerAction(IDLE);
+                    playerModel.getHitbox().x = getPlayerSpawn().x;
+                    playerModel.getHitbox().y = getPlayerSpawn().y;
+                    playerModel.setInAir(true);
+                }
                 aniIndex = 0;
             }
         }
@@ -92,5 +97,9 @@ public class PlayerView {
 
     public PlayerModel getPlayerModel() {
         return playerModel;
+    }
+
+    public Point getPlayerSpawn() {
+        return playerModel.getLevelManager().getLevels().get(playerModel.getLevelManager().getLvlIndex()).getPlayerSpawn();
     }
 }
