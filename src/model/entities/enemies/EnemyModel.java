@@ -25,7 +25,6 @@ public abstract class EnemyModel extends EntityModel {
     //protected float fallSpeed;
     protected int walkDir = RIGHT;
     protected float walkSpeed;
-    protected int dirChangedTimes = 0;
     protected boolean goingUp = false;
     protected int targetYTile;
     private int upTick;
@@ -48,21 +47,28 @@ public abstract class EnemyModel extends EntityModel {
         }
     }
 
+    // TODO RIMUOVERE
+    protected boolean checkUpSolidTEST(int[][] lvlData) { // controlla se sopra il nemico si ha una tile su cui saltare
+        int currentTileY = (int) (hitbox.y / TILES_SIZE);
+        int currentTileX = (int) (hitbox.x / TILES_SIZE);
+
+
+        if (currentTileY - 2 >= 0) {
+            if (IsTileSolid(currentTileY - 2, currentTileX, lvlData)) {
+                targetYTile = currentTileY - 4;
+                return true;
+            } else if (IsTileSolid(currentTileY - 1, currentTileX, lvlData)) {
+                targetYTile = currentTileY - 3;
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected boolean checkThreeYTilesSolid(int yTile, int xTile, int[][] lvldata) {
         if (xTile - 2 >= 0 && yTile -2 >= 0 && xTile + 1 >= 0)
             return IsTileSolid(xTile - 2, yTile, lvldata) && IsTileSolid(xTile, yTile, lvldata) && IsTileSolid(xTile + 1, yTile, lvldata);
         return false;
-    }
-
-    protected void updateUpTick() {
-        Random random = new Random();
-        int upTickSpeed = 400 + random.nextInt(701); // 701 rappresenta 1000 - 300 + 1
-        upTick++;
-        if (upTick >= upTickSpeed) {
-            upTick = 0;
-            if (checkUpSolid(getLvlData()))
-                goingUp = true;
-        }
     }
 
     public int getEnemyType() {

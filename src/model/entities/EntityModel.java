@@ -102,6 +102,14 @@ public abstract class EntityModel {
     public LevelManager getLevelManager() {
         return LevelManager.getInstance();
     }
+
+    public boolean isInAir() {
+        return inAir;
+    }
+
+    public void setInAir(boolean inAir) {
+        this.inAir = inAir;
+    }
 }
 
 
