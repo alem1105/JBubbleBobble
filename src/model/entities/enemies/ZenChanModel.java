@@ -47,12 +47,13 @@ public class ZenChanModel extends EnemyModel{
             walkWithSameY();
         } else {// significa che sono su y diverse
             // se il player è sopra rispetto al nemico dobbiamo andare verso sopra
-            if((int) (PlayerModel.getInstance().getHitbox().y / TILES_SIZE) <= (int) (hitbox.y / TILES_SIZE)) {
+            if((int) (PlayerModel.getInstance().getHitbox().y / TILES_SIZE) <= (int) (hitbox.y / TILES_SIZE) && !inAir) {
                 // se sopra abbiamo almeno 3 tile percorribili e il player non è in aria allora saliamo, altrimenti camminiamo per trovare tile sopra di noi
                 if(checkUpSolid(getLvlData()) && !(PlayerModel.getInstance().isInAir()))
                     goingUp = true;
-                else
+                else {
                     walkWithDifferentY();
+                }
             } // se il player è sotto di noi, camminiamo fino a quando cadremo e lo troveremo con gli altri metodi
             else if ((int) (PlayerModel.getInstance().getHitbox().y / TILES_SIZE) >= (int) (hitbox.y / TILES_SIZE)){
                 walkWithDifferentY();
