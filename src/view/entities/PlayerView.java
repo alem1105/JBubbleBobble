@@ -14,7 +14,7 @@ import static model.utilz.Constants.GameConstants.ANI_SPEED;
 public class PlayerView {
 
     private static final int ROW_INDEX = 6;
-    private static final int COL_INDEX = 4;
+    private static final int COL_INDEX = 6;
 
     private int aniTick, aniIndex;
     private PlayerModel playerModel;
@@ -81,7 +81,7 @@ public class PlayerView {
 
     public int getSpriteAmount(int player_action) {
         return switch (player_action) {
-            case DEATH -> 4;
+            case DEATH -> 6;
             case JUMP, FALL, IDLE, RUNNING -> 2;
             default -> 1; // Comprende anche Attack
         };

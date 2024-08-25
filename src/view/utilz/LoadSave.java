@@ -11,7 +11,7 @@ import static model.utilz.Constants.GameConstants.SCALE;
 
 public class LoadSave {
 
-    public static final String PLAYER_SPRITE = "player_sprite.png";
+    public static final String PLAYER_SPRITE = "player_sprites.png";
     public static final String LEVEL_SPRITE = "level_sprite.png";
     public static final String ICON = "icon.png";
     public static final String ZEN_CHAN_SPRITE = "enemies/zen_chan_sprite.png";
