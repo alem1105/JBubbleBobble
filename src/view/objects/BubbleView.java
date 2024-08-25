@@ -37,7 +37,6 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView {
             aniIndex++;
             if (aniIndex >= getSpriteAmount()) {
                 aniIndex = 0;
-                // aggiungere reset ani tick
             }
         }
     }
@@ -63,5 +62,10 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView {
                 spriteIndex = 1;
             }
         }
+    }
+
+    protected void resetAniTick(){
+        aniTick= 0;
+        aniIndex = 0;
     }
 }

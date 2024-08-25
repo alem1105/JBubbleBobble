@@ -18,15 +18,25 @@ public class BobBubbleView extends BubbleView<BobBubbleModel> {
         if (bubbleState == BUBBLE_EXPLODING && aniIndex == 1)
             return;
 
-        if (!bubbleModel.isActive())
-            bubbleState = BUBBLE_EXPLODING;
-
-        if (bubbleState == BUBBLE_SPAWNING && aniIndex == 2)
-            bubbleState = BUBBLE_SPAWNED;
-
+        updateBubbleState();
         setSpriteIndex();
         updateAnimationTick();
     }
+
+    private void updateBubbleState(){
+        int currentState = bubbleState;
+
+        if (!bubbleModel.isActive()) {
+            bubbleState = BUBBLE_EXPLODING;
+        }
+        else if (bubbleState == BUBBLE_SPAWNING && aniIndex == 2){
+            bubbleState = BUBBLE_SPAWNED;
+        }
+
+        if (bubbleState != currentState)
+            resetAniTick();
+    }
+
 
     @Override
     protected int getSpriteAmount(){
