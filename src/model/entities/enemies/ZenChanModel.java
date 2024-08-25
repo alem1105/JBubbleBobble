@@ -19,7 +19,6 @@ public class ZenChanModel extends EnemyModel{
 
     public void update() {
         updatePos();
-        //updateUpTick();
         updateEnemyState();
     }
 
@@ -66,10 +65,7 @@ public class ZenChanModel extends EnemyModel{
     private void walkWithDifferentY() {
         if (CanMoveHere(hitbox.x + walkSpeed, hitbox.y, hitbox.width, hitbox.height, getLvlData())) {
             hitbox.x += walkSpeed;
-            if(walkSpeed >= 0)
-                walkDir = RIGHT;
-            else
-                walkDir = LEFT;
+            checkDirectionForEnemy();
         }
         else {
             hitbox.x = GetEntityXPosNextToWall(hitbox, walkSpeed);
@@ -83,14 +79,21 @@ public class ZenChanModel extends EnemyModel{
         }
     }
 
+    private void checkDirectionForEnemy() {
+        if(walkSpeed >= 0)
+            walkDir = RIGHT;
+        else
+            walkDir = LEFT;
+    }
+
     // se sono sulla stessa riga, il nemico si muove solo orizzontalmente cercando di raggiungere il player
     private void walkWithSameY() {
         // player a sinistra del nemico
         if((int) (PlayerModel.getInstance().getHitbox().x / TILES_SIZE) < (int) (hitbox.x / TILES_SIZE)) {
             // se ci possiamo muovere a sinistra lo facciamo, altrimenti abbiamo sbattuto al bordo e dobbiamo cambiare direzione
             if (CanMoveHere(hitbox.x - walkSpeed, hitbox.y, hitbox.width, hitbox.height, getLvlData())) {
-                hitbox.x -= Math.abs(walkSpeed);
-                walkDir = LEFT;
+                hitbox.x += walkSpeed;
+                checkDirectionForEnemy();
             } else
                 changeDirAfterHitBorder();
         }
@@ -98,8 +101,8 @@ public class ZenChanModel extends EnemyModel{
         else if((int) (PlayerModel.getInstance().getHitbox().x / TILES_SIZE) > (int) (hitbox.x / TILES_SIZE)) {
             // se ci possiamo muovere a destra lo facciamo, altrimenti abbiamo sbattuto al bordo e dobbiamo cambiare direzione
             if (CanMoveHere(hitbox.x + walkSpeed, hitbox.y, hitbox.width, hitbox.height, getLvlData())) {
-                hitbox.x += Math.abs(walkSpeed);
-                walkDir = RIGHT;
+                hitbox.x += walkSpeed;
+                checkDirectionForEnemy();
             }else
                 changeDirAfterHitBorder();
         }
