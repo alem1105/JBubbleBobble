@@ -5,6 +5,7 @@ import model.ui.buttons.QuitButtonModel;
 import view.LevelView;
 import view.entities.PlayerView;
 import view.entities.enemies.EnemiesManagerView;
+import view.objects.BubbleManagerView;
 import view.ui.DeathScreenView;
 import view.ui.buttons.QuitButtonView;
 import view.utilz.LoadSave;
@@ -20,10 +21,9 @@ public class PlayingView {
     private LevelView levelView;
     private EnemiesManagerView enemiesManagerView;
     private DeathScreenView deathScreenView;
-
     private QuitButtonView quitButtonView;
-
     private BufferedImage heartLifeImage;
+    private BubbleManagerView bubbleManagerView;
 
     public PlayingView() {
         initViews();
@@ -36,12 +36,14 @@ public class PlayingView {
         levelView = new LevelView();
         enemiesManagerView = new EnemiesManagerView();
         deathScreenView = new DeathScreenView();
+        bubbleManagerView = BubbleManagerView.getInstance();
     }
 
     public void render(Graphics g) {
         levelView.render(g);
         enemiesManagerView.render(g);
         playerView.render(g);
+        bubbleManagerView.draw(g);
         drawLifeHearts(g);
         if(playerView.getPlayerModel().isGameOver()) {
             deathScreenView.render(g);
@@ -52,6 +54,7 @@ public class PlayingView {
     public void update(){
         if(!(playerView.getPlayerModel().isGameOver())) {
             playerView.update();
+            bubbleManagerView.update();
             enemiesManagerView.update();
         }
         else {

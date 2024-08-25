@@ -1,7 +1,14 @@
 package model.entities;
 
+import model.objects.BobBubbleModel;
+import model.objects.BubbleManagerModel;
 import model.utilz.Constants;
 
+import java.sql.SQLOutput;
+
+import static model.utilz.Constants.CustomObjects.BUBBLE_SIZE;
+import static model.utilz.Constants.Directions.LEFT;
+import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.GameConstants.SCALE;
 import static model.utilz.Constants.PlayerConstants.*;
 import static model.utilz.Gravity.*;
@@ -23,6 +30,11 @@ public class PlayerModel extends EntityModel {
     // segnala che ha perso tutte le vite
     private boolean gameOver = false;
 
+    private boolean attack, attackingClick;
+    private int facing = RIGHT;
+
+    private BubbleManagerModel bubbleManagerModel = BubbleManagerModel.getInstance();
+
     public static PlayerModel getInstance() {
         if (instance == null) {
             instance = new PlayerModel(100, 100, (int) (18 * SCALE), (int) (18 * SCALE));
@@ -32,19 +44,30 @@ public class PlayerModel extends EntityModel {
 
     private PlayerModel(float x, float y, int width, int height) {
         super(x, y, width, height);
-        //getLevelManager() = getLevelManager().getInstance();
         this.x = getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getPlayerSpawn().x;
         this.y = getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getPlayerSpawn().y;
         initHitbox(13, 14);
     }
+
 
     public void playerHasBeenHit() {
         lives--;
         playerAction = DEATH;
     }
 
+    private void checkAttack() {
+        if (attack && !attackingClick) {
+            attackingClick = true;
+            float bubbleX = hitbox.x;
+            if (right)
+                bubbleX += hitbox.width;
+            bubbleManagerModel.addBobBubbles(new BobBubbleModel(bubbleX, hitbox.y, BUBBLE_SIZE, BUBBLE_SIZE, facing));
+        }
+    }
+
     public void update() {
         updatePos();
+        checkAttack();
         setPlayerAction();
         if(lives <= 0)
             gameOver = true;
@@ -53,12 +76,19 @@ public class PlayerModel extends EntityModel {
     private void setPlayerAction() {
         int startAni = playerAction;
 
-        if (moving) playerAction = RUNNING;
-        else if( playerAction != DEATH) playerAction = IDLE;
+        if (attack) {
+            playerAction = ATTACK;
+        }
+        else {
+            if (moving)
+                playerAction = RUNNING;
+            else if (playerAction != DEATH)
+                playerAction = IDLE;
 
-        if (inAir) {
-            if (airSpeed < 0) playerAction = JUMP;
-            else playerAction = FALL;
+            if (inAir) {
+                if (airSpeed < 0) playerAction = JUMP;
+                else playerAction = FALL;
+            }
         }
 
         if (startAni != playerAction)
@@ -83,9 +113,11 @@ public class PlayerModel extends EntityModel {
         float xSpeed = 0;
 
         if (left) {
+            facing = LEFT;
             xSpeed -= playerSpeed;
         }
         if (right) {
+            facing = RIGHT;
             xSpeed += playerSpeed;
         }
 
@@ -171,4 +203,17 @@ public class PlayerModel extends EntityModel {
     public boolean isGameOver(){
         return gameOver;
     }
+
+    public void setAttack(boolean attack) {
+        this.attack = attack;
+    }
+
+    public boolean isAttack() {
+        return attack;
+    }
+
+    public void setAttackingClick(boolean attackingClick) {
+        this.attackingClick = attackingClick;
+    }
+
 }

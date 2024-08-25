@@ -24,6 +24,7 @@ public class LoadSave {
     public static final String EDIT_BUTTON = "ui/edit_button.png";
     public static final String HEART_LIFE_BUTTON = "ui/life.png";
     public static final String QUIT_BUTTON = "ui/restart_button.png";
+    public static final String BOB_BUBBLE_SPRITE = "objects/bubbles/bubble_sprites.png";
 
 
     public static Font CUSTOM_FONT;

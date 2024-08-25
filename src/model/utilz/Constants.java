@@ -54,4 +54,14 @@ public class Constants {
         public static final int ZEN_CHAN_HEIGHT = (int) (ZEN_CHAN_DEFAULT_HEIGHT * GameConstants.SCALE);
 
     }
+
+    public static class CustomObjects {
+
+        public static final int BUBBLE_SPAWNING = 0;
+        public static final int BUBBLE_SPAWNED = 1;
+        public static final int BUBBLE_EXPLODING = 2;
+
+        public static final int BUBBLE_SIZE = (int) (16 * GameConstants.SCALE);
+
+    }
 }

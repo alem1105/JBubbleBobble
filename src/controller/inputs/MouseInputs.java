@@ -14,6 +14,7 @@ import view.ui.buttons.CustomButtonView;
 import view.ui.buttons.EnemyButtonView;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -40,6 +41,15 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        switch (Gamestate.state) {
+            case PLAYING -> {
+                switch(e.getButton()) {
+                    case MouseEvent.BUTTON1 -> {
+                        PlayerModel.getInstance().setAttack(true);
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -205,6 +215,9 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         switch (Gamestate.state) {
+            case PLAYING -> {
+                PlayerModel.getInstance().setAttack(false);
+            }
             case LEVEL_EDITOR -> {
                 setXButtonPressed(false);
                 setSaveButtonPressed(false);
