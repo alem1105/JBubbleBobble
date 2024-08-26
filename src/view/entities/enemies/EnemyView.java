@@ -18,12 +18,9 @@ public abstract class EnemyView {
     protected BufferedImage[][] animations;
     protected EnemyModel enemy;
     protected int flipW, flipX;
-    protected int exploding = 0;
-    protected BufferedImage[] explodingImage;
 
     public EnemyView(EnemyModel enemy) {
         this.enemy = enemy;
-        explodingImage = loadAnimations(EXPLODING_SPRITE, 1, 2, 16, 16)[0];
     }
 
     public void update() {

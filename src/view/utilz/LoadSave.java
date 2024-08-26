@@ -17,7 +17,6 @@ public class LoadSave {
 
 
     public static final String ZEN_CHAN_SPRITE = "enemies/zen_chan_sprite.png";
-    public static final String EXPLODING_SPRITE = "enemies/exploding.png";
 
 
     public static final String SAVE_BUTTON = "ui/save_button.png";
