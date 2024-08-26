@@ -84,6 +84,7 @@ public class PlayerModel extends EntityModel {
             invincibleTick++;
             if(invincibleTick >= invincibleDuration) {
                 invincible = false;
+                invincibleTick = 0;
             }
         }else {
             System.out.println("---------------------");

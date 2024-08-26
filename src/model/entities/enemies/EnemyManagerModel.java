@@ -34,10 +34,8 @@ public class EnemyManagerModel {
         for (ZenChanModel zenChan : zenChans) {
             zenChan.update();
             if (zenChan.getHitbox().intersects(getPlayerModel().getHitbox())) {
-                getPlayerModel().setInvincible(true);
                 if (getPlayerModel().getPlayerAction() != DEATH) {
                     getPlayerModel().playerHasBeenHit();
-                    getPlayerModel().setInvincible(true);
                 }
             }
         }
