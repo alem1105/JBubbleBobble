@@ -11,7 +11,7 @@ public class XButtonView extends CustomButtonView<XButtonModel> {
 
     @Override
     protected void loadSprites() {
-        sprites = LoadSave.loadAnimations(LoadSave.X_BUTTON, 1, 3, 18);
+        sprites = LoadSave.loadAnimations(LoadSave.X_BUTTON, 1, 3, 18, 18);
     }
 
 }

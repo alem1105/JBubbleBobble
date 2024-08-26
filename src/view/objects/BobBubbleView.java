@@ -10,7 +10,7 @@ public class BobBubbleView extends BubbleView<BobBubbleModel> {
 
     public BobBubbleView(BobBubbleModel model) {
         super(model);
-        sprites = loadAnimations(BOB_BUBBLE_SPRITE, 3, 3, 16);
+        sprites = loadAnimations(BOB_BUBBLE_SPRITE, 3, 3, 16, 16);
         bubbleState = BUBBLE_SPAWNING;
     }
 

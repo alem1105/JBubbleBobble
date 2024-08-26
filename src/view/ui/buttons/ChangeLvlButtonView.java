@@ -27,7 +27,7 @@ public class ChangeLvlButtonView extends CustomButtonView<ChangeLvlButtonModel> 
 
     @Override
     protected void loadSprites() {
-        sprites = LoadSave.loadAnimations(LoadSave.CHANGE_LVL_BUTTON, 1, 3, 18);
+        sprites = LoadSave.loadAnimations(LoadSave.CHANGE_LVL_BUTTON, 1, 3, 18, 18);
     }
 
     @Override

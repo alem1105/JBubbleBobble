@@ -21,21 +21,19 @@ public class PlayingView {
     private LevelView levelView;
     private EnemiesManagerView enemiesManagerView;
     private DeathScreenView deathScreenView;
-    private QuitButtonView quitButtonView;
     private BufferedImage heartLifeImage;
     private BubbleManagerView bubbleManagerView;
 
     public PlayingView() {
         initViews();
         heartLifeImage = LoadSave.GetSpriteAtlas(LoadSave.HEART_LIFE_BUTTON);
-        quitButtonView = new QuitButtonView(new QuitButtonModel(150, 100, 100, 50));
     }
 
     private void initViews() {
         playerView = new PlayerView(PlayerModel.getInstance());
         levelView = new LevelView();
         enemiesManagerView = new EnemiesManagerView();
-        deathScreenView = new DeathScreenView();
+        deathScreenView = DeathScreenView.getInstance();
         bubbleManagerView = BubbleManagerView.getInstance();
     }
 
@@ -47,7 +45,6 @@ public class PlayingView {
         drawLifeHearts(g);
         if(playerView.getPlayerModel().isGameOver()) {
             deathScreenView.render(g);
-            quitButtonView.draw(g);
         }
     }
 
@@ -58,17 +55,13 @@ public class PlayingView {
             enemiesManagerView.update();
         }
         else {
-            quitButtonView.update();
+            deathScreenView.update();
         }
     }
 
     private void drawLifeHearts(Graphics g) {
         for(int live = 0; live < playerView.getPlayerModel().getLives(); live++)
             g.drawImage(heartLifeImage, live * TILES_SIZE, GAME_HEIGHT - TILES_SIZE, TILES_SIZE, TILES_SIZE, null);
-    }
-
-    public QuitButtonView getQuitButtonView() {
-        return quitButtonView;
     }
 
 }

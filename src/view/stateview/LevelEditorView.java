@@ -74,7 +74,7 @@ public class LevelEditorView {
     }
 
     private void initEnemyButtons() {
-        BufferedImage[][] enemiesImagesMatrix = LoadSave.loadAnimations(LoadSave.ENEMIES_BUTTON, 1, 6, 18);
+        BufferedImage[][] enemiesImagesMatrix = LoadSave.loadAnimations(LoadSave.ENEMIES_BUTTON, 1, 6, 18, 18);
         enemiesImages = enemiesImagesMatrix[0];
         enemies = new EnemyButtonView[6];
         int y = 0;

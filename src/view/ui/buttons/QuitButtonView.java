@@ -11,7 +11,7 @@ public class QuitButtonView extends CustomButtonView<QuitButtonModel> {
 
     @Override
     protected void loadSprites() {
-        sprites = LoadSave.loadAnimations(LoadSave.QUIT_BUTTON, 1, 3, 43);
+        sprites = LoadSave.loadAnimations(LoadSave.QUIT_BUTTON, 1, 3, 47, 14);
     }
 }
 

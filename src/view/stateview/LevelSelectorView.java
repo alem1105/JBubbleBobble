@@ -47,10 +47,10 @@ public class LevelSelectorView {
                 LEFT));
 
         editButtonView = new EditButtonView(new EditButtonModel(
-                (levelEditorView.getLevelWidth() / 2 ) - (int)(30 * SCALE),
+                (levelEditorView.getLevelWidth() / 2 ) - (int)(52.5 * SCALE),
                 levelEditorView.getLevelHeight() + ((GAME_HEIGHT - levelEditorView.getLevelHeight()) / 2) - (int)(30 * SCALE),
-                (int) (60 * SCALE),
-                (int) (50 * SCALE)
+                (int) (105 * SCALE),
+                (int) (42 * SCALE)
         ));
     }
 

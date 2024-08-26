@@ -15,6 +15,6 @@ public class EditButtonView extends CustomButtonView<EditButtonModel> {
 
     @Override
     protected void loadSprites() {
-        sprites = LoadSave.loadAnimations(LoadSave.EDIT_BUTTON, 1, 3, 18);
+        sprites = LoadSave.loadAnimations(LoadSave.EDIT_BUTTON, 1, 3, 35, 14);
     }
 }

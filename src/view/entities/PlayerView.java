@@ -28,7 +28,7 @@ public class PlayerView {
 
     public PlayerView(PlayerModel playerModel) {
         this.playerModel = playerModel;
-        animations = LoadSave.loadAnimations(LoadSave.PLAYER_SPRITE, ROW_INDEX, COL_INDEX, 18);
+        animations = LoadSave.loadAnimations(LoadSave.PLAYER_SPRITE, ROW_INDEX, COL_INDEX, 18, 18);
     }
 
     public void update() {

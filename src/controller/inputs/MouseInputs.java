@@ -9,6 +9,7 @@ import view.entities.PlayerView;
 import view.stateview.LevelEditorView;
 import view.stateview.LevelSelectorView;
 import view.stateview.PlayingView;
+import view.ui.DeathScreenView;
 import view.ui.buttons.BlockButtonView;
 import view.ui.buttons.CustomButtonView;
 import view.ui.buttons.EnemyButtonView;
@@ -31,12 +32,14 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     private LevelManager levelManager;
     private LevelSelectorView levelSelectorView;
     private PlayingView playingView;
+    private DeathScreenView deathScreenView;
 
     public MouseInputs(){
         this.levelEditorView = LevelEditorView.getInstance();
         this.levelManager = LevelManager.getInstance();
         this.levelSelectorView = LevelSelectorView.getInstance();
         this.playingView = new PlayingView();
+        this.deathScreenView = DeathScreenView.getInstance();
     }
 
     @Override
@@ -57,7 +60,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
         switch (Gamestate.state) {
             case PLAYING -> {
                 if(PlayerModel.getInstance().isGameOver()){
-                    if(isIn(playingView.getQuitButtonView(), e))
+                    if(isIn(deathScreenView.getQuitButtonView(), e))
                         System.exit(0);
                 }
             }
@@ -252,8 +255,16 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
 
             case PLAYING -> {
                 if(PlayerModel.getInstance().isGameOver()){
-                    if(isIn(playingView.getQuitButtonView(), e))
-                        playingView.getQuitButtonView().getButtonModel().setHover(true);
+                    if(isIn(deathScreenView.getQuitButtonView(), e))
+                        deathScreenView.getQuitButtonView().getButtonModel().setHover(true);
+                    else {
+                        deathScreenView.getQuitButtonView().getButtonModel().setHover(false);
+                    }
+                    if(isIn(deathScreenView.getRestartButtonView(), e))
+                        deathScreenView.getRestartButtonView().getButtonModel().setHover(true);
+                    else {
+                        deathScreenView.getRestartButtonView().getButtonModel().setHover(false);
+                    }
                 }
             }
 
