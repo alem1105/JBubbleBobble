@@ -142,10 +142,9 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                 if(isIn(levelSelectorView.getEditButtonView(), e)){
                     if(getEditButton().isPressed()){
                         Gamestate.state = Gamestate.LEVEL_EDITOR;
-                        setEditButtonPressed(false);
                     }
                 }
-
+                setEditButtonPressed(false);
             }
         }
     }
@@ -289,6 +288,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
             setXButtonPressed(true);
             levelEditorView.getXButtonView().getButtonModel().isClicked();
             Gamestate.state = Gamestate.MENU;
+            setXButtonPressed(false);
         }
 
         if (isIn(levelEditorView.getEraserButtonView(), e)) {
