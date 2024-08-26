@@ -34,18 +34,20 @@ public class BobBubbleModel extends BubbleModel {
     }
 
     private void firstShotMovement() {
-            if (bubbleDirection == RIGHT) {
-                if (CanMoveHere(hitbox.x + bubbleSpeed, y, width, height, UtilityMethods.getLvlData()))
-                    hitbox.x += bubbleSpeed;
-                else
-                    hitbox.x = GetEntityXPosNextToWall(hitbox, bubbleSpeed);
-            }else {
-                if (CanMoveHere(hitbox.x - bubbleSpeed, y, width, height, UtilityMethods.getLvlData()))
-                    hitbox.x -= bubbleSpeed;
-                else
-                    hitbox.x = GetEntityXPosNextToWall(hitbox, bubbleSpeed);
+        if (bubbleDirection == RIGHT) {
+            if (CanMoveHere(hitbox.x + bubbleSpeed, y, width, height, UtilityMethods.getLvlData()))
+                hitbox.x += bubbleSpeed;
+            else {
+                hitbox.x = GetEntityXPosNextToWall(hitbox, bubbleSpeed);
+                System.out.println("blocco");
             }
-            projectileTravelTimes++;
+        } else {
+            if (CanMoveHere(hitbox.x - bubbleSpeed, y, width, height, UtilityMethods.getLvlData()))
+                hitbox.x -= bubbleSpeed;
+            else
+                hitbox.x = GetEntityXPosNextToWall(hitbox, bubbleSpeed);
+        }
+        projectileTravelTimes++;
     }
 
     private void changeDir() {

@@ -30,6 +30,13 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView {
                 null);
     }
 
+    public void drawHitbox(Graphics g){
+        g.setColor(Color.PINK);
+        g.drawRect((int) (bubbleModel.getHitbox().x), (int) (bubbleModel.getHitbox().y),
+                (int) bubbleModel.getHitbox().width,
+                (int) bubbleModel.getHitbox().height);
+    }
+
     protected void updateAnimationTick() {
         aniTick++;
         if (aniTick >= ANI_SPEED) {

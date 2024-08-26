@@ -56,7 +56,6 @@ public class PlayerView {
     }
 
     public void render(Graphics g) {
-        System.out.println(playerModel.getPlayerAction());
         g.drawImage(animations[playerModel.getPlayerAction()][aniIndex],
                 (int) (playerModel.getHitbox().x - xDrawOffset) + flipX, (int) (playerModel.getHitbox().y - yDrawOffset),
                 playerModel.getWidth() * flipW, playerModel.getHeight(), null);

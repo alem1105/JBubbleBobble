@@ -10,6 +10,7 @@ import static model.utilz.Constants.CustomObjects.BUBBLE_SIZE;
 import static model.utilz.Constants.Directions.LEFT;
 import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.GameConstants.SCALE;
+import static model.utilz.Constants.GameConstants.TILES_SIZE;
 import static model.utilz.Constants.PlayerConstants.*;
 import static model.utilz.Gravity.*;
 
@@ -61,7 +62,7 @@ public class PlayerModel extends EntityModel {
             float bubbleX = hitbox.x;
             if (right)
                 bubbleX += hitbox.width;
-            bubbleManagerModel.addBobBubbles(new BobBubbleModel(bubbleX, hitbox.y, BUBBLE_SIZE, BUBBLE_SIZE, facing));
+            bubbleManagerModel.addBobBubbles(new BobBubbleModel(bubbleX, hitbox.y - (BUBBLE_SIZE - hitbox.height), BUBBLE_SIZE, BUBBLE_SIZE, facing));
         }
     }
 
