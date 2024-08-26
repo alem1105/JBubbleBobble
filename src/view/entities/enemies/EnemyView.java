@@ -18,7 +18,7 @@ public abstract class EnemyView {
     protected BufferedImage[][] animations;
     protected EnemyModel enemy;
     protected int flipW, flipX;
-    protected boolean exploding = true;
+    protected int exploding = 0;
     protected BufferedImage[] explodingImage;
 
     public EnemyView(EnemyModel enemy) {
@@ -38,8 +38,17 @@ public abstract class EnemyView {
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= getSpriteAmount()) {
-                aniIndex = 0;
+                if (enemy.getEnemyState() == DEAD){
+                    aniIndex = 6;
+                } else {
+                    aniIndex = 0;
+                }
             }
+        }
+        if (enemy.isResetAniTick()){
+            aniIndex = 0;
+            aniTick = 0;
+            enemy.setResetAniTick(false);
         }
     }
 
@@ -68,7 +77,11 @@ public abstract class EnemyView {
 
     protected abstract int getSpriteAmount();
 
-    protected abstract void render(Graphics g);
+    public void render(Graphics g) {
+        g.drawImage(animations[enemy.getEnemyState()][aniIndex],
+                (int) (enemy.getHitbox().x - xDrawOffset) + flipX, (int) (enemy.getHitbox().y - yDrawOffset),
+                enemy.getWidth() * flipW, enemy.getHeight(), null);
+    }
 
     public EnemyModel getEnemy(){
         return enemy;

@@ -19,15 +19,17 @@ public class EnemiesManagerView {
 
     public void update() {
         for (ZenChanView zenChanView : zenChanViews) {
-            if (zenChanView.getEnemy().isActive())
-                zenChanView.update();
+            if (!zenChanView.getEnemy().isActive() && zenChanView.aniIndex == 6) {
+                continue;
+            }
+            zenChanView.update();
         }
     }
 
     public void render(Graphics g) {
         for (ZenChanView zenChanView : zenChanViews) {
-            if(!zenChanView.getEnemy().isActive() && zenChanView.aniIndex == 2) {
-               return;
+            if(!zenChanView.getEnemy().isActive() && zenChanView.aniIndex == 6) {
+               continue;
             }
             zenChanView.render(g);
             zenChanView.drawHitbox(g);

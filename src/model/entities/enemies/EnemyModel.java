@@ -115,4 +115,12 @@ public abstract class EnemyModel extends EntityModel {
     public boolean isActive() {
         return active;
     }
+
+    public void setResetAniTick(boolean resetAniTick) {
+        this.resetAniTick = resetAniTick;
+    }
+
+    public boolean isResetAniTick() {
+        return resetAniTick;
+    }
 }

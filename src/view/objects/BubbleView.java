@@ -14,7 +14,6 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView {
     protected BufferedImage[][] sprites;
     protected T bubbleModel;
     protected int spriteIndex, aniIndex, aniTick;
-    protected boolean exploding = false;
     protected int bubbleState = BUBBLE_SPAWNED;
 
     public BubbleView(T model) {

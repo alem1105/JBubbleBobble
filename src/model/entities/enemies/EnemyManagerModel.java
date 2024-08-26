@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static model.utilz.Constants.Enemies.DEAD;
 import static model.utilz.Constants.PlayerConstants.DEATH;
 
 public class EnemyManagerModel {
@@ -47,13 +48,17 @@ public class EnemyManagerModel {
 
     public void update() {
         for (ZenChanModel zenChan : zenChans) {
-            zenChan.update();
-            if (zenChan.getHitbox().intersects(getPlayerModel().getHitbox())) {
-                if (zenChan.isInBubble()) {
-                    zenChan.setActive(false);
-                }
-                else if (getPlayerModel().getPlayerAction() != DEATH) {
-                    getPlayerModel().playerHasBeenHit();
+            if (zenChan.isActive()) {
+                zenChan.update();
+                if (zenChan.getHitbox().intersects(getPlayerModel().getHitbox())) {
+                    if (zenChan.isInBubble()) {
+                        zenChan.setEnemyState(DEAD);
+                        zenChan.setResetAniTick(true);
+                        zenChan.setActive(false);
+                    }
+                    else if (getPlayerModel().getPlayerAction() != DEATH) {
+                        getPlayerModel().playerHasBeenHit();
+                    }
                 }
             }
         }
