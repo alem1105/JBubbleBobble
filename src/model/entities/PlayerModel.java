@@ -4,8 +4,6 @@ import model.objects.BobBubbleModel;
 import model.objects.BubbleManagerModel;
 import model.utilz.Constants;
 
-import java.sql.SQLOutput;
-
 import static model.utilz.Constants.CustomObjects.BUBBLE_SIZE;
 import static model.utilz.Constants.Directions.LEFT;
 import static model.utilz.Constants.Directions.RIGHT;
@@ -33,6 +31,11 @@ public class PlayerModel extends EntityModel {
 
     private boolean attack, attackingClick;
     private int facing = RIGHT;
+
+    // invincibilità
+    private boolean invincible = true;
+    private int invincibleDuration = 600;
+    private int invincibleTick = 0;
 
     private BubbleManagerModel bubbleManagerModel = BubbleManagerModel.getInstance();
 
@@ -70,8 +73,21 @@ public class PlayerModel extends EntityModel {
         updatePos();
         checkAttack();
         setPlayerAction();
+        updateInvincibleStatus();
         if(lives <= 0)
             gameOver = true;
+    }
+
+    private void updateInvincibleStatus() {
+        if(invincible) {
+            System.out.println("invincibile");
+            invincibleTick++;
+            if(invincibleTick >= invincibleDuration) {
+                invincible = false;
+            }
+        }else {
+            System.out.println("---------------------");
+        }
     }
 
     private void setPlayerAction() {
@@ -217,4 +233,11 @@ public class PlayerModel extends EntityModel {
         this.attackingClick = attackingClick;
     }
 
+    public boolean isInvincible() {
+        return invincible;
+    }
+
+    public void setInvincible(boolean invincible) {
+        this.invincible = invincible;
+    }
 }

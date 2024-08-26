@@ -1,6 +1,7 @@
 package model.entities.enemies;
 
 import model.entities.PlayerModel;
+import model.utilz.UtilityMethods;
 
 import static model.utilz.Constants.Directions.LEFT;
 import static model.utilz.Constants.Directions.RIGHT;
@@ -8,6 +9,7 @@ import static model.utilz.Constants.Enemies.*;
 import static model.utilz.Constants.GameConstants.*;
 import static model.utilz.Gravity.CanMoveHere;
 import static model.utilz.Gravity.GetEntityXPosNextToWall;
+import static model.utilz.UtilityMethods.getPlayer;
 
 public class ZenChanModel extends EnemyModel {
 
@@ -22,6 +24,25 @@ public class ZenChanModel extends EnemyModel {
     public void update() {
         updatePos();
         updateEnemyState();
+    }
+
+    public void updateEnemyState() {
+        int startAni = enemyState;
+
+        if (inBubble)
+            if (angry)
+                enemyState = CAPTURED_ANGRY;
+            else
+                enemyState = CAPTURED;
+        else if (angry)
+            enemyState = RUNNING_ANGRY;
+
+        // manca DEAD
+
+        if (startAni != enemyState)
+            resetAniTick = true;
+        else
+            resetAniTick = false;
     }
 
     private void updatePos() {
@@ -43,109 +64,97 @@ public class ZenChanModel extends EnemyModel {
 
     @Override
     protected void updateXPos(float walkSpeed) {
-        // se il player è sulla stessa riga del nemico allora usiamo il metodo walkWithSameY()
-        if ((int) (PlayerModel.getInstance().getHitbox().y / TILES_SIZE) == (int) (hitbox.y / TILES_SIZE)) {
-            walkWithSameY();
-        } else {// significa che sono su y diverse
-            // se il player è sopra rispetto al nemico dobbiamo andare verso sopra
-            if ((int) (PlayerModel.getInstance().getHitbox().y / TILES_SIZE) <= (int) (hitbox.y / TILES_SIZE) && !inAir) {
-                // se sopra abbiamo almeno 3 tile percorribili e il player non è in aria allora saliamo, altrimenti camminiamo per trovare tile sopra di noi
-                if (checkUpSolid(getLvlData()) && !(PlayerModel.getInstance().isInAir()))
+        if (playerAndEnemyAreOnTheSameRow() && !getPlayer().isInvincible()) {
+            walkwithSameY();
+        } else {
+            if(isPlayerOnTopOfTheEnemy() && !(getPlayer().isInAir())) {
+                if(checkUpSolid(UtilityMethods.getLvlData())) {
                     goingUp = true;
-                else {
+                } else {
                     walkWithDifferentY();
                 }
-            } // se il player è sotto di noi, camminiamo fino a quando cadremo e lo troveremo con gli altri metodi
-            else if ((int) (PlayerModel.getInstance().getHitbox().y / TILES_SIZE) >= (int) (hitbox.y / TILES_SIZE)) {
+            } else {
                 walkWithDifferentY();
             }
-
         }
     }
 
-    // se sono su y diverse il nemico cammina avanti e indietro
+    private void walkwithSameY() {
+        if(isPlayerToLeftOfEnemy()) {
+            walkDir = LEFT;
+            walkSpeed = -Math.abs(walkSpeed);
+            checkEnemyMovement();
+        } else if(isPlayerToRightOfEnemy()) {
+            walkDir = RIGHT;
+            walkSpeed = Math.abs(walkSpeed);
+            checkEnemyMovement();
+        } else {
+            walkWithDifferentY();
+        }
+    }
+
     private void walkWithDifferentY() {
-        if (CanMoveHere(hitbox.x + walkSpeed, hitbox.y, hitbox.width, hitbox.height, getLvlData())) {
+        if (walkDir == RIGHT) {
+            walkSpeed = Math.abs(walkSpeed);
+            if (canEnemyMoveHere()) {
+                hitbox.x += walkSpeed;
+            } else {
+                hitbox.x = GetEntityXPosNextToWall(hitbox, walkSpeed);
+                walkDir = LEFT;
+            }
+        } else {
+            walkSpeed = -Math.abs(walkSpeed);
+            if (canEnemyMoveHere()) {
+                hitbox.x += walkSpeed;
+            } else {
+                hitbox.x = GetEntityXPosNextToWall(hitbox, walkSpeed);
+                walkDir = RIGHT;
+            }
+        }
+    }
+
+    private void checkEnemyMovement() {
+        if(canEnemyMoveHere()) {
             hitbox.x += walkSpeed;
-            checkDirectionForEnemy();
         } else {
             hitbox.x = GetEntityXPosNextToWall(hitbox, walkSpeed);
-            if (walkDir == RIGHT) {
-                walkDir = LEFT;
-            } else if (walkDir == LEFT) {
-                walkDir = RIGHT;
-            }
-            this.walkSpeed = -walkSpeed;
         }
     }
 
-    private void checkDirectionForEnemy() {
-        if (walkSpeed >= 0)
-            walkDir = RIGHT;
-        else
-            walkDir = LEFT;
+    private boolean canEnemyMoveHere() {
+        return CanMoveHere(hitbox.x + walkSpeed, hitbox.y, hitbox.width, hitbox.height, getLvlData());
     }
 
-    // se sono sulla stessa riga, il nemico si muove solo orizzontalmente cercando di raggiungere il player
-    private void walkWithSameY() {
-        // player a sinistra del nemico
-        if ((int) (PlayerModel.getInstance().getHitbox().x / TILES_SIZE) <= (int) (hitbox.x / TILES_SIZE)) {
-            // se ci possiamo muovere a sinistra lo facciamo, altrimenti abbiamo sbattuto al bordo e dobbiamo cambiare direzione
-            if (CanMoveHere(hitbox.x - walkSpeed, hitbox.y, hitbox.width, hitbox.height, getLvlData())) {
-                hitbox.x += walkSpeed;
-                checkDirectionForEnemy();
-            } else if (hasEnemyHitTheWall) {
-                walkDir = RIGHT;
-                walkSpeed = -walkSpeed;
-                hasEnemyHitTheWall = false;
-            } else {
-                hitbox.x = GetEntityXPosNextToWall(hitbox, walkSpeed);
-                hasEnemyHitTheWall = true;
-            }
-        }
-        //player a destra del nemico
-        else if ((int) (PlayerModel.getInstance().getHitbox().x / TILES_SIZE) >= (int) (hitbox.x / TILES_SIZE)) {
-            // se ci possiamo muovere a destra lo facciamo, altrimenti abbiamo sbattuto al bordo e dobbiamo cambiare direzione
-            if (CanMoveHere(hitbox.x + walkSpeed, hitbox.y, hitbox.width, hitbox.height, getLvlData())) {
-                hitbox.x += walkSpeed;
-                checkDirectionForEnemy();
-            } else if (hasEnemyHitTheWall) {
-                walkDir = LEFT;
-                walkSpeed = -walkSpeed;
-                hasEnemyHitTheWall = false;
-            } else {
-                hitbox.x = GetEntityXPosNextToWall(hitbox, walkSpeed);
-                hasEnemyHitTheWall = true;
-            }
-        }
+    private boolean isPlayerToRightOfEnemy() {
+        return getPlayerTileX() > getEnemyTileX();
     }
 
-    public void changeDirAfterHitBorder() {
-        hitbox.x = GetEntityXPosNextToWall(hitbox, walkSpeed);
-        if (walkDir == RIGHT) {
-            walkDir = LEFT;
-        } else if (walkDir == LEFT) {
-            walkDir = RIGHT;
-        }
-        this.walkSpeed = -walkSpeed;
+    private boolean isPlayerToLeftOfEnemy() {
+        return getPlayerTileX() < getEnemyTileX();
     }
 
-    public void updateEnemyState() {
-        int startAni = enemyState;
-
-        if (inBubble)
-            if (angry)
-                enemyState = CAPTURED_ANGRY;
-            else
-                enemyState = CAPTURED;
-        else if (angry)
-            enemyState = RUNNING_ANGRY;
-
-        // manca DEAD
-
-        if (startAni != enemyState)
-            resetAniTick = true;
-        else
-            resetAniTick = false;
+    private boolean playerAndEnemyAreOnTheSameRow() {
+        return getPlayerTileY() == getEnemyTileY();
     }
+
+    private boolean isPlayerOnTopOfTheEnemy() {
+        return getPlayerTileY() < getEnemyTileY();
+    }
+
+    private int getPlayerTileY() {
+        return (int) (getPlayer().getHitbox().y / TILES_SIZE);
+    }
+
+    private int getEnemyTileY() {
+        return (int) (hitbox.y / TILES_SIZE);
+    }
+
+    private int getPlayerTileX() {
+        return (int) (getPlayer().getHitbox().x / TILES_SIZE);
+    }
+
+    private int getEnemyTileX() {
+        return (int) (hitbox.x / TILES_SIZE);
+    }
+
 }
