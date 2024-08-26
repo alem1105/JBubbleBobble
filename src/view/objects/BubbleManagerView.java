@@ -31,13 +31,15 @@ public class BubbleManagerView {
 
     private void updateBubbles() {
         for (BobBubbleView bubbleView : bobBubbleViews) {
-            bubbleView.update();
+            if (bubbleView.getBubbleModel().isActive())
+                bubbleView.update();
         }
     }
 
     public void draw(Graphics g) {
         for (BobBubbleView bubbleView : bobBubbleViews) {
-            bubbleView.draw(g);
+            if (bubbleView.getBubbleModel().isActive())
+                bubbleView.draw(g);
         }
     }
 

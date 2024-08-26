@@ -84,11 +84,11 @@ public abstract class EntityModel {
     }
 
     public float getX() {
-        return x;
+        return hitbox.x;
     }
 
     public float getY() {
-        return y;
+        return hitbox.y;
     }
 
     public int getHeight() {

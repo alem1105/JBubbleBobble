@@ -75,4 +75,16 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView {
         aniTick= 0;
         aniIndex = 0;
     }
+
+    public T getBubbleModel() {
+        return bubbleModel;
+    }
+
+    public int getAniIndex() {
+        return aniIndex;
+    }
+
+    public int getAniTick() {
+        return aniTick;
+    }
 }

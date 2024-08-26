@@ -24,7 +24,7 @@ public class PlayerModel extends EntityModel {
     // Gravity
     private float jumpSpeed = -2.25f * SCALE;
 
-    private int lives = 3;
+    private int lives = 10;
 
     // segnala che ha perso tutte le vite
     private boolean gameOver = false;

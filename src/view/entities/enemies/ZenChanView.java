@@ -26,15 +26,29 @@ public class ZenChanView extends EnemyView {
         return switch (enemy.getEnemyState()) {
             case DEAD -> 4;
             case RUNNING, RUNNING_ANGRY, CAPTURED, CAPTURED_ANGRY -> 2;
-            default -> 1; // comprende ATTACK
+            case ATTACK -> 1;
+            default -> 2; // exploding
         };
     }
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(animations[enemy.getEnemyState()][aniIndex],
+        if (!enemy.isActive()){
+            aniIndex = 0;
+            aniTick = 0;
+            g.drawImage(explodingImage[aniIndex],
+                    (int) enemy.getX(),
+                    (int) enemy.getY(),
+                    enemy.getWidth(),
+                    enemy.getHeight(),
+                    null);
+        }
+        else {g.drawImage(animations[enemy.getEnemyState()][aniIndex],
                 (int) (enemy.getHitbox().x - xDrawOffset) + flipX, (int) (enemy.getHitbox().y - yDrawOffset),
                 enemy.getWidth() * flipW, enemy.getHeight(), null);
+        }
     }
+
+
 
 }

@@ -9,6 +9,7 @@ import static model.utilz.Constants.Enemies.*;
 import static model.utilz.Constants.GameConstants.*;
 import static model.utilz.Gravity.CanMoveHere;
 import static model.utilz.Gravity.GetEntityXPosNextToWall;
+import static model.utilz.UtilityMethods.getLvlData;
 import static model.utilz.UtilityMethods.getPlayer;
 
 public class ZenChanModel extends EnemyModel {
@@ -22,27 +23,9 @@ public class ZenChanModel extends EnemyModel {
     }
 
     public void update() {
-        updatePos();
+        if (enemyState == RUNNING || enemyState == RUNNING_ANGRY)
+            updatePos();
         updateEnemyState();
-    }
-
-    public void updateEnemyState() {
-        int startAni = enemyState;
-
-        if (inBubble)
-            if (angry)
-                enemyState = CAPTURED_ANGRY;
-            else
-                enemyState = CAPTURED;
-        else if (angry)
-            enemyState = RUNNING_ANGRY;
-
-        // manca DEAD
-
-        if (startAni != enemyState)
-            resetAniTick = true;
-        else
-            resetAniTick = false;
     }
 
     private void updatePos() {
@@ -68,7 +51,7 @@ public class ZenChanModel extends EnemyModel {
             walkwithSameY();
         } else {
             if(isPlayerOnTopOfTheEnemy() && !(getPlayer().isInAir())) {
-                if(checkUpSolid(UtilityMethods.getLvlData())) {
+                if(checkUpSolid(getLvlData())) {
                     goingUp = true;
                 } else {
                     walkWithDifferentY();

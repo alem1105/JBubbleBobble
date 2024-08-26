@@ -3,6 +3,7 @@ package model.entities.enemies;
 import model.LevelManager;
 import model.entities.EntityModel;
 
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import static model.utilz.Constants.Directions.*;
@@ -17,6 +18,8 @@ public abstract class EnemyModel extends EntityModel {
     protected boolean inBubble = false;
     protected boolean angry = false;
     protected boolean resetAniTick = false;
+
+    protected int inBubbleTime;
 
     protected int enemyType;
     protected int enemyState = RUNNING;
@@ -33,6 +36,32 @@ public abstract class EnemyModel extends EntityModel {
         super(x, y - 1, width, height);
     }
 
+    public void updateEnemyState() {
+        int startAni = enemyState;
+
+        if (inBubble) {
+            inBubbleTime++;
+            if (inBubbleTime >= 600) {
+                angry = true;
+                inBubble = false;
+                inBubbleTime = 0;
+            }
+            if (angry)
+                enemyState = CAPTURED_ANGRY;
+            else
+                enemyState = CAPTURED;
+        }
+        else if (angry) {
+            enemyState = RUNNING_ANGRY;
+            walkSpeed = 0.80f * SCALE;
+        }
+
+        if (startAni != enemyState)
+            resetAniTick = true;
+        else
+            resetAniTick = false;
+    }
+
     protected boolean checkUpSolid(int[][] lvlData) { // controlla se sopra il nemico si hanno almeno tre tile su cui saltare
         int currentTileY = (int) (hitbox.y / TILES_SIZE);
         int currentTileX = (int) (hitbox.x / TILES_SIZE);
@@ -45,24 +74,6 @@ public abstract class EnemyModel extends EntityModel {
         }else {
             return false;
         }
-    }
-
-    // TODO RIMUOVERE
-    protected boolean checkUpSolidTEST(int[][] lvlData) { // controlla se sopra il nemico si ha una tile su cui saltare
-        int currentTileY = (int) (hitbox.y / TILES_SIZE);
-        int currentTileX = (int) (hitbox.x / TILES_SIZE);
-
-
-        if (currentTileY - 2 >= 0) {
-            if (IsTileSolid(currentTileY - 2, currentTileX, lvlData)) {
-                targetYTile = currentTileY - 4;
-                return true;
-            } else if (IsTileSolid(currentTileY - 1, currentTileX, lvlData)) {
-                targetYTile = currentTileY - 3;
-                return true;
-            }
-        }
-        return false;
     }
 
     protected boolean checkThreeYTilesSolid(int yTile, int xTile, int[][] lvldata) {
@@ -97,7 +108,11 @@ public abstract class EnemyModel extends EntityModel {
         return walkDir;
     }
 
-    public int[][] getLvlData() {
-        return getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getLvlData();
+    public boolean isInBubble() {
+        return inBubble;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }
