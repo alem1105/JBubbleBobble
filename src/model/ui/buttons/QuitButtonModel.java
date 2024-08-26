@@ -6,4 +6,8 @@ public class QuitButtonModel extends CustomButtonModel{
         super(x, y, width, height);
     }
 
+    public void quit(){
+        System.exit(0);
+    }
+
 }

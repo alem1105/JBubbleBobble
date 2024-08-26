@@ -12,7 +12,7 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [ ] sistemare nemici che ti colpiscono in continuazione sullo spawn
 - [ ] aggiungere tutti i nemici
 - [ ] sistemare movimento bolla di bob
-- [ ] schermata game over
+- [x] schermata game over
 - [ ] schermata hai vinto
 - [ ] schermata pausa
 - [ ] profilo utente
@@ -25,7 +25,7 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 ### Easy things to do
 - [x] gestire la caduta del player fuori dalla schermata
 - [x] schermata scegliere livello level editor
-- [ ] sistemare aniTick della bolla
+- [x] sistemare aniTick della bolla
 - [ ] sistemare menu
 - [ ] classifica(?) *non so cosa sia*
 - [ ] metodo per il caricamento del livello successivo
