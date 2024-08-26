@@ -6,6 +6,9 @@ import model.entities.enemies.EnemyModel;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static model.utilz.Constants.GameConstants.TILES_SIZE;
+import static model.utilz.UtilityMethods.getLvlData;
+
 public class BubbleManagerModel {
 
     private static BubbleManagerModel instance;
@@ -57,9 +60,17 @@ public class BubbleManagerModel {
         float randomNumberX = 0.3f + random.nextFloat() * (1.5f - 0.3f);
         float randomNumberY = 0.3f + random.nextFloat() * (1.5f - 0.3f);
         bubble1.getHitbox().x += randomNumberX;
-        bubble1.getHitbox().y += randomNumberY;
         bubble2.getHitbox().x -= randomNumberX;
-        bubble2.getHitbox().y -= randomNumberY;
+
+        if( (int) (bubble1.getHitbox().y + randomNumberY) / TILES_SIZE < 1)
+            bubble1.getHitbox().y = TILES_SIZE;
+        else
+            bubble1.getHitbox().y += randomNumberY;
+
+        if( (int) (bubble2.getHitbox().y - randomNumberY) / TILES_SIZE < 1)
+            bubble2.getHitbox().y = TILES_SIZE;
+        else
+            bubble2.getHitbox().y -= randomNumberY;
     }
 
     public void addBobBubbles(BobBubbleModel bobBubble) {
