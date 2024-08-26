@@ -72,7 +72,6 @@ public class PlayerView {
                     playerModel.setPlayerAction(IDLE);
                     playerModel.getHitbox().x = getPlayerSpawn().x;
                     playerModel.getHitbox().y = getPlayerSpawn().y;
-                    System.out.println("gli sposto la hitbox");
                     playerModel.setInAir(true);
                     playerModel.setInvincible(true);
                 }

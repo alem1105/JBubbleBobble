@@ -34,7 +34,7 @@ public class PlayerModel extends EntityModel {
 
     // invincibilità
     private boolean invincible = true;
-    private int invincibleDuration = 600;
+    private int invincibleDuration = 1200;
     private int invincibleTick = 0;
 
     private BubbleManagerModel bubbleManagerModel = BubbleManagerModel.getInstance();
@@ -79,15 +79,12 @@ public class PlayerModel extends EntityModel {
     }
 
     private void updateInvincibleStatus() {
-        if(invincible) {
-            System.out.println("invincibile");
+        if (invincible) {
             invincibleTick++;
-            if(invincibleTick >= invincibleDuration) {
+            if (invincibleTick >= invincibleDuration) {
                 invincible = false;
                 invincibleTick = 0;
             }
-        }else {
-            System.out.println("---------------------");
         }
     }
 
