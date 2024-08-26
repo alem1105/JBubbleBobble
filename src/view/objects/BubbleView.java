@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import static model.utilz.Constants.CustomObjects.*;
 
 import static model.utilz.Constants.CustomObjects.BUBBLE_SPAWNED;
-import static model.utilz.Constants.GameConstants.ANI_SPEED;
+import static model.utilz.Constants.GameConstants.*;
 
 public class BubbleView<T extends BubbleModel> extends CustomObjectView {
 
@@ -28,6 +28,7 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView {
                 bubbleModel.getHeight(),
                 null);
     }
+
 
     public void drawHitbox(Graphics g){
         g.setColor(Color.PINK);
