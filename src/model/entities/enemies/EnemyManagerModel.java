@@ -4,10 +4,15 @@ import model.LevelManagerModel;
 import model.entities.PlayerModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static model.utilz.Constants.Enemies.DEAD;
+import static model.utilz.Constants.GameConstants.TILES_IN_HEIGHT;
+import static model.utilz.Constants.GameConstants.TILES_IN_WIDTH;
 import static model.utilz.Constants.PlayerConstants.DEATH;
 
 public class EnemyManagerModel {
@@ -16,6 +21,10 @@ public class EnemyManagerModel {
     private LevelManagerModel levelManagerModel;
     private ArrayList<MaitaModel> maitas;
     private ArrayList<ZenChanModel> zenChans;
+    private ArrayList<HidegonsModel> hidegons;
+    private ArrayList<PulpulModel> pulpuls;
+    private ArrayList<MonstaModel> monstas;
+    private ArrayList<DrunkModel> drunks;
     private ArrayList<EnemyModel> enemies;
 
     public static EnemyManagerModel getInstance() {
@@ -32,13 +41,17 @@ public class EnemyManagerModel {
 
     public void initEnemies(){
         zenChans = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getZenChans();
-        maitas = new ArrayList<>();
+        maitas = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getMaitas();
+        monstas = new ArrayList<>();
+        pulpuls = new ArrayList<>();
+        hidegons = new ArrayList<>();
+        drunks = new ArrayList<>();
         createGeneralEnemiesArray();
     }
 
     private void createGeneralEnemiesArray() {
-        enemies = Stream
-                .concat(zenChans.stream(), maitas.stream())
+        enemies = Stream.of(zenChans, pulpuls, monstas, maitas, hidegons)
+                .flatMap(Collection::stream)
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
@@ -48,19 +61,21 @@ public class EnemyManagerModel {
     }
 
     private void checkEnemiesCollision(){
-        for (ZenChanModel zenChan : zenChans) {
-            if (zenChan.isActive()) {
-                zenChan.update();
-                if (zenChan.getHitbox().intersects(getPlayerModel().getHitbox())) {
-                    if (zenChan.isInBubble()) {
-                        zenChan.setEnemyState(DEAD);
-                        zenChan.setResetAniTick(true);
-                        zenChan.setActive(false);
+        for (EnemyModel enemyModel : enemies) {
+            if (enemyModel.isActive()) {
+                enemyModel.update();
+                if (enemyModel.getHitbox().intersects(getPlayerModel().getHitbox())) {
+                    if (enemyModel.isInBubble()) {
+                        enemyModel.setEnemyState(DEAD);
+                        enemyModel.setActive(false);
                     }
                     else if (getPlayerModel().getPlayerAction() != DEATH) {
                         getPlayerModel().playerHasBeenHit();
                     }
                 }
+            } else {
+                if(!(enemyModel.isDeathMovement()))
+                    enemyModel.doDeathMovement(enemyModel);
             }
         }
     }
@@ -90,5 +105,9 @@ public class EnemyManagerModel {
 
     public ArrayList<EnemyModel> getEnemies() {
         return enemies;
+    }
+
+    public ArrayList<MaitaModel> getMaitas() {
+        return maitas;
     }
 }

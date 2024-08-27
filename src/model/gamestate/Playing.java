@@ -31,7 +31,6 @@ public class Playing {
     }
 
     public void update() {
-        System.out.println(LevelManagerModel.getInstance().getLvlIndex());
         if (!(player.isGameOver())) {
             if (player.getPlayerAction() != DEATH)
                 player.update();

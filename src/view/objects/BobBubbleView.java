@@ -3,10 +3,9 @@ package view.objects;
 import model.objects.BobBubbleModel;
 
 import static model.utilz.Constants.CustomObjects.*;
-import static model.utilz.Constants.GameConstants.ANI_SPEED;
 import static view.utilz.LoadSave.*;
 
-public class BobBubbleView extends BubbleView<BobBubbleModel> {
+public class BobBubbleView extends BubbleView<BobBubbleModel>{
 
     public BobBubbleView(BobBubbleModel model) {
         super(model);
@@ -23,7 +22,7 @@ public class BobBubbleView extends BubbleView<BobBubbleModel> {
     private void updateBubbleState(){
         int currentState = bubbleState;
 
-        if (!bubbleModel.isActive()) {
+        if (!objectModel.isActive()) {
             bubbleState = BUBBLE_EXPLODING;
         }
         else if (bubbleState == BUBBLE_SPAWNING && aniIndex == 2){
