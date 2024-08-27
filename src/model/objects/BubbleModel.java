@@ -8,6 +8,7 @@ public class BubbleModel extends CustomObjectModel {
     protected float bubbleSpeed = 1.5F * SCALE;
     protected int lifeTimer = 0; // tempo della vita dopo di che esplode
     protected boolean timeOut;
+    protected int lifeTime = 3000;
 
 
     public BubbleModel(float x, float y, int width, int height, int bubbleDirection){
@@ -18,7 +19,7 @@ public class BubbleModel extends CustomObjectModel {
     public void update(){
         if (active){
             lifeTimer++;
-            if (lifeTimer >= 3000){ //dopo 25 secondi esplode
+            if (lifeTimer >= lifeTime){ //dopo 25 secondi esplode
                 active = false;
                 timeOut = true;
             }

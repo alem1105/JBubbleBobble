@@ -38,7 +38,7 @@ public class BubbleManagerModel {
 
     private void checkCollisionWithOtherBubbles(BobBubbleModel bubble1) {
         for( BobBubbleModel bubble2 : bobBubbles ){
-            if(bubble1.getHitbox().intersects(bubble2.getHitbox())){
+            if(bubble1.getHitbox().intersects(bubble2.getHitbox()) && bubble1.isActive() && bubble2.isActive()){
                 Random random = new Random();
                 bobBubblesRandomMovements(random, bubble1, bubble2);
             }
@@ -71,6 +71,10 @@ public class BubbleManagerModel {
             bubble2.getHitbox().y = TILES_SIZE;
         else
             bubble2.getHitbox().y -= randomNumberY;
+    }
+
+    public void resetBubbles() {
+        bobBubbles = new ArrayList<>();
     }
 
     public void addBobBubbles(BobBubbleModel bobBubble) {

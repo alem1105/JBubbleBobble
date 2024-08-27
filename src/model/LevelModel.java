@@ -23,7 +23,7 @@ public class LevelModel {
         loadPlayerSpawn();
     }
 
-    private void loadEnemies() {
+    public void loadEnemies() {
         enemiesData = new int[lvlImg.getHeight()][lvlImg.getWidth()];
         zenChans = new ArrayList<>();
         for(int y = 0; y < lvlImg.getHeight(); y++) {

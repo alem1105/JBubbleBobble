@@ -53,6 +53,11 @@ public class PlayerModel extends EntityModel {
         initHitbox(13, 14);
     }
 
+    public void moveToSpawn(){
+        hitbox.x = getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getPlayerSpawn().x;
+        hitbox.y = getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getPlayerSpawn().y;
+        inAir = true;
+    }
 
     public void playerHasBeenHit() {
         lives--;

@@ -51,7 +51,7 @@ public class ZenChanModel extends EnemyModel {
             walkwithSameY();
         } else {
             if(isPlayerOnTopOfTheEnemy() && !(getPlayer().isInAir())) {
-                if(checkUpSolid(getLvlData())) {
+                if(checkUpSolid(getLvlData()) && !inAir) {
                     goingUp = true;
                 } else {
                     walkWithDifferentY();

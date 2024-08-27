@@ -2,12 +2,8 @@ package model.entities.enemies;
 
 import model.LevelManagerModel;
 import model.entities.PlayerModel;
-import view.ui.buttons.BlockButtonView;
-import view.ui.buttons.CustomButtonView;
-import view.ui.buttons.EnemyButtonView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -34,8 +30,8 @@ public class EnemyManagerModel {
         initEnemies();
     }
 
-    private void initEnemies(){
-        zenChans = levelManager.getLevels().get(levelManager.getLvlIndex()).getZenChans();
+    public void initEnemies(){
+        zenChans = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getZenChans();
         maitas = new ArrayList<>();
         createGeneralEnemiesArray();
     }
@@ -47,6 +43,11 @@ public class EnemyManagerModel {
     }
 
     public void update() {
+        checkIfAllEnemiesAreDead();
+        checkEnemiesCollision();
+    }
+
+    private void checkEnemiesCollision(){
         for (ZenChanModel zenChan : zenChans) {
             if (zenChan.isActive()) {
                 zenChan.update();
@@ -61,6 +62,21 @@ public class EnemyManagerModel {
                     }
                 }
             }
+        }
+    }
+
+    private void checkIfAllEnemiesAreDead() {
+        int i = 0;
+        if (enemies.isEmpty()){
+            LevelManagerModel.getInstance().loadNextLevel();
+            return;
+        }
+        while(!(enemies.get(i).isActive())){
+            if(i == enemies.size() - 1) {
+                LevelManagerModel.getInstance().loadNextLevel();
+                break;
+            }
+            i++;
         }
     }
 

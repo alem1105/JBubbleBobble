@@ -1,5 +1,6 @@
 package view.entities.enemies;
 
+import model.LevelManagerModel;
 import model.entities.enemies.EnemyManagerModel;
 import model.entities.enemies.ZenChanModel;
 
@@ -11,6 +12,7 @@ public class EnemiesManagerView {
     private EnemyManagerModel enemyManagerModel;
 
     private ArrayList<ZenChanView> zenChanViews;
+    private int currentLevel;
 
     public EnemiesManagerView() {
         enemyManagerModel = EnemyManagerModel.getInstance();
@@ -18,11 +20,23 @@ public class EnemiesManagerView {
     }
 
     public void update() {
+        checkIfLevelChanged();
+        updateEnemies();
+    }
+
+    private void updateEnemies(){
         for (ZenChanView zenChanView : zenChanViews) {
             if (!zenChanView.getEnemy().isActive() && zenChanView.aniIndex == 6) {
                 continue;
             }
             zenChanView.update();
+        }
+    }
+
+    private void checkIfLevelChanged() {
+        if(LevelManagerModel.getInstance().getLvlIndex() != currentLevel) {
+            initViews();
+            currentLevel = LevelManagerModel.getInstance().getLvlIndex();
         }
     }
 
