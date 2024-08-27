@@ -64,7 +64,7 @@ public class EnemyManagerModel {
         for (EnemyModel enemyModel : enemies) {
             if (enemyModel.isActive()) {
                 enemyModel.update();
-                if (enemyModel.getHitbox().intersects(getPlayerModel().getHitbox())) {
+                if (enemyModel.getHitbox().intersects(getPlayerModel().getHitbox()) && !getPlayerModel().isInvincible()) {
                     if (enemyModel.isInBubble()) {
                         enemyModel.setEnemyState(DEAD);
                         enemyModel.setActive(false);
