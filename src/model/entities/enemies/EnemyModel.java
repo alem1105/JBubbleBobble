@@ -2,11 +2,13 @@ package model.entities.enemies;
 
 import model.entities.EntityModel;
 
+import java.util.Random;
+
 import static model.utilz.Constants.Directions.*;
 import static model.utilz.Constants.Enemies.*;
 
-import static model.utilz.Constants.GameConstants.SCALE;
-import static model.utilz.Constants.GameConstants.TILES_SIZE;
+import static model.utilz.Constants.GameConstants.*;
+import static model.utilz.Constants.GameConstants.TILES_IN_WIDTH;
 import static model.utilz.Gravity.*;
 import static model.utilz.UtilityMethods.getLvlData;
 import static model.utilz.UtilityMethods.getPlayer;
@@ -30,8 +32,13 @@ public abstract class EnemyModel extends EntityModel {
     protected int targetYTile;
     private int upTick;
 
+    private Random random;
+    private boolean deathMovement = false;
+    private boolean invertDeathMovement = false;
+
     public EnemyModel(float x, float y, int width, int height) {
         super(x, y - 1, width, height);
+        random = new Random();
     }
 
     public void update() {
@@ -147,6 +154,33 @@ public abstract class EnemyModel extends EntityModel {
             resetAniTick = false;
     }
 
+    public void doDeathMovement(EnemyModel enemyModel) {
+        if(!(enemyModel.getEnemyTileY() >= TILES_IN_HEIGHT - 3)) {
+            parableMovement(enemyModel);
+        } else {
+            enemyModel.setDeathMovement(true);
+        }
+    }
+
+    private void parableMovement(EnemyModel enemyModel) {
+        float xMov = random.nextInt(3) + 1; // tra 1 e 3
+        float yMov = random.nextInt(2) + 1; // tra 1 e 2
+
+        if(enemyModel.isInvertDeathMovement()) {
+//            float randomNumberX = 0.1f + (0.3f - 0.1f) * random.nextFloat();
+//            float randomNumberY = 2.0f + (3.0f - 2.0f) * random.nextFloat();
+            enemyModel.getHitbox().x -= 0.1;
+            enemyModel.getHitbox().y += 1.5;
+        } else {
+            if((enemyModel.getEnemyTileX() >= TILES_IN_WIDTH - 1 || enemyModel.getEnemyTileX() <= 1)) {
+                enemyModel.setInvertDeathMovement(true);
+            } else {
+                enemyModel.getHitbox().x += xMov;
+                enemyModel.getHitbox().y -= yMov;
+            }
+        }
+    }
+
     protected boolean checkUpSolid(int[][] lvlData) { // controlla se sopra il nemico si hanno almeno tre tile su cui saltare
         int currentTileY = (int) (hitbox.y / TILES_SIZE);
         int currentTileX = (int) (hitbox.x / TILES_SIZE);
@@ -167,35 +201,35 @@ public abstract class EnemyModel extends EntityModel {
         return false;
     }
 
-    private boolean isPlayerToRightOfEnemy() {
+    protected boolean isPlayerToRightOfEnemy() {
         return getPlayerTileX() > getEnemyTileX();
     }
 
-    private boolean isPlayerToLeftOfEnemy() {
+    protected boolean isPlayerToLeftOfEnemy() {
         return getPlayerTileX() < getEnemyTileX();
     }
 
-    private boolean playerAndEnemyAreOnTheSameRow() {
+    protected boolean playerAndEnemyAreOnTheSameRow() {
         return getPlayerTileY() == getEnemyTileY();
     }
 
-    private boolean isPlayerOnTopOfTheEnemy() {
+    protected boolean isPlayerOnTopOfTheEnemy() {
         return getPlayerTileY() < getEnemyTileY();
     }
 
-    private int getPlayerTileY() {
+    protected int getPlayerTileY() {
         return (int) (getPlayer().getHitbox().y / TILES_SIZE);
     }
 
-    private int getEnemyTileY() {
+    protected int getEnemyTileY() {
         return (int) (hitbox.y / TILES_SIZE);
     }
 
-    private int getPlayerTileX() {
+    protected int getPlayerTileX() {
         return (int) (getPlayer().getHitbox().x / TILES_SIZE);
     }
 
-    private int getEnemyTileX() {
+    protected int getEnemyTileX() {
         return (int) (hitbox.x / TILES_SIZE);
     }
 
@@ -239,5 +273,21 @@ public abstract class EnemyModel extends EntityModel {
 
     public boolean isResetAniTick() {
         return resetAniTick;
+    }
+
+    public boolean isDeathMovement() {
+        return deathMovement;
+    }
+
+    public void setDeathMovement(boolean deathMovement) {
+        this.deathMovement = deathMovement;
+    }
+
+    public boolean isInvertDeathMovement() {
+        return invertDeathMovement;
+    }
+
+    public void setInvertDeathMovement(boolean invertDeathMovement) {
+        this.invertDeathMovement = invertDeathMovement;
     }
 }

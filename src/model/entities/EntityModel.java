@@ -40,7 +40,8 @@ public abstract class EntityModel {
 
     protected void isInAirCheckWithBubble() {
         if (!inAir) {
-            if (!IsEntityOnFloor(hitbox, getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getLvlData()) && !PlayerModel.getInstance().isRidingABubble()) {
+            if (!IsEntityOnFloor(hitbox, getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getLvlData())
+                    && !PlayerModel.getInstance().isRidingABubble()) {
                 inAir = true;
             }
         }

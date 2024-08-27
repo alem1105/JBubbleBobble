@@ -2,41 +2,20 @@ package view.objects;
 
 import model.objects.BubbleModel;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import static model.utilz.Constants.CustomObjects.*;
 
 import static model.utilz.Constants.CustomObjects.BUBBLE_SPAWNED;
 import static model.utilz.Constants.GameConstants.*;
 
-public class BubbleView<T extends BubbleModel> extends CustomObjectView {
+public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
 
-    protected BufferedImage[][] sprites;
-    protected T bubbleModel;
-    protected int spriteIndex, aniIndex, aniTick;
     protected int bubbleState = BUBBLE_SPAWNED;
 
     public BubbleView(T model) {
-        this.bubbleModel = model;
+        super(model);
     }
 
-    public void draw(Graphics g){
-        g.drawImage(sprites[spriteIndex][aniIndex],
-                (int) bubbleModel.getX(),
-                (int) bubbleModel.getY(),
-                bubbleModel.getWidth(),
-                bubbleModel.getHeight(),
-                null);
-    }
-
-
-    public void drawHitbox(Graphics g){
-        g.setColor(Color.PINK);
-        g.drawRect((int) (bubbleModel.getHitbox().x), (int) (bubbleModel.getHitbox().y),
-                (int) bubbleModel.getHitbox().width,
-                (int) bubbleModel.getHitbox().height);
-    }
-
+    @Override
     protected void updateAnimationTick() {
         aniTick++;
         if (aniTick >= ANI_SPEED) {
@@ -51,6 +30,7 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView {
         }
     }
 
+    @Override
     protected int getSpriteAmount(){
         switch (bubbleState){
             case BUBBLE_SPAWNED -> {
@@ -74,13 +54,9 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView {
         }
     }
 
-    protected void resetAniTick(){
-        aniTick= 0;
-        aniIndex = 0;
-    }
 
-    public T getBubbleModel() {
-        return bubbleModel;
+    public BubbleModel getBubbleModel() {
+        return objectModel;
     }
 
     public int getAniIndex() {

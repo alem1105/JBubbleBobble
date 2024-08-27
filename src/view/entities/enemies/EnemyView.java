@@ -17,7 +17,7 @@ public abstract class EnemyView {
     protected int aniTick, aniSpeed = 25;
     protected BufferedImage[][] animations;
     protected EnemyModel enemy;
-    protected int flipW, flipX;
+    protected int flipW, flipX, exploding = 0;
 
     public EnemyView(EnemyModel enemy) {
         this.enemy = enemy;
@@ -32,16 +32,17 @@ public abstract class EnemyView {
     protected void updateAnimationTick() {
         aniTick++;
         if (aniTick >= aniSpeed) {
+            if (!enemy.isActive())
+                exploding ++;
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= getSpriteAmount()) {
-                if (enemy.getEnemyState() == DEAD){
-                    aniIndex = 6;
-                } else {
-                    aniIndex = 0;
-                }
+                aniIndex = 0;
+                if (enemy.getEnemyState() == DEAD && exploding > 2)
+                    aniIndex = 2;
             }
         }
+
         if (enemy.isResetAniTick()){
             aniIndex = 0;
             aniTick = 0;
@@ -63,7 +64,7 @@ public abstract class EnemyView {
             flipW = 1;
     }
 
-    // TODO RIMUOVERE
+
     protected void drawHitbox(Graphics g) {
         // For debugging the hitbox
         g.setColor(Color.PINK);
@@ -72,7 +73,12 @@ public abstract class EnemyView {
                 (int) enemy.getHitbox().height);
     }
 
-    protected abstract int getSpriteAmount();
+    public int getSpriteAmount() {
+        return switch (enemy.getEnemyState()) {
+            case DEAD -> 6;
+            default -> 2;
+        };
+    }
 
     public void render(Graphics g) {
         g.drawImage(animations[enemy.getEnemyState()][aniIndex],
