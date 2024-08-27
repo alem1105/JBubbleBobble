@@ -37,6 +37,8 @@ public class PlayerModel extends EntityModel {
     private int invincibleDuration = 1200;
     private int invincibleTick = 0;
 
+    private boolean ridingABubble = false;
+
     private BubbleManagerModel bubbleManagerModel = BubbleManagerModel.getInstance();
 
     public static PlayerModel getInstance() {
@@ -119,6 +121,7 @@ public class PlayerModel extends EntityModel {
 
     private void updatePos() {
         moving = false;
+        ridingABubble = false;
 
         if (jump) {
             jump();
@@ -161,6 +164,16 @@ public class PlayerModel extends EntityModel {
         moving = true;
     }
 
+    private void checkRidingABubble() {
+        for(BobBubbleModel bobBubble : BubbleManagerModel.getInstance().getBobBubbles()) {
+            if(bobBubble.getHitbox().x <= hitbox.x + hitbox.height + hitbox.width / 2
+                    && hitbox.x + hitbox.height + hitbox.width / 2 <= bobBubble.getHitbox().x + bobBubble.getHitbox().width) {
+                ridingABubble = true;
+            }
+
+        }
+    }
+
     @ Override
     protected void updateXPos(float xSpeed) {
         if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height,
@@ -171,7 +184,6 @@ public class PlayerModel extends EntityModel {
     }
 
     private boolean canJumpHere(float xSpeed) {
-
         if (hitbox.x + xSpeed > Constants.GameConstants.TILES_SIZE && hitbox.x + xSpeed + hitbox.width < Constants.GameConstants.GAME_WIDTH - Constants.GameConstants.TILES_SIZE)
             return true;
         return false;
@@ -242,5 +254,9 @@ public class PlayerModel extends EntityModel {
 
     public void setInvincible(boolean invincible) {
         this.invincible = invincible;
+    }
+
+    public boolean isRidingABubble() {
+        return ridingABubble;
     }
 }

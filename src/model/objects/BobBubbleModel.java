@@ -32,10 +32,11 @@ public class BobBubbleModel extends BubbleModel {
     private void updatePos() {
         if(projectileTravelTimes <= 60) {
             firstShotMovement();
-            collision = true;
         }
-        else
+        else {
+            collision = true;
             afterShotMovement();
+        }
     }
 
     private void afterShotMovement() {
@@ -101,4 +102,7 @@ public class BobBubbleModel extends BubbleModel {
         return (int) (hitbox.x / TILES_SIZE);
     }
 
+    public boolean isCollision() {
+        return collision;
+    }
 }

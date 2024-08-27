@@ -38,6 +38,14 @@ public abstract class EntityModel {
         }
     }
 
+    protected void isInAirCheckWithBubble() {
+        if (!inAir) {
+            if (!IsEntityOnFloor(hitbox, getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getLvlData()) && !PlayerModel.getInstance().isRidingABubble()) {
+                inAir = true;
+            }
+        }
+    }
+
     protected void fallingChecks(float xSpeed){
         // Stiamo cadendo
         // Bloccati dentro un muro

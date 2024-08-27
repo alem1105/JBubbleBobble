@@ -45,9 +45,9 @@ public class BubbleManagerModel {
         }
     }
 
-    private void checkEnemyHasBeenHit(BubbleModel bubble) {
+    private void checkEnemyHasBeenHit(BobBubbleModel bubble) {
         for(EnemyModel enemy : EnemyManagerModel.getInstance().getEnemies()) {
-            if(bubble.getHitbox().intersects(enemy.getHitbox())) {
+            if(bubble.getHitbox().intersects(enemy.getHitbox()) && !(bubble.isCollision())) {
                 if (enemy.isActive()) {
                     bubble.setActive(false);
                     enemy.setInBubble(true);

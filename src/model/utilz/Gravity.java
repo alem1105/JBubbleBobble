@@ -1,5 +1,7 @@
 package model.utilz;
 
+import model.entities.PlayerModel;
+
 import java.awt.geom.Rectangle2D;
 
 import static model.utilz.Constants.GameConstants.GAME_HEIGHT;
