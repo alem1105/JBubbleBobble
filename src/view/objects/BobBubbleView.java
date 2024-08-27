@@ -15,9 +15,6 @@ public class BobBubbleView extends BubbleView<BobBubbleModel> {
     }
 
     public void update() {
-        if (bubbleState == BUBBLE_EXPLODING && aniIndex == 1)
-            return;
-
         updateBubbleState();
         setSpriteIndex();
         updateAnimationTick();

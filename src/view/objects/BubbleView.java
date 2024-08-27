@@ -44,6 +44,9 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView {
             aniIndex++;
             if (aniIndex >= getSpriteAmount()) {
                 aniIndex = 0;
+                if (bubbleState == BUBBLE_EXPLODING){
+                    aniIndex = 2;
+                }
             }
         }
     }

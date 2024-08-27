@@ -25,6 +25,7 @@ public class BobBubbleModel extends BubbleModel {
     }
 
     public void update() {
+        super.update();
         updatePos();
     }
 

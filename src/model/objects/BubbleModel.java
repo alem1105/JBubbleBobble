@@ -6,10 +6,23 @@ public class BubbleModel extends CustomObjectModel {
     protected int bubbleDirection;
     protected boolean active = true;
     protected float bubbleSpeed = 1.5F * SCALE;
+    protected int lifeTimer = 0; // tempo della vita dopo di che esplode
+    protected boolean timeOut;
+
 
     public BubbleModel(float x, float y, int width, int height, int bubbleDirection){
         super(x, y, width, height);
         this.bubbleDirection = bubbleDirection;
+    }
+
+    public void update(){
+        if (active){
+            lifeTimer++;
+            if (lifeTimer >= 3000){ //dopo 25 secondi esplode
+                active = false;
+                timeOut = true;
+            }
+        }
     }
 
     public boolean isActive() {
@@ -19,5 +32,10 @@ public class BubbleModel extends CustomObjectModel {
     public void setActive(boolean active) {
         this.active = active;
     }
+
+    public boolean isTimeOut() {
+        return timeOut;
+    }
+
 }
 

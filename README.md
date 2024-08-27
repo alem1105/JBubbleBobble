@@ -8,7 +8,7 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 ### Cose importanti
 - [x] salvataggio immagine level editor
 - [x] movimento nemici
-- [ ] attacco nemici
+- [ ] attacco nemici (maita)
 - [ ] sistemare nemici che ti colpiscono in continuazione sullo spawn
 - [ ] aggiungere tutti i nemici
 - [ ] sistemare movimento bolla di bob

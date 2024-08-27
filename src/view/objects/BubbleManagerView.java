@@ -31,17 +31,23 @@ public class BubbleManagerView {
 
     private void updateBubbles() {
         for (BobBubbleView bubbleView : bobBubbleViews) {
-            if (bubbleView.getBubbleModel().isActive())
+            if ((bubbleView.getBubbleModel().isActive() || (bubbleView.getBubbleModel().isTimeOut() && bubbleView.getAniIndex() <= 2)))
                 bubbleView.update();
         }
     }
 
     public void draw(Graphics g) {
         for (BobBubbleView bubbleView : bobBubbleViews) {
-            if (bubbleView.getBubbleModel().isActive())
+            if ((bubbleView.getBubbleModel().isActive() || (bubbleView.getBubbleModel().isTimeOut() && bubbleView.getAniIndex() <= 2)))
                 bubbleView.draw(g);
+
+            // For debugging
+//            g.setColor(Color.PINK);
+//            g.drawRect((int) (bubbleView.bubbleModel.getHitbox().x), (int) (bubbleView.bubbleModel.getHitbox().y),
+//                     bubbleView.bubbleModel.getWidth(),
+//                     bubbleView.bubbleModel.getHeight());
+            }
         }
-    }
 
 
     private void getBubbles() {
