@@ -16,6 +16,8 @@ public class GameController implements Runnable {
 
     private ModelManager modelManager;
 
+    private MouseInputs mouseInputs;
+
     public GameController() {
         initClasses();
         startGameLoop();
@@ -26,8 +28,9 @@ public class GameController implements Runnable {
         gamePanel = new GamePanel();
         gameWindow = new GameWindow(gamePanel);
         gamePanel.addKeyListener(new KeyboardInputs());
-        gamePanel.addMouseListener(new MouseInputs());
-        gamePanel.addMouseMotionListener(new MouseInputs());
+        mouseInputs = new MouseInputs();
+        gamePanel.addMouseListener(mouseInputs);
+        gamePanel.addMouseMotionListener(mouseInputs);
         modelManager.addObserver(gamePanel);
     }
 

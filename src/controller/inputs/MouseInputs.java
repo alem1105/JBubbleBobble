@@ -1,11 +1,9 @@
 package controller.inputs;
 
-import controller.GameController;
-import model.LevelManager;
+import model.LevelManagerModel;
 import model.entities.PlayerModel;
 import model.gamestate.Gamestate;
 import model.ui.buttons.*;
-import view.entities.PlayerView;
 import view.stateview.LevelEditorView;
 import view.stateview.LevelSelectorView;
 import view.stateview.MenuView;
@@ -16,7 +14,6 @@ import view.ui.buttons.CustomButtonView;
 import view.ui.buttons.EnemyButtonView;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -30,7 +27,7 @@ import static model.utilz.Constants.GameConstants.TILES_SIZE;
 public class MouseInputs implements MouseMotionListener, MouseListener {
 
     private LevelEditorView levelEditorView;
-    private LevelManager levelManager;
+    private LevelManagerModel levelManagerModel;
     private LevelSelectorView levelSelectorView;
     private PlayingView playingView;
     private DeathScreenView deathScreenView;
@@ -39,7 +36,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
 
     public MouseInputs(){
         this.levelEditorView = LevelEditorView.getInstance();
-        this.levelManager = LevelManager.getInstance();
+        this.levelManagerModel = LevelManagerModel.getInstance();
         this.levelSelectorView = LevelSelectorView.getInstance();
         this.playingView = new PlayingView();
         this.deathScreenView = DeathScreenView.getInstance();
@@ -99,7 +96,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
             case LEVEL_SELECTOR -> {
                 if (isIn(levelSelectorView.getNextLevelButtonView(), e)){
                     setNextLvlButtonPressed(true);
-                    if (levelEditorView.getLevelIndex() == levelManager.getLevels().size() - 1)
+                    if (levelEditorView.getLevelIndex() == levelManagerModel.getLevels().size() - 1)
                         levelEditorView.setLevelIndex(0);
                     else{
                         levelEditorView.setLevelIndex(levelEditorView.getLevelIndex() + 1);
@@ -111,7 +108,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                 if (isIn(levelSelectorView.getPrevLevelButtonView(), e)){
                     setPrevLvlButtonPressed(true);
                     if (levelEditorView.getLevelIndex() == 0)
-                        levelEditorView.setLevelIndex(levelManager.getLevels().size() - 1);
+                        levelEditorView.setLevelIndex(levelManagerModel.getLevels().size() - 1);
                     else{
                         levelEditorView.setLevelIndex(levelEditorView.getLevelIndex() - 1);
                     }
@@ -292,7 +289,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     private void checkPlayerButtonClick(int currentTileX, int currentTileY) {
         if(isPlayerButtonPressed()) {
             setEraserButtonPressed(false);
-            LevelManager.getInstance()
+            LevelManagerModel.getInstance()
                     .getLevels()
                     .get(levelEditorView.getLevelIndex())
                     .setPlayerSpawn(
@@ -378,14 +375,14 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     }
 
     private int[][] getLevelData() {
-        return levelManager
+        return levelManagerModel
                 .getLevels()
                 .get(levelEditorView.getLevelIndex())
                 .getLvlData();
     }
 
     private int[][] getEnemiesData() {
-        return levelManager
+        return levelManagerModel
                 .getLevels()
                 .get(levelEditorView.getLevelIndex())
                 .getEnemiesData();
@@ -510,7 +507,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     }
 
     private Point getPlayerSpawn() {
-        return LevelManager
+        return LevelManagerModel
                 .getInstance()
                 .getLevels()
                 .get(levelEditorView.getLevelIndex())

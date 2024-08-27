@@ -1,9 +1,12 @@
 package model.gamestate;
 
+import model.LevelManagerModel;
 import model.entities.PlayerModel;
 import model.entities.enemies.EnemyManagerModel;
 import model.objects.BubbleManagerModel;
 import model.objects.BubbleModel;
+
+import java.util.logging.Level;
 
 import static model.utilz.Constants.PlayerConstants.DEATH;
 
@@ -28,6 +31,7 @@ public class Playing {
     }
 
     public void update() {
+        System.out.println(LevelManagerModel.getInstance().getLvlIndex());
         if (!(player.isGameOver())) {
             if (player.getPlayerAction() != DEATH)
                 player.update();

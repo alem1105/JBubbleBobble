@@ -1,5 +1,10 @@
 package model;
 
+import model.entities.PlayerModel;
+import model.entities.enemies.EnemyManagerModel;
+import model.gamestate.Gamestate;
+import model.objects.BubbleManagerModel;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -8,20 +13,20 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class LevelManager {
+public class LevelManagerModel {
 
-    private static LevelManager instance;
+    private static LevelManagerModel instance;
     private ArrayList<LevelModel> levels;
-    private int lvlIndex = 0;
+    private int lvlIndex = 13;
 
-    public static LevelManager getInstance() {
+    public static LevelManagerModel getInstance() {
         if (instance == null) {
-            instance = new LevelManager();
+            instance = new LevelManagerModel();
         }
         return instance;
     }
 
-    private LevelManager() {
+    private LevelManagerModel() {
         levels = new ArrayList<>();
         buildAllLevels();
     }
@@ -34,7 +39,7 @@ public class LevelManager {
     }
 
     public static BufferedImage[] getAllLevels() {
-        URL url = LevelManager.class.getResource("/lvls");
+        URL url = LevelManagerModel.class.getResource("/lvls");
         File file = null;
 
         try {
@@ -63,8 +68,17 @@ public class LevelManager {
         return imgs;
     }
 
-    public void nextLvl(){
-        lvlIndex++;
+    public void loadNextLevel(){
+        if(lvlIndex >= levels.size() - 1) {
+            System.out.println("HAI VINTO");
+            Gamestate.state = Gamestate.MENU;
+            lvlIndex = 0;
+        } else {
+            lvlIndex++;
+        }
+        EnemyManagerModel.getInstance().initEnemies();
+        BubbleManagerModel.getInstance().resetBubbles();
+        PlayerModel.getInstance().moveToSpawn();
     }
 
     public ArrayList<LevelModel> getLevels() {

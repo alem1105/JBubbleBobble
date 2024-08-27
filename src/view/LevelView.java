@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import model.LevelManager;
+import model.LevelManagerModel;
 
 import static model.utilz.Constants.GameConstants.*;
 
@@ -15,11 +15,11 @@ public class LevelView {
 
     private BufferedImage[] lvlSprites;
     private ArrayList<LevelModel> levels;
-    private LevelManager lvlManager;
+    private LevelManagerModel lvlManager;
 
     public LevelView() {
         lvlSprites = LoadSave.importSprites();
-        lvlManager = LevelManager.getInstance();
+        lvlManager = LevelManagerModel.getInstance();
         levels = lvlManager.getLevels();
     }
 

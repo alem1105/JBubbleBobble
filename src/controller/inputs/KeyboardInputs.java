@@ -1,7 +1,6 @@
 package controller.inputs;
 
-import model.LevelManager;
-import model.ModelManager;
+import model.LevelManagerModel;
 import model.entities.PlayerModel;
 import model.gamestate.Gamestate;
 
@@ -34,7 +33,7 @@ public class KeyboardInputs implements KeyListener {
                     case KeyEvent.VK_D -> PlayerModel.getInstance().setRight(true);
                     case KeyEvent.VK_A -> PlayerModel.getInstance().setLeft(true);
                     case KeyEvent.VK_SPACE -> PlayerModel.getInstance().setJump(true);
-                    case KeyEvent.VK_N -> LevelManager.getInstance().nextLvl();
+                    case KeyEvent.VK_N -> LevelManagerModel.getInstance().loadNextLevel();
                 }
             }
             case LEVEL_EDITOR -> {

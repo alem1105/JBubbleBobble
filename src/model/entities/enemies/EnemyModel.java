@@ -1,10 +1,6 @@
 package model.entities.enemies;
 
-import model.LevelManager;
 import model.entities.EntityModel;
-
-import java.awt.image.BufferedImage;
-import java.util.Random;
 
 import static model.utilz.Constants.Directions.*;
 import static model.utilz.Constants.Enemies.*;

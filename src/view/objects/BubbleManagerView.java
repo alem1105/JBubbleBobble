@@ -40,12 +40,6 @@ public class BubbleManagerView {
         for (BobBubbleView bubbleView : bobBubbleViews) {
             if ((bubbleView.getBubbleModel().isActive() || (bubbleView.getBubbleModel().isTimeOut() && bubbleView.getAniIndex() <= 2)))
                 bubbleView.draw(g);
-
-            // For debugging
-//            g.setColor(Color.PINK);
-//            g.drawRect((int) (bubbleView.bubbleModel.getHitbox().x), (int) (bubbleView.bubbleModel.getHitbox().y),
-//                     bubbleView.bubbleModel.getWidth(),
-//                     bubbleView.bubbleModel.getHeight());
             }
         }
 
@@ -53,6 +47,9 @@ public class BubbleManagerView {
     private void getBubbles() {
         int modelLength = BubbleManagerModel.getInstance().getBobBubbles().size();
         int i = bobBubbleViews.size();
+        if (i > modelLength) {
+            bobBubbleViews.clear();
+        }
         while (modelLength > bobBubbleViews.size()) {
             bobBubbleViews.add(new BobBubbleView(BubbleManagerModel.getInstance().getBobBubbles().get(i)));
             i++;

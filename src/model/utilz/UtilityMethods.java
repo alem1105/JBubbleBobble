@@ -1,11 +1,11 @@
 package model.utilz;
 
-import model.LevelManager;
+import model.LevelManagerModel;
 import model.entities.PlayerModel;
 
 public class UtilityMethods {
     public static int[][] getLvlData() {
-        return LevelManager.getInstance().getLevels().get(LevelManager.getInstance().getLvlIndex()).getLvlData();
+        return LevelManagerModel.getInstance().getLevels().get(LevelManagerModel.getInstance().getLvlIndex()).getLvlData();
     }
 
     public static PlayerModel getPlayer() {

@@ -1,6 +1,5 @@
 package view.entities;
 
-import model.LevelManager;
 import model.entities.PlayerModel;
 import view.utilz.LoadSave;
 

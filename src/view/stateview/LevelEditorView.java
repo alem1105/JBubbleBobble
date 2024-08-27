@@ -1,6 +1,6 @@
 package view.stateview;
 
-import model.LevelManager;
+import model.LevelManagerModel;
 import model.ui.buttons.*;
 import view.ui.buttons.*;
 import view.utilz.LoadSave;
@@ -14,7 +14,7 @@ import static model.utilz.Constants.GameConstants.*;
 public class LevelEditorView {
     private static LevelEditorView instance;
 
-    private LevelManager levelManager;
+    private LevelManagerModel levelManagerModel;
     private int drawOffset = (int)(5 * SCALE);
 
     private int levelIndex;
@@ -35,8 +35,8 @@ public class LevelEditorView {
     private BufferedImage[] enemiesImages; // contiene immagini dei nemici (una riga)
 
     private LevelEditorView() {
-        levelManager = LevelManager.getInstance();
-        levelWidth = levelManager.getLevels().get(levelIndex).getLvlData()[0].length * (TILES_SIZE - drawOffset);
+        levelManagerModel = LevelManagerModel.getInstance();
+        levelWidth = levelManagerModel.getLevels().get(levelIndex).getLvlData()[0].length * (TILES_SIZE - drawOffset);
         initButtons();
         XButton.getButtonModel().updateData(levelIndex);
     }
@@ -146,7 +146,7 @@ public class LevelEditorView {
     }
 
     public void drawPlayer(Graphics g) {
-        Point playerSpawn = LevelManager.getInstance().getLevels().get(levelIndex).getPlayerSpawn();
+        Point playerSpawn = LevelManagerModel.getInstance().getLevels().get(levelIndex).getPlayerSpawn();
         g.drawImage(playerButton.getImageButton(),
                 (playerSpawn.x / TILES_SIZE) * (TILES_SIZE - drawOffset),
                 (playerSpawn.y / TILES_SIZE) * (TILES_SIZE - drawOffset),
@@ -157,9 +157,9 @@ public class LevelEditorView {
 
     public void drawTilesAndEnemies(Graphics g) {
         for (int y = 0; y < TILES_IN_HEIGHT; y++) {
-            for (int x = 0; x < levelManager.getLevels().get(levelIndex).getLvlData()[0].length; x++) {
-                int blockIndex = levelManager.getLevels().get(levelIndex).getSpriteIndex(x, y);
-                int enemyIndex = levelManager.getLevels().get(levelIndex).getEnemyIndex(x, y);
+            for (int x = 0; x < levelManagerModel.getLevels().get(levelIndex).getLvlData()[0].length; x++) {
+                int blockIndex = levelManagerModel.getLevels().get(levelIndex).getSpriteIndex(x, y);
+                int enemyIndex = levelManagerModel.getLevels().get(levelIndex).getEnemyIndex(x, y);
 
                 if (blockIndex > 0 && blockIndex < 255) {
                     g.drawImage(blocksImages[blockIndex - 1],

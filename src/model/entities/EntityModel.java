@@ -1,6 +1,6 @@
 package model.entities;
 
-import model.LevelManager;
+import model.LevelManagerModel;
 
 import java.awt.geom.Rectangle2D;
 
@@ -99,8 +99,8 @@ public abstract class EntityModel {
         return width;
     }
 
-    public LevelManager getLevelManager() {
-        return LevelManager.getInstance();
+    public LevelManagerModel getLevelManager() {
+        return LevelManagerModel.getInstance();
     }
 
     public boolean isInAir() {

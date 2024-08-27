@@ -1,6 +1,6 @@
 package model.entities.enemies;
 
-import model.LevelManager;
+import model.LevelManagerModel;
 import model.entities.PlayerModel;
 import view.ui.buttons.BlockButtonView;
 import view.ui.buttons.CustomButtonView;
@@ -17,7 +17,7 @@ import static model.utilz.Constants.PlayerConstants.DEATH;
 public class EnemyManagerModel {
 
     private static EnemyManagerModel instance;
-    private LevelManager levelManager;
+    private LevelManagerModel levelManagerModel;
     private ArrayList<MaitaModel> maitas;
     private ArrayList<ZenChanModel> zenChans;
     private ArrayList<EnemyModel> enemies;
@@ -30,7 +30,7 @@ public class EnemyManagerModel {
     }
 
     private EnemyManagerModel() {
-        levelManager = LevelManager.getInstance();
+        levelManagerModel = LevelManagerModel.getInstance();
         initEnemies();
     }
 

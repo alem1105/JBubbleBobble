@@ -1,5 +1,6 @@
 package view.stateview;
 
+import model.LevelManagerModel;
 import model.entities.PlayerModel;
 import model.ui.buttons.QuitButtonModel;
 import view.LevelView;

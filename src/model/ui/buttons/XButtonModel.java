@@ -1,6 +1,6 @@
 package model.ui.buttons;
 
-import model.LevelManager;
+import model.LevelManagerModel;
 import view.stateview.LevelEditorView;
 
 import java.awt.*;
@@ -19,7 +19,7 @@ public class XButtonModel extends CustomButtonModel {
     }
 
     private void updateLvlData(int index) {
-        int[][] lvlData = LevelManager.getInstance().getLevels().get(index).getLvlData();
+        int[][] lvlData = LevelManagerModel.getInstance().getLevels().get(index).getLvlData();
         oldLvlData = new int[TILES_IN_HEIGHT][TILES_IN_WIDTH];
         for (int i = 0; i < lvlData.length; i++) {
             oldLvlData[i] = Arrays.copyOf(lvlData[i], TILES_IN_WIDTH);
@@ -27,7 +27,7 @@ public class XButtonModel extends CustomButtonModel {
     }
 
     private void updateEnemiesData(int index) {
-        int[][] enemiesData = LevelManager.getInstance().getLevels().get(index).getEnemiesData();
+        int[][] enemiesData = LevelManagerModel.getInstance().getLevels().get(index).getEnemiesData();
         oldEnemiesData = new int[TILES_IN_HEIGHT][TILES_IN_WIDTH];
         for (int i = 0; i < enemiesData.length; i++) {
             oldEnemiesData[i] = Arrays.copyOf(enemiesData[i], TILES_IN_WIDTH);
@@ -35,23 +35,23 @@ public class XButtonModel extends CustomButtonModel {
     }
 
     private void updatePlayerSpawn(int index){
-        oldPlayerSpawn = LevelManager.getInstance().getLevels().get(index).getPlayerSpawn();
+        oldPlayerSpawn = LevelManagerModel.getInstance().getLevels().get(index).getPlayerSpawn();
     }
 
     public void isClicked() {
-        LevelManager.getInstance()
+        LevelManagerModel.getInstance()
                 .getLevels()
                 .get(LevelEditorView
                         .getInstance()
                         .getLevelIndex())
                 .setLvlData(oldLvlData);
-        LevelManager.getInstance()
+        LevelManagerModel.getInstance()
                 .getLevels()
                 .get(LevelEditorView
                         .getInstance()
                         .getLevelIndex())
                 .setEnemiesData(oldEnemiesData);
-        LevelManager.getInstance()
+        LevelManagerModel.getInstance()
                 .getLevels()
                 .get(LevelEditorView
                         .getInstance()
