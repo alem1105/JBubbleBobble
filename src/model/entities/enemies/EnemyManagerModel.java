@@ -4,10 +4,13 @@ import model.LevelManagerModel;
 import model.entities.PlayerModel;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static model.utilz.Constants.Enemies.DEAD;
+import static model.utilz.Constants.GameConstants.TILES_IN_HEIGHT;
+import static model.utilz.Constants.GameConstants.TILES_IN_WIDTH;
 import static model.utilz.Constants.PlayerConstants.DEATH;
 
 public class EnemyManagerModel {
@@ -17,6 +20,8 @@ public class EnemyManagerModel {
     private ArrayList<MaitaModel> maitas;
     private ArrayList<ZenChanModel> zenChans;
     private ArrayList<EnemyModel> enemies;
+
+    private Random random;
 
     public static EnemyManagerModel getInstance() {
         if (instance == null) {
@@ -28,6 +33,7 @@ public class EnemyManagerModel {
     private EnemyManagerModel() {
         levelManagerModel = LevelManagerModel.getInstance();
         initEnemies();
+        random = new Random();
     }
 
     public void initEnemies(){
@@ -61,6 +67,36 @@ public class EnemyManagerModel {
                         getPlayerModel().playerHasBeenHit();
                     }
                 }
+            } else {
+                if(!(zenChan.isDeathMovement()))
+                    doDeathMovement(zenChan);
+            }
+        }
+    }
+
+    private void doDeathMovement(ZenChanModel zenChan) {
+         if(!(zenChan.getEnemyTileY() >= TILES_IN_HEIGHT - 3)) {
+             parableMovement(zenChan);
+         } else {
+             zenChan.setDeathMovement(true);
+         }
+    }
+
+    private void parableMovement(ZenChanModel zenChan) {
+        float xMov = random.nextInt(3) + 1; // tra 1 e 3
+        float yMov = random.nextInt(2) + 1; // tra 1 e 2
+
+        if(zenChan.isInvertDeathMovement()) {
+            float randomNumberX = 0.1f + (0.3f - 0.1f) * random.nextFloat();;
+            float randomNumberY = 2.0f + (3.0f - 2.0f) * random.nextFloat();
+            zenChan.getHitbox().x -= 0.1;
+            zenChan.getHitbox().y += 1.5;
+        } else {
+            if((zenChan.getEnemyTileX() >= TILES_IN_WIDTH - 1 || zenChan.getEnemyTileX() <= 1)) {
+                zenChan.setInvertDeathMovement(true);
+            } else {
+                zenChan.getHitbox().x += xMov;
+                zenChan.getHitbox().y -= yMov;
             }
         }
     }

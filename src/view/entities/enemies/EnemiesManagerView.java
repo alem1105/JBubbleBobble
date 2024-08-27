@@ -26,9 +26,10 @@ public class EnemiesManagerView {
 
     private void updateEnemies(){
         for (ZenChanView zenChanView : zenChanViews) {
-            if (!zenChanView.getEnemy().isActive() && zenChanView.aniIndex == 6) {
-                continue;
-            }
+//            if (condizione che stoppa l'update del model) {
+//                continue;
+//            }
+
             zenChanView.update();
         }
     }
@@ -42,11 +43,10 @@ public class EnemiesManagerView {
 
     public void render(Graphics g) {
         for (ZenChanView zenChanView : zenChanViews) {
-            if(!zenChanView.getEnemy().isActive() && zenChanView.aniIndex == 6) {
-               continue;
+            if(true ) { //condizione con cui si stoppa l'update
+                zenChanView.render(g);
             }
-            zenChanView.render(g);
-            zenChanView.drawHitbox(g);
+            //zenChanView.drawHitbox(g);
         }
     }
 
