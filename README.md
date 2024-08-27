@@ -5,7 +5,7 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 
 ## TODO - Lo aggiorniamo man mano 🙃
 
-### Cose importanti
+### Very Important things 
 - [x] salvataggio immagine level editor
 - [x] movimento nemici
 - [ ] attacco nemici (maita)
@@ -19,7 +19,7 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [x] gestione delle vite
 - [ ] gestione del punteggio
 - [ ] implementare tutte le bolle
-- [ ] fare i power up (12)
+- [ ] fare i power up (12) ed extends : https://strategywiki.org/wiki/Bubble_Bobble/Special_items
 - [ ] aggiungere l'audio
 
 ### Easy things to do
@@ -27,10 +27,13 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [x] schermata scegliere livello level editor
 - [x] sistemare aniTick della bolla
 - [x] sistemare menu
+- [ ] animazione migliore morte dei nemici
+- [ ] bolle che scoppiamo tutte insieme 
 - [ ] classifica(?) *non so cosa sia*
-- [ ] metodo per il caricamento del livello successivo
+- [x] metodo per il caricamento del livello successivo
 
 ### We may or may not do that
 - [ ] livello finale con boss
 - [ ] aggiungere il crea livelli al level editor
-- [ ] animazione migliore morte dei nemici
+- [ ] saltare sulle bolle
+- [ ] transizione livelli
