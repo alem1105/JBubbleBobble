@@ -8,6 +8,7 @@ import model.ui.buttons.*;
 import view.entities.PlayerView;
 import view.stateview.LevelEditorView;
 import view.stateview.LevelSelectorView;
+import view.stateview.MenuView;
 import view.stateview.PlayingView;
 import view.ui.DeathScreenView;
 import view.ui.buttons.BlockButtonView;
@@ -33,6 +34,8 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     private LevelSelectorView levelSelectorView;
     private PlayingView playingView;
     private DeathScreenView deathScreenView;
+    private MenuView menuView;
+    private boolean justChangedScreen;
 
     public MouseInputs(){
         this.levelEditorView = LevelEditorView.getInstance();
@@ -40,6 +43,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
         this.levelSelectorView = LevelSelectorView.getInstance();
         this.playingView = new PlayingView();
         this.deathScreenView = DeathScreenView.getInstance();
+        this.menuView = MenuView.getInstance();
     }
 
     private <T extends CustomButtonView> boolean isIn(T button, MouseEvent e) {
@@ -53,18 +57,31 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     public void mouseClicked(MouseEvent e) {
         switch (Gamestate.state) {
             case PLAYING -> {
-                switch(e.getButton()) {
-                    case MouseEvent.BUTTON1 -> {
-                        PlayerModel.getInstance().setAttack(true);
+                if (justChangedScreen){
+                    justChangedScreen = false;
+                } else {
+                    switch(e.getButton()) {
+                        case MouseEvent.BUTTON1 -> {
+                            PlayerModel.getInstance().setAttack(true);
+                        }
                     }
                 }
             }
+
         }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         switch (Gamestate.state) {
+            case MENU -> {
+                if (isIn(menuView.getStartButton(), e)){
+                    getStartButton().setPressed(true);
+                }
+                if (isIn(menuView.getEditorButton(), e)){
+                    getEditorButton().setPressed(true);
+                }
+            }
             case PLAYING -> {
                 if(PlayerModel.getInstance().isGameOver()){
                     if(isIn(deathScreenView.getQuitButtonView(), e))
@@ -113,6 +130,17 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         switch (Gamestate.state) {
+            case MENU -> {
+                if (isIn(menuView.getStartButton(), e)){
+                    Gamestate.state = Gamestate.PLAYING;
+                    justChangedScreen = true;
+                }
+                if (isIn(menuView.getEditorButton(), e)){
+                    Gamestate.state = Gamestate.LEVEL_SELECTOR;
+                }
+                getEditorButton().setPressed(false);
+                getStartButton().setPressed(false);
+            }
             case PLAYING -> {
                 if(PlayerModel.getInstance().isGameOver()){
                     if(isIn(deathScreenView.getQuitButtonView(), e)){
@@ -165,6 +193,18 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     @Override
     public void mouseMoved(MouseEvent e) {
         switch (Gamestate.state) {
+            case MENU -> {
+                if (isIn(menuView.getStartButton(), e)){
+                    getStartButton().setHover(true);
+                } else {
+                    getStartButton().setHover(false);
+                }
+                if (isIn(menuView.getEditorButton(), e)){
+                    getEditorButton().setHover(true);
+                } else {
+                    getEditorButton().setHover(false);
+                }
+            }
 
             case PLAYING -> {
                 if(PlayerModel.getInstance().isGameOver()){
@@ -316,6 +356,14 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     }
 
     // METODI HELPER
+
+    private StartButtonModel getStartButton(){
+        return menuView.getStartButton().getButtonModel();
+    }
+
+    private EditorButtonModel getEditorButton(){
+        return menuView.getEditorButton().getButtonModel();
+    }
 
     private RestartButtonModel getRestartButton(){
         return deathScreenView.getRestartButtonView().getButtonModel();

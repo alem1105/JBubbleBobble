@@ -31,7 +31,7 @@ public class GamePanel extends JPanel implements Observer {
 
     private void loadViews() {
         this.playingView = new PlayingView();
-        this.menuView = new MenuView();
+        this.menuView = MenuView.getInstance();
         this.levelEditorView = LevelEditorView.getInstance();
         this.levelSelectorView = LevelSelectorView.getInstance();
     }
@@ -55,7 +55,7 @@ public class GamePanel extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
         switch(Gamestate.state) {
             case PLAYING -> playingView.update();
-            //case MENU -> System.out.println("Sto in GamePanel al posto di menu.update()");
+            case MENU -> menuView.update();
             case LEVEL_EDITOR -> levelEditorView.update();
             case LEVEL_SELECTOR -> levelSelectorView.update();
         }

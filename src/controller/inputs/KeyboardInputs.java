@@ -23,12 +23,11 @@ public class KeyboardInputs implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         switch (Gamestate.state) {
-            case MENU -> {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_ENTER -> Gamestate.state = PLAYING;
-                    case KeyEvent.VK_L -> Gamestate.state = LEVEL_SELECTOR;
-                }
-            }
+//            case MENU -> {
+//                switch (e.getKeyCode()) {
+//                    case KeyEvent.VK_ENTER -> Gamestate.state = PLAYING;
+//                }
+//            }
             case PLAYING -> {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_ESCAPE -> Gamestate.state = MENU;

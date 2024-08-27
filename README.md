@@ -11,7 +11,7 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [ ] attacco nemici (maita)
 - [ ] sistemare nemici che ti colpiscono in continuazione sullo spawn
 - [ ] aggiungere tutti i nemici
-- [ ] sistemare movimento bolla di bob
+- [x] sistemare movimento bolla di bob
 - [x] schermata game over
 - [ ] schermata hai vinto
 - [ ] schermata pausa
@@ -26,11 +26,11 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [x] gestire la caduta del player fuori dalla schermata
 - [x] schermata scegliere livello level editor
 - [x] sistemare aniTick della bolla
-- [ ] sistemare menu
+- [x] sistemare menu
 - [ ] classifica(?) *non so cosa sia*
 - [ ] metodo per il caricamento del livello successivo
 
 ### We may or may not do that
 - [ ] livello finale con boss
 - [ ] aggiungere il crea livelli al level editor
-- [ ] sfondo level editor 
+- [ ] animazione migliore morte dei nemici

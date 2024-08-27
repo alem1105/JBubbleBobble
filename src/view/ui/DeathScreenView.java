@@ -27,10 +27,10 @@ public class DeathScreenView {
     }
 
     private DeathScreenView() {
-        this.x = 100;
-        this.y = 500;
-        this.width = 300;
-        this.height = 500;
+//        this.x = 100;
+//        this.y = 500;
+//        this.width = 300;
+//        this.height = 500;
         initButtons();
     }
 
@@ -55,7 +55,7 @@ public class DeathScreenView {
         restartButton.draw(g);
     }
 
-    public void drawString(Graphics g) {
+    private void drawString(Graphics g) {
         Font font = (LoadSave.CUSTOM_FONT).deriveFont(33 * SCALE);
         g.setColor(GREEN);
         g.setFont(font);
