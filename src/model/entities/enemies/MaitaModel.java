@@ -8,6 +8,5 @@ public class MaitaModel extends EnemyModel{
 
     @Override
     protected void updateXPos(float xSpeed) {
-
     }
 }

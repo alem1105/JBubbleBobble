@@ -15,8 +15,6 @@ import static model.utilz.UtilityMethods.getPlayer;
 public class ZenChanModel extends EnemyModel {
 
     private boolean hasEnemyHitTheWall;
-    private boolean deathMovement = false;
-    private boolean invertDeathMovement = false;
 
     public ZenChanModel(int x, int y) {
         super(x, y, (int) (18 * SCALE), (int) (18 * SCALE));
@@ -39,7 +37,7 @@ public class ZenChanModel extends EnemyModel {
             else
                 updateXPos(walkSpeed);
         } else {
-            if (getEnemyTileY() != targetYTile) {
+            if ((int) (hitbox.y / TILES_SIZE) != targetYTile) {
                 hitbox.y -= 1.5F;
             } else {
                 goingUp = false;
@@ -130,31 +128,16 @@ public class ZenChanModel extends EnemyModel {
         return (int) (getPlayer().getHitbox().y / TILES_SIZE);
     }
 
+    private int getEnemyTileY() {
+        return (int) (hitbox.y / TILES_SIZE);
+    }
+
     private int getPlayerTileX() {
         return (int) (getPlayer().getHitbox().x / TILES_SIZE);
     }
 
-    public int getEnemyTileY() {
-        return (int) (hitbox.y / TILES_SIZE);
-    }
-
-    public int getEnemyTileX() {
+    private int getEnemyTileX() {
         return (int) (hitbox.x / TILES_SIZE);
     }
 
-    public boolean isDeathMovement() {
-        return deathMovement;
-    }
-
-    public boolean isInvertDeathMovement() {
-        return invertDeathMovement;
-    }
-
-    public void setDeathMovement(boolean deathMovement) {
-        this.deathMovement = deathMovement;
-    }
-
-    public void setInvertDeathMovement(boolean invertDeathMovement) {
-        this.invertDeathMovement = invertDeathMovement;
-    }
 }
