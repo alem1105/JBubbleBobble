@@ -335,6 +335,10 @@ public abstract class EnemyModel extends EntityModel {
         return invertDeathMovement;
     }
 
+    public boolean isAlreadyDidParable() {
+        return alreadyDidParable;
+    }
+
     public void setInvertDeathMovement(boolean invertDeathMovement) {
         this.invertDeathMovement = invertDeathMovement;
     }

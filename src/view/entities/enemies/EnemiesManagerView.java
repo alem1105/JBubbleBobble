@@ -28,11 +28,9 @@ public class EnemiesManagerView {
 
     private void updateEnemies(){
         for (EnemyView enemyView : enemyViews) {
-//            if (condizione che stoppa l'update del model) {
-//                continue;
-//            }
-
-            enemyView.update();
+            if (!enemyView.getEnemy().isAlreadyDidParable()){
+                enemyView.update();
+            }
         }
     }
 
@@ -46,10 +44,9 @@ public class EnemiesManagerView {
 
     public void render(Graphics g) {
         for (EnemyView enemyView : enemyViews) {
-            if(true ) { //condizione con cui si stoppa l'update
+            if(!enemyView.getEnemy().isAlreadyDidParable() ) {
                 enemyView.render(g);
             }
-            //zenChanView.drawHitbox(g);
         }
     }
 
