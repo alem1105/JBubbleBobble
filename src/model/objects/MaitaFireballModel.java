@@ -34,7 +34,6 @@ public class MaitaFireballModel extends ProjectileModel{
         if(CanMoveHere(hitbox.x + fireballSpeed, hitbox.y, hitbox.width, hitbox.height, getLvlData())) {
             hitbox.x += fireballSpeed;
         } else {
-            System.out.println("mi rompo");
             active = false;
         }
     }

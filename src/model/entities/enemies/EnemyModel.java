@@ -47,7 +47,7 @@ public abstract class EnemyModel extends EntityModel {
         updateEnemyState();
     }
 
-    // metoto "default" per nemici tipo Zen Chan
+    // metodo "default" per nemici tipo Zen Chan
 
     protected void updatePos() {
         isInAirCheck();
@@ -157,12 +157,6 @@ public abstract class EnemyModel extends EntityModel {
     public void doDeathMovement(EnemyModel enemyModel) {
         if(!(deathMovement))
             parableMovement(enemyModel);
-
-//        if(!(enemyModel.getEnemyTileY() >= TILES_IN_HEIGHT - 3)) {
-//            parableMovement(enemyModel);
-//        } else {
-//            enemyModel.setDeathMovement(true);
-//        }
     }
     
     private void parableMovement(EnemyModel enemyModel) {
