@@ -69,16 +69,16 @@ public class LevelManagerModel {
     }
 
     public void loadNextLevel(){
-//        if(lvlIndex >= levels.size() - 1) {
-//            System.out.println("HAI VINTO");
-//            Gamestate.state = Gamestate.MENU;
-//            lvlIndex = 0;
-//        } else {
-//            lvlIndex++;
-//        }
-//        EnemyManagerModel.getInstance().initEnemies();
-//        BubbleManagerModel.getInstance().resetBubbles();
-//        PlayerModel.getInstance().moveToSpawn();
+        if(lvlIndex >= levels.size() - 1) {
+            System.out.println("HAI VINTO");
+            Gamestate.state = Gamestate.MENU;
+            lvlIndex = 0;
+        } else {
+            lvlIndex++;
+        }
+        EnemyManagerModel.getInstance().initEnemies();
+        BubbleManagerModel.getInstance().resetBubbles();
+        PlayerModel.getInstance().moveToSpawn();
     }
 
     public ArrayList<LevelModel> getLevels() {

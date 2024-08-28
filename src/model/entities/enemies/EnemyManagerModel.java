@@ -4,6 +4,8 @@ import model.LevelManagerModel;
 import model.entities.PlayerModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -19,9 +21,15 @@ public class EnemyManagerModel {
     private LevelManagerModel levelManagerModel;
     private ArrayList<MaitaModel> maitas;
     private ArrayList<ZenChanModel> zenChans;
+    private ArrayList<HidegonsModel> hidegons;
+    private ArrayList<PulpulModel> pulpuls;
+    private ArrayList<MonstaModel> monstas;
+    private ArrayList<DrunkModel> drunks;
     private ArrayList<EnemyModel> enemies;
 
-    private Random random;
+    private boolean levelEndTimer;
+    private int levelEndTick = 0;
+    private int levelEndTimerDuration = 720;
 
     public static EnemyManagerModel getInstance() {
         if (instance == null) {
@@ -33,70 +41,58 @@ public class EnemyManagerModel {
     private EnemyManagerModel() {
         levelManagerModel = LevelManagerModel.getInstance();
         initEnemies();
-        random = new Random();
     }
 
     public void initEnemies(){
         zenChans = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getZenChans();
-        maitas = new ArrayList<>();
+        maitas = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getMaitas();
+        monstas = new ArrayList<>();
+        pulpuls = new ArrayList<>();
+        hidegons = new ArrayList<>();
+        drunks = new ArrayList<>();
         createGeneralEnemiesArray();
     }
 
     private void createGeneralEnemiesArray() {
-        enemies = Stream
-                .concat(zenChans.stream(), maitas.stream())
+        enemies = Stream.of(zenChans, pulpuls, monstas, maitas, hidegons)
+                .flatMap(Collection::stream)
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public void update() {
         checkIfAllEnemiesAreDead();
         checkEnemiesCollision();
+        checkLevelEndTimer();
+    }
+
+    private void checkLevelEndTimer() {
+        if(levelEndTimer) {
+            if (levelEndTick >= levelEndTimerDuration) {
+                LevelManagerModel.getInstance().loadNextLevel();
+                levelEndTimer = false;
+                levelEndTick = 0;
+            }
+            levelEndTick++;
+        }
     }
 
     private void checkEnemiesCollision(){
-        for (ZenChanModel zenChan : zenChans) {
-            if (zenChan.isActive()) {
-                zenChan.update();
-                if (zenChan.getHitbox().intersects(getPlayerModel().getHitbox())) {
-                    if (zenChan.isInBubble()) {
-                        zenChan.setEnemyState(DEAD);
-                        zenChan.setResetAniTick(true);
-                        zenChan.setActive(false);
+        for (EnemyModel enemyModel : enemies) {
+            if (enemyModel.isActive()) {
+                enemyModel.update();
+                if (enemyModel.getHitbox().intersects(getPlayerModel().getHitbox()) && !getPlayerModel().isInvincible()) {
+                    if (enemyModel.isInBubble()) {
+                        enemyModel.setEnemyState(DEAD);
+                        enemyModel.setActive(false);
                     }
                     else if (getPlayerModel().getPlayerAction() != DEATH) {
                         getPlayerModel().playerHasBeenHit();
                     }
                 }
             } else {
-                if(!(zenChan.isDeathMovement()))
-                    doDeathMovement(zenChan);
-            }
-        }
-    }
-
-    private void doDeathMovement(ZenChanModel zenChan) {
-         if(!(zenChan.getEnemyTileY() >= TILES_IN_HEIGHT - 3)) {
-             parableMovement(zenChan);
-         } else {
-             zenChan.setDeathMovement(true);
-         }
-    }
-
-    private void parableMovement(ZenChanModel zenChan) {
-        float xMov = random.nextInt(3) + 1; // tra 1 e 3
-        float yMov = random.nextInt(2) + 1; // tra 1 e 2
-
-        if(zenChan.isInvertDeathMovement()) {
-            float randomNumberX = 0.1f + (0.3f - 0.1f) * random.nextFloat();;
-            float randomNumberY = 2.0f + (3.0f - 2.0f) * random.nextFloat();
-            zenChan.getHitbox().x -= 0.1;
-            zenChan.getHitbox().y += 1.5;
-        } else {
-            if((zenChan.getEnemyTileX() >= TILES_IN_WIDTH - 1 || zenChan.getEnemyTileX() <= 1)) {
-                zenChan.setInvertDeathMovement(true);
-            } else {
-                zenChan.getHitbox().x += xMov;
-                zenChan.getHitbox().y -= yMov;
+                if(!(enemyModel.isDeathMovement())) {
+                        enemyModel.doDeathMovement(enemyModel);
+                }
             }
         }
     }
@@ -109,7 +105,7 @@ public class EnemyManagerModel {
         }
         while(!(enemies.get(i).isActive())){
             if(i == enemies.size() - 1) {
-                LevelManagerModel.getInstance().loadNextLevel();
+                levelEndTimer = true;
                 break;
             }
             i++;
@@ -126,5 +122,9 @@ public class EnemyManagerModel {
 
     public ArrayList<EnemyModel> getEnemies() {
         return enemies;
+    }
+
+    public ArrayList<MaitaModel> getMaitas() {
+        return maitas;
     }
 }
