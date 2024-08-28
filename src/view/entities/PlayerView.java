@@ -25,6 +25,8 @@ public class PlayerView {
 
     private int flipW = 1, flipX = 0;
 
+    private float curX, curY;
+
     public PlayerView(PlayerModel playerModel) {
         this.playerModel = playerModel;
         animations = LoadSave.loadAnimations(LoadSave.PLAYER_SPRITE, ROW_INDEX, COL_INDEX, 18, 18);
@@ -34,6 +36,8 @@ public class PlayerView {
         updateAnimationTick();
         updateDirections();
         checkAniTick();
+        curX = playerModel.getHitbox().x;
+        curY = playerModel.getHitbox().y;
     }
 
     private void checkAniTick() {

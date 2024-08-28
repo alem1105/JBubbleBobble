@@ -30,10 +30,7 @@ public class ModelManager extends Observable {
 
     public void update() {
         switch (Gamestate.state) {
-            case PLAYING -> {
-                if (!playingModel.getPlayer().isGameOver())
-                    playingModel.update();
-            }
+            case PLAYING -> playingModel.update();
             case MENU -> menuModel.update();
         }
         setChanged();

@@ -1,5 +1,6 @@
 package view.stateview;
 
+import model.LevelManagerModel;
 import model.entities.PlayerModel;
 import view.LevelView;
 import view.entities.PlayerView;
@@ -7,6 +8,7 @@ import view.entities.enemies.EnemiesManagerView;
 import view.objects.ProjectileManagerView;
 import view.objects.bobbles.BubbleManagerView;
 import view.ui.DeathScreenView;
+import view.ui.NextLevelScreenView;
 import view.utilz.LoadSave;
 
 import java.awt.*;
@@ -23,6 +25,7 @@ public class PlayingView {
     private BufferedImage heartLifeImage;
     private BubbleManagerView bubbleManagerView;
     private ProjectileManagerView projectileManagerView;
+    private NextLevelScreenView nextLevelScreenView;
 
     public PlayingView() {
         initViews();
@@ -36,28 +39,40 @@ public class PlayingView {
         deathScreenView = DeathScreenView.getInstance();
         bubbleManagerView = BubbleManagerView.getInstance();
         projectileManagerView = ProjectileManagerView.getInstance();
+        nextLevelScreenView = NextLevelScreenView.getInstance();
     }
 
     public void render(Graphics g) {
-        levelView.render(g);
-        enemiesManagerView.render(g);
-        playerView.render(g);
-        bubbleManagerView.draw(g);
-        drawLifeHearts(g);
-        if(playerView.getPlayerModel().isGameOver()) {
+        if (playerView.getPlayerModel().isGameOver()){
             deathScreenView.render(g);
+        } else {
+            if (LevelManagerModel.getInstance().isNextLevel()){
+
+                nextLevelScreenView.render(g);
+            } else {
+                levelView.render(g);
+                enemiesManagerView.render(g);
+                playerView.render(g);
+                bubbleManagerView.draw(g);
+                drawLifeHearts(g);
+            }
         }
-        projectileManagerView.updateAndDraw(g);
+
+
     }
 
     public void update(){
-        if(!(playerView.getPlayerModel().isGameOver())) {
-            playerView.update();
-            bubbleManagerView.update();
-            enemiesManagerView.update();
+        if(playerView.getPlayerModel().isGameOver()) {
+            deathScreenView.update();
         }
         else {
-            deathScreenView.update();
+            if (LevelManagerModel.getInstance().isNextLevel()){
+                nextLevelScreenView.update();
+            } else {
+                playerView.update();
+                bubbleManagerView.update();
+                enemiesManagerView.update();
+            }
         }
     }
 

@@ -19,6 +19,7 @@ public class LevelManagerModel {
     private static LevelManagerModel instance;
     private ArrayList<LevelModel> levels;
     private int lvlIndex = 0;
+    private boolean nextLevel = false;
 
     public static LevelManagerModel getInstance() {
         if (instance == null) {
@@ -81,6 +82,8 @@ public class LevelManagerModel {
         BubbleManagerModel.getInstance().resetBubbles();
         PlayerModel.getInstance().moveToSpawn();
         ProjectileManagerModel.getInstance().resetProjectiles();
+        nextLevel = true;
+        //System.out.println("actual x : " + PlayerModel.getInstance().getHitbox().x);
     }
 
     public ArrayList<LevelModel> getLevels() {
@@ -93,5 +96,13 @@ public class LevelManagerModel {
 
     public void setLvlIndex(int lvlIndex) {
         this.lvlIndex = lvlIndex;
+    }
+
+    public boolean isNextLevel() {
+        return nextLevel;
+    }
+
+    public void setNextLevel(boolean nextLevel) {
+        this.nextLevel = nextLevel;
     }
 }
