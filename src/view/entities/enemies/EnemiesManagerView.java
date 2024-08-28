@@ -18,8 +18,7 @@ public class EnemiesManagerView {
 
     public EnemiesManagerView() {
         enemyManagerModel = EnemyManagerModel.getInstance();
-        enemyModels = enemyManagerModel.getEnemies();
-        initViews();
+        initEnemyViewsArrays();
     }
 
     public void update() {
@@ -40,7 +39,7 @@ public class EnemiesManagerView {
     private void checkIfLevelChanged() {
         if(LevelManagerModel.getInstance().getLvlIndex() != currentLevel) {
 
-            initViews();
+            initEnemyViewsArrays();
             currentLevel = LevelManagerModel.getInstance().getLvlIndex();
         }
     }
@@ -52,10 +51,6 @@ public class EnemiesManagerView {
             }
             //zenChanView.drawHitbox(g);
         }
-    }
-
-    private void initViews() {
-        initEnemyViewsArrays();
     }
 
     private void initEnemyViewsArrays() {

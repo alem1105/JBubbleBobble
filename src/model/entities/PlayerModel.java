@@ -1,14 +1,13 @@
 package model.entities;
 
-import model.objects.BobBubbleModel;
-import model.objects.BubbleManagerModel;
+import model.objects.bobbles.BobBubbleModel;
+import model.objects.bobbles.BubbleManagerModel;
 import model.utilz.Constants;
 
 import static model.utilz.Constants.CustomObjects.BUBBLE_SIZE;
 import static model.utilz.Constants.Directions.LEFT;
 import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.GameConstants.SCALE;
-import static model.utilz.Constants.GameConstants.TILES_SIZE;
 import static model.utilz.Constants.PlayerConstants.*;
 import static model.utilz.Gravity.*;
 

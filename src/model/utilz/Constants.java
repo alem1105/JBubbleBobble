@@ -44,7 +44,6 @@ public class Constants {
         public static final int CAPTURED = 2;
         public static final int CAPTURED_ANGRY = 3;
         public static final int DEAD = 4;
-        public static final int ATTACK = 5;
 
 
         public static final int ZEN_CHAN_DEFAULT_WIDTH = 16;
@@ -62,6 +61,9 @@ public class Constants {
         public static final int BUBBLE_EXPLODING = 2;
 
         public static final int BUBBLE_SIZE = (int) (16 * GameConstants.SCALE);
+
+        public static final int FIREBALL_SPAWNED = 0;
+        public static final int FIREBALL_EXPLODING = 1;
 
     }
 }

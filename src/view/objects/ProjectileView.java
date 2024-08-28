@@ -1,17 +1,26 @@
 package view.objects;
 
 import model.objects.CustomObjectModel;
+import model.objects.ProjectileModel;
 
-public class ProjectileView extends CustomObjectView {
+import java.awt.*;
 
+public abstract class ProjectileView<T extends ProjectileModel> extends CustomObjectView<T> {
 
-    public ProjectileView(CustomObjectModel objectModel) {
+    public ProjectileView(T objectModel) {
         super(objectModel);
     }
 
-    @Override
-    protected int getSpriteAmount() {
-        return 0;
+    protected void update(){
+        updateAnimationTick();
     }
 
+    public boolean conditionToDraw(){
+        return objectModel.isActive();
+    }
+
+    public void updateAndDraw(Graphics g){
+        update();
+        super.draw(g);
+    }
 }

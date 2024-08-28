@@ -1,6 +1,6 @@
-package view.objects;
+package view.objects.bobbles;
 
-import model.objects.BobBubbleModel;
+import model.objects.bobbles.BobBubbleModel;
 
 import static model.utilz.Constants.CustomObjects.*;
 import static view.utilz.LoadSave.*;

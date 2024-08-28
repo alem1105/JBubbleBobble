@@ -1,8 +1,6 @@
-package view.objects;
+package view.objects.bobbles;
 
-import model.objects.BobBubbleModel;
-import model.objects.BubbleManagerModel;
-import model.objects.BubbleModel;
+import model.objects.bobbles.BubbleManagerModel;
 
 import java.awt.*;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package model.objects;
+package model.objects.bobbles;
 
 import model.entities.enemies.EnemyManagerModel;
 import model.entities.enemies.EnemyModel;
@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static model.utilz.Constants.GameConstants.TILES_SIZE;
-import static model.utilz.UtilityMethods.getLvlData;
 
 public class BubbleManagerModel {
 

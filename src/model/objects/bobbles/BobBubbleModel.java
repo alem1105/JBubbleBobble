@@ -1,13 +1,10 @@
-package model.objects;
+package model.objects.bobbles;
 
-import model.entities.PlayerModel;
 import model.utilz.UtilityMethods;
 
 import static model.utilz.Constants.Directions.RIGHT;
-import static model.utilz.Constants.Directions.LEFT;
 import static model.utilz.Constants.GameConstants.*;
 import static model.utilz.Gravity.*;
-import static model.utilz.UtilityMethods.getLvlData;
 
 public class BobBubbleModel extends BubbleModel {
     private int projectileTravelTimes = 0;

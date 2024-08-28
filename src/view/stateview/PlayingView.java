@@ -1,14 +1,12 @@
 package view.stateview;
 
-import model.LevelManagerModel;
 import model.entities.PlayerModel;
-import model.ui.buttons.QuitButtonModel;
 import view.LevelView;
 import view.entities.PlayerView;
 import view.entities.enemies.EnemiesManagerView;
-import view.objects.BubbleManagerView;
+import view.objects.ProjectileManagerView;
+import view.objects.bobbles.BubbleManagerView;
 import view.ui.DeathScreenView;
-import view.ui.buttons.QuitButtonView;
 import view.utilz.LoadSave;
 
 import java.awt.*;
@@ -24,6 +22,7 @@ public class PlayingView {
     private DeathScreenView deathScreenView;
     private BufferedImage heartLifeImage;
     private BubbleManagerView bubbleManagerView;
+    private ProjectileManagerView projectileManagerView;
 
     public PlayingView() {
         initViews();
@@ -36,6 +35,7 @@ public class PlayingView {
         enemiesManagerView = new EnemiesManagerView();
         deathScreenView = DeathScreenView.getInstance();
         bubbleManagerView = BubbleManagerView.getInstance();
+        projectileManagerView = ProjectileManagerView.getInstance();
     }
 
     public void render(Graphics g) {
@@ -47,6 +47,7 @@ public class PlayingView {
         if(playerView.getPlayerModel().isGameOver()) {
             deathScreenView.render(g);
         }
+        projectileManagerView.updateAndDraw(g);
     }
 
     public void update(){

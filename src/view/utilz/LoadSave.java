@@ -33,6 +33,9 @@ public class LoadSave {
     public static final String START_BUTTON = "ui/start_button.png";
     public static final String EDITOR_BUTTON = "ui/editor_button.png";
 
+    // Projectiles
+    public static final String MAITA_FIREBALL = "enemies/maita_fireball_sprite.png";
+
 
 
     public static Font CUSTOM_FONT;

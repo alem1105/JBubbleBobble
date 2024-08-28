@@ -1,10 +1,11 @@
-package model.objects;
+package model.objects.bobbles;
+
+import model.objects.CustomObjectModel;
 
 import static model.utilz.Constants.GameConstants.SCALE;
 
 public class BubbleModel extends CustomObjectModel {
     protected int bubbleDirection;
-    protected boolean active = true;
     protected float bubbleSpeed = 1.5F * SCALE;
     protected int lifeTimer = 0; // tempo della vita dopo di che esplode
     protected boolean timeOut;

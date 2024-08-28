@@ -3,7 +3,8 @@ package model;
 import model.entities.PlayerModel;
 import model.entities.enemies.EnemyManagerModel;
 import model.gamestate.Gamestate;
-import model.objects.BubbleManagerModel;
+import model.objects.ProjectileManagerModel;
+import model.objects.bobbles.BubbleManagerModel;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -79,6 +80,7 @@ public class LevelManagerModel {
         EnemyManagerModel.getInstance().initEnemies();
         BubbleManagerModel.getInstance().resetBubbles();
         PlayerModel.getInstance().moveToSpawn();
+        ProjectileManagerModel.getInstance().resetProjectiles();
     }
 
     public ArrayList<LevelModel> getLevels() {

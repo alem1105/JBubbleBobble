@@ -2,11 +2,12 @@ package model.objects;
 
 import java.awt.geom.Rectangle2D;
 
-public class CustomObjectModel {
+public abstract class CustomObjectModel {
 
     protected float x, y;
     protected int width, height;
     protected Rectangle2D.Float hitbox;
+    protected boolean active = true;
 
     public CustomObjectModel(float x, float y, int width, int height) {
         this.x = x;
@@ -18,6 +19,12 @@ public class CustomObjectModel {
 
     private void initHitbox() {
         hitbox = new Rectangle2D.Float(x, y, width, height);
+    }
+
+    public abstract void update();
+
+    public boolean isActive() {
+        return active;
     }
 
     public float getX() {
