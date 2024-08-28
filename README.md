@@ -27,7 +27,7 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [x] schermata scegliere livello level editor
 - [x] sistemare aniTick della bolla
 - [x] sistemare menu
-- [ ] animazione migliore morte dei nemici
+- [x] animazione migliore morte dei nemici
 - [ ] bolle che scoppiamo tutte insieme 
 - [ ] classifica(?) *non so cosa sia*
 - [x] metodo per il caricamento del livello successivo
