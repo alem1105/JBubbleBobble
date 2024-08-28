@@ -54,6 +54,7 @@ public class PlayingView {
                 enemiesManagerView.render(g);
                 playerView.render(g);
                 bubbleManagerView.draw(g);
+                projectileManagerView.updateAndDraw(g);
                 drawLifeHearts(g);
             }
         }

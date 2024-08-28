@@ -80,12 +80,12 @@ public class EnemyManagerModel {
         for (EnemyModel enemyModel : enemies) {
             if (enemyModel.isActive()) {
                 enemyModel.update();
-                if (enemyModel.getHitbox().intersects(getPlayerModel().getHitbox()) && !getPlayerModel().isInvincible()) {
+                if (enemyModel.getHitbox().intersects(getPlayerModel().getHitbox())) {
                     if (enemyModel.isInBubble()) {
                         enemyModel.setEnemyState(DEAD);
                         enemyModel.setActive(false);
                     }
-                    else if (getPlayerModel().getPlayerAction() != DEATH) {
+                    else if (getPlayerModel().getPlayerAction() != DEATH && !getPlayerModel().isInvincible()) {
                         getPlayerModel().playerHasBeenHit();
                     }
                 }
