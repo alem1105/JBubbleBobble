@@ -33,7 +33,7 @@ public class PlayerModel extends EntityModel {
 
     // invincibilità
     private boolean invincible = true;
-    private int invincibleDuration = 360;
+    private int invincibleDuration = 600;
     private int invincibleTick = 0;
 
     private boolean ridingABubble = false;

@@ -7,22 +7,22 @@ import model.objects.bobbles.BubbleManagerModel;
 
 import static model.utilz.Constants.PlayerConstants.DEATH;
 
-public class Playing {
+public class PlayingModel {
 
     private PlayerModel player;
-    private static Playing instance;
+    private static PlayingModel instance;
     private EnemyManagerModel enemyManagerModel;
     private BubbleManagerModel bubbleManagerModel;
     private ProjectileManagerModel projectileManagerModel;
 
-    public static Playing getInstance() {
+    public static PlayingModel getInstance() {
         if (instance == null) {
-            instance = new Playing();
+            instance = new PlayingModel();
         }
         return instance;
     }
 
-    private Playing() {
+    private PlayingModel() {
         player = PlayerModel.getInstance();
         enemyManagerModel = EnemyManagerModel.getInstance();
         bubbleManagerModel = BubbleManagerModel.getInstance();

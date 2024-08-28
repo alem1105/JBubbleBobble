@@ -10,7 +10,7 @@ public class EditButtonView extends CustomButtonView<EditButtonModel> {
 
     public EditButtonView(EditButtonModel model) {
         super(model);
-        font = LoadSave.CUSTOM_FONT;
+        font = LoadSave.BUBBLE_BOBBLE_FONT;
     }
 
     @Override

@@ -25,34 +25,36 @@ public class MaitaModel extends EnemyModel{
         walkSpeed = 0.5f * SCALE;
     }
 
+    @Override
     public void update() {
         if (enemyState == RUNNING || enemyState == RUNNING_ANGRY){
             if(still) {
                 checKFireballShooting();
             }
             else {
-                if(isMaitaOnPlayerY())
+                if(isMaitaOnPlayerY() && !PlayerModel.getInstance().isInvincible())
                     startShootingTimer();
                 updatePos();
             }
         }
+        updateEnemyState();
     }
 
     private void checKFireballShooting() {
-            startStillTimer();
-            if(!shot && !inAir) {
-                if (getWalkDir() == RIGHT) {
-                    // TODO capire se si può togliere sto 18 * SCALE
-                    ProjectileManagerModel.getInstance().addProjectile(new MaitaFireballModel(hitbox.x + hitbox.width, hitbox.y - (Math.abs(hitbox.height - 18 * SCALE)), walkDir));
-                } else {
-                    ProjectileManagerModel.getInstance().addProjectile(new MaitaFireballModel(hitbox.x - hitbox.width, hitbox.y - (Math.abs(hitbox.height - 18 * SCALE)), walkDir));
-                }
-                shot = true;
+        startStillTimer();
+        if(!shot && !inAir) {
+            if (getWalkDir() == RIGHT) {
+                // TODO capire se si può togliere sto 18 * SCALE
+                ProjectileManagerModel.getInstance().addProjectile(new MaitaFireballModel(hitbox.x + hitbox.width, hitbox.y - (Math.abs(hitbox.height - 18 * SCALE)), walkDir));
+            } else {
+                ProjectileManagerModel.getInstance().addProjectile(new MaitaFireballModel(hitbox.x - hitbox.width, hitbox.y - (Math.abs(hitbox.height - 18 * SCALE)), walkDir));
             }
+            shot = true;
+        }
     }
 
     private void startShootingTimer() {
-        if(shootingTick >= shootingTimer) {
+        if(shootingTick >= shootingTimer && !inAir) {
             still = true;
             shootingTick = 0;
             shot = false;

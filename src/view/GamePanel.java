@@ -1,10 +1,7 @@
 package view;
 
 import model.gamestate.Gamestate;
-import view.stateview.LevelEditorView;
-import view.stateview.LevelSelectorView;
-import view.stateview.MenuView;
-import view.stateview.PlayingView;
+import view.stateview.*;
 import view.utilz.LoadSave;
 
 import javax.swing.*;
@@ -14,12 +11,14 @@ import java.util.Observer;
 
 import static model.utilz.Constants.GameConstants.*;
 
+@SuppressWarnings("Deprecated")
 public class GamePanel extends JPanel implements Observer {
 
     private PlayingView playingView;
     private MenuView menuView;
     private LevelEditorView levelEditorView;
     private LevelSelectorView levelSelectorView;
+    private UserStateView userStateView;
 
     public GamePanel() {
         LoadSave.loadCustomFont();
@@ -34,6 +33,7 @@ public class GamePanel extends JPanel implements Observer {
         this.menuView = MenuView.getInstance();
         this.levelEditorView = LevelEditorView.getInstance();
         this.levelSelectorView = LevelSelectorView.getInstance();
+        this.userStateView = UserStateView.getInstance();
     }
 
     private void setPanelSize() {
@@ -48,6 +48,7 @@ public class GamePanel extends JPanel implements Observer {
             case MENU -> menuView.draw(g);
             case LEVEL_EDITOR -> levelEditorView.draw(g);
             case LEVEL_SELECTOR -> levelSelectorView.draw(g);
+            case USER -> userStateView.draw(g);
         }
     }
 
@@ -58,6 +59,7 @@ public class GamePanel extends JPanel implements Observer {
             case MENU -> menuView.update();
             case LEVEL_EDITOR -> levelEditorView.update();
             case LEVEL_SELECTOR -> levelSelectorView.update();
+            case USER -> userStateView.update();
         }
         repaint();
     }

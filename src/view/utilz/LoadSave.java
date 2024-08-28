@@ -35,10 +35,9 @@ public class LoadSave {
 
     // Projectiles
     public static final String MAITA_FIREBALL = "enemies/maita_fireball_sprite.png";
+    public static final String HIDEGONS_FIREBALL = "enemies/hidegons_fireball_sprite.png";
 
-
-
-    public static Font CUSTOM_FONT;
+    public static Font BUBBLE_BOBBLE_FONT, JEQO_FONT;
 
     public static BufferedImage GetSpriteAtlas(String fileName) {
         BufferedImage img = null;
@@ -85,13 +84,16 @@ public class LoadSave {
 
     public static void loadCustomFont() {
         try {
-            CUSTOM_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("./res/BubbleFont.ttf")).deriveFont(16f * SCALE);
+            BUBBLE_BOBBLE_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("./res/BubbleFont.ttf")).deriveFont(16f * SCALE);
+            JEQO_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("./res/Jeqo-5-Bit.ttf")).deriveFont(10f * SCALE);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(CUSTOM_FONT);
+            ge.registerFont(BUBBLE_BOBBLE_FONT);
+            ge.registerFont(JEQO_FONT);
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
             // Se il font non viene caricato, usa un font di fallback
-            CUSTOM_FONT = new Font("Serif", Font.PLAIN, 24);
+            BUBBLE_BOBBLE_FONT = new Font("Serif", Font.PLAIN, 24);
+            JEQO_FONT = new Font("Serif", Font.PLAIN, 24);
         }
     }
 }

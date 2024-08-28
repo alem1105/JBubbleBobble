@@ -16,7 +16,6 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
@@ -27,6 +26,11 @@ public class KeyboardInputs implements KeyListener {
 //                    case KeyEvent.VK_ENTER -> Gamestate.state = PLAYING;
 //                }
 //            }
+            case USER -> {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_ENTER -> Gamestate.state = MENU;
+                }
+            }
             case PLAYING -> {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_ESCAPE -> Gamestate.state = MENU;

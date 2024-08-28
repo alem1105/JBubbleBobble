@@ -54,7 +54,7 @@ public class MenuView {
     }
 
     private void drawString(Graphics g) {
-        Font font = (LoadSave.CUSTOM_FONT).deriveFont(55 * SCALE);
+        Font font = (LoadSave.BUBBLE_BOBBLE_FONT).deriveFont(55 * SCALE);
         g.setColor(GREEN);
         g.setFont(font);
 

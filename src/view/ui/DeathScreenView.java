@@ -56,7 +56,7 @@ public class DeathScreenView {
     }
 
     private void drawString(Graphics g) {
-        Font font = (LoadSave.CUSTOM_FONT).deriveFont(33 * SCALE);
+        Font font = (LoadSave.BUBBLE_BOBBLE_FONT).deriveFont(33 * SCALE);
         g.setColor(GREEN);
         g.setFont(font);
 

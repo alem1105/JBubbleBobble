@@ -67,7 +67,7 @@ public class LevelSelectorView {
     }
 
     private void drawStrings(Graphics g){
-        Font font = (LoadSave.CUSTOM_FONT).deriveFont(33 * SCALE);
+        Font font = (LoadSave.BUBBLE_BOBBLE_FONT).deriveFont(33 * SCALE);
         g.setFont(font);
 
         // scritta level

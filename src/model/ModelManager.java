@@ -1,22 +1,24 @@
 package model;
 
-import model.entities.PlayerModel;
 import model.gamestate.Gamestate;
-import model.gamestate.Menu;
-import model.gamestate.Playing;
+import model.gamestate.MenuModel;
+import model.gamestate.PlayingModel;
+import model.gamestate.UserStateModel;
 
 import java.util.Observable;
 
+@SuppressWarnings("Deprecated")
 public class ModelManager extends Observable {
 
     private static ModelManager instance;
 
-    private Playing playing;
-    private Menu menu;
+    private PlayingModel playingModel;
+    private MenuModel menuModel;
 
     private ModelManager() {
-        playing = Playing.getInstance();
-        menu = Menu.getInstance();
+        UserStateModel.getInstance();
+        playingModel = PlayingModel.getInstance();
+        menuModel = MenuModel.getInstance();
     }
 
     public static ModelManager getInstance() {
@@ -27,13 +29,12 @@ public class ModelManager extends Observable {
     }
 
     public void update() {
-
         switch (Gamestate.state) {
             case PLAYING -> {
-                if (!playing.getPlayer().isGameOver())
-                    playing.update();
+                if (!playingModel.getPlayer().isGameOver())
+                    playingModel.update();
             }
-            case MENU -> menu.update();
+            case MENU -> menuModel.update();
         }
         setChanged();
         notifyObservers();

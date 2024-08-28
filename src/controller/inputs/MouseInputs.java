@@ -3,21 +3,22 @@ package controller.inputs;
 import model.LevelManagerModel;
 import model.entities.PlayerModel;
 import model.gamestate.Gamestate;
+import model.gamestate.UserStateModel;
 import model.ui.buttons.*;
-import view.stateview.LevelEditorView;
-import view.stateview.LevelSelectorView;
-import view.stateview.MenuView;
-import view.stateview.PlayingView;
+import view.stateview.*;
 import view.ui.DeathScreenView;
 import view.ui.buttons.BlockButtonView;
 import view.ui.buttons.CustomButtonView;
 import view.ui.buttons.EnemyButtonView;
+import view.ui.buttons.UserButtonView;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static model.utilz.Constants.GameConstants.TILES_IN_HEIGHT;
@@ -299,9 +300,10 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
 
     private void editorCheckClicks(MouseEvent e) {
         // TODO ABBIAMO USATO GLI STREAM QUI
-        CustomButtonView[] allButtons = Stream.concat(
-                        Arrays.stream(levelEditorView.getButtons()),
-                        Arrays.stream(levelEditorView.getEnemies()))
+        CustomButtonView[] allButtons = Stream
+                .concat(Arrays.stream(UserStateView.getInstance().getUserButtons()),
+                        Stream.concat(Arrays.stream(levelEditorView.getButtons()),
+                        Arrays.stream(levelEditorView.getEnemies())))
                 .toArray(CustomButtonView[]::new);
 
         for(CustomButtonView button : allButtons){
@@ -310,6 +312,8 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                     blockButtonClick((BlockButtonView) button);
                 else if(button instanceof EnemyButtonView)
                     enemyButtonClick((EnemyButtonView) button);
+                else if(button instanceof UserButtonView)
+                    userButtonClick((UserButtonView) button);
             }
         }
     }
@@ -350,6 +354,11 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
         setEraserButtonPressed(false);
         setPlayerButtonPressed(false);
         setLevelEditorEnemyIndex(0);
+    }
+
+    private void userButtonClick(UserButtonView button) {
+        UserStateModel.getInstance().setCurrentUserModel(button.getButtonModel().getUserModel());
+        button.getButtonModel().setPressed(true);
     }
 
     // METODI HELPER
