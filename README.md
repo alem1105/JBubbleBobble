@@ -8,8 +8,8 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 ### Very Important things 
 - [x] salvataggio immagine level editor
 - [x] movimento nemici
-- [ ] attacco nemici (maita)
-- [ ] sistemare nemici che ti colpiscono in continuazione sullo spawn
+- [x] attacco nemici (maita)
+- [x] sistemare nemici che ti colpiscono in continuazione sullo spawn
 - [ ] aggiungere tutti i nemici
 - [x] sistemare movimento bolla di bob
 - [x] schermata game over
@@ -36,4 +36,4 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [ ] livello finale con boss
 - [ ] aggiungere il crea livelli al level editor
 - [ ] saltare sulle bolle
-- [ ] transizione livelli
+- [x] transizione livelli
