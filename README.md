@@ -22,15 +22,18 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [ ] fare i power up (12) ed extends : https://strategywiki.org/wiki/Bubble_Bobble/Special_items
 - [ ] aggiungere l'audio
 
-### Easy things to do
+### Specific things to do
 - [x] gestire la caduta del player fuori dalla schermata
 - [x] schermata scegliere livello level editor
 - [x] sistemare aniTick della bolla
 - [x] sistemare menu
 - [x] animazione migliore morte dei nemici
+- [ ] sistemare schermata user
+- [ ] update user alla fine di una partita
 - [ ] bolle che scoppiamo tutte insieme 
-- [ ] classifica(?) *non so cosa sia*
+- [ ] classifica
 - [x] metodo per il caricamento del livello successivo
+- [ ] pulsante restart 
 
 ### We may or may not do that
 - [ ] livello finale con boss
