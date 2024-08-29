@@ -14,6 +14,7 @@ public class LoadSave {
     public static final String PLAYER_SPRITE = "player_sprites.png";
     public static final String LEVEL_SPRITE = "level_sprite.png";
     public static final String ICON = "icon.png";
+    public static final String BUB_LEVEL_TRANSITION = "bubble_level_transition.png";
 
     public static final String BOB_BUBBLE_SPRITE = "objects/bubbles/bubble_sprites.png";
     public static final String ZEN_CHAN_SPRITE = "enemies/zen_chan_sprite.png";
@@ -32,6 +33,7 @@ public class LoadSave {
     public static final String RESTART_BUTTON = "ui/restart_button.png";
     public static final String START_BUTTON = "ui/start_button.png";
     public static final String EDITOR_BUTTON = "ui/editor_button.png";
+
 
     // Projectiles
     public static final String MAITA_FIREBALL = "enemies/maita_fireball_sprite.png";

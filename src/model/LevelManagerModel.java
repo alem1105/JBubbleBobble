@@ -77,13 +77,14 @@ public class LevelManagerModel {
             lvlIndex = 0;
         } else {
             lvlIndex++;
+            nextLevel = true;
         }
+
         EnemyManagerModel.getInstance().initEnemies();
         BubbleManagerModel.getInstance().resetBubbles();
         PlayerModel.getInstance().moveToSpawn();
         ProjectileManagerModel.getInstance().resetProjectiles();
-        nextLevel = true;
-        //System.out.println("actual x : " + PlayerModel.getInstance().getHitbox().x);
+        System.out.println("futura x del player : " + PlayerModel.getInstance().getX() + ", " + PlayerModel.getInstance().getY());
     }
 
     public ArrayList<LevelModel> getLevels() {

@@ -33,7 +33,7 @@ public class PlayingView {
     }
 
     private void initViews() {
-        playerView = new PlayerView(PlayerModel.getInstance());
+        playerView = PlayerView.getInstance();
         levelView = new LevelView();
         enemiesManagerView = new EnemiesManagerView();
         deathScreenView = DeathScreenView.getInstance();
@@ -47,14 +47,14 @@ public class PlayingView {
             deathScreenView.render(g);
         } else {
             if (LevelManagerModel.getInstance().isNextLevel()){
-
                 nextLevelScreenView.render(g);
-            } else {
+            }
+            else {
                 levelView.render(g);
-                enemiesManagerView.render(g);
                 playerView.render(g);
                 bubbleManagerView.draw(g);
                 projectileManagerView.updateAndDraw(g);
+                enemiesManagerView.render(g);
                 drawLifeHearts(g);
             }
         }
@@ -69,11 +69,10 @@ public class PlayingView {
         else {
             if (LevelManagerModel.getInstance().isNextLevel()){
                 nextLevelScreenView.update();
-            } else {
-                playerView.update();
-                bubbleManagerView.update();
-                enemiesManagerView.update();
             }
+            playerView.update();
+            bubbleManagerView.update();
+            enemiesManagerView.update();
         }
     }
 

@@ -1,6 +1,8 @@
 package view.entities;
 
+import model.LevelManagerModel;
 import model.entities.PlayerModel;
+import view.ui.NextLevelScreenView;
 import view.utilz.LoadSave;
 
 import java.awt.*;
@@ -14,6 +16,7 @@ public class PlayerView {
 
     private static final int ROW_INDEX = 6;
     private static final int COL_INDEX = 6;
+    private static PlayerView instance;
 
     private int aniTick, aniIndex;
     private PlayerModel playerModel;
@@ -25,19 +28,29 @@ public class PlayerView {
 
     private int flipW = 1, flipX = 0;
 
-    private float curX, curY;
+    private Point curPlayerPos;
 
-    public PlayerView(PlayerModel playerModel) {
-        this.playerModel = playerModel;
+    public static PlayerView getInstance() {
+        if (instance == null) {
+            instance = new PlayerView();
+        }
+        return instance;
+    }
+
+    private PlayerView() {
+        this.playerModel = PlayerModel.getInstance();
         animations = LoadSave.loadAnimations(LoadSave.PLAYER_SPRITE, ROW_INDEX, COL_INDEX, 18, 18);
+        curPlayerPos = new Point();
     }
 
     public void update() {
         updateAnimationTick();
         updateDirections();
         checkAniTick();
-        curX = playerModel.getHitbox().x;
-        curY = playerModel.getHitbox().y;
+        if (!LevelManagerModel.getInstance().isNextLevel()){
+            curPlayerPos.x = (int) playerModel.getHitbox().x;
+            curPlayerPos.y = (int) playerModel.getHitbox().y;
+        }
     }
 
     private void checkAniTick() {
@@ -109,5 +122,17 @@ public class PlayerView {
 
     public Point getPlayerSpawn() {
         return playerModel.getLevelManager().getLevels().get(playerModel.getLevelManager().getLvlIndex()).getPlayerSpawn();
+    }
+
+//    public float getCurX() {
+//        return curX;
+//    }
+//
+//    public float getCurY() {
+//        return curY;
+//    }
+
+    public Point getCurPlayerPos() {
+        return curPlayerPos;
     }
 }
