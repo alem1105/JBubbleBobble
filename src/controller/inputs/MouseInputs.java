@@ -72,18 +72,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     public void mousePressed(MouseEvent e) {
         switch (Gamestate.state) {
             case USER -> {
-                if (isIn(userStateView.getNextPageButton(), e)){
-                    if (!userStateView.isCreateUser())
-                        getNextPageButton().setPressed(true);
-                }
-                if (isIn(userStateView.getPrevPageButton(), e)){
-                    if (userStateView.getUserIndex() != 0)
-                        getPrevPageButton().setPressed(true);
-                }
-                if(userStateView.isCreateUser() && userStateView.getNicknameField().contains(e.getX(), e.getY())) {
-                    System.out.println("premuto");
-                    userStateView.getCurrentUser().setNickname("");
-                }
+                checkPressedUser(e);
             }
             case MENU -> {
                 if (isIn(menuView.getStartButton(), e)){
@@ -278,6 +267,25 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                     setEditButtonHover(false);
                 }
             }
+        }
+    }
+
+    private void checkPressedUser(MouseEvent e){
+        if (isIn(userStateView.getNextPageButton(), e)){
+            if (!userStateView.isCreateUser())
+                getNextPageButton().setPressed(true);
+        }
+        if (isIn(userStateView.getPrevPageButton(), e)){
+            if (userStateView.getUserIndex() != 0)
+                getPrevPageButton().setPressed(true);
+        }
+        if (isIn(userStateView.getCreateButton(), e)){
+            if (userStateView.isCreateUser())
+                userStateView.getCreateButton().getButtonModel().setPressed(true);
+        }
+        if(userStateView.isCreateUser() && userStateView.getNicknameField().contains(e.getX(), e.getY())) {
+            userStateView.setWritingNickname(true);
+            userStateView.getCurrentUser().setNickname("");
         }
     }
 

@@ -3,9 +3,11 @@ package view.stateview;
 import model.UserModel;
 import model.gamestate.UserStateModel;
 import model.ui.buttons.ChangePageButtonModel;
+import model.ui.buttons.CreateButtonModel;
 import model.ui.buttons.UserButtonModel;
 import static model.utilz.Constants.Directions.*;
 import view.ui.buttons.ChangePageButtonView;
+import view.ui.buttons.CreateButtonView;
 import view.ui.buttons.UserButtonView;
 import view.utilz.LoadSave;
 
@@ -25,6 +27,7 @@ public class UserStateView {
 
     private ChangePageButtonView nextPageButton;
     private ChangePageButtonView prevPageButton;
+    private CreateButtonView createButton;
     private int userIndex = 0;
 
     private UserModel currentUser;
@@ -33,9 +36,8 @@ public class UserStateView {
     private int firstHeight = GAME_HEIGHT / 2 - (int)(69 * SCALE);
 
     private boolean createUser;
-    private BufferedImage[][] allAvatars;
 
-    private String inputNickname;
+    private String inputNickname ;
     private Rectangle2D.Float nicknameField;
     private boolean writingNickname;
 
@@ -50,9 +52,10 @@ public class UserStateView {
         userStateModel = UserStateModel.getInstance();
         users = userStateModel.getUserModels();
         checkCreateUser();
-        firstWidth = (int) (77 * SCALE);
-        initUserButtons();
-        nicknameField = new Rectangle2D.Float(firstWidth, firstHeight, (int) (20 * SCALE), (int) (10 * SCALE));
+        firstWidth = GAME_WIDTH / 2 - (int) (100 * SCALE);
+        initButtons();
+        nicknameField = new Rectangle2D.Float(firstWidth + (int) (60 * SCALE), firstHeight, (int) (180 * SCALE), (int) (26 * SCALE));
+        inputNickname = "Write Nick";
     }
 
     private void checkCreateUser() {
@@ -60,7 +63,7 @@ public class UserStateView {
             createUser = true;
 
         if (createUser)
-            currentUser = new UserModel("Write Nick", 0, 0, 0, 0, 0, LoadSave.AVATAR_2);
+            currentUser = new UserModel(inputNickname, 0, 0, 0, 0, 0, LoadSave.AVATAR_2);
         else
             currentUser = userStateModel.getUserModels().get(userIndex);
 
@@ -70,6 +73,7 @@ public class UserStateView {
     public void update() {
         nextPageButton.update();
         prevPageButton.update();
+        createButton.update();
     }
 
     public void draw(Graphics g) {
@@ -89,6 +93,8 @@ public class UserStateView {
             nextPageButton.draw(g);
         if (userIndex != 0)
             prevPageButton.draw(g);
+        if (createUser)
+            createButton.draw(g);
     }
 
     private void drawUserStats(Graphics g, FontMetrics measures, FontMetrics nicknameMeasures, Font nicknameFont) {
@@ -96,15 +102,13 @@ public class UserStateView {
         int startWidth = firstWidth;
         int startHeight = firstHeight;
 
-
-        g.drawImage(currentAvatar, startWidth, startHeight, (int) (32 * SCALE), (int)(32 * SCALE),  null);
+        g.drawImage(currentAvatar, startWidth, startHeight  - (int) (2 * SCALE), (int) (32 * SCALE), (int)(32 * SCALE),  null);
         g.setFont(nicknameFont);
         g.setColor(new Color(242, 70, 152));
-        startWidth += currentAvatar.getWidth() + (nicknameMeasures.stringWidth(currentUser.getNickname())/2) - (int) (5*SCALE);
-        startHeight += nicknameMeasures.getHeight();
+        startWidth = (int) (nicknameField.x + 5 * SCALE);
+        startHeight = (int) (nicknameField.y + nicknameMeasures.getHeight() - 2 * SCALE)  ;
 
         if (createUser) {
-            //g.drawRoundRect(startWidth, startHeight - nicknameMeasures.getHeight(), nicknameMeasures.stringWidth(currentUser.getNickname()), nicknameMeasures.getHeight(), 10, 10);
             Graphics2D g2d = (Graphics2D) g;
             g2d.draw(nicknameField);
         }
@@ -128,7 +132,7 @@ public class UserStateView {
         }
     }
 
-    private void initUserButtons() {
+    private void initButtons() {
         nextPageButton = new ChangePageButtonView(new ChangePageButtonModel(
                 GAME_WIDTH - (int)(10 * SCALE),
                 GAME_HEIGHT / 2,
@@ -141,7 +145,11 @@ public class UserStateView {
                 (int) (16 * SCALE),
                 (int) (16 * SCALE),
                 LEFT));
-
+        createButton = new CreateButtonView(new CreateButtonModel(
+                GAME_WIDTH/2 - (int)(47 * SCALE) ,
+                (int)(230 * SCALE),
+                (int) (94 * SCALE),
+                (int) (28 * SCALE)));
     }
 
     public void changeIndex(int i) {
@@ -160,10 +168,6 @@ public class UserStateView {
 
     public String getInputNickname() {
         return inputNickname;
-    }
-
-    public void setInputNickname(String inputNickname) {
-        this.inputNickname = inputNickname;
     }
 
     public void setWritingNickname(boolean writingNickname) {
@@ -192,5 +196,9 @@ public class UserStateView {
 
     public int getUserIndex() {
         return userIndex;
+    }
+
+    public CreateButtonView getCreateButton() {
+        return createButton;
     }
 }

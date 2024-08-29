@@ -20,9 +20,12 @@ public class KeyboardInputs implements KeyListener {
         switch (state) {
             case USER -> {
                 if(UserStateView.getInstance().isWritingNickname()) {
-                    String inputNickname = UserStateView.getInstance().getInputNickname();
-                    if(Character.isAlphabetic(e.getKeyChar()) && inputNickname.length() <= 8)
-                        UserStateView.getInstance().setInputNickname(inputNickname + e.getKeyChar());
+                    String inputNickname = UserStateView.getInstance().getCurrentUser().getNickname();
+                    if(Character.isLetter(e.getKeyChar()) && inputNickname.length() <= 8) {
+                        UserStateView.getInstance().getCurrentUser().setNickname(inputNickname + e.getKeyChar());
+                    } else if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE && !inputNickname.isEmpty()) {
+                        UserStateView.getInstance().getCurrentUser().setNickname(inputNickname.substring(0, inputNickname.length() - 1));
+                    }
                 }
             }
         }

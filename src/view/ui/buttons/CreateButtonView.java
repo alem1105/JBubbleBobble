@@ -12,6 +12,6 @@ public class CreateButtonView extends CustomButtonView<CreateButtonModel> {
 
     @Override
     protected void loadSprites() {
-        sprites = LoadSave.loadAnimations(LoadSave.EDIT_BUTTON, 1, 3, 47, 14);
+        sprites = LoadSave.loadAnimations(LoadSave.CREATE_BUTTON, 1, 3, 47, 14);
     }
 }

@@ -6,13 +6,18 @@ import model.entities.enemies.EnemyModel;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static model.utilz.Constants.GameConstants.TILES_SIZE;
+import static model.utilz.Constants.GameConstants.*;
 
 public class BubbleManagerModel {
 
     private static BubbleManagerModel instance;
 
     private ArrayList<BobBubbleModel> bobBubbles;
+    private ArrayList<BubbleModel> bubbles;
+
+    Random rand = new Random();
+    int spawnBubbleTick = 0;
+    int spawnBubbleDuration = 360;
 
     public static BubbleManagerModel getInstance() {
         if (instance == null) {
@@ -23,14 +28,33 @@ public class BubbleManagerModel {
 
     private BubbleManagerModel() {
         bobBubbles = new ArrayList<>();
+        bubbles = new ArrayList<>();
     }
 
     public void update(){
+        updateRandomBubbleSpawn();
+
         for( BobBubbleModel bubble : bobBubbles ){
             if (bubble.isActive()) {
                 bubble.update();
                 checkEnemyHasBeenHit(bubble);
                 checkCollisionWithOtherBubbles(bubble);
+            }
+        }
+    }
+
+    private void updateRandomBubbleSpawn() {
+        spawnBubbleTick++;
+        if (spawnBubbleTick >= spawnBubbleDuration) {
+            spawnBubbleTick = 0;
+            int type = rand.nextInt(2);
+
+            int max = (TILES_IN_WIDTH - 1) * TILES_SIZE;
+            int min = TILES_SIZE;
+
+            int randomX = rand.nextInt(max - min + 1) + min;
+            switch (type) {
+                default -> bubbles.add(new WaterBubbleModel(randomX, (int) (14 * SCALE), (int) (16 * SCALE)));
             }
         }
     }
@@ -82,5 +106,9 @@ public class BubbleManagerModel {
 
     public ArrayList<BobBubbleModel> getBobBubbles() {
         return bobBubbles;
+    }
+
+    public ArrayList<BubbleModel> getBubbles() {
+        return bubbles;
     }
 }

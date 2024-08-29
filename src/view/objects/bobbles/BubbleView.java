@@ -3,12 +3,15 @@ package view.objects.bobbles;
 import model.objects.bobbles.BubbleModel;
 import view.objects.CustomObjectView;
 
+import java.awt.image.BufferedImage;
+
 import static model.utilz.Constants.CustomObjects.*;
 
 import static model.utilz.Constants.CustomObjects.BUBBLE_SPAWNED;
 import static model.utilz.Constants.GameConstants.*;
 
 public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
+    protected BufferedImage sprite;
 
     protected int bubbleState = BUBBLE_SPAWNED;
 
@@ -66,5 +69,9 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
 
     public int getAniTick() {
         return aniTick;
+    }
+
+    public BufferedImage getSprite() {
+        return sprite;
     }
 }

@@ -17,8 +17,9 @@ public class BobBubbleModel extends BubbleModel {
     private int pathDuration = 240;
     private int pathTick = 0;
 
+
     public BobBubbleModel(float x, float y, int width, int height, int bubbleDirection) {
-        super(x, y, width, height, bubbleDirection);
+        super(x, y, width, height);
     }
 
     public void update() {
@@ -26,7 +27,8 @@ public class BobBubbleModel extends BubbleModel {
         updatePos();
     }
 
-    private void updatePos() {
+    @Override
+    protected void updatePos() {
         if(projectileTravelTimes <= 60) {
             firstShotMovement();
         }
