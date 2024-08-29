@@ -10,6 +10,7 @@ import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.GameConstants.SCALE;
 import static model.utilz.Constants.PlayerConstants.*;
 import static model.utilz.Gravity.*;
+import static model.utilz.UtilityMethods.getLvlData;
 
 public class PlayerModel extends EntityModel {
 
@@ -176,7 +177,7 @@ public class PlayerModel extends EntityModel {
     @ Override
     protected void updateXPos(float xSpeed) {
         if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height,
-                getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getLvlData()))
+                getLvlData()))
             hitbox.x += xSpeed;
         else
             hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);

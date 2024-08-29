@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 
 import static model.utilz.Constants.GameConstants.*;
 import static model.utilz.Gravity.*;
+import static model.utilz.UtilityMethods.getLvlData;
 
 public abstract class EntityModel {
 
@@ -32,16 +33,7 @@ public abstract class EntityModel {
 
     protected void isInAirCheck() {
         if (!inAir) {
-            if (!IsEntityOnFloor(hitbox, getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getLvlData())) {
-                inAir = true;
-            }
-        }
-    }
-
-    protected void isInAirCheckWithBubble() {
-        if (!inAir) {
-            if (!IsEntityOnFloor(hitbox, getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getLvlData())
-                    && !PlayerModel.getInstance().isRidingABubble()) {
+            if (!IsEntityOnFloor(hitbox, getLvlData())) {
                 inAir = true;
             }
         }
@@ -50,14 +42,14 @@ public abstract class EntityModel {
     protected void fallingChecks(float xSpeed){
         // Stiamo cadendo
         // Bloccati dentro un muro
-        if (!CanMoveHere(hitbox.x, hitbox.y, hitbox.width, hitbox.height,getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getLvlData())) {
+        if (!CanMoveHere(hitbox.x, hitbox.y, hitbox.width, hitbox.height,getLvlData())) {
             hitbox.y += airSpeed;
             airSpeed = 0.65f * SCALE;
         }
         // Caduta normale
         else if (CanMoveHere(hitbox.x, hitbox.y + airSpeed,
                 hitbox.width, hitbox.height,
-                getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getLvlData())) {
+                getLvlData())) {
             airSpeed = 0.65f * SCALE; // Discesa lenta
             hitbox.y += airSpeed;
             updateXPos(xSpeed);

@@ -3,6 +3,7 @@ package controller.inputs;
 import model.LevelManagerModel;
 import model.entities.PlayerModel;
 import model.gamestate.Gamestate;
+import view.stateview.UserStateView;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -16,6 +17,18 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+        switch (state) {
+            case USER -> {
+                if(UserStateView.getInstance().isWritingNickname()) {
+                    String inputNickname = UserStateView.getInstance().getCurrentUser().getNickname();
+                    if(Character.isLetter(e.getKeyChar()) && inputNickname.length() <= 8) {
+                        UserStateView.getInstance().getCurrentUser().setNickname(inputNickname + e.getKeyChar());
+                    } else if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE && !inputNickname.isEmpty()) {
+                        UserStateView.getInstance().getCurrentUser().setNickname(inputNickname.substring(0, inputNickname.length() - 1));
+                    }
+                }
+            }
+        }
     }
 
     @Override

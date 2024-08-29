@@ -84,7 +84,6 @@ public class LevelManagerModel {
         BubbleManagerModel.getInstance().resetBubbles();
         PlayerModel.getInstance().moveToSpawn();
         ProjectileManagerModel.getInstance().resetProjectiles();
-        System.out.println("futura x del player : " + PlayerModel.getInstance().getX() + ", " + PlayerModel.getInstance().getY());
     }
 
     public ArrayList<LevelModel> getLevels() {

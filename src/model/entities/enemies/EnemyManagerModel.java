@@ -3,6 +3,7 @@ package model.entities.enemies;
 import model.LevelManagerModel;
 import model.entities.PlayerModel;
 
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -10,6 +11,8 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static model.utilz.Constants.Directions.LEFT;
+import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.Enemies.DEAD;
 import static model.utilz.Constants.GameConstants.TILES_IN_HEIGHT;
 import static model.utilz.Constants.GameConstants.TILES_IN_WIDTH;
@@ -30,6 +33,8 @@ public class EnemyManagerModel {
     private boolean levelEndTimer;
     private int levelEndTick = 0;
     private int levelEndTimerDuration = 720;
+
+    private int sideHit = 0;
 
     public static EnemyManagerModel getInstance() {
         if (instance == null) {
@@ -91,7 +96,8 @@ public class EnemyManagerModel {
                 }
             } else {
                 if(!(enemyModel.isDeathMovement())) {
-                        enemyModel.doDeathMovement(enemyModel);
+                    sideHit = (enemyModel.walkDir == RIGHT) ? LEFT : RIGHT;
+                    enemyModel.doDeathMovement(enemyModel, sideHit);
                 }
             }
         }

@@ -30,12 +30,19 @@ public abstract class EnemyModel extends EntityModel {
     protected float walkSpeed;
     protected boolean goingUp = false;
     protected int targetYTile;
-    private int upTick;
-    
+
+
     private boolean deathMovement = false;
     private boolean invertDeathMovement = false;
     private int parableTick = 0;
     private boolean alreadyDidParable = false;
+    private int parableMoveIndex = 0;
+    private float[][] parableMoves = {
+            {20, 1, -4.5f},
+            {20, 2, -0.7f},
+            {20, 0.8f, 4},
+            {20, 0.8f, 2}
+    };
 
     public EnemyModel(float x, float y, int width, int height) {
         super(x, y - 1, width, height);
@@ -154,15 +161,20 @@ public abstract class EnemyModel extends EntityModel {
             resetAniTick = false;
     }
 
-    public void doDeathMovement(EnemyModel enemyModel) {
+    public void doDeathMovement(EnemyModel enemyModel, int direction) {
         if(!(deathMovement))
-            parableMovement(enemyModel);
+            parableMovement(enemyModel, direction);
     }
     
-    private void parableMovement(EnemyModel enemyModel) {
+    private void parableMovement(EnemyModel enemyModel, int direction) {
         if (invertDeathMovement) {
-            hitbox.y += 2;
-            hitbox.x -= 0.8F;
+            if(direction == RIGHT) {
+                hitbox.y += 2;
+                hitbox.x -= 0.8F;
+            } else {
+                hitbox.y += 2;
+                hitbox.x += 0.8F;
+            }
             if(checkIfEnemyIsOnTheFloorBorder(enemyModel))
                 deathMovement = true;
         } else {
@@ -170,58 +182,44 @@ public abstract class EnemyModel extends EntityModel {
             if (alreadyDidParable)
                 deathMovement = true;
             else
-                doParableMovement(enemyModel);
+                doParableMovement(enemyModel, direction);
         }
     }
 
     private void checkIfEnemyHitASideBorder(EnemyModel enemyModel) {
-        if((enemyModel.getEnemyTileX() >= TILES_IN_WIDTH - 1 || enemyModel.getEnemyTileX() <= 1))
+        if((enemyModel.getEnemyTileX() >= TILES_IN_WIDTH - 1 || enemyModel.getEnemyTileX() <= 0))
             invertDeathMovement = true;
     }
 
-    private void doParableMovement(EnemyModel enemyModel) {
-        if(parableTick >= 80) {
+    private void doParableMovement(EnemyModel enemyModel, int direction) {
+        if(parableMoveIndex > 3) {
             if(checkIfEnemyIsOnTheFloorBorder(enemyModel)){
                 alreadyDidParable = true;
+            } else {
+                float xToAdd = (direction == RIGHT) ? parableMoves[parableMoves.length - 1][1] : -parableMoves[parableMoves.length - 1][1];
+                float yToAdd = parableMoves[parableMoveIndex - 1][2];
+
+                hitbox.x += xToAdd;
+                hitbox.y += yToAdd;
             }
-            else {
-                hitbox.y += 2;
-                hitbox.x += 0.8F;
+        } else {
+            if (parableTick <= parableMoves[parableMoveIndex][0]) {
+                float xToAdd = (direction == RIGHT) ? parableMoves[parableMoveIndex][1] : -parableMoves[parableMoveIndex][1];
+                float yToAdd = parableMoves[parableMoveIndex][2];
+
+                hitbox.x += xToAdd;
+                hitbox.y += yToAdd;
+            } else {
+                parableTick = 0;
+                parableMoveIndex++;
             }
-        } else if (parableTick >= 60) {
-            hitbox.y += 4;
-            hitbox.x += 0.8F;
-        } else if (parableTick >= 40) {
-            hitbox.y -= 0.7F;
-            hitbox.x += 2;
-        } else if (parableTick >= 20) {
-            hitbox.y -= 4.5F;
-            hitbox.x += 1;
         }
         parableTick++;
     }
 
     private boolean checkIfEnemyIsOnTheFloorBorder(EnemyModel enemyModel) {
-        return enemyModel.getEnemyTileY() >= TILES_IN_HEIGHT - 3;
+        return enemyModel.getEnemyTileY() >= TILES_IN_HEIGHT - 3 || enemyModel.getEnemyTileY() <= 0;
     }
-
-
-//        System.out.println("-----------------------------");
-//        if(enemyModel.isInvertDeathMovement()) {
-//            enemyModel.getHitbox().x -= 0.1;
-//            enemyModel.getHitbox().y += 1.5;
-//        } else {
-//            if((enemyModel.getEnemyTileX() >= TILES_IN_WIDTH - 1 || enemyModel.getEnemyTileX() <= 1)) {
-//                enemyModel.setInvertDeathMovement(true);
-//            } else {
-//                if(alreadyDidParable) {
-//                    hitbox.y += 2;
-//                    hitbox.x += 0.8;
-//                } else {
-//                    doParableMovement();
-//                }
-//            }
-//        }
 
     protected boolean checkUpSolid(int[][] lvlData) { // controlla se sopra il nemico si hanno almeno tre tile su cui saltare
         int currentTileY = (int) (hitbox.y / TILES_SIZE);

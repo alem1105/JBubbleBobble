@@ -35,7 +35,15 @@ public class LevelView {
         }
     }
 
-
+    private void drawGrid(Graphics g) {
+        g.setColor(Color.RED);
+        for (int x = 0; x <= GAME_WIDTH; x += TILES_SIZE) {
+            g.drawLine(x, 0, x, GAME_HEIGHT);
+        }
+        for (int y = 0; y <= GAME_HEIGHT; y += TILES_SIZE) {
+            g.drawLine(0, y, GAME_WIDTH, y);
+        }
+    }
 
 
 }

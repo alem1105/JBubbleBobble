@@ -49,15 +49,12 @@ public class NextLevelScreenView {
     public void update(){
         if (nextY <= 0 && nextPlayerSpawn.equals(curPlayerPos)){
             resetNextScreenView();
-            System.out.println("sono entrato");
             return;
         }
         if (time == 0)
             getData();
         else {
             updateLvlPos();
-            System.out.println(curPlayerPos);
-            System.out.println(nextPlayerSpawn);
             updateBubPosition();
         }
         time++;

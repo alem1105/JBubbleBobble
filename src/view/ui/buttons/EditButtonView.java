@@ -6,11 +6,9 @@ import view.utilz.LoadSave;
 import java.awt.*;
 
 public class EditButtonView extends CustomButtonView<EditButtonModel> {
-    private Font font;
 
     public EditButtonView(EditButtonModel model) {
         super(model);
-        font = LoadSave.BUBBLE_BOBBLE_FONT;
     }
 
     @Override

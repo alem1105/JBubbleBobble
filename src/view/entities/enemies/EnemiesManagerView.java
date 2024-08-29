@@ -28,7 +28,7 @@ public class EnemiesManagerView {
 
     private void updateEnemies(){
         for (EnemyView enemyView : enemyViews) {
-            if (!enemyView.getEnemy().isAlreadyDidParable()){
+            if (!enemyView.getEnemy().isDeathMovement()){
                 enemyView.update();
             }
         }
@@ -44,7 +44,7 @@ public class EnemiesManagerView {
 
     public void render(Graphics g) {
         for (EnemyView enemyView : enemyViews) {
-            if(!enemyView.getEnemy().isAlreadyDidParable() ) {
+            if(!enemyView.getEnemy().isDeathMovement()) {
                 enemyView.render(g);
             }
         }
