@@ -31,7 +31,7 @@ public class LevelView {
                 int index = levels.get(lvlManager.getLvlIndex()).getSpriteIndex(x, y);
                 if (index == 0 || index == 255) continue;
 
-                int rgb = lvlSprites[index - 1].getRGB(0, 0);
+                int rgb = lvlSprites[index - 1].getRGB(3, 3);
                 if(!(y == TILES_IN_HEIGHT - 2)) {
                     g.setColor(getDarkenedColor(rgb));
                     for(int i = 0; i < 8; i++) {
