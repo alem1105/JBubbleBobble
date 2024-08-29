@@ -30,9 +30,25 @@ public class LevelView {
             for (int x = 0; x < levels.get(lvlManager.getLvlIndex()).getLvlData()[0].length; x++) {
                 int index = levels.get(lvlManager.getLvlIndex()).getSpriteIndex(x, y);
                 if (index == 0 || index == 255) continue;
+
+                int rgb = lvlSprites[index - 1].getRGB(0, 0);
+                if(!(y == TILES_IN_HEIGHT - 2)) {
+                    g.setColor(getDarkenedColor(rgb));
+                    g.fillRect(x * TILES_SIZE + (TILES_SIZE / 7), y * TILES_SIZE + (TILES_SIZE / 7), TILES_SIZE, TILES_SIZE);
+                }
                 g.drawImage(lvlSprites[index - 1], x * TILES_SIZE, y * TILES_SIZE, TILES_SIZE, TILES_SIZE, null);
             }
         }
+    }
+
+    private Color getDarkenedColor(int rgb) {
+        Color originalColor = new Color(rgb); // Colore RGB originale
+        float darkeningFactor = 0.4f; // Riduce il colore a metà della sua intensità
+        int red = (int) (originalColor.getRed() * darkeningFactor);
+        int green = (int) (originalColor.getGreen() * darkeningFactor);
+        int blue = (int) (originalColor.getBlue() * darkeningFactor);
+        Color darkColor = new Color(red, green, blue);
+        return darkColor;
     }
 
     private void drawGrid(Graphics g) {
