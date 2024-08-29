@@ -7,10 +7,7 @@ import model.gamestate.UserStateModel;
 import model.ui.buttons.*;
 import view.stateview.*;
 import view.ui.DeathScreenView;
-import view.ui.buttons.BlockButtonView;
-import view.ui.buttons.CustomButtonView;
-import view.ui.buttons.EnemyButtonView;
-import view.ui.buttons.UserButtonView;
+import view.ui.buttons.*;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -33,6 +30,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     private PlayingView playingView;
     private DeathScreenView deathScreenView;
     private MenuView menuView;
+    private UserStateView userStateView;
     private boolean justChangedScreen;
 
     public MouseInputs(){
@@ -42,6 +40,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
         this.playingView = new PlayingView();
         this.deathScreenView = DeathScreenView.getInstance();
         this.menuView = MenuView.getInstance();
+        this.userStateView = UserStateView.getInstance();
     }
 
     private <T extends CustomButtonView> boolean isIn(T button, MouseEvent e) {
@@ -72,6 +71,14 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         switch (Gamestate.state) {
+            case USER -> {
+                if (isIn(userStateView.getNextPageButton(), e)){
+                    getNextPageButton().setPressed(true);
+                }
+                if (isIn(userStateView.getPrevPageButton(), e)){
+                    getPrevPageButton().setPressed(true);
+                }
+            }
             case MENU -> {
                 if (isIn(menuView.getStartButton(), e)){
                     getStartButton().setPressed(true);
@@ -122,12 +129,23 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                     setEditButtonHover(false);
                 }
             }
+
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         switch (Gamestate.state) {
+            case USER -> {
+                if (isIn(userStateView.getPrevPageButton(), e)){
+                    userStateView.changeIndex(-1);
+                }
+                if (isIn(userStateView.getNextPageButton(), e)){
+                    userStateView.changeIndex(1);
+                }
+                getNextPageButton().setPressed(false);
+                getPrevPageButton().setPressed(false);
+            }
             case MENU -> {
                 if (isIn(menuView.getStartButton(), e)){
                     Gamestate.state = Gamestate.PLAYING;
@@ -518,5 +536,13 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                 .getLevels()
                 .get(levelEditorView.getLevelIndex())
                 .getPlayerSpawn();
+    }
+
+    private ChangePageButtonModel getNextPageButton() {
+        return userStateView.getNextPageButton().getButtonModel();
+    }
+
+    private ChangePageButtonModel getPrevPageButton() {
+        return userStateView.getPrevPageButton().getButtonModel();
     }
 }

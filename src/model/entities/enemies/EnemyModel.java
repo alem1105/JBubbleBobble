@@ -180,7 +180,7 @@ public abstract class EnemyModel extends EntityModel {
     }
 
     private void checkIfEnemyHitASideBorder(EnemyModel enemyModel) {
-        if((enemyModel.getEnemyTileX() >= TILES_IN_WIDTH - 1 || enemyModel.getEnemyTileX() <= 1))
+        if((enemyModel.getEnemyTileX() >= TILES_IN_WIDTH - 1 || enemyModel.getEnemyTileX() <= 0))
             invertDeathMovement = true;
     }
 
@@ -227,7 +227,7 @@ public abstract class EnemyModel extends EntityModel {
     }
 
     private boolean checkIfEnemyIsOnTheFloorBorder(EnemyModel enemyModel) {
-        return enemyModel.getEnemyTileY() >= TILES_IN_HEIGHT - 3 || enemyModel.getEnemyTileY() <= 1;
+        return enemyModel.getEnemyTileY() >= TILES_IN_HEIGHT - 3 || enemyModel.getEnemyTileY() <= 0;
     }
 
     protected boolean checkUpSolid(int[][] lvlData) { // controlla se sopra il nemico si hanno almeno tre tile su cui saltare

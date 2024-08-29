@@ -20,8 +20,8 @@ public class UserStateView {
 
     private static UserStateView instance;
 
-    private UserButtonView[] userButtons;
     private UserStateModel userStateModel;
+    ArrayList<UserModel> users;
 
     private ChangePageButtonView nextPageButton;
     private ChangePageButtonView prevPageButton;
@@ -32,6 +32,8 @@ public class UserStateView {
     private int firstWidth;
     private int firstHeight = GAME_HEIGHT / 2 - (int)(69 * SCALE);
 
+    private boolean createUser;
+    private BufferedImage[] allAvatars;
 
     public static UserStateView getInstance() {
         if (instance == null) {
@@ -42,39 +44,58 @@ public class UserStateView {
 
     private UserStateView() {
         userStateModel = UserStateModel.getInstance();
-        userButtons = new UserButtonView[userStateModel.getUserModels().size()];
-        currentUser = userStateModel.getUserModels().get(userIndex);
-        currentAvatar = currentUser.getAvatar();
-        firstWidth = currentAvatar.getWidth() + (int) (69 * SCALE);
+        users = userStateModel.getUserModels();
+        checkCreateUser();
+        firstWidth = (int) (77 * SCALE);
         initUserButtons();
     }
 
-    public void update() {
+    private void checkCreateUser() {
+        if (userIndex == users.size()) {
+            createUser = true;
+        }
+        if (createUser) {
+            currentAvatar = LoadSave.GetSpriteAtlas(LoadSave.MAITA_FIREBALL); // TODO METTERE UN AVATAR
+            currentUser = new UserModel("Nickname", 0, 0, 0, 0, 0, LoadSave.MAITA_FIREBALL);
+        } else {
+            currentUser = userStateModel.getUserModels().get(userIndex);
+            currentAvatar = currentUser.getAvatar();
+        }
+    }
 
+    public void update() {
+        if (userIndex < users.size())
+            nextPageButton.update();
+        if (userIndex != 0)
+            prevPageButton.update();
     }
 
     public void draw(Graphics g) {
-        drawUserStats(g);
-        drawButtons(g);
-    }
-
-    private void drawButtons(Graphics g) {
-        nextPageButton.draw(g);
-        prevPageButton.draw(g);
-    }
-
-    private void drawUserStats(Graphics g) {
-        currentUser = userStateModel.getUserModels().get(userIndex);
-        currentAvatar = currentUser.getAvatar();
-
-        int startWidth = firstWidth;
-        int startHeight = firstHeight;
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         Font nicknameFont = (LoadSave.JEQO_FONT).deriveFont(15 * SCALE);
         FontMetrics nicknameMeasures = g.getFontMetrics(nicknameFont);
         FontMetrics measures = g.getFontMetrics(LoadSave.JEQO_FONT);
 
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+        drawUserStats(g, measures, nicknameMeasures, nicknameFont);
+        drawButtons(g);
+
+    }
+
+    private void drawButtons(Graphics g) {
+        if (userIndex < users.size())
+            nextPageButton.draw(g);
+        if (userIndex != 0)
+            prevPageButton.draw(g);
+    }
+
+    private void drawUserStats(Graphics g, FontMetrics measures, FontMetrics nicknameMeasures, Font nicknameFont) {
+        //currentAvatar = currentUser.getAvatar();
+
+        int startWidth = firstWidth;
+        int startHeight = firstHeight;
+
+
         g.drawImage(currentAvatar, startWidth, startHeight, (int) (32 * SCALE), (int)(32 * SCALE),  null);
         g.setFont(nicknameFont);
         g.setColor(new Color(242, 70, 152));
@@ -84,22 +105,24 @@ public class UserStateView {
 
         g.setColor(Color.WHITE);
         g.setFont(LoadSave.JEQO_FONT);
-        startHeight += measures.getHeight() + (int) (10* SCALE);
-        g.drawString("Livello attuale: " + currentUser.getLevel(), startWidth, startHeight);
-        startHeight += measures.getHeight() + (int) (10* SCALE);
-        g.drawString("Partite vinte: " + currentUser.getWins(), startWidth, startHeight);
-        startHeight += measures.getHeight() + (int) (10* SCALE);
-        g.drawString("Punteggio massimo: " + currentUser.getScore(), startWidth, startHeight);
-        startHeight += measures.getHeight() + (int) (10* SCALE);
-        g.drawString("Partite giocate: " + currentUser.getMatches(), startWidth, startHeight);
-        startHeight += measures.getHeight() + (int) (10* SCALE);
-        g.drawString("Partite perse: " + currentUser.getLosses(), startWidth, startHeight);
 
+        String[] texts = {
+                "Livello attuale: " + currentUser.getLevel(),
+                "Partite vinte: " + currentUser.getWins(),
+                "Punteggio massimo: " + currentUser.getScore(),
+                "Partite giocate: " + currentUser.getMatches(),
+                "Partite perse: " + currentUser.getLosses()
+        };
+
+        for(String text : texts) {
+            startHeight += measures.getHeight() + (int) (10* SCALE);
+            g.drawString(text, startWidth, startHeight);
+        }
     }
 
     private void initUserButtons() {
         nextPageButton = new ChangePageButtonView(new ChangePageButtonModel(
-                firstWidth + (int) (25 * SCALE),
+                GAME_WIDTH - (int)(10 * SCALE),
                 GAME_HEIGHT / 2,
                 (int) (16 * SCALE),
                 (int) (16 * SCALE),
@@ -112,15 +135,17 @@ public class UserStateView {
                 LEFT));
     }
 
-    public UserButtonView[] getUserButtons() {
-        return userButtons;
-    }
-
     public ChangePageButtonView getNextPageButton() {
         return nextPageButton;
     }
 
     public ChangePageButtonView getPrevPageButton() {
         return prevPageButton;
+    }
+
+    public void changeIndex(int i) {
+        this.userIndex += i;
+        createUser = false;
+        checkCreateUser();
     }
 }
