@@ -9,8 +9,8 @@ import view.ui.buttons.ChangePageButtonView;
 import view.ui.buttons.UserButtonView;
 import view.utilz.LoadSave;
 
-import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -33,7 +33,11 @@ public class UserStateView {
     private int firstHeight = GAME_HEIGHT / 2 - (int)(69 * SCALE);
 
     private boolean createUser;
-    private BufferedImage[] allAvatars;
+    private BufferedImage[][] allAvatars;
+
+    private String inputNickname;
+    private Rectangle2D.Float nicknameField;
+    private boolean writingNickname;
 
     public static UserStateView getInstance() {
         if (instance == null) {
@@ -48,26 +52,24 @@ public class UserStateView {
         checkCreateUser();
         firstWidth = (int) (77 * SCALE);
         initUserButtons();
+        nicknameField = new Rectangle2D.Float(firstWidth, firstHeight, (int) (20 * SCALE), (int) (10 * SCALE));
     }
 
     private void checkCreateUser() {
-        if (userIndex == users.size()) {
+        if (userIndex == users.size())
             createUser = true;
-        }
-        if (createUser) {
-            currentAvatar = LoadSave.GetSpriteAtlas(LoadSave.MAITA_FIREBALL); // TODO METTERE UN AVATAR
-            currentUser = new UserModel("Nickname", 0, 0, 0, 0, 0, LoadSave.MAITA_FIREBALL);
-        } else {
+
+        if (createUser)
+            currentUser = new UserModel("Write Nick", 0, 0, 0, 0, 0, LoadSave.AVATAR_2);
+        else
             currentUser = userStateModel.getUserModels().get(userIndex);
-            currentAvatar = currentUser.getAvatar();
-        }
+
+        currentAvatar = currentUser.getAvatar();
     }
 
     public void update() {
-        if (userIndex < users.size())
-            nextPageButton.update();
-        if (userIndex != 0)
-            prevPageButton.update();
+        nextPageButton.update();
+        prevPageButton.update();
     }
 
     public void draw(Graphics g) {
@@ -78,8 +80,8 @@ public class UserStateView {
         FontMetrics measures = g.getFontMetrics(LoadSave.JEQO_FONT);
 
         drawUserStats(g, measures, nicknameMeasures, nicknameFont);
-        drawButtons(g);
 
+        drawButtons(g);
     }
 
     private void drawButtons(Graphics g) {
@@ -90,7 +92,6 @@ public class UserStateView {
     }
 
     private void drawUserStats(Graphics g, FontMetrics measures, FontMetrics nicknameMeasures, Font nicknameFont) {
-        //currentAvatar = currentUser.getAvatar();
 
         int startWidth = firstWidth;
         int startHeight = firstHeight;
@@ -101,17 +102,24 @@ public class UserStateView {
         g.setColor(new Color(242, 70, 152));
         startWidth += currentAvatar.getWidth() + (nicknameMeasures.stringWidth(currentUser.getNickname())/2) - (int) (5*SCALE);
         startHeight += nicknameMeasures.getHeight();
+
+        if (createUser) {
+            //g.drawRoundRect(startWidth, startHeight - nicknameMeasures.getHeight(), nicknameMeasures.stringWidth(currentUser.getNickname()), nicknameMeasures.getHeight(), 10, 10);
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.draw(nicknameField);
+        }
+
         g.drawString(currentUser.getNickname(), startWidth, startHeight);
 
         g.setColor(Color.WHITE);
         g.setFont(LoadSave.JEQO_FONT);
 
         String[] texts = {
-                "Livello attuale: " + currentUser.getLevel(),
-                "Partite vinte: " + currentUser.getWins(),
-                "Punteggio massimo: " + currentUser.getScore(),
-                "Partite giocate: " + currentUser.getMatches(),
-                "Partite perse: " + currentUser.getLosses()
+                "Level: " + currentUser.getLevel(),
+                "Matches won: " + currentUser.getWins(),
+                "Max score: " + currentUser.getScore(),
+                "Matches played: " + currentUser.getMatches(),
+                "Matches lost: " + currentUser.getLosses()
         };
 
         for(String text : texts) {
@@ -133,6 +141,13 @@ public class UserStateView {
                 (int) (16 * SCALE),
                 (int) (16 * SCALE),
                 LEFT));
+
+    }
+
+    public void changeIndex(int i) {
+        this.userIndex += i;
+        createUser = false;
+        checkCreateUser();
     }
 
     public ChangePageButtonView getNextPageButton() {
@@ -143,9 +158,39 @@ public class UserStateView {
         return prevPageButton;
     }
 
-    public void changeIndex(int i) {
-        this.userIndex += i;
-        createUser = false;
-        checkCreateUser();
+    public String getInputNickname() {
+        return inputNickname;
+    }
+
+    public void setInputNickname(String inputNickname) {
+        this.inputNickname = inputNickname;
+    }
+
+    public void setWritingNickname(boolean writingNickname) {
+        this.writingNickname = writingNickname;
+    }
+
+    public boolean isWritingNickname() {
+        return writingNickname;
+    }
+
+    public boolean isCreateUser() {
+        return createUser;
+    }
+
+    public Rectangle2D.Float getNicknameField() {
+        return nicknameField;
+    }
+
+    public void setCurrentUser(UserModel currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    public UserModel getCurrentUser() {
+        return currentUser;
+    }
+
+    public int getUserIndex() {
+        return userIndex;
     }
 }

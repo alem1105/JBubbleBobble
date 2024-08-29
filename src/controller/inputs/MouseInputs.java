@@ -73,10 +73,16 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
         switch (Gamestate.state) {
             case USER -> {
                 if (isIn(userStateView.getNextPageButton(), e)){
-                    getNextPageButton().setPressed(true);
+                    if (!userStateView.isCreateUser())
+                        getNextPageButton().setPressed(true);
                 }
                 if (isIn(userStateView.getPrevPageButton(), e)){
-                    getPrevPageButton().setPressed(true);
+                    if (userStateView.getUserIndex() != 0)
+                        getPrevPageButton().setPressed(true);
+                }
+                if(userStateView.isCreateUser() && userStateView.getNicknameField().contains(e.getX(), e.getY())) {
+                    System.out.println("premuto");
+                    userStateView.getCurrentUser().setNickname("");
                 }
             }
             case MENU -> {
@@ -138,10 +144,12 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
         switch (Gamestate.state) {
             case USER -> {
                 if (isIn(userStateView.getPrevPageButton(), e)){
-                    userStateView.changeIndex(-1);
+                    if (getPrevPageButton().isPressed())
+                        userStateView.changeIndex(-1);
                 }
                 if (isIn(userStateView.getNextPageButton(), e)){
-                    userStateView.changeIndex(1);
+                    if (getNextPageButton().isPressed())
+                        userStateView.changeIndex(1);
                 }
                 getNextPageButton().setPressed(false);
                 getPrevPageButton().setPressed(false);

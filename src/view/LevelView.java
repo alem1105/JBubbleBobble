@@ -33,7 +33,6 @@ public class LevelView {
                 g.drawImage(lvlSprites[index - 1], x * TILES_SIZE, y * TILES_SIZE, TILES_SIZE, TILES_SIZE, null);
             }
         }
-        drawGrid(g);
     }
 
     private void drawGrid(Graphics g) {

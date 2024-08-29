@@ -24,25 +24,18 @@ public class UserStateModel {
 
     private UserStateModel() {
         // TODO TOGLIERE
-        UserModel user = new UserModel("Utente 1", 500, 200, 200, 200, 200, LoadSave.HIDEGONS_FIREBALL);
+        UserModel user = new UserModel("Utente 1", 500, 200, 200, 200, 200, LoadSave.AVATAR_1);
         user.serialize("res/users/user.txt");
         getAllUsers();
     }
 
     private void getAllUsers() {
         userModels = new ArrayList<>();
-        URL url = UserStateModel.class.getResource("/users");
-        File file = null;
+        
+        final File folder = new File("res/users");
+        File[] files = folder.listFiles();
 
-        if (url != null) {
-            try {
-                file = new File(url.toURI());
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-
-            File[] files = file.listFiles();
-
+        if (files != null) {
             for (File f : files) {
                 userModels.add(UserModel.read(f.getPath()));
             }

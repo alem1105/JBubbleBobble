@@ -20,6 +20,20 @@ public class LoadSave {
     public static final String ZEN_CHAN_SPRITE = "enemies/zen_chan_sprite.png";
     public static final String MAITA_SPRITE = "enemies/maita_sprite.png";
 
+    // Avatar
+    public static final String AVATAR_1 = "avatars/avatar1.png";
+    public static final String AVATAR_2 = "avatars/avatar2.png";
+    public static final String AVATAR_3 = "avatars/avatar3.png";
+    public static final String AVATAR_4 = "avatars/avatar4.png";
+    public static final String AVATAR_5 = "avatars/avatar5.png";
+    public static final String AVATAR_6 = "avatars/avatar6.png";
+    public static final String AVATAR_7 = "avatars/avatar7.png";
+    public static final String AVATAR_8 = "avatars/avatar8.png";
+    public static final String AVATAR_9 = "avatars/avatar9.png";
+    public static final String AVATAR_10 = "avatars/avatar10.png";
+    public static final String AVATAR_11 = "avatars/avatar11.png";
+
+
     // buttons
     public static final String SAVE_BUTTON = "ui/save_button.png";
     public static final String X_BUTTON = "ui/x_button.png";
@@ -33,6 +47,7 @@ public class LoadSave {
     public static final String RESTART_BUTTON = "ui/restart_button.png";
     public static final String START_BUTTON = "ui/start_button.png";
     public static final String EDITOR_BUTTON = "ui/editor_button.png";
+    public static final String CREATE_BUTTON = "ui/create_button.png";
 
 
     // Projectiles

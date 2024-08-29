@@ -35,8 +35,9 @@ public class UserModel implements Serializable {
             os.writeObject(matches);
             os.writeObject(avatarPath);
 
-            os.flush();
+            //os.flush();
             os.close();
+            fos.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -66,6 +67,7 @@ public class UserModel implements Serializable {
             UserModel userModel =  new UserModel(nickname, score, level, wins, losses, matches, avatarPath);
 
             is.close();
+            fis.close();
 
             return userModel;
         }
@@ -101,5 +103,9 @@ public class UserModel implements Serializable {
 
     public int getLosses() {
         return losses;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }
