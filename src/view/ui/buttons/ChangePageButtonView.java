@@ -1,21 +1,21 @@
 package view.ui.buttons;
 
-import model.ui.buttons.ChangeLvlButtonModel;
+import model.ui.buttons.ChangePageButtonModel;
 import view.utilz.LoadSave;
 
 import java.awt.*;
 
-public class ChangeLvlButtonView extends CustomButtonView<ChangeLvlButtonModel> {
+public class ChangePageButtonView extends CustomButtonView<ChangePageButtonModel> {
 
     int flipX;
     int flipW;
 
-    public ChangeLvlButtonView(ChangeLvlButtonModel model) {
+    public ChangePageButtonView(ChangePageButtonModel model) {
         super(model);
         setDirection(model);
     }
 
-    private void setDirection(ChangeLvlButtonModel model) {
+    private void setDirection(ChangePageButtonModel model) {
         if (model.getDirection() == 2) {
             flipX = 0;
             flipW = 1;

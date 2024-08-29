@@ -301,9 +301,8 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     private void editorCheckClicks(MouseEvent e) {
         // TODO ABBIAMO USATO GLI STREAM QUI
         CustomButtonView[] allButtons = Stream
-                .concat(Arrays.stream(UserStateView.getInstance().getUserButtons()),
-                        Stream.concat(Arrays.stream(levelEditorView.getButtons()),
-                        Arrays.stream(levelEditorView.getEnemies())))
+                .concat(Arrays.stream(levelEditorView.getButtons()),
+                        Arrays.stream(levelEditorView.getEnemies()))
                 .toArray(CustomButtonView[]::new);
 
         for(CustomButtonView button : allButtons){
@@ -312,8 +311,6 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                     blockButtonClick((BlockButtonView) button);
                 else if(button instanceof EnemyButtonView)
                     enemyButtonClick((EnemyButtonView) button);
-                else if(button instanceof UserButtonView)
-                    userButtonClick((UserButtonView) button);
             }
         }
     }

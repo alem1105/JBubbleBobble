@@ -44,7 +44,7 @@ public class EnemiesManagerView {
 
     public void render(Graphics g) {
         for (EnemyView enemyView : enemyViews) {
-            if(!enemyView.getEnemy().isAlreadyDidParable() ) {
+            if(!enemyView.getEnemy().isAlreadyDidParable()) {
                 enemyView.render(g);
             }
         }

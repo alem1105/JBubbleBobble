@@ -87,7 +87,7 @@ public class LoadSave {
     public static void loadCustomFont() {
         try {
             BUBBLE_BOBBLE_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("./res/BubbleFont.ttf")).deriveFont(16f * SCALE);
-            JEQO_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("./res/Jeqo-5-Bit.ttf")).deriveFont(10f * SCALE);
+            JEQO_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("./res/Jeqo-5-Bit.ttf")).deriveFont(6f * SCALE);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(BUBBLE_BOBBLE_FONT);
             ge.registerFont(JEQO_FONT);

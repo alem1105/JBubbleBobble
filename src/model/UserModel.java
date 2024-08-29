@@ -83,4 +83,23 @@ public class UserModel implements Serializable {
         return nickname;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public int getMatches() {
+        return matches;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public int getWins() {
+        return wins;
+    }
+
+    public int getLosses() {
+        return losses;
+    }
 }

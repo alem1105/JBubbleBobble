@@ -10,6 +10,8 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static model.utilz.Constants.Directions.LEFT;
+import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.Enemies.DEAD;
 import static model.utilz.Constants.GameConstants.TILES_IN_HEIGHT;
 import static model.utilz.Constants.GameConstants.TILES_IN_WIDTH;
@@ -91,7 +93,7 @@ public class EnemyManagerModel {
                 }
             } else {
                 if(!(enemyModel.isDeathMovement())) {
-                        enemyModel.doDeathMovement(enemyModel);
+                    enemyModel.doDeathMovement(enemyModel, LEFT);
                 }
             }
         }

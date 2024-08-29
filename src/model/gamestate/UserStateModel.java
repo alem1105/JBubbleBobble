@@ -34,15 +34,15 @@ public class UserStateModel {
         URL url = UserStateModel.class.getResource("/users");
         File file = null;
 
-        try {
-            file = new File(url.toURI());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+        if (url != null) {
+            try {
+                file = new File(url.toURI());
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
 
-        File[] files = file.listFiles();
+            File[] files = file.listFiles();
 
-        if (files != null) {
             for (File f : files) {
                 userModels.add(UserModel.read(f.getPath()));
             }

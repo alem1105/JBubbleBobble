@@ -1,8 +1,8 @@
 package view.stateview;
 
-import model.ui.buttons.ChangeLvlButtonModel;
+import model.ui.buttons.ChangePageButtonModel;
 import model.ui.buttons.EditButtonModel;
-import view.ui.buttons.ChangeLvlButtonView;
+import view.ui.buttons.ChangePageButtonView;
 import view.ui.buttons.EditButtonView;
 import view.utilz.LoadSave;
 
@@ -15,8 +15,8 @@ public class LevelSelectorView {
     private static LevelSelectorView instance;
 
     private LevelEditorView levelEditorView;
-    private ChangeLvlButtonView nextLevelButtonView;
-    private ChangeLvlButtonView prevLevelButtonView;
+    private ChangePageButtonView nextLevelButtonView;
+    private ChangePageButtonView prevLevelButtonView;
     private EditButtonView editButtonView;
 
     public static LevelSelectorView getInstance() {
@@ -32,14 +32,14 @@ public class LevelSelectorView {
     }
 
     private void initButtons() {
-        nextLevelButtonView = new ChangeLvlButtonView(new ChangeLvlButtonModel(
+        nextLevelButtonView = new ChangePageButtonView(new ChangePageButtonModel(
                 levelEditorView.getLevelWidth() + ((GAME_WIDTH - levelEditorView.getLevelWidth()) / 2) + (int) (2 * SCALE),
                 (int) (85 * SCALE),
                 (int)(18 * SCALE),
                 (int)(18 * SCALE),
                 RIGHT));
 
-        prevLevelButtonView = new ChangeLvlButtonView(new ChangeLvlButtonModel(
+        prevLevelButtonView = new ChangePageButtonView(new ChangePageButtonModel(
                 levelEditorView.getLevelWidth() + ((GAME_WIDTH - levelEditorView.getLevelWidth()) / 2) - (int) (20 * SCALE),
                 (int) (85 * SCALE),
                 (int)(18 * SCALE),
@@ -90,11 +90,11 @@ public class LevelSelectorView {
         editButtonView.update();
     }
 
-    public ChangeLvlButtonView getNextLevelButtonView() {
+    public ChangePageButtonView getNextLevelButtonView() {
         return nextLevelButtonView;
     }
 
-    public ChangeLvlButtonView getPrevLevelButtonView() {
+    public ChangePageButtonView getPrevLevelButtonView() {
         return prevLevelButtonView;
     }
 
