@@ -52,7 +52,7 @@ public class UserStateView {
         userStateModel = UserStateModel.getInstance();
         users = userStateModel.getUserModels();
         checkCreateUser();
-        firstWidth = GAME_WIDTH / 2 - (int) (100 * SCALE);
+        firstWidth = GAME_WIDTH / 2 - (int) (110 * SCALE);
         initButtons();
         nicknameField = new Rectangle2D.Float(firstWidth + (int) (60 * SCALE), firstHeight, (int) (180 * SCALE), (int) (26 * SCALE));
         inputNickname = "Write Nick";
@@ -102,7 +102,7 @@ public class UserStateView {
         int startWidth = firstWidth;
         int startHeight = firstHeight;
 
-        g.drawImage(currentAvatar, startWidth, startHeight  - (int) (2 * SCALE), (int) (32 * SCALE), (int)(32 * SCALE),  null);
+        g.drawImage(currentAvatar, startWidth, startHeight  - (int) (2 * SCALE), (int) (50 * SCALE), (int)(50 * SCALE),  null);
         g.setFont(nicknameFont);
         g.setColor(new Color(242, 70, 152));
         startWidth = (int) (nicknameField.x + 5 * SCALE);
@@ -134,16 +134,16 @@ public class UserStateView {
 
     private void initButtons() {
         nextPageButton = new ChangePageButtonView(new ChangePageButtonModel(
-                GAME_WIDTH - (int)(10 * SCALE),
-                GAME_HEIGHT / 2,
-                (int) (16 * SCALE),
-                (int) (16 * SCALE),
+                GAME_WIDTH - (int)(30 * SCALE),
+                GAME_HEIGHT / 2 - (int)(5 * SCALE),
+                (int) (20 * SCALE),
+                (int) (20 * SCALE),
                 RIGHT));
         prevPageButton = new ChangePageButtonView(new ChangePageButtonModel(
-                firstWidth - (int) (69 * SCALE),
-                GAME_HEIGHT / 2,
-                (int) (16 * SCALE),
-                (int) (16 * SCALE),
+                (int)(12 * SCALE),
+                GAME_HEIGHT / 2 - (int)(5 * SCALE),
+                (int) (20 * SCALE),
+                (int) (20 * SCALE),
                 LEFT));
         createButton = new CreateButtonView(new CreateButtonModel(
                 GAME_WIDTH/2 - (int)(47 * SCALE) ,

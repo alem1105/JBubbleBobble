@@ -1,5 +1,6 @@
 package model.gamestate;
 
+import model.LevelManagerModel;
 import model.entities.PlayerModel;
 import model.entities.enemies.EnemyManagerModel;
 import model.objects.ProjectileManagerModel;
@@ -31,8 +32,9 @@ public class PlayingModel {
 
     public void update() {
         if (!(player.isGameOver())) {
-            if (player.getPlayerAction() != DEATH)
-                player.update();
+            if (!LevelManagerModel.getInstance().isNextLevel())
+                if (player.getPlayerAction() != DEATH)
+                    player.update();
             projectileManagerModel.update();
             bubbleManagerModel.update();
             enemyManagerModel.update();
