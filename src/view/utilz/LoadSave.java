@@ -23,6 +23,7 @@ public class LoadSave {
     // Enemies
     public static final String ZEN_CHAN_SPRITE = "enemies/zen_chan_sprite.png";
     public static final String MAITA_SPRITE = "enemies/maita_sprite.png";
+    public static final String MONSTA_SPRITE = "enemies/monsta_sprite.png";
 
     // Avatar
     public static final String AVATAR_1 = "avatars/avatar1.png";

@@ -51,7 +51,7 @@ public class EnemyManagerModel {
     public void initEnemies(){
         zenChans = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getZenChans();
         maitas = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getMaitas();
-        monstas = new ArrayList<>();
+        monstas = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getMonstas();
         pulpuls = new ArrayList<>();
         hidegons = new ArrayList<>();
         drunks = new ArrayList<>();

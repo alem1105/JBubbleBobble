@@ -50,6 +50,7 @@ public class LevelEditorView {
 
     private void initButtons() {
         initTileButtons();
+
         playerButton = PlayerButtonView.getInstance(
                 PlayerButtonModel.getInstance(
                         levelWidth + (int) (10 * SCALE) + (int) (30 * SCALE),
@@ -70,6 +71,7 @@ public class LevelEditorView {
                 levelHeight + (int) (11 * SCALE),
                 (int) (32 * SCALE),
                 (int) (32 * SCALE)));
+
         initEnemyButtons();
     }
 

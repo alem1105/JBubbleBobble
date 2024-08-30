@@ -66,7 +66,6 @@ public abstract class EnemyView {
 
 
     protected void drawHitbox(Graphics g) {
-        // For debugging the hitbox
         g.setColor(Color.PINK);
         g.drawRect((int) (enemy.getHitbox().x), (int) (enemy.getHitbox().y),
                 (int) enemy.getHitbox().width,
