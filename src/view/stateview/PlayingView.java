@@ -35,7 +35,7 @@ public class PlayingView {
     private void initViews() {
         playerView = PlayerView.getInstance();
         levelView = new LevelView();
-        enemiesManagerView = new EnemiesManagerView();
+        enemiesManagerView = EnemiesManagerView.getInstance();
         deathScreenView = DeathScreenView.getInstance();
         bubbleManagerView = BubbleManagerView.getInstance();
         projectileManagerView = ProjectileManagerView.getInstance();
@@ -58,8 +58,6 @@ public class PlayingView {
                 drawLifeHearts(g);
             }
         }
-
-
     }
 
     public void update(){
@@ -72,8 +70,9 @@ public class PlayingView {
             }
             playerView.update();
             bubbleManagerView.update();
-            enemiesManagerView.update();
+
         }
+        enemiesManagerView.update();
     }
 
     private void drawLifeHearts(Graphics g) {

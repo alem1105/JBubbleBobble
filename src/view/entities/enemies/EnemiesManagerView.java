@@ -11,12 +11,22 @@ import java.util.stream.Stream;
 
 public class EnemiesManagerView {
 
+    private static EnemiesManagerView instance;
+
     private EnemyManagerModel enemyManagerModel;
-    private ArrayList<EnemyView> enemyViews;
+    private ArrayList<EnemyView> enemyViews = new ArrayList<>();
     private ArrayList<EnemyModel> enemyModels;
     private int currentLevel;
+    private boolean restart = false;
 
-    public EnemiesManagerView() {
+    public static EnemiesManagerView getInstance() {
+        if (instance == null) {
+            instance = new EnemiesManagerView();
+        }
+        return instance;
+    }
+
+    private EnemiesManagerView() {
         enemyManagerModel = EnemyManagerModel.getInstance();
         initEnemyViewsArrays();
     }
@@ -35,8 +45,8 @@ public class EnemiesManagerView {
     }
 
     private void checkIfLevelChanged() {
-        if(LevelManagerModel.getInstance().getLvlIndex() != currentLevel) {
-
+        if(LevelManagerModel.getInstance().getLvlIndex() != currentLevel || restart) {
+            restart = false;
             initEnemyViewsArrays();
             currentLevel = LevelManagerModel.getInstance().getLvlIndex();
         }
@@ -51,7 +61,7 @@ public class EnemiesManagerView {
     }
 
     private void initEnemyViewsArrays() {
-        enemyViews = new ArrayList<>();
+        enemyViews.clear();
         enemyModels = enemyManagerModel.getEnemies();
         for (EnemyModel enemyModel : enemyModels)
             switch (enemyModel) {
@@ -62,6 +72,10 @@ public class EnemiesManagerView {
                 case DrunkModel drunkModel -> enemyViews.add(new DrunkView(drunkModel));
                 case null, default -> enemyViews.add(new HidegonsView((HidegonsModel) enemyModel));
             }
+    }
+
+    public void setRestart(boolean restart) {
+        this.restart = restart;
     }
 
 }
