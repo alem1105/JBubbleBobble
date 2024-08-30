@@ -24,6 +24,7 @@ public class LoadSave {
     public static final String ZEN_CHAN_SPRITE = "enemies/zen_chan_sprite.png";
     public static final String MAITA_SPRITE = "enemies/maita_sprite.png";
     public static final String MONSTA_SPRITE = "enemies/monsta_sprite.png";
+    public static final String DRUNK_SPRITE = "enemies/drunk_sprite.png";
 
     // Avatar
     public static final String AVATAR_1 = "avatars/avatar1.png";
@@ -58,6 +59,7 @@ public class LoadSave {
     // Projectiles
     public static final String MAITA_FIREBALL = "enemies/maita_fireball_sprite.png";
     public static final String HIDEGONS_FIREBALL = "enemies/hidegons_fireball_sprite.png";
+    public static final String DRUNK_BOTTLE = "enemies/drunk_projectile_sprite.png";
 
     public static Font BUBBLE_BOBBLE_FONT, JEQO_FONT;
 

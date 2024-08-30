@@ -28,8 +28,10 @@ public class ProjectileManagerModel {
 
     public void update() {
         for (ProjectileModel projectile : projectiles) {
-            projectile.update();
-            checkPlayerCollision(projectile);
+            if (projectile.isActive()) {
+                projectile.update();
+                checkPlayerCollision(projectile);
+            }
         }
     }
 

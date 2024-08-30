@@ -52,14 +52,14 @@ public class EnemyManagerModel {
         zenChans = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getZenChans();
         maitas = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getMaitas();
         monstas = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getMonstas();
+        drunks = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getDrunks();
         pulpuls = new ArrayList<>();
         hidegons = new ArrayList<>();
-        drunks = new ArrayList<>();
         createGeneralEnemiesArray();
     }
 
     private void createGeneralEnemiesArray() {
-        enemies = Stream.of(zenChans, pulpuls, monstas, maitas, hidegons)
+        enemies = Stream.of(zenChans, pulpuls, monstas, maitas, hidegons, drunks)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toCollection(ArrayList::new));
     }

@@ -1,12 +1,10 @@
 package model;
 
-import model.entities.enemies.EnemyModel;
-import model.entities.enemies.MaitaModel;
-import model.entities.enemies.MonstaModel;
-import model.entities.enemies.ZenChanModel;
+import model.entities.enemies.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -18,6 +16,7 @@ public class LevelModel {
     private ArrayList<ZenChanModel> zenChans;
     private ArrayList<MaitaModel> maitas;
     private ArrayList<MonstaModel> monstas;
+    private ArrayList<DrunkModel> drunks;
     private Point playerSpawn;
 
     public LevelModel(BufferedImage lvlImg) {
@@ -32,6 +31,7 @@ public class LevelModel {
         zenChans = new ArrayList<>();
         maitas = new ArrayList<>();
         monstas = new ArrayList<>();
+        drunks = new ArrayList<>();
         for(int y = 0; y < lvlImg.getHeight(); y++) {
             for(int x = 0; x < lvlImg.getWidth(); x++) {
                 Color color = new Color(lvlImg.getRGB(x, y));
@@ -48,6 +48,10 @@ public class LevelModel {
                         case 253 -> {
                             monstas.add(new MonstaModel(x * TILES_SIZE, y * TILES_SIZE));
                             enemiesData[y][x] = 253;
+                        }
+                        case 250 -> {
+                            drunks.add(new DrunkModel(x * TILES_SIZE, y * TILES_SIZE));
+                            enemiesData[y][x] = 250;
                         }
                     }
                 }
@@ -110,6 +114,10 @@ public class LevelModel {
 
     public ArrayList<MonstaModel> getMonstas() {
         return monstas;
+    }
+
+    public ArrayList<DrunkModel> getDrunks() {
+        return drunks;
     }
 
     public void setPlayerSpawn(Point playerSpawn) {
