@@ -86,6 +86,12 @@ public class LevelManagerModel {
         ProjectileManagerModel.getInstance().resetProjectiles();
     }
 
+
+    public void restartGame() {
+        levels.clear();
+        buildAllLevels();
+    }
+
     public ArrayList<LevelModel> getLevels() {
         return levels;
     }
