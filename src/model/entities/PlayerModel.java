@@ -78,6 +78,7 @@ public class PlayerModel extends EntityModel {
 
     public void update() {
         updatePos();
+        checkRidingABubble();
         checkAttack();
         setPlayerAction();
         updateInvincibleStatus();
@@ -165,17 +166,23 @@ public class PlayerModel extends EntityModel {
     }
 
     private void checkRidingABubble() {
-        for(BobBubbleModel bobBubble : BubbleManagerModel.getInstance().getBobBubbles()) {
-            if(bobBubble.getHitbox().x <= hitbox.x + hitbox.height + hitbox.width / 2
-                    && hitbox.x + hitbox.height + hitbox.width / 2 <= bobBubble.getHitbox().x + bobBubble.getHitbox().width) {
-                ridingABubble = true;
+        // Vanno aggiunti e sottratti valori altrimenti e' quasi impossibile prendere la bolla
+        if (airSpeed > 0) {
+            for(BobBubbleModel bobBubble : BubbleManagerModel.getInstance().getBobBubbles()) {
+                if (bobBubble.isActive() && bobBubble.isCollision()) {
+                    if (hitbox.getMaxY() >= bobBubble.getHitbox().getY() - (5 * SCALE) && hitbox.getMaxY() <= bobBubble.getHitbox().getY() + (5 * SCALE)
+                            && hitbox.x >= bobBubble.getHitbox().getX() && hitbox.x <= bobBubble.getHitbox().getMaxX() && jump) {
+                        inAir = true;
+                        airSpeed = -2.5f;
+                        //bobBubble.decreaseY(-15f * SCALE);
+                    }
+                }
             }
-
         }
     }
 
     @ Override
-    protected void updateXPos(float xSpeed) {
+    public void updateXPos(float xSpeed) {
         if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height,
                 getLvlData()))
             hitbox.x += xSpeed;
@@ -259,4 +266,9 @@ public class PlayerModel extends EntityModel {
     public boolean isRidingABubble() {
         return ridingABubble;
     }
+
+    public float getAirSpeed() {
+        return airSpeed;
+    }
+
 }

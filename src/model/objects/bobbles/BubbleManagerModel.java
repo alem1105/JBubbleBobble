@@ -1,8 +1,10 @@
 package model.objects.bobbles;
 
+import model.entities.PlayerModel;
 import model.entities.enemies.EnemyManagerModel;
 import model.entities.enemies.EnemyModel;
 
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -38,8 +40,15 @@ public class BubbleManagerModel {
         for( BobBubbleModel bubble : bobBubbles ){
             if (bubble.isActive()) {
                 bubble.update();
+                checkPlayerHit(bubble);
                 checkEnemyHasBeenHit(bubble);
                 checkCollisionWithOtherBubbles(bubble);
+            }
+        }
+        for (BubbleModel bubble : bubbles){
+            if (bubble.isActive()) {
+                //checkPlayerHit(bubble);
+                bubble.update();
             }
         }
     }
@@ -48,14 +57,48 @@ public class BubbleManagerModel {
         spawnBubbleTick++;
         if (spawnBubbleTick >= spawnBubbleDuration) {
             spawnBubbleTick = 0;
-            int type = rand.nextInt(2);
+            int bubbleType = 0;//rand.nextInt(2);
 
             int max = (TILES_IN_WIDTH - 1) * TILES_SIZE;
             int min = TILES_SIZE;
 
             int randomX = rand.nextInt(max - min + 1) + min;
-            switch (type) {
-                default -> bubbles.add(new WaterBubbleModel(randomX, (int) (14 * SCALE), (int) (16 * SCALE)));
+            int y = GAME_HEIGHT;
+            bubbles.add(new BubbleModel(randomX, y,(int) (14 * SCALE), (int) (16 * SCALE), bubbleType));
+        }
+    }
+
+    private void checkPlayerHit(BubbleModel bubble) {
+        if (getPlayerHitbox().getY() <= bubble.getHitbox().getMaxY() + (int) (1 * SCALE) && getPlayerHitbox().getY() >= bubble.getHitbox().getMaxY() - (int)(1 * SCALE)
+                && getPlayerHitbox().getX() <= bubble.getHitbox().getMaxX() + (int) (2 * SCALE) && getPlayerHitbox().getX() >= bubble.getHitbox().getX() - (int) (2 * SCALE)
+                && PlayerModel.getInstance().getAirSpeed() < 0) {
+            if (bubble.getHitbox().intersects(PlayerModel.getInstance().getHitbox()) && bubble.isCollision()) {
+
+                bubble.setActive(false);
+                bubble.setTimeout(true);
+                // Cosi' scoppiano tutte quelle nella floating area
+                //            if (bubble.getFloatingArea()) {
+                //                for (BobBubbleModel bobBubble : bobBubbles) {
+                //                    if (bobBubble.getFloatingArea())
+                //                        bobBubble.setActive(false);
+                //                }
+                //            }
+
+                // Con queste tutte quelle che si toccano
+                checkIntersects(bubble);
+
+            }
+        }
+    }
+
+    private void checkIntersects(BubbleModel bubble) {
+        for (BobBubbleModel bob : bobBubbles) {
+            if (bob.isActive()) {
+                if (bob.getHitbox().intersects(bubble.getHitbox())) {
+                    bob.setActive(false);
+                    bubble.setTimeout(true);
+                    checkIntersects(bob);
+                }
             }
         }
     }
@@ -98,11 +141,13 @@ public class BubbleManagerModel {
     }
 
     public void resetBubbles() {
-        bobBubbles = new ArrayList<>();
+        bobBubbles.clear();
+        bubbles.clear();
     }
 
     public void addBobBubbles(BobBubbleModel bobBubble) {
         bobBubbles.add(bobBubble);
+        //bubbles.add(bobBubble);
     }
 
     public ArrayList<BobBubbleModel> getBobBubbles() {
@@ -111,5 +156,9 @@ public class BubbleManagerModel {
 
     public ArrayList<BubbleModel> getBubbles() {
         return bubbles;
+    }
+
+    private Rectangle2D.Float getPlayerHitbox() {
+        return PlayerModel.getInstance().getHitbox();
     }
 }

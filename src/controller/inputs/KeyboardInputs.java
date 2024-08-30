@@ -34,11 +34,11 @@ public class KeyboardInputs implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         switch (Gamestate.state) {
-//            case MENU -> {
-//                switch (e.getKeyCode()) {
-//                    case KeyEvent.VK_ENTER -> Gamestate.state = PLAYING;
-//                }
-//            }
+            case MENU -> {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_ENTER -> Gamestate.state = PLAYING;
+                }
+            }
             case USER -> {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_ENTER -> Gamestate.state = MENU;

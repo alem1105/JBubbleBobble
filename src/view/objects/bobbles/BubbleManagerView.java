@@ -5,7 +5,6 @@ import model.objects.ProjectileModel;
 import model.objects.bobbles.BobBubbleModel;
 import model.objects.bobbles.BubbleManagerModel;
 import model.objects.bobbles.BubbleModel;
-import model.objects.bobbles.WaterBubbleModel;
 import view.objects.MaitaFireballView;
 
 import java.awt.*;
@@ -45,7 +44,7 @@ public class BubbleManagerView {
                 bubbleView.update();
         }
 //        for (BubbleView bubbleView : bubbleViews) {
-//            bubbleView.update()
+//            bubbleView.update();
 //        }
     }
 
@@ -56,7 +55,7 @@ public class BubbleManagerView {
             }
 
         for (BubbleView bubbleView : bubbleViews) {
-            bubbleView.draw(g, bubbleView.getSprite());
+            bubbleView.draw(g);
         }
     }
 
@@ -69,10 +68,7 @@ public class BubbleManagerView {
         }
         while (modelLength > bubbleViews.size()) {
             BubbleModel bubble = BubbleManagerModel.getInstance().getBubbles().get(i);
-            switch (bubble) {
-                //case WaterBubbleModel bubbleModel -> new WaterBubbleView(bubbleModel);
-                default -> bubbleViews.add(new WaterBubbleView((WaterBubbleModel)bubble));
-            }
+            bubbleViews.add(new BubbleView(bubble));
             i++;
         }
     }

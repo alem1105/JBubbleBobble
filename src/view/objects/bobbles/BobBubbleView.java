@@ -9,28 +9,8 @@ public class BobBubbleView extends BubbleView<BobBubbleModel>{
 
     public BobBubbleView(BobBubbleModel model) {
         super(model);
-        sprites = loadAnimations(BOB_BUBBLE_SPRITE, 3, 3, 16, 16);
+        //sprites = loadAnimations(BOB_BUBBLE_SPRITE, 3, 3, 16, 16);
         bubbleState = BUBBLE_SPAWNING;
-    }
-
-    public void update() {
-        updateBubbleState();
-        setSpriteIndex();
-        updateAnimationTick();
-    }
-
-    private void updateBubbleState(){
-        int currentState = bubbleState;
-
-        if (!objectModel.isActive()) {
-            bubbleState = BUBBLE_EXPLODING;
-        }
-        else if (bubbleState == BUBBLE_SPAWNING && aniIndex == 2){
-            bubbleState = BUBBLE_SPAWNED;
-        }
-
-        if (bubbleState != currentState)
-            resetAniTick();
     }
 
 
@@ -50,7 +30,7 @@ public class BobBubbleView extends BubbleView<BobBubbleModel>{
         return 1;
     }
 
-    @Override
+    @ Override
     protected void setSpriteIndex(){
         switch (bubbleState){
             case BUBBLE_SPAWNING -> {

@@ -1,6 +1,7 @@
 package model.entities;
 
 import model.LevelManagerModel;
+import model.utilz.Fallable;
 
 import java.awt.geom.Rectangle2D;
 
@@ -8,7 +9,7 @@ import static model.utilz.Constants.GameConstants.*;
 import static model.utilz.Gravity.*;
 import static model.utilz.UtilityMethods.getLvlData;
 
-public abstract class EntityModel {
+public abstract class EntityModel implements Fallable {
 
     protected float x, y;
     protected int width, height;
@@ -31,7 +32,7 @@ public abstract class EntityModel {
         hitbox = new Rectangle2D.Float(x, y, width * SCALE, height * SCALE);
     }
 
-    protected void isInAirCheck() {
+    public void isInAirCheck() {
         if (!inAir) {
             if (!IsEntityOnFloor(hitbox, getLvlData())) {
                 inAir = true;
@@ -39,7 +40,7 @@ public abstract class EntityModel {
         }
     }
 
-    protected void fallingChecks(float xSpeed){
+    public void fallingChecks(float xSpeed){
         // Stiamo cadendo
         // Bloccati dentro un muro
         if (!CanMoveHere(hitbox.x, hitbox.y, hitbox.width, hitbox.height,getLvlData())) {
@@ -67,18 +68,18 @@ public abstract class EntityModel {
         }
     }
 
-    private void checkOutOfMap() {
+    public void checkOutOfMap() {
         int currentTileY = (int) (hitbox.y / TILES_SIZE);
         if(currentTileY == TILES_IN_HEIGHT - 1)
             hitbox.y = -TILES_SIZE;
     }
 
-    protected void resetInAir() {
+    public void resetInAir() {
         inAir = false;
         airSpeed = 0;
     }
 
-    protected abstract void updateXPos(float xSpeed);
+    public abstract void updateXPos(float xSpeed);
 
     public Rectangle2D.Float getHitbox() {
         return hitbox;

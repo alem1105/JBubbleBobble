@@ -1,7 +1,9 @@
 package view.objects.bobbles;
 
+import model.objects.bobbles.BobBubbleModel;
 import model.objects.bobbles.BubbleModel;
 import view.objects.CustomObjectView;
+import view.utilz.LoadSave;
 
 import java.awt.image.BufferedImage;
 
@@ -9,14 +11,26 @@ import static model.utilz.Constants.CustomObjects.*;
 
 import static model.utilz.Constants.CustomObjects.BUBBLE_SPAWNED;
 import static model.utilz.Constants.GameConstants.*;
+import static model.utilz.Constants.SpecialBubbles.*;
 
 public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
-    protected BufferedImage sprite;
 
     protected int bubbleState = BUBBLE_SPAWNED;
 
     public BubbleView(T model) {
         super(model);
+        switch (model.getBubbleType()) {
+            case 3 -> sprites = LoadSave.loadAnimations(LoadSave.BOB_BUBBLE_SPRITE,3, 3, 16, 16);
+            case 0 -> sprites = LoadSave.loadAnimations(LoadSave.WATER_BUBBLE_SPRITE,1, 1, 14, 16);
+        }
+        //aniIndex = 0;
+        //spriteIndex = 0;
+    }
+
+    public void update() {
+        updateBubbleState();
+        setSpriteIndex();
+        updateAnimationTick();
     }
 
     @Override
@@ -34,28 +48,34 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
         }
     }
 
+    protected void updateBubbleState(){
+        int currentState = bubbleState;
+
+        if (!objectModel.isActive()) {
+            bubbleState = BUBBLE_EXPLODING;
+        }
+        else if (bubbleState == BUBBLE_SPAWNING && aniIndex == 2){
+            bubbleState = BUBBLE_SPAWNED;
+        }
+
+        if (bubbleState != currentState)
+            resetAniTick();
+    }
+
     @Override
     protected int getSpriteAmount(){
-        switch (bubbleState){
-            case BUBBLE_SPAWNED -> {
-                return 1;
-            }
-            case BUBBLE_EXPLODING -> {
-                return 2;
-            }
-        }
-        return 1;
+        return switch(bubbleState) {
+            case BUBBLE_EXPLODING -> 2;
+            default -> 1;
+        };
     }
 
     protected void setSpriteIndex(){
-        switch (bubbleState){
-            case BUBBLE_SPAWNED-> {
-                spriteIndex = 0;
-            }
-            case BUBBLE_EXPLODING -> {
-                spriteIndex = 1;
-            }
+        if (bubbleState == BUBBLE_EXPLODING){
+            spriteIndex = 3;
+            return;
         }
+        spriteIndex = objectModel.getBubbleType();
     }
 
 
@@ -71,7 +91,4 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
         return aniTick;
     }
 
-    public BufferedImage getSprite() {
-        return sprite;
-    }
 }

@@ -21,7 +21,6 @@ public abstract class EnemyModel extends EntityModel {
 
     protected int inBubbleTime;
 
-    protected int enemyType;
     protected int enemyState = RUNNING;
 
     // movimenti e gravità
@@ -73,7 +72,7 @@ public abstract class EnemyModel extends EntityModel {
         }
     }
 
-    protected void updateXPos(float walkSpeed) {
+    public void updateXPos(float walkSpeed) {
         if (playerAndEnemyAreOnTheSameRow() && !getPlayer().isInvincible()) {
             walkwithSameY();
         } else {
@@ -271,10 +270,6 @@ public abstract class EnemyModel extends EntityModel {
 
     protected int getEnemyTileX() {
         return (int) (hitbox.x / TILES_SIZE);
-    }
-
-    public int getEnemyType() {
-        return enemyType;
     }
 
     public int getEnemyState() {

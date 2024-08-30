@@ -25,16 +25,6 @@ public abstract class CustomObjectView<T extends CustomObjectModel> {
                 null);
     }
 
-    public void draw(Graphics g, BufferedImage sprite) {
-        g.drawImage(sprite,
-                (int) objectModel.getX(),
-                (int) objectModel.getY(),
-                objectModel.getWidth(),
-                objectModel.getHeight(),
-                null);
-    }
-
-
     public void drawHitbox(Graphics g){
         g.setColor(Color.PINK);
         g.drawRect((int) (objectModel.getHitbox().x), (int) (objectModel.getHitbox().y),

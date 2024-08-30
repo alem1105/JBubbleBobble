@@ -2,24 +2,32 @@ package model.objects.bobbles;
 
 import model.objects.CustomObjectModel;
 
+import static model.utilz.Gravity.*;
 import static model.utilz.UtilityMethods.*;
 import static model.utilz.Constants.Directions.LEFT;
 import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.GameConstants.*;
-import static model.utilz.Gravity.CanMoveHere;
-import static model.utilz.Gravity.GetEntityXPosNextToWall;
 
 public class BubbleModel extends CustomObjectModel {
 
-    protected float bubbleSpeed = 1.5F * SCALE;
+    protected float bubbleSpeed = 0.2F * SCALE;
     protected int lifeTimer = 0; // tempo della vita dopo di che esplode
     protected boolean timeOut;
     protected int lifeTime = 3000;
+    protected int bubbleType;
+
+    protected float bubbleSpeedAfterShot = 0.3F * SCALE;
+    protected int pathDuration = 240;
+    protected int pathTick = 0;
 
     protected int bubbleDirection;
 
-    public BubbleModel(float x, float y, int width, int height) {
+    protected boolean collision = false;
+    protected boolean stuck = false;
+
+    public BubbleModel(float x, float y, int width, int height, int bubbleType) {
         super(x, y, width, height);
+        this.bubbleType = bubbleType;
         checkDirection();
     }
 
@@ -33,20 +41,59 @@ public class BubbleModel extends CustomObjectModel {
 
     public void update(){
         checkLifeTimer();
-        updatePos();
+        afterShotMovement();
     }
 
-    protected void updatePos() {
-        if (bubbleDirection == RIGHT) {
-            bubbleSpeed = -Math.abs(bubbleSpeed);
-            checkEnemyMovement();
+//    protected void updatePos() {
+//        if (bubbleDirection == RIGHT) {
+//            bubbleSpeed = -Math.abs(bubbleSpeed);
+//            checkBubbleMovement();
+//        } else {
+//            bubbleSpeed = Math.abs(bubbleSpeed);
+//            checkBubbleMovement();
+//        }
+//    }
+
+    protected void afterShotMovement() {
+        if(!stuck) {
+            if(getBubbleTileY() > 2) {
+                hitbox.y -= bubbleSpeedAfterShot;
+            } else {
+                if(isBubbleInXRange()) {
+                    stuck = true;
+                }else {
+                    checkBubbleDirection();
+                }
+            }
         } else {
-            bubbleSpeed = Math.abs(bubbleSpeed);
-            checkEnemyMovement();
+            startFloating();
         }
     }
 
-    private void checkEnemyMovement() {
+    private boolean isBubbleInXRange() {
+        return TILES_IN_WIDTH / 2 - 2 <= getBubbleTileX() && getBubbleTileX() <= TILES_IN_WIDTH / 2 + 1;
+    }
+
+    protected void checkBubbleDirection() {
+        if(getBubbleTileX() < TILES_IN_WIDTH / 2 - 2) {
+            hitbox.x += bubbleSpeedAfterShot;
+        }else {
+            hitbox.x -= bubbleSpeedAfterShot;
+        }
+    }
+
+    protected void startFloating() {
+        if(pathTick <= pathDuration / 2 ) {
+            hitbox.y -= bubbleSpeedAfterShot;
+        }else if(pathTick > pathDuration / 2 && pathTick <= pathDuration) {
+            hitbox.y += bubbleSpeedAfterShot;
+        }else {
+            pathTick = 0;
+        }
+        pathTick++;
+    }
+
+    protected void checkBubbleMovement() {
         if (canBubbleMoveHere()) {
             hitbox.x += bubbleSpeed;
         } else {
@@ -80,5 +127,24 @@ public class BubbleModel extends CustomObjectModel {
         return timeOut;
     }
 
+    protected int getBubbleTileY() {
+        return (int) (hitbox.y / TILES_SIZE);
+    }
+
+    private int getBubbleTileX() {
+        return (int) (hitbox.x / TILES_SIZE);
+    }
+
+    public boolean isCollision() {
+        return collision;
+    }
+
+    public int getBubbleType() {
+        return bubbleType;
+    }
+
+    public void setTimeout(boolean timeOut) {
+        this.timeOut = timeOut;
+    }
 }
 
