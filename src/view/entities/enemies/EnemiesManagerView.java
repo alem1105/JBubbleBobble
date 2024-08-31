@@ -5,9 +5,6 @@ import model.entities.enemies.*;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class EnemiesManagerView {
 
@@ -57,7 +54,7 @@ public class EnemiesManagerView {
             switch (enemyModel) {
                 case ZenChanModel zenChanModel -> enemyViews.add(new ZenChanView(zenChanModel));
                 case MaitaModel maitaModel -> enemyViews.add(new MaitaView(maitaModel));
-                case PulpulModel pulpulModel -> enemyViews.add(new PulpulView(pulpulModel));
+                case InvaderModel invaderModel -> enemyViews.add(new InvaderView(invaderModel));
                 case MonstaModel monstaModel -> enemyViews.add(new MonstaView(monstaModel));
                 case DrunkModel drunkModel -> enemyViews.add(new DrunkView(drunkModel));
                 case null, default -> enemyViews.add(new HidegonsView((HidegonsModel) enemyModel));

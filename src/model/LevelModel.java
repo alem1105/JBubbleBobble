@@ -1,6 +1,7 @@
 package model;
 
 import model.entities.enemies.EnemyModel;
+import model.entities.enemies.InvaderModel;
 import model.entities.enemies.MaitaModel;
 import model.entities.enemies.ZenChanModel;
 
@@ -16,6 +17,7 @@ public class LevelModel {
     private BufferedImage lvlImg;
     private ArrayList<ZenChanModel> zenChans;
     private ArrayList<MaitaModel> maitas;
+    private ArrayList<InvaderModel> invaders;
     private Point playerSpawn;
 
     public LevelModel(BufferedImage lvlImg) {
@@ -29,6 +31,7 @@ public class LevelModel {
         enemiesData = new int[lvlImg.getHeight()][lvlImg.getWidth()];
         zenChans = new ArrayList<>();
         maitas = new ArrayList<>();
+        invaders = new ArrayList<>();
         for(int y = 0; y < lvlImg.getHeight(); y++) {
             for(int x = 0; x < lvlImg.getWidth(); x++) {
                 Color color = new Color(lvlImg.getRGB(x, y));
@@ -41,6 +44,13 @@ public class LevelModel {
                         case 254 -> {
                             maitas.add(new MaitaModel(x * TILES_SIZE, y * TILES_SIZE));
                             enemiesData[y][x] = 254;
+                        }
+                        case 253 -> {
+
+                        }
+                        case 252 -> {
+                            invaders.add(new InvaderModel(x * TILES_SIZE, y * TILES_SIZE));
+                            enemiesData[y][x] = 252;
                         }
                     }
                 }
@@ -99,6 +109,10 @@ public class LevelModel {
 
     public ArrayList<MaitaModel> getMaitas() {
         return maitas;
+    }
+
+    public ArrayList<InvaderModel> getInvaders() {
+        return invaders;
     }
 
     public void setPlayerSpawn(Point playerSpawn) {

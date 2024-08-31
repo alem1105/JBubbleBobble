@@ -2,6 +2,7 @@ package view.objects;
 
 import model.LevelManagerModel;
 import model.entities.enemies.EnemyManagerModel;
+import model.objects.InvaderLaserModel;
 import model.objects.MaitaFireballModel;
 import model.objects.ProjectileManagerModel;
 import model.objects.ProjectileModel;
@@ -53,6 +54,7 @@ public class ProjectileManagerView {
             ProjectileModel proiettile = projectileManagerModel.getProjectiles().get(i);
             switch (proiettile) {
                 case MaitaFireballModel maitaFireballModel -> projectileViews.add(new MaitaFireballView(maitaFireballModel));
+                case InvaderLaserModel invaderLaserModel -> projectileViews.add(new InvaderLaserView(invaderLaserModel));
                 default -> throw new IllegalStateException("Unexpected value: " + proiettile);
             }
             i++;

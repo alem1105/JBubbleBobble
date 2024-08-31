@@ -17,12 +17,13 @@ public class LoadSave {
     public static final String BUB_LEVEL_TRANSITION = "bubble_level_transition.png";
 
     public static final String BOB_BUBBLE_SPRITE = "objects/bubbles/bubble_sprites.png";
-    public static final String WATER_BUBBLE_SPRITE = "objects/bubbles/waterbubble_sprite.png";
+    public static final String SPECIAL_BUBBLE_SPRITE = "objects/bubbles/special_bubbles.png";
     public static final String WATER_SPRITE = "objects/bubbles/water_sprites.png";
 
     // Enemies
     public static final String ZEN_CHAN_SPRITE = "enemies/zen_chan_sprite.png";
     public static final String MAITA_SPRITE = "enemies/maita_sprite.png";
+    public static final String INVADER_SPRITE = "enemies/invader_sprite.png";
 
     // Avatar
     public static final String AVATAR_1 = "avatars/avatar1.png";
@@ -57,6 +58,7 @@ public class LoadSave {
     // Projectiles
     public static final String MAITA_FIREBALL = "enemies/maita_fireball_sprite.png";
     public static final String HIDEGONS_FIREBALL = "enemies/hidegons_fireball_sprite.png";
+    public static final String INVADER_LASER = "enemies/invader_laser_sprite.png";
 
     public static Font BUBBLE_BOBBLE_FONT, JEQO_FONT;
 
