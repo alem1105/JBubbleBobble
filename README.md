@@ -28,15 +28,15 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [x] sistemare aniTick della bolla
 - [x] sistemare menu
 - [x] animazione migliore morte dei nemici
-- [ ] sistemare schermata user
+- [x] sistemare schermata user
 - [ ] update user alla fine di una partita
-- [ ] bolle che scoppiamo tutte insieme 
+- [x] bolle che scoppiamo tutte insieme 
 - [ ] classifica
 - [x] metodo per il caricamento del livello successivo
-- [ ] pulsante restart 
+- [x] pulsante restart 
 
 ### We may or may not do that
 - [ ] livello finale con boss
 - [ ] aggiungere il crea livelli al level editor
-- [ ] saltare sulle bolle
+- [x] saltare sulle bolle
 - [x] transizione livelli
