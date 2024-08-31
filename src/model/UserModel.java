@@ -24,6 +24,12 @@ public class UserModel implements Serializable {
 
     public void serialize(String path) {
         try {
+
+            File dir = new File("res/users/");
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+
             FileOutputStream fos = new FileOutputStream(path);
             ObjectOutputStream os = new ObjectOutputStream(fos);
 
