@@ -1,17 +1,14 @@
 package view.objects;
 
 import model.LevelManagerModel;
-import model.entities.enemies.EnemyManagerModel;
 import model.objects.DrunkBottleModel;
+import model.objects.InvaderLaserModel;
 import model.objects.MaitaFireballModel;
 import model.objects.ProjectileManagerModel;
 import model.objects.ProjectileModel;
-import model.objects.bobbles.BubbleManagerModel;
-import view.objects.bobbles.BobBubbleView;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ProjectileManagerView {
 
@@ -55,6 +52,7 @@ public class ProjectileManagerView {
             switch (proiettile) {
                 case MaitaFireballModel maitaFireballModel -> projectileViews.add(new MaitaFireballView(maitaFireballModel));
                 case DrunkBottleModel drunkBottleModel -> projectileViews.add(new DrunkBottleView(drunkBottleModel));
+                case InvaderLaserModel invaderLaserModel -> projectileViews.add(new InvaderLaserView(invaderLaserModel));
                 default -> throw new IllegalStateException("Unexpected value: " + proiettile);
             }
             i++;

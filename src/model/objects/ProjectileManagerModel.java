@@ -1,11 +1,9 @@
 package model.objects;
 
 import model.entities.PlayerModel;
-import model.objects.bobbles.BubbleManagerModel;
 
 import java.util.ArrayList;
 
-import static model.utilz.Constants.Enemies.DEAD;
 import static model.utilz.Constants.PlayerConstants.DEATH;
 
 public class ProjectileManagerModel {
@@ -28,7 +26,7 @@ public class ProjectileManagerModel {
 
     public void update() {
         for (ProjectileModel projectile : projectiles) {
-            if (projectile.isActive()) {
+            if(projectile.isActive()) {
                 projectile.update();
                 checkPlayerCollision(projectile);
             }

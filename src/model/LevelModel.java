@@ -4,9 +4,7 @@ import model.entities.enemies.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static model.utilz.Constants.GameConstants.TILES_SIZE;
 
@@ -17,6 +15,7 @@ public class LevelModel {
     private ArrayList<MaitaModel> maitas;
     private ArrayList<MonstaModel> monstas;
     private ArrayList<DrunkModel> drunks;
+    private ArrayList<InvaderModel> invaders;
     private Point playerSpawn;
 
     public LevelModel(BufferedImage lvlImg) {
@@ -32,6 +31,7 @@ public class LevelModel {
         maitas = new ArrayList<>();
         monstas = new ArrayList<>();
         drunks = new ArrayList<>();
+        invaders = new ArrayList<>();
         for(int y = 0; y < lvlImg.getHeight(); y++) {
             for(int x = 0; x < lvlImg.getWidth(); x++) {
                 Color color = new Color(lvlImg.getRGB(x, y));
@@ -48,6 +48,10 @@ public class LevelModel {
                         case 253 -> {
                             monstas.add(new MonstaModel(x * TILES_SIZE, y * TILES_SIZE));
                             enemiesData[y][x] = 253;
+                        }
+                        case 252 -> {
+                            invaders.add(new InvaderModel(x * TILES_SIZE, y * TILES_SIZE));
+                            enemiesData[y][x] = 252;
                         }
                         case 250 -> {
                             drunks.add(new DrunkModel(x * TILES_SIZE, y * TILES_SIZE));
@@ -110,6 +114,10 @@ public class LevelModel {
 
     public ArrayList<MaitaModel> getMaitas() {
         return maitas;
+    }
+
+    public ArrayList<InvaderModel> getInvaders() {
+        return invaders;
     }
 
     public ArrayList<MonstaModel> getMonstas() {

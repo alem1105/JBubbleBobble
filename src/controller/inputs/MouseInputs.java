@@ -173,8 +173,19 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
 
             }
             case LEVEL_EDITOR -> {
-                setXButtonPressed(false);
-                setSaveButtonPressed(false);
+                if(isIn(levelEditorView.getXButtonView(), e)){
+                    if(getXButton().isPressed()){
+                        setXButtonPressed(false);
+                        levelEditorView.getXButtonView().getButtonModel().isClicked();
+                        Gamestate.state = Gamestate.MENU;
+                    }
+                }
+                if(isIn(levelEditorView.getSaveButtonView(), e)){
+                    if(getSaveButton().isPressed()){
+                        getSaveButtonModel().saveNewLevelImage(getLevelData(), getEnemiesData(), getPlayerSpawn(), levelEditorView.getLevelIndex());
+                        Gamestate.state = Gamestate.MENU;
+                    }
+                }
             }
 
             case LEVEL_SELECTOR -> {
@@ -350,21 +361,18 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     }
 
     private void editorCheckPressed(MouseEvent e) {
+        setEraserButtonPressed(false);
         if (isIn(levelEditorView.getSaveButtonView(), e)) {
             setSaveButtonPressed(true);
-            getSaveButtonModel().saveNewLevelImage(getLevelData(), getEnemiesData(), getPlayerSpawn(), levelEditorView.getLevelIndex());
-            Gamestate.state = Gamestate.MENU;
         }
 
         if (isIn(levelEditorView.getXButtonView(), e)) {
             setXButtonPressed(true);
-            levelEditorView.getXButtonView().getButtonModel().isClicked();
-            Gamestate.state = Gamestate.MENU;
-            setXButtonPressed(false);
         }
 
         if (isIn(levelEditorView.getEraserButtonView(), e)) {
             eraserButtonClick();
+            setEraserButtonPressed(true);
         }
 
         if(isIn(levelEditorView.getPlayerButtonView(), e)) {
@@ -408,6 +416,14 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
 
     private QuitButtonModel getQuitButton(){
         return deathScreenView.getQuitButtonView().getButtonModel();
+    }
+
+    private XButtonModel getXButton(){
+        return levelEditorView.getXButtonView().getButtonModel();
+    }
+
+    private SaveButtonModel getSaveButton(){
+        return levelEditorView.getSaveButtonView().getButtonModel();
     }
 
     private EditButtonModel getEditButton(){
