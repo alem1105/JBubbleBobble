@@ -3,6 +3,7 @@ package controller.inputs;
 import model.LevelManagerModel;
 import model.entities.PlayerModel;
 import model.gamestate.Gamestate;
+import model.gamestate.UserStateModel;
 import view.stateview.UserStateView;
 
 import java.awt.event.KeyEvent;
@@ -12,8 +13,7 @@ import static model.gamestate.Gamestate.*;
 
 public class KeyboardInputs implements KeyListener {
 
-    public KeyboardInputs() {
-    }
+    public KeyboardInputs() {}
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -36,12 +36,17 @@ public class KeyboardInputs implements KeyListener {
         switch (Gamestate.state) {
             case MENU -> {
                 switch (e.getKeyCode()) {
-                    case KeyEvent.VK_ENTER -> Gamestate.state = PLAYING;
+                    case KeyEvent.VK_ENTER ->  {
+                        Gamestate.state = PLAYING;
+                    }
                 }
             }
             case USER -> {
                 switch (e.getKeyCode()) {
-                    case KeyEvent.VK_ENTER -> Gamestate.state = MENU;
+                    case KeyEvent.VK_ENTER -> {
+                        UserStateModel.getInstance().setCurrentUserModel(UserStateView.getInstance().getCurrentUser());
+                        Gamestate.state = MENU;
+                    }
                 }
             }
             case PLAYING -> {

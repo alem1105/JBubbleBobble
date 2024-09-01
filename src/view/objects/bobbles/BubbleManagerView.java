@@ -1,11 +1,7 @@
 package view.objects.bobbles;
 
-import model.objects.MaitaFireballModel;
-import model.objects.ProjectileModel;
-import model.objects.bobbles.BobBubbleModel;
 import model.objects.bobbles.BubbleManagerModel;
 import model.objects.bobbles.BubbleModel;
-import view.objects.MaitaFireballView;
 
 import java.awt.*;
 import java.util.ArrayList;

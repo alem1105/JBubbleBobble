@@ -80,4 +80,14 @@ public class Constants {
         public static final int BOB_BUBBLE = 3;
 
     }
+
+    public static class Fruit {
+
+        public static final int ORANGE = 0;
+        public static final int PEPPER = 1;
+        public static final int GRAPE = 2;
+        public static final int TOMATO = 3;
+        public static final int CHERRY = 4;
+
+    }
 }

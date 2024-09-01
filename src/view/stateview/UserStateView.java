@@ -4,16 +4,14 @@ import model.UserModel;
 import model.gamestate.UserStateModel;
 import model.ui.buttons.ChangePageButtonModel;
 import model.ui.buttons.CreateButtonModel;
-import model.ui.buttons.UserButtonModel;
+
 import static model.utilz.Constants.Directions.*;
 import view.ui.buttons.ChangePageButtonView;
 import view.ui.buttons.CreateButtonView;
-import view.ui.buttons.UserButtonView;
 import view.utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import static model.utilz.Constants.GameConstants.*;
@@ -67,10 +65,9 @@ public class UserStateView {
             createUser = true;
 
         if (createUser)
-            currentUser = new UserModel(inputNickname, 0, 0, 0, 0, 0, avatars[avatarIndex]);
+            currentUser = new UserModel(inputNickname, 0, 0, 0, 0, 0, 0, avatars[avatarIndex]);
         else
             currentUser = userStateModel.getUserModels().get(userIndex);
-
     }
 
     public void update() {
@@ -133,7 +130,7 @@ public class UserStateView {
         String[] texts = {
                 "Level: " + currentUser.getLevel(),
                 "Matches won: " + currentUser.getWins(),
-                "Max score: " + currentUser.getScore(),
+                "Max score: " + currentUser.getMaxScore(),
                 "Matches played: " + currentUser.getMatches(),
                 "Matches lost: " + currentUser.getLosses()
         };

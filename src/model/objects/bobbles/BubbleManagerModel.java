@@ -47,7 +47,7 @@ public class BubbleManagerModel {
         }
         for (BubbleModel bubble : bubbles){
             if (bubble.isActive()) {
-                //checkPlayerHit(bubble);
+                checkPlayerHit(bubble);
                 bubble.update();
             }
         }
@@ -69,26 +69,25 @@ public class BubbleManagerModel {
     }
 
     private void checkPlayerHit(BubbleModel bubble) {
-        if (getPlayerHitbox().getY() <= bubble.getHitbox().getMaxY() + (int) (1 * SCALE) && getPlayerHitbox().getY() >= bubble.getHitbox().getMaxY() - (int)(1 * SCALE)
-                && getPlayerHitbox().getX() <= bubble.getHitbox().getMaxX() + (int) (2 * SCALE) && getPlayerHitbox().getX() >= bubble.getHitbox().getX() - (int) (2 * SCALE)
-                && PlayerModel.getInstance().getAirSpeed() < 0) {
+        if (intersectBubbleFromBelow()) {
+
             if (bubble.getHitbox().intersects(PlayerModel.getInstance().getHitbox()) && bubble.isCollision()) {
 
                 bubble.setActive(false);
                 bubble.setTimeout(true);
-                // Cosi' scoppiano tutte quelle nella floating area
-                //            if (bubble.getFloatingArea()) {
-                //                for (BobBubbleModel bobBubble : bobBubbles) {
-                //                    if (bobBubble.getFloatingArea())
-                //                        bobBubble.setActive(false);
-                //                }
-                //            }
 
-                // Con queste tutte quelle che si toccano
                 checkIntersects(bubble);
 
             }
         }
+    }
+
+    private boolean intersectBubbleFromBelow(){
+//        return getPlayerHitbox().getY() <= bubble.getHitbox().getMaxY() + (int) (1 * SCALE)
+//                && getPlayerHitbox().getY() >= bubble.getHitbox().getMaxY() - (int)(1 * SCALE)
+//                && getPlayerHitbox().getX() <= bubble.getHitbox().getMaxX() + (int) (2 * SCALE)
+//                && getPlayerHitbox().getX() >= bubble.getHitbox().getX() - (int) (2 * SCALE)
+               return !PlayerModel.getInstance().getJump() && PlayerModel.getInstance().getAirSpeed() < 0;
     }
 
     private void checkIntersects(BubbleModel bubble) {

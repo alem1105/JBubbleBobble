@@ -1,7 +1,6 @@
-package model.objects;
+package model.objects.projectiles;
 
 import static model.utilz.Constants.Directions.LEFT;
-import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.GameConstants.SCALE;
 import static model.utilz.Constants.GameConstants.TILES_SIZE;
 import static model.utilz.Gravity.CanMoveHere;

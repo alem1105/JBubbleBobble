@@ -1,4 +1,4 @@
-package model.objects;
+package model.objects.projectiles;
 
 import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.GameConstants.*;
@@ -13,7 +13,6 @@ public class InvaderLaserModel extends ProjectileModel{
 
     @Override
     public void update() {
-        System.out.println(active);
         if (!AtTheLastTile())
             hitbox.y += laserSpeed;
         else

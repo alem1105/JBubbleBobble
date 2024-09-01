@@ -3,7 +3,8 @@ package model;
 import model.entities.PlayerModel;
 import model.entities.enemies.EnemyManagerModel;
 import model.gamestate.Gamestate;
-import model.objects.ProjectileManagerModel;
+import model.gamestate.UserStateModel;
+import model.objects.projectiles.ProjectileManagerModel;
 import model.objects.bobbles.BubbleManagerModel;
 
 import javax.imageio.ImageIO;
@@ -72,15 +73,19 @@ public class LevelManagerModel {
 
     public void loadNextLevel(){
         if(lvlIndex >= levels.size() - 1) {
-            System.out.println("HAI VINTO");
+            UserModel user = UserStateModel.getInstance().getCurrentUserModel();
+            user.incrementMatches();
+            user.incrementWins();
+            user.setMaxScore();
+            user.updateLevelScore();
+            user.serialize("res/users/" + user.getNickname() + ".bubblebobble");
             Gamestate.state = Gamestate.MENU;
             lvlIndex = 0;
         } else {
             lvlIndex++;
             nextLevel = true;
         }
-
-        EnemyManagerModel.getInstance().initEnemies();
+        EnemyManagerModel.getInstance().initEnemyAndFoodArrays();
         BubbleManagerModel.getInstance().resetBubbles();
         PlayerModel.getInstance().moveToSpawn();
         ProjectileManagerModel.getInstance().resetProjectiles();

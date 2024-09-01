@@ -1,5 +1,8 @@
 package model.entities;
 
+import jdk.jshell.spi.ExecutionControl;
+import model.UserModel;
+import model.gamestate.UserStateModel;
 import model.objects.bobbles.BobBubbleModel;
 import model.objects.bobbles.BubbleManagerModel;
 import model.utilz.Constants;
@@ -64,6 +67,7 @@ public class PlayerModel extends EntityModel {
     public void playerHasBeenHit() {
         lives--;
         playerAction = DEATH;
+
     }
 
     private void checkAttack() {
@@ -82,8 +86,15 @@ public class PlayerModel extends EntityModel {
         checkAttack();
         setPlayerAction();
         updateInvincibleStatus();
-        if(lives <= 0)
+        if(lives <= 0) {
             gameOver = true;
+            UserModel user = UserStateModel.getInstance().getCurrentUserModel();
+            user.updateLevelScore();
+            user.incrementLosses();
+            user.incrementMatches();
+            user.setMaxScore();
+            user.serialize("res/users/" + user.getNickname() + ".bubblebobble");
+        }
     }
 
     private void updateInvincibleStatus() {
@@ -173,7 +184,7 @@ public class PlayerModel extends EntityModel {
                     if (hitbox.getMaxY() >= bobBubble.getHitbox().getY() - (5 * SCALE) && hitbox.getMaxY() <= bobBubble.getHitbox().getY() + (5 * SCALE)
                             && hitbox.x >= bobBubble.getHitbox().getX() && hitbox.x <= bobBubble.getHitbox().getMaxX() && jump) {
                         inAir = true;
-                        airSpeed = -2.5f;
+                        airSpeed = jumpSpeed;
                         //bobBubble.decreaseY(-15f * SCALE);
                     }
                 }
@@ -277,5 +288,9 @@ public class PlayerModel extends EntityModel {
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
+    }
+
+    public boolean getJump() {
+        return jump;
     }
 }

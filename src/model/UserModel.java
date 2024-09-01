@@ -7,14 +7,16 @@ import java.io.*;
 
 public class UserModel implements Serializable {
     private String nickname, avatarPath;
-    private int score, level, wins, losses, matches;
+    private int maxScore, level, levelScore, wins, losses, matches;
+    transient int tempScore; // non lo serializza
 
     transient private BufferedImage avatar;
 
-    public UserModel(String nickname, int score, int level, int wins, int losses, int matches, String avatarPath) {
+    public UserModel(String nickname, int maxScore, int level, int levelScore, int wins, int losses, int matches, String avatarPath) {
         this.nickname = nickname;
-        this.score = score;
+        this.maxScore = maxScore;
         this.level = level;
+        this.levelScore = levelScore;
         this.wins = wins;
         this.losses = losses;
         this.matches = matches;
@@ -34,8 +36,9 @@ public class UserModel implements Serializable {
             ObjectOutputStream os = new ObjectOutputStream(fos);
 
             os.writeObject(nickname);
-            os.writeObject(score);
+            os.writeObject(maxScore);
             os.writeObject(level);
+            os.writeObject(levelScore);
             os.writeObject(wins);
             os.writeObject(losses);
             os.writeObject(matches);
@@ -61,16 +64,18 @@ public class UserModel implements Serializable {
             Object o5 = is.readObject();
             Object o6 = is.readObject();
             Object o7 = is.readObject();
+            Object o8 = is.readObject();
 
             String nickname = (String) o1;
             int score = (Integer) o2;
             int level = (Integer) o3;
-            int wins = (Integer) o4;
-            int losses = (Integer) o5;
-            int matches = (Integer) o6;
-            String avatarPath = (String) o7;
+            int levelScore = (Integer) o4;
+            int wins = (Integer) o5;
+            int losses = (Integer) o6;
+            int matches = (Integer) o7;
+            String avatarPath = (String) o8;
 
-            UserModel userModel =  new UserModel(nickname, score, level, wins, losses, matches, avatarPath);
+            UserModel userModel =  new UserModel(nickname, score, level, levelScore, wins, losses, matches, avatarPath);
 
             is.close();
             fis.close();
@@ -99,8 +104,8 @@ public class UserModel implements Serializable {
         return matches;
     }
 
-    public int getScore() {
-        return score;
+    public int getMaxScore() {
+        return maxScore;
     }
 
     public int getWins() {
@@ -115,8 +120,51 @@ public class UserModel implements Serializable {
         this.nickname = nickname;
     }
 
+    public int getTempScore() {
+        return tempScore;
+    }
+
     public void setAvatarPath(String path) {
         this.avatarPath = path;
         this.avatar = LoadSave.GetSpriteAtlas(avatarPath);
+    }
+
+    public void incrementTempScore(int value) {
+        this.tempScore += value;
+    }
+
+    public void updateLevelScore() {
+        this.levelScore += tempScore;
+        if (this.levelScore > 5000 * this.level) {
+            this.level++;
+        }
+    }
+
+    public void setMaxScore() {
+        this.maxScore = Math.max(maxScore, tempScore);
+    }
+
+    public void setAvatar(BufferedImage avatar) {
+        this.avatar = avatar;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public void incrementWins() {
+        this.wins++;
+    }
+
+    public void incrementLosses() {
+        this.losses++;
+    }
+
+    public void incrementMatches() {
+        this.matches++;
+    }
+
+    public void setWins(int wins) {
+        this.wins = wins;
     }
 }

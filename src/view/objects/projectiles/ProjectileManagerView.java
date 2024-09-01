@@ -1,11 +1,11 @@
-package view.objects;
+package view.objects.projectiles;
 
 import model.LevelManagerModel;
-import model.objects.DrunkBottleModel;
-import model.objects.InvaderLaserModel;
-import model.objects.MaitaFireballModel;
-import model.objects.ProjectileManagerModel;
-import model.objects.ProjectileModel;
+import model.objects.projectiles.DrunkBottleModel;
+import model.objects.projectiles.InvaderLaserModel;
+import model.objects.projectiles.MaitaFireballModel;
+import model.objects.projectiles.ProjectileManagerModel;
+import model.objects.projectiles.ProjectileModel;
 
 import java.awt.*;
 import java.util.ArrayList;

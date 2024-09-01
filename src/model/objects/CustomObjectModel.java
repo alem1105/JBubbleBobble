@@ -46,4 +46,8 @@ public abstract class CustomObjectModel {
     public Rectangle2D.Float getHitbox() {
         return hitbox;
     }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

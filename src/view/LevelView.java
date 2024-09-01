@@ -37,6 +37,8 @@ public class LevelView {
                     for(int i = 0; i < 8; i++) {
                         g.fillRect(x * TILES_SIZE + i, y * TILES_SIZE + + i, TILES_SIZE, TILES_SIZE);
                     }
+                } else {
+                    g.fillRect(x * TILES_SIZE, y * TILES_SIZE, TILES_SIZE, TILES_SIZE);
                 }
                 g.drawImage(lvlSprites[index - 1], x * TILES_SIZE, y * TILES_SIZE, TILES_SIZE, TILES_SIZE, null);
             }

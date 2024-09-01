@@ -1,4 +1,4 @@
-package model.objects;
+package model.objects.projectiles;
 
 import model.entities.PlayerModel;
 

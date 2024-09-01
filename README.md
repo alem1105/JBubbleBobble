@@ -40,3 +40,8 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [ ] aggiungere il crea livelli al level editor
 - [ ] saltare sulle bolle
 - [x] transizione livelli
+
+
+ punteggio temporaneo e salvataggio in quello levelScore, record punteggio
+incremento livello
+controllo che ci deve essere almeno un 

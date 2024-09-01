@@ -1,6 +1,6 @@
-package view.objects;
+package view.objects.projectiles;
 
-import model.objects.MaitaFireballModel;
+import model.objects.projectiles.MaitaFireballModel;
 import view.utilz.LoadSave;
 
 public class MaitaFireballView extends ProjectileView<MaitaFireballModel> {

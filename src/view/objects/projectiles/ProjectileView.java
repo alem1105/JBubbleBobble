@@ -1,7 +1,7 @@
-package view.objects;
+package view.objects.projectiles;
 
-import model.objects.CustomObjectModel;
-import model.objects.ProjectileModel;
+import view.objects.CustomObjectView;
+import model.objects.projectiles.ProjectileModel;
 
 import java.awt.*;
 

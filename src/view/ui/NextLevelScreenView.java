@@ -127,6 +127,15 @@ public class NextLevelScreenView {
             for (int x = 0; x < lvlData[0].length; x++) {
                 int index = lvlData[y][x];
                 if (index == 0 || index == 255) continue;
+
+
+                int rgb = lvlSprites[index - 1].getRGB(3, 3);
+                g.setColor(getDarkenedColor(rgb));
+                for(int i = 0; i < 8; i++) {
+                    g.fillRect(x * TILES_SIZE + i, y * TILES_SIZE + + i + lvlY, TILES_SIZE, TILES_SIZE);
+                }
+
+
                 g.drawImage(lvlSprites[index - 1], x * TILES_SIZE, (y * TILES_SIZE) + lvlY , TILES_SIZE, TILES_SIZE, null);
             }
         }
@@ -136,5 +145,15 @@ public class NextLevelScreenView {
         g.drawImage(bubTransitionImages[stateIndex][aniIndex],
                 (curPlayerPos.x - (int)(8 * SCALE)), (curPlayerPos.y - (int) (9*SCALE)),
                 (int) (SCALE * 30), (int) (SCALE * 34) , null);
+    }
+
+    private Color getDarkenedColor(int rgb) {
+        Color originalColor = new Color(rgb);
+        float darkeningFactor = 0.4f;
+        int red = (int) (originalColor.getRed() * darkeningFactor);
+        int green = (int) (originalColor.getGreen() * darkeningFactor);
+        int blue = (int) (originalColor.getBlue() * darkeningFactor);
+        Color darkColor = new Color(red, green, blue);
+        return darkColor;
     }
 }
