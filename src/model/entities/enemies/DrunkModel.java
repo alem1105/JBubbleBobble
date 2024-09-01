@@ -48,26 +48,6 @@ public class DrunkModel extends EnemyModel{
         }
     }
 
-    @Override
-    protected void startShootingTimer() {
-        if(shootingTick >= shootingTimer && !inAir) {
-            still = true;
-            shootingTick = 0;
-            shot = false;
-        }
-        shootingTick++;
-    }
-
-    @Override
-    protected void startStillTimer() {
-        if (stillTick >= stillTimer)  {
-            stillTick = 0;
-            still = false;
-            shootingTick = 0;
-        }
-        stillTick++;
-    }
-
     private boolean isDrunkOnPlayerY() {
         return (int) (hitbox.y / TILES_SIZE) == (int) (PlayerModel.getInstance().getHitbox().y / TILES_SIZE);
     }

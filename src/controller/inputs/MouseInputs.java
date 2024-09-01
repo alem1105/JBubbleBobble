@@ -142,6 +142,25 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                 }
                 getNextPageButton().setPressed(false);
                 getPrevPageButton().setPressed(false);
+                if (userStateView.isCreateUser()) {
+                    if (isIn(userStateView.getPrevAvatarButton(), e)){
+                        if (userStateView.getPrevAvatarButton().getButtonModel().isPressed())
+                            userStateView.changeAvatarIndex(-1);
+                    }
+                    if (isIn(userStateView.getNextAvatarButton(), e)){
+                        if (userStateView.getNextAvatarButton().getButtonModel().isPressed())
+                            userStateView.changeAvatarIndex(1);
+                    }
+                    if (isIn(userStateView.getCreateButton(), e)) {
+                        if (userStateView.getCreateButton().getButtonModel().isPressed()) {
+                            userStateView.getCreateButton().getButtonModel().saveUser(userStateView.getCurrentUser());
+                            userStateView.reloadUsers();
+                        }
+                    }
+                    userStateView.getCreateButton().getButtonModel().setPressed(false);
+                    userStateView.getPrevAvatarButton().getButtonModel().setPressed(false);
+                    userStateView.getNextAvatarButton().getButtonModel().setPressed(false);
+                }
             }
             case MENU -> {
                 if (isIn(menuView.getStartButton(), e)){
@@ -290,13 +309,21 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
             if (userStateView.getUserIndex() != 0)
                 getPrevPageButton().setPressed(true);
         }
-        if (isIn(userStateView.getCreateButton(), e)){
-            if (userStateView.isCreateUser())
-                userStateView.getCreateButton().getButtonModel().setPressed(true);
-        }
-        if(userStateView.isCreateUser() && userStateView.getNicknameField().contains(e.getX(), e.getY())) {
-            userStateView.setWritingNickname(true);
-            userStateView.getCurrentUser().setNickname("");
+        if(userStateView.isCreateUser()) {
+            if (isIn(userStateView.getCreateButton(), e)){
+                if (userStateView.isCreateUser())
+                    userStateView.getCreateButton().getButtonModel().setPressed(true);
+            }
+            if (userStateView.getNicknameField().contains(e.getX(), e.getY())) {
+                userStateView.setWritingNickname(true);
+                userStateView.getCurrentUser().setNickname("");
+            }
+            if (isIn(userStateView.getPrevAvatarButton(), e)) {
+                userStateView.getPrevAvatarButton().getButtonModel().setPressed(true);
+            }
+            if (isIn(userStateView.getNextAvatarButton(), e)) {
+                userStateView.getNextAvatarButton().getButtonModel().setPressed(true);
+            }
         }
     }
 

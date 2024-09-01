@@ -13,5 +13,6 @@ public class CreateButtonModel extends CustomButtonModel{
 
     public void saveUser(UserModel user) {
         user.serialize("res/users/" + user.getNickname() + ".bubblebobble");
+        UserStateModel.getInstance().getAllUsers();
     }
 }

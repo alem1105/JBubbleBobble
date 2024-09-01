@@ -114,4 +114,9 @@ public class UserModel implements Serializable {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
+    public void setAvatarPath(String path) {
+        this.avatarPath = path;
+        this.avatar = LoadSave.GetSpriteAtlas(avatarPath);
+    }
 }
