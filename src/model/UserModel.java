@@ -167,4 +167,8 @@ public class UserModel implements Serializable {
     public void setWins(int wins) {
         this.wins = wins;
     }
+
+    public void setTempScore(int tempScore) {
+        this.tempScore = tempScore;
+    }
 }
