@@ -37,6 +37,11 @@ public class UserStateView {
 
     private boolean createUser;
 
+    private String[] avatars = {LoadSave.AVATAR_1, LoadSave.AVATAR_2, LoadSave.AVATAR_3, LoadSave.AVATAR_4, LoadSave.AVATAR_5, LoadSave.AVATAR_6, LoadSave.AVATAR_7, LoadSave.AVATAR_8, LoadSave.AVATAR_9, LoadSave.AVATAR_10, LoadSave.AVATAR_11};
+    private int avatarIndex = 0;
+    private ChangePageButtonView nextAvatarButton;
+    private ChangePageButtonView prevAvatarButton;
+
     private String inputNickname ;
     private Rectangle2D.Float nicknameField;
     private boolean writingNickname;
@@ -51,11 +56,11 @@ public class UserStateView {
     private UserStateView() {
         userStateModel = UserStateModel.getInstance();
         users = userStateModel.getUserModels();
+        inputNickname = "Write Nick";
         checkCreateUser();
         firstWidth = GAME_WIDTH / 2 - (int) (110 * SCALE);
         initButtons();
         nicknameField = new Rectangle2D.Float(firstWidth + (int) (60 * SCALE), firstHeight, (int) (180 * SCALE), (int) (26 * SCALE));
-        inputNickname = "Write Nick";
     }
 
     private void checkCreateUser() {
@@ -63,7 +68,7 @@ public class UserStateView {
             createUser = true;
 
         if (createUser)
-            currentUser = new UserModel(inputNickname, 0, 0, 0, 0, 0, LoadSave.AVATAR_2);
+            currentUser = new UserModel(inputNickname, 0, 0, 0, 0, 0, avatars[avatarIndex]);
         else
             currentUser = userStateModel.getUserModels().get(userIndex);
 
@@ -73,6 +78,8 @@ public class UserStateView {
     public void update() {
         nextPageButton.update();
         prevPageButton.update();
+        prevAvatarButton.update();
+        nextAvatarButton.update();
         createButton.update();
     }
 
@@ -93,8 +100,15 @@ public class UserStateView {
             nextPageButton.draw(g);
         if (userIndex != 0)
             prevPageButton.draw(g);
-        if (createUser)
+
+        if (createUser) {
             createButton.draw(g);
+            if (avatarIndex != avatars.length - 1)
+                nextAvatarButton.draw(g);
+            if (avatarIndex != 0)
+                prevAvatarButton.draw(g);
+        }
+
     }
 
     private void drawUserStats(Graphics g, FontMetrics measures, FontMetrics nicknameMeasures, Font nicknameFont) {
@@ -150,12 +164,41 @@ public class UserStateView {
                 (int)(230 * SCALE),
                 (int) (94 * SCALE),
                 (int) (28 * SCALE)));
+        prevAvatarButton = new ChangePageButtonView(new ChangePageButtonModel(
+                firstWidth - (int)(6 * SCALE),
+                firstHeight + (int)(15 * SCALE),
+                (int) (10 * SCALE),
+                (int) (10 * SCALE),
+                LEFT));
+        nextAvatarButton = new ChangePageButtonView(new ChangePageButtonModel(
+                firstWidth + (int)(46 * SCALE),
+                firstHeight + (int)(15 * SCALE),
+                (int) (10 * SCALE),
+                (int) (10 * SCALE),
+                RIGHT));
     }
 
     public void changeIndex(int i) {
         this.userIndex += i;
+        avatarIndex = 0;
         createUser = false;
+        inputNickname = "Write Nick";
         checkCreateUser();
+    }
+
+    public void changeAvatarIndex(int i) {
+        if (0 <= avatarIndex + i && avatarIndex + i < avatars.length ) {
+            this.avatarIndex += i;
+            currentUser.setAvatarPath(avatars[avatarIndex]);
+        }
+        this.currentAvatar = currentUser.getAvatar();
+    }
+
+    public void reloadUsers(){
+        users = userStateModel.getUserModels();
+        createUser = false;
+        userIndex = 0;
+        currentUser = users.get(userIndex);
     }
 
     public ChangePageButtonView getNextPageButton() {
@@ -166,8 +209,20 @@ public class UserStateView {
         return prevPageButton;
     }
 
+    public ChangePageButtonView getNextAvatarButton() {
+        return nextAvatarButton;
+    }
+
+    public ChangePageButtonView getPrevAvatarButton() {
+        return prevAvatarButton;
+    }
+
     public String getInputNickname() {
         return inputNickname;
+    }
+
+    public void setInputNickname(String nickname) {
+        this.inputNickname = nickname;
     }
 
     public void setWritingNickname(boolean writingNickname) {
@@ -200,5 +255,13 @@ public class UserStateView {
 
     public CreateButtonView getCreateButton() {
         return createButton;
+    }
+
+    public void setUsers(ArrayList<UserModel> users) {
+        this.users = users;
+    }
+
+    public void setUserIndex(int userIndex) {
+        this.userIndex = userIndex;
     }
 }

@@ -70,9 +70,9 @@ public class PlayingView {
             }
             playerView.update();
             bubbleManagerView.update();
-
+            enemiesManagerView.update();
         }
-        enemiesManagerView.update();
+        //enemiesManagerView.update();
     }
 
     private void drawLifeHearts(Graphics g) {

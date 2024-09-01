@@ -43,6 +43,14 @@ public abstract class EnemyModel extends EntityModel {
             {20, 0.8f, 2}
     };
 
+    // per l'attacco
+    protected int stillTimer = 30;
+    protected int stillTick = 0;
+    protected int shootingTimer = 120;
+    protected int shootingTick = 0;
+    protected boolean still = false;
+    protected boolean shot = false;
+
     public EnemyModel(float x, float y, int width, int height) {
         super(x, y - 1, width, height);
     }
@@ -88,7 +96,7 @@ public abstract class EnemyModel extends EntityModel {
         }
     }
 
-    private void walkwithSameY() {
+    protected void walkwithSameY() {
         if(isPlayerToLeftOfEnemy()) {
             walkDir = LEFT;
             walkSpeed = -Math.abs(walkSpeed);
@@ -102,7 +110,7 @@ public abstract class EnemyModel extends EntityModel {
         }
     }
 
-    private void walkWithDifferentY() {
+    protected void walkWithDifferentY() {
         if (walkDir == RIGHT) {
             walkSpeed = Math.abs(walkSpeed);
             if (canEnemyMoveHere()) {
@@ -238,6 +246,25 @@ public abstract class EnemyModel extends EntityModel {
         if (xTile - 2 >= 0 && yTile -2 >= 0 && xTile + 1 >= 0)
             return IsTileSolid(xTile - 2, yTile, lvldata) && IsTileSolid(xTile, yTile, lvldata) && IsTileSolid(xTile + 1, yTile, lvldata);
         return false;
+    }
+
+    // attacco
+    protected void startShootingTimer() {
+        if(shootingTick >= shootingTimer && !inAir) {
+            still = true;
+            shootingTick = 0;
+            shot = false;
+        }
+        shootingTick++;
+    }
+
+    protected void startStillTimer() {
+        if (stillTick >= stillTimer)  {
+            stillTick = 0;
+            still = false;
+            shootingTick = 0;
+        }
+        stillTick++;
     }
 
     protected boolean isPlayerToRightOfEnemy() {

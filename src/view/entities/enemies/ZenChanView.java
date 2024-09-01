@@ -11,9 +11,6 @@ import static view.utilz.LoadSave.*;
 
 public class ZenChanView extends EnemyView {
 
-    private static final int ROW_INDEX = 5;
-    private static final int COL_INDEX = 6;
-
     public ZenChanView(ZenChanModel zenChan) {
         super(zenChan);
         animations = loadAnimations(LoadSave.ZEN_CHAN_SPRITE, ROW_INDEX, COL_INDEX, 18, 18);

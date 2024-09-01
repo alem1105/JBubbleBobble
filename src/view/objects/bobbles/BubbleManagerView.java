@@ -61,26 +61,28 @@ public class BubbleManagerView {
 
 
     private void getBubblesFromModel() {
-        int modelLength = BubbleManagerModel.getInstance().getBubbles().size();
+        int modelLength = bubbleManagerModel.getBubbles().size();
         int i = bubbleViews.size();
         if (i > modelLength) {
+            i = 0;
             bubbleViews.clear();
         }
         while (modelLength > bubbleViews.size()) {
-            BubbleModel bubble = BubbleManagerModel.getInstance().getBubbles().get(i);
+            BubbleModel bubble = bubbleManagerModel.getBubbles().get(i);
             bubbleViews.add(new BubbleView(bubble));
             i++;
         }
     }
 
     private void getBobBubblesFromModel() {
-        int modelLength = BubbleManagerModel.getInstance().getBobBubbles().size();
+        int modelLength = bubbleManagerModel.getBobBubbles().size();
         int i = bobBubbleViews.size();
         if (i > modelLength) {
             bobBubbleViews.clear();
+            i = 0;
         }
         while (modelLength > bobBubbleViews.size()) {
-            bobBubbleViews.add(new BobBubbleView(BubbleManagerModel.getInstance().getBobBubbles().get(i)));
+            bobBubbleViews.add(new BobBubbleView(bubbleManagerModel.getBobBubbles().get(i)));
             i++;
         }
     }

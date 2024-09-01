@@ -1,11 +1,8 @@
 package model.gamestate;
 
 import model.UserModel;
-import view.utilz.LoadSave;
 
 import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class UserStateModel {
@@ -24,12 +21,12 @@ public class UserStateModel {
 
     private UserStateModel() {
         // TODO TOGLIERE
-        UserModel user = new UserModel("Utente 1", 500, 200, 200, 200, 200, LoadSave.AVATAR_1);
-        user.serialize("res/users/user.txt");
+//        UserModel user = new UserModel("Utente 1", 500, 200, 200, 200, 200, LoadSave.AVATAR_1);
+//        user.serialize("res/users/user.txt");
         getAllUsers();
     }
 
-    private void getAllUsers() {
+    public void getAllUsers() {
         userModels = new ArrayList<>();
         
         final File folder = new File("res/users");

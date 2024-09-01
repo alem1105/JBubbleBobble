@@ -3,19 +3,14 @@ package model.entities.enemies;
 import model.LevelManagerModel;
 import model.entities.PlayerModel;
 
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static model.utilz.Constants.Directions.LEFT;
 import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.Enemies.DEAD;
-import static model.utilz.Constants.GameConstants.TILES_IN_HEIGHT;
-import static model.utilz.Constants.GameConstants.TILES_IN_WIDTH;
 import static model.utilz.Constants.PlayerConstants.DEATH;
 
 public class EnemyManagerModel {
@@ -25,7 +20,7 @@ public class EnemyManagerModel {
     private ArrayList<MaitaModel> maitas;
     private ArrayList<ZenChanModel> zenChans;
     private ArrayList<HidegonsModel> hidegons;
-    private ArrayList<PulpulModel> pulpuls;
+    private ArrayList<InvaderModel> invaders;
     private ArrayList<MonstaModel> monstas;
     private ArrayList<DrunkModel> drunks;
     private ArrayList<EnemyModel> enemies;
@@ -53,13 +48,13 @@ public class EnemyManagerModel {
         maitas = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getMaitas();
         monstas = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getMonstas();
         drunks = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getDrunks();
-        pulpuls = new ArrayList<>();
+        invaders = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getInvaders();
         hidegons = new ArrayList<>();
         createGeneralEnemiesArray();
     }
 
     private void createGeneralEnemiesArray() {
-        enemies = Stream.of(zenChans, pulpuls, monstas, maitas, hidegons, drunks)
+        enemies = Stream.of(zenChans, invaders, monstas, maitas, hidegons, drunks)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toCollection(ArrayList::new));
     }

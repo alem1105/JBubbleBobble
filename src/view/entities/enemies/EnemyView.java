@@ -11,6 +11,10 @@ import static model.utilz.Constants.Enemies.*;
 
 
 public abstract class EnemyView {
+
+    protected static final int ROW_INDEX = 5;
+    protected static final int COL_INDEX = 6;
+
     protected int xDrawOffset;
     protected int yDrawOffset;
     protected int aniIndex;

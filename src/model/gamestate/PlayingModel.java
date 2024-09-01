@@ -32,12 +32,13 @@ public class PlayingModel {
 
     public void update() {
         if (!(player.isGameOver())) {
-            if (!LevelManagerModel.getInstance().isNextLevel())
+            if (!LevelManagerModel.getInstance().isNextLevel()){
                 if (player.getPlayerAction() != DEATH)
                     player.update();
-            projectileManagerModel.update();
-            bubbleManagerModel.update();
-            enemyManagerModel.update();
+                projectileManagerModel.update();
+                bubbleManagerModel.update();
+                enemyManagerModel.update();
+            }
         }
     }
 

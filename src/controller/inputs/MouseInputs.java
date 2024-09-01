@@ -142,6 +142,25 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                 }
                 getNextPageButton().setPressed(false);
                 getPrevPageButton().setPressed(false);
+                if (userStateView.isCreateUser()) {
+                    if (isIn(userStateView.getPrevAvatarButton(), e)){
+                        if (userStateView.getPrevAvatarButton().getButtonModel().isPressed())
+                            userStateView.changeAvatarIndex(-1);
+                    }
+                    if (isIn(userStateView.getNextAvatarButton(), e)){
+                        if (userStateView.getNextAvatarButton().getButtonModel().isPressed())
+                            userStateView.changeAvatarIndex(1);
+                    }
+                    if (isIn(userStateView.getCreateButton(), e)) {
+                        if (userStateView.getCreateButton().getButtonModel().isPressed()) {
+                            userStateView.getCreateButton().getButtonModel().saveUser(userStateView.getCurrentUser());
+                            userStateView.reloadUsers();
+                        }
+                    }
+                    userStateView.getCreateButton().getButtonModel().setPressed(false);
+                    userStateView.getPrevAvatarButton().getButtonModel().setPressed(false);
+                    userStateView.getNextAvatarButton().getButtonModel().setPressed(false);
+                }
             }
             case MENU -> {
                 if (isIn(menuView.getStartButton(), e)){
@@ -173,8 +192,19 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
 
             }
             case LEVEL_EDITOR -> {
-                setXButtonPressed(false);
-                setSaveButtonPressed(false);
+                if(isIn(levelEditorView.getXButtonView(), e)){
+                    if(getXButton().isPressed()){
+                        setXButtonPressed(false);
+                        levelEditorView.getXButtonView().getButtonModel().isClicked();
+                        Gamestate.state = Gamestate.MENU;
+                    }
+                }
+                if(isIn(levelEditorView.getSaveButtonView(), e)){
+                    if(getSaveButton().isPressed()){
+                        getSaveButtonModel().saveNewLevelImage(getLevelData(), getEnemiesData(), getPlayerSpawn(), levelEditorView.getLevelIndex());
+                        Gamestate.state = Gamestate.MENU;
+                    }
+                }
             }
 
             case LEVEL_SELECTOR -> {
@@ -279,13 +309,21 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
             if (userStateView.getUserIndex() != 0)
                 getPrevPageButton().setPressed(true);
         }
-        if (isIn(userStateView.getCreateButton(), e)){
-            if (userStateView.isCreateUser())
-                userStateView.getCreateButton().getButtonModel().setPressed(true);
-        }
-        if(userStateView.isCreateUser() && userStateView.getNicknameField().contains(e.getX(), e.getY())) {
-            userStateView.setWritingNickname(true);
-            userStateView.getCurrentUser().setNickname("");
+        if(userStateView.isCreateUser()) {
+            if (isIn(userStateView.getCreateButton(), e)){
+                if (userStateView.isCreateUser())
+                    userStateView.getCreateButton().getButtonModel().setPressed(true);
+            }
+            if (userStateView.getNicknameField().contains(e.getX(), e.getY())) {
+                userStateView.setWritingNickname(true);
+                userStateView.getCurrentUser().setNickname("");
+            }
+            if (isIn(userStateView.getPrevAvatarButton(), e)) {
+                userStateView.getPrevAvatarButton().getButtonModel().setPressed(true);
+            }
+            if (isIn(userStateView.getNextAvatarButton(), e)) {
+                userStateView.getNextAvatarButton().getButtonModel().setPressed(true);
+            }
         }
     }
 
@@ -350,21 +388,18 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     }
 
     private void editorCheckPressed(MouseEvent e) {
+        setEraserButtonPressed(false);
         if (isIn(levelEditorView.getSaveButtonView(), e)) {
             setSaveButtonPressed(true);
-            getSaveButtonModel().saveNewLevelImage(getLevelData(), getEnemiesData(), getPlayerSpawn(), levelEditorView.getLevelIndex());
-            Gamestate.state = Gamestate.MENU;
         }
 
         if (isIn(levelEditorView.getXButtonView(), e)) {
             setXButtonPressed(true);
-            levelEditorView.getXButtonView().getButtonModel().isClicked();
-            Gamestate.state = Gamestate.MENU;
-            setXButtonPressed(false);
         }
 
         if (isIn(levelEditorView.getEraserButtonView(), e)) {
             eraserButtonClick();
+            setEraserButtonPressed(true);
         }
 
         if(isIn(levelEditorView.getPlayerButtonView(), e)) {
@@ -408,6 +443,14 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
 
     private QuitButtonModel getQuitButton(){
         return deathScreenView.getQuitButtonView().getButtonModel();
+    }
+
+    private XButtonModel getXButton(){
+        return levelEditorView.getXButtonView().getButtonModel();
+    }
+
+    private SaveButtonModel getSaveButton(){
+        return levelEditorView.getSaveButtonView().getButtonModel();
     }
 
     private EditButtonModel getEditButton(){

@@ -10,13 +10,6 @@ import static model.utilz.Constants.GameConstants.SCALE;
 import static model.utilz.Constants.GameConstants.TILES_SIZE;
 
 public class MaitaModel extends EnemyModel{
-    protected int shootingTimer = 240;
-    protected int shootingTick = 0;
-
-    private boolean still = false;
-    private boolean shot = false;
-    private int stillTimer = 30;
-    private int stillTick = 0;
 
     public MaitaModel(float x, float y) {
         super(x, y, (int) (18 * SCALE), (int) (18 * SCALE));
@@ -60,23 +53,6 @@ public class MaitaModel extends EnemyModel{
         }
     }
 
-    private void startShootingTimer() {
-        if(shootingTick >= shootingTimer && !inAir) {
-            still = true;
-            shootingTick = 0;
-            shot = false;
-        }
-        shootingTick++;
-    }
-
-    private void startStillTimer() {
-        if (stillTick >= stillTimer)  {
-            stillTick = 0;
-            still = false;
-            shootingTick = 0;
-        }
-        stillTick++;
-    }
 
     private boolean isMaitaOnPlayerY() {
         return (int) (hitbox.y / TILES_SIZE) == (int) (PlayerModel.getInstance().getHitbox().y / TILES_SIZE);
