@@ -18,10 +18,11 @@ public class MonstaModel extends EnemyModel{
         walkDir = UP_RIGHT;
     }
 
-    public void update() {
-        updatePos();
-        updateEnemyState();
-    }
+    // TODO DEVE MUOVERSI ANCHE QUANDO STA IN BOLLA?
+//    public void update() {
+//        updatePos();
+//        updateEnemyState();
+//    }
 
     protected void updatePos() {
         switch (walkDir) {

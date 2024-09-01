@@ -13,14 +13,6 @@ import static model.utilz.Constants.GameConstants.TILES_SIZE;
 
 public class DrunkModel extends EnemyModel{
 
-    protected int shootingTimer = 240;
-    protected int shootingTick = 0;
-
-    private boolean still = false;
-    private boolean shot = false;
-    private int stillTimer = 30;
-    private int stillTick = 0;
-
     public DrunkModel(float x, float y) {
         super(x, y, (int) (18 * SCALE), (int) (18 * SCALE));
         this.walkSpeed = 0.55f * SCALE;
@@ -56,7 +48,8 @@ public class DrunkModel extends EnemyModel{
         }
     }
 
-    private void startShootingTimer() {
+    @Override
+    protected void startShootingTimer() {
         if(shootingTick >= shootingTimer && !inAir) {
             still = true;
             shootingTick = 0;
@@ -65,7 +58,8 @@ public class DrunkModel extends EnemyModel{
         shootingTick++;
     }
 
-    private void startStillTimer() {
+    @Override
+    protected void startStillTimer() {
         if (stillTick >= stillTimer)  {
             stillTick = 0;
             still = false;

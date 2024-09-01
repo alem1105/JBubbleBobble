@@ -54,7 +54,7 @@ public class EnemyManagerModel {
     }
 
     private void createGeneralEnemiesArray() {
-        enemies = Stream.of(zenChans, invaders, monstas, maitas, hidegons)
+        enemies = Stream.of(zenChans, invaders, monstas, maitas, hidegons, drunks)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toCollection(ArrayList::new));
     }
