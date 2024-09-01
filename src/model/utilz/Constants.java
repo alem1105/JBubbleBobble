@@ -70,6 +70,9 @@ public class Constants {
         public static final int FIREBALL_SPAWNED = 0;
         public static final int FIREBALL_EXPLODING = 1;
 
+        public static final int WATER_WALKING = 0;
+        public static final int WATER_FALLING = 1;
+
     }
 
     public static class SpecialBubbles {
