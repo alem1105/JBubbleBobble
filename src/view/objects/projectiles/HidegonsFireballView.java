@@ -36,11 +36,11 @@ public class HidegonsFireballView extends ProjectileView<HidegonsFireballModel> 
     }
 
     private void updateDirections() {
-        if (objectModel.getDirection() == LEFT) {
+        if (objectModel.getDirection() == RIGHT) {
             flipX = objectModel.getWidth();
             flipW = -1;
         }
-        if (objectModel.getDirection() == RIGHT) {
+        if (objectModel.getDirection() == LEFT) {
             flipX = 0;
             flipW = 1;
         }
