@@ -63,11 +63,16 @@ public class BubbleManagerView {
             if ((bubbleView.getBubbleModel().isActive() || (bubbleView.getBubbleModel().isTimeOut() && bubbleView.getAniIndex() <= 2)))
                 bubbleView.draw(g);
         }
+        for (BubbleView bubbleView : bubbleViews) {
+            if ((bubbleView.getBubbleModel().isActive() || (bubbleView.getBubbleModel().isTimeOut() && bubbleView.getAniIndex() < 2)))
+                bubbleView.update();
+        }
     }
 
     private void drawBubbles(Graphics g) {
         for (BubbleView bubbleView : bubbleViews) {
-            bubbleView.draw(g);
+            if ((bubbleView.getBubbleModel().isActive() || (bubbleView.getBubbleModel().isTimeOut() && bubbleView.getAniIndex() < 2)))
+                bubbleView.draw(g);
         }
     }
 

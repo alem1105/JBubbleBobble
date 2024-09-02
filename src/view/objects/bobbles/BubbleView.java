@@ -44,6 +44,7 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
 
     protected void updateBubbleState(){
         int currentState = bubbleState;
+        System.out.println(bubbleState);
 
         if (!objectModel.isActive()) {
             bubbleState = BUBBLE_EXPLODING;
