@@ -93,4 +93,23 @@ public class Constants {
         public static final int CHERRY = 4;
 
     }
+
+    public static class PowerUps {
+
+        public static final int CANDY_PINK = 0;
+        public static final int CANDY_BLUE = 1;
+        public static final int CANDY_YELLOW = 2;
+
+        public static final int UMBRELLA_ORANGE = 3;
+        public static final int UMBRELLA_RED = 4;
+        public static final int UMBRELLA_PINK = 5;
+
+        public static final int RING_PINK = 6;
+        public static final int RING_RED = 7;
+
+        public static final int SNEAKER = 8;
+        public static final int CLOCK = 9;
+        public static final int BOMB = 10;
+        public static final int POTION_LIGHTNING = 11;
+    }
 }

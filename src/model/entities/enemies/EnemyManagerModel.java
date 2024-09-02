@@ -31,13 +31,16 @@ public class EnemyManagerModel {
     private ArrayList<EnemyModel> enemies;
 
     private ArrayList<FoodModel> foods;
-    Random random;
+    private Random random;
 
     private boolean levelEndTimer;
     private int levelEndTick = 0;
     private int levelEndTimerDuration = 720;
 
     private int sideHit = 0;
+
+    // Power Up
+    private boolean timeFrozen;
 
     public static EnemyManagerModel getInstance() {
         if (instance == null) {
@@ -49,7 +52,6 @@ public class EnemyManagerModel {
     private EnemyManagerModel() {
         levelManagerModel = LevelManagerModel.getInstance();
         initEnemyAndFoodArrays();
-        foods = new ArrayList<>();
         random = new Random();
     }
 
@@ -72,7 +74,7 @@ public class EnemyManagerModel {
 
     public void update() {
         checkIfAllEnemiesAreDead();
-        checkEnemiesCollision();
+        checkEnemiesCollisionAndUpdatePos();
         checkLevelEndTimer();
         checkFoodCollision();
     }
@@ -99,10 +101,11 @@ public class EnemyManagerModel {
         }
     }
 
-    private void checkEnemiesCollision(){
+    private void checkEnemiesCollisionAndUpdatePos(){
         for (EnemyModel enemyModel : enemies) {
             if (enemyModel.isActive()) {
-                enemyModel.update();
+                if (!timeFrozen)
+                    enemyModel.update();
                 if (enemyModel.getHitbox().intersects(getPlayerModel().getHitbox())) {
                     if (enemyModel.isInBubble()) {
                         enemyModel.setEnemyState(DEAD);
@@ -163,5 +166,9 @@ public class EnemyManagerModel {
 
     public ArrayList<FoodModel> getFoods() {
         return foods;
+    }
+
+    public void setTimeFrozen(boolean timeFrozen) {
+        this.timeFrozen = timeFrozen;
     }
 }

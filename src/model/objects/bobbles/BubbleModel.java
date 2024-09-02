@@ -146,5 +146,13 @@ public class BubbleModel extends CustomObjectModel {
     public void setTimeout(boolean timeOut) {
         this.timeOut = timeOut;
     }
+
+    public void setBubbleSpeed(float bubbleSpeed) {
+        this.bubbleSpeed = bubbleSpeed;
+    }
+
+    public void setBubbleSpeedAfterShot(float bubbleSpeedAfterShot) {
+        this.bubbleSpeedAfterShot = bubbleSpeedAfterShot;
+    }
 }
 

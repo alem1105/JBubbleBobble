@@ -10,6 +10,7 @@ import static model.utilz.Gravity.*;
 public class BobBubbleModel extends BubbleModel {
 
     private int projectileTravelTimes = 0;
+    private int projectTravelDuration = 60;
 
     public BobBubbleModel(float x, float y, int width, int height, int bubbleDirection) {
         super(x, y, width, height, BOB_BUBBLE);
@@ -24,7 +25,7 @@ public class BobBubbleModel extends BubbleModel {
 
     //@Override
     protected void updatePos() {
-        if(projectileTravelTimes <= 60) {
+        if(projectileTravelTimes <= projectTravelDuration) {
             firstShotMovement();
         }
         else {
@@ -47,5 +48,15 @@ public class BobBubbleModel extends BubbleModel {
                 hitbox.x = GetEntityXPosNextToWall(hitbox, bubbleSpeed);
         }
         projectileTravelTimes++;
+    }
+
+    public void resetModifiedCandyValues() {
+        projectileTravelTimes = 240;
+        bubbleSpeed = 1.5f * SCALE;
+        bubbleSpeedAfterShot = 0.3f * SCALE;
+    }
+
+    public void setProjectileTravelTimes(int projectileTravelTimes) {
+        this.projectileTravelTimes = projectileTravelTimes;
     }
 }

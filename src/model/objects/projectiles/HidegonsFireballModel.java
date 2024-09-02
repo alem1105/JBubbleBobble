@@ -7,7 +7,7 @@ import static model.utilz.UtilityMethods.getLvlData;
 
 public class HidegonsFireballModel extends ProjectileModel{
 
-    private float fireballSpeed = 0.5f * SCALE;
+    private float fireballSpeed = 1.5f * SCALE;
 
     public HidegonsFireballModel(float x, float y,int direction) {
         super(x, y, (int) (18 * SCALE), (int)(13* SCALE), direction);

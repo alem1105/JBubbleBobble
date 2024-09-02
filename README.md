@@ -15,7 +15,7 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [x] schermata game over
 - [ ] schermata hai vinto
 - [ ] schermata pausa
-- [ ] profilo utente
+- [x] profilo utente
 - [x] gestione delle vite
 - [x] gestione del punteggio
 - [ ] implementare tutte le bolle
@@ -30,15 +30,14 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [x] animazione migliore morte dei nemici
 - [x] sistemare schermata user
 - [ ] update user alla fine di una partita : 
--       - aggiungere alla vittoria quando avremmo la schermata, 
--       - aggiungere il livello
-- [ ] cancellare user
+-       aggiungere alla vittoria quando avremmo la schermata
 - [x] bolle che scoppiamo tutte insieme 
 - [ ] classifica
 - [x] metodo per il caricamento del livello successivo
 - [x] pulsante restart 
 
 ### We may or may not do that
+- [ ] cancellare user
 - [ ] livello finale con boss
 - [ ] aggiungere il crea livelli al level editor
 - [x] saltare sulle bolle

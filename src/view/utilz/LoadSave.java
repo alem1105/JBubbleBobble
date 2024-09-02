@@ -66,6 +66,7 @@ public class LoadSave {
 
     // Items
     public static final String FOOD_SPRITE = "objects/items/items.png";
+    public static final String POWERUP_SPRITE = "objects/items/powerup_sprite.png";
 
     public static Font BUBBLE_BOBBLE_FONT, JEQO_FONT;
 

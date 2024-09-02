@@ -6,6 +6,8 @@ import model.gamestate.UserStateModel;
 import view.LevelView;
 import view.entities.PlayerView;
 import view.entities.enemies.EnemiesManagerView;
+import view.objects.PowerUpManagerView;
+import view.objects.PowerUpView;
 import view.objects.projectiles.ProjectileManagerView;
 import view.objects.bobbles.BubbleManagerView;
 import view.ui.DeathScreenView;
@@ -27,6 +29,7 @@ public class PlayingView {
     private BubbleManagerView bubbleManagerView;
     private ProjectileManagerView projectileManagerView;
     private NextLevelScreenView nextLevelScreenView;
+    private PowerUpManagerView powerUpManagerView;
 
     public PlayingView() {
         initViews();
@@ -41,6 +44,7 @@ public class PlayingView {
         bubbleManagerView = BubbleManagerView.getInstance();
         projectileManagerView = ProjectileManagerView.getInstance();
         nextLevelScreenView = NextLevelScreenView.getInstance();
+        powerUpManagerView = PowerUpManagerView.getInstance();
     }
 
     public void render(Graphics g) {
@@ -56,6 +60,7 @@ public class PlayingView {
                 bubbleManagerView.draw(g);
                 projectileManagerView.updateAndDraw(g);
                 enemiesManagerView.render(g);
+                powerUpManagerView.draw(g);
                 drawLifeHearts(g);
                 drawStats(g);
             }

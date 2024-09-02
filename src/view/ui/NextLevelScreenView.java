@@ -156,4 +156,5 @@ public class NextLevelScreenView {
         Color darkColor = new Color(red, green, blue);
         return darkColor;
     }
+
 }

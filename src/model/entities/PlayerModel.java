@@ -42,6 +42,12 @@ public class PlayerModel extends EntityModel {
 
     private boolean ridingABubble = false;
 
+    // per i power up
+    private int blowedBubbles, poppedBubbles, poppedLightingBubbles, poppedFireBubbles,  poppedWaterBubbles;
+    private int jumpedTimes, eatenPinkCandies, eatenYellowCandies, runDistanceAmount, reachedFinalLevel;
+    private int scoreForJump = 0;
+
+
     private BubbleManagerModel bubbleManagerModel = BubbleManagerModel.getInstance();
 
     public static PlayerModel getInstance() {
@@ -72,6 +78,7 @@ public class PlayerModel extends EntityModel {
 
     private void checkAttack() {
         if (attack && !attackingClick) {
+            blowedBubbles++;
             attackingClick = true;
             float bubbleX = hitbox.x;
             if (right)
@@ -210,6 +217,8 @@ public class PlayerModel extends EntityModel {
     private void jump() {
         if (inAir)
             return;
+        UserStateModel.getInstance().getCurrentUserModel().incrementTempScore(scoreForJump);
+        jumpedTimes++;
         inAir = true;
         airSpeed = jumpSpeed;
     }
@@ -292,5 +301,105 @@ public class PlayerModel extends EntityModel {
 
     public boolean getJump() {
         return jump;
+    }
+
+    public int getJumpedTimes() {
+        return jumpedTimes;
+    }
+
+    public void setScoreForJump(int value) {
+        scoreForJump = value;
+    }
+
+    public int getPoppedWaterBubbles() {
+        return poppedWaterBubbles;
+    }
+
+    public int getBlowedBubbles() {
+        return blowedBubbles;
+    }
+
+    public void setBlowedBubbles(int blowedBubbles) {
+        this.blowedBubbles = blowedBubbles;
+    }
+
+    public int getPoppedBubbles() {
+        return poppedBubbles;
+    }
+
+    public void setPoppedBubbles(int poppedBubbles) {
+        this.poppedBubbles = poppedBubbles;
+    }
+
+    public int incrementPoppedBubbles() {
+        return poppedBubbles++;
+    }
+
+    public int getPoppedLightingBubbles() {
+        return poppedLightingBubbles;
+    }
+
+    public void incrementPoppedLightingBubbles() {
+        poppedLightingBubbles++;
+    }
+
+    public int getPoppedFireBubbles() {
+        return poppedFireBubbles;
+    }
+
+    public void incrementPoppedFireBubbles() {
+        poppedFireBubbles++;
+    }
+
+    public void incrementPoppedWaterBubbles() {
+        poppedWaterBubbles ++;
+    }
+
+    public void setJumpedTimes(int jumpedTimes) {
+        this.jumpedTimes = jumpedTimes;
+    }
+
+    public int getEatenPinkCandies() {
+        return eatenPinkCandies;
+    }
+
+    public void setEatenPinkCandies(int eatenPinkCandies) {
+        this.eatenPinkCandies = eatenPinkCandies;
+    }
+
+    public int getEatenYellowCandies() {
+        return eatenYellowCandies;
+    }
+
+    public void setEatenYellowCandies(int eatenYellowCandies) {
+        this.eatenYellowCandies = eatenYellowCandies;
+    }
+
+    public int getRunDistanceAmount() {
+        return runDistanceAmount;
+    }
+
+    public void setRunDistanceAmount(int runDistanceAmount) {
+        this.runDistanceAmount = runDistanceAmount;
+    }
+
+    public int getReachedFinalLevel() {
+        return reachedFinalLevel;
+    }
+
+    public void setReachedFinalLevel(int reachedFinalLevel) {
+        this.reachedFinalLevel = reachedFinalLevel;
+    }
+
+    public void setPlayerSpeed(float value) {
+        this.playerSpeed = value;
+    }
+
+    public void setJumpSpeed(float value) {
+        this.playerSpeed = value;
+    }
+
+    public void setGravity(float value) {
+        this.gravity = value;
     }
 }

@@ -3,6 +3,7 @@ package model.gamestate;
 import model.LevelManagerModel;
 import model.entities.PlayerModel;
 import model.entities.enemies.EnemyManagerModel;
+import model.objects.items.powerups.PowerUpsManagerModel;
 import model.objects.projectiles.ProjectileManagerModel;
 import model.objects.bobbles.BubbleManagerModel;
 
@@ -15,6 +16,7 @@ public class PlayingModel {
     private EnemyManagerModel enemyManagerModel;
     private BubbleManagerModel bubbleManagerModel;
     private ProjectileManagerModel projectileManagerModel;
+    private PowerUpsManagerModel powerUpsManagerModel;
 
     public static PlayingModel getInstance() {
         if (instance == null) {
@@ -28,6 +30,7 @@ public class PlayingModel {
         enemyManagerModel = EnemyManagerModel.getInstance();
         bubbleManagerModel = BubbleManagerModel.getInstance();
         projectileManagerModel = ProjectileManagerModel.getInstance();
+        powerUpsManagerModel = PowerUpsManagerModel.getInstance();
     }
 
     public void update() {
@@ -38,6 +41,7 @@ public class PlayingModel {
                 projectileManagerModel.update();
                 bubbleManagerModel.update();
                 enemyManagerModel.update();
+                powerUpsManagerModel.update();
             }
         }
     }

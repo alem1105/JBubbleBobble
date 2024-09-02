@@ -47,7 +47,11 @@ public class BubbleManagerView {
 
     private void updateBubbles() {
         for (BobBubbleView bubbleView : bobBubbleViews) {
-            if ((bubbleView.getBubbleModel().isActive() || (bubbleView.getBubbleModel().isTimeOut() && bubbleView.getAniIndex() <= 2 ))) //ha finito animazione exploding
+            if ((bubbleView.getModel().isActive() || (bubbleView.getModel().isTimeOut() && bubbleView.getAniIndex() < 2 ))) //ha finito animazione exploding
+                bubbleView.update();
+        }
+        for (BubbleView bubbleView : bubbleViews) {
+            if ((bubbleView.getModel().isActive() || (bubbleView.getModel().isTimeOut() && bubbleView.getAniIndex() < 2)))
                 bubbleView.update();
         }
     }
@@ -60,18 +64,14 @@ public class BubbleManagerView {
 
     private void drawBobBubbles(Graphics g) {
         for (BobBubbleView bubbleView : bobBubbleViews) {
-            if ((bubbleView.getBubbleModel().isActive() || (bubbleView.getBubbleModel().isTimeOut() && bubbleView.getAniIndex() <= 2)))
+            if ((bubbleView.getModel().isActive() || (bubbleView.getModel().isTimeOut() && bubbleView.getAniIndex() <= 2)))
                 bubbleView.draw(g);
-        }
-        for (BubbleView bubbleView : bubbleViews) {
-            if ((bubbleView.getBubbleModel().isActive() || (bubbleView.getBubbleModel().isTimeOut() && bubbleView.getAniIndex() < 2)))
-                bubbleView.update();
         }
     }
 
     private void drawBubbles(Graphics g) {
         for (BubbleView bubbleView : bubbleViews) {
-            if ((bubbleView.getBubbleModel().isActive() || (bubbleView.getBubbleModel().isTimeOut() && bubbleView.getAniIndex() < 2)))
+            if ((bubbleView.getModel().isActive() || (bubbleView.getModel().isTimeOut() && bubbleView.getAniIndex() < 2)))
                 bubbleView.draw(g);
         }
     }

@@ -3,6 +3,7 @@ package model.objects.bobbles;
 import model.entities.PlayerModel;
 import model.entities.enemies.EnemyManagerModel;
 import model.entities.enemies.EnemyModel;
+import model.gamestate.UserStateModel;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.Random;
 import static model.utilz.Constants.Directions.LEFT;
 import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.GameConstants.*;
-import static model.utilz.Constants.SpecialBubbles.WATER_BUBBLE;
+import static model.utilz.Constants.SpecialBubbles.*;
 
 public class BubbleManagerModel {
 
@@ -24,6 +25,9 @@ public class BubbleManagerModel {
     private Random rand;
     int spawnBubbleTick = 0;
     int spawnBubbleDuration = 360;
+
+    // Power Up
+    private int scoreForPop = 0;
 
     public static BubbleManagerModel getInstance() {
         if (instance == null) {
@@ -93,11 +97,20 @@ public class BubbleManagerModel {
 
             if (bubble.getHitbox().intersects(PlayerModel.getInstance().getHitbox()) && bubble.isCollision()) {
 
+                UserStateModel.getInstance().getCurrentUserModel().incrementTempScore(scoreForPop);
+                PlayerModel.getInstance().incrementPoppedBubbles();
+
                 bubble.setActive(false);
                 bubble.setTimeout(true);
 
-                if(bubble.getBubbleType() == WATER_BUBBLE)
-                    spawnWaterWaterfall(bubble);
+                switch (bubble.getBubbleType()) {
+                    case WATER_BUBBLE -> {
+                        spawnWaterWaterfall(bubble);
+                        PlayerModel.getInstance().incrementPoppedWaterBubbles();
+                    }
+                    case LIGHTNING_BUBBLE -> PlayerModel.getInstance().incrementPoppedLightingBubbles();
+                    case FIRE_BUBBLE -> PlayerModel.getInstance().incrementPoppedFireBubbles();
+                }
 
                 checkIntersects(bubble);
 
@@ -126,6 +139,8 @@ public class BubbleManagerModel {
                 if (bob.getHitbox().intersects(bubble.getHitbox())) {
                     bob.setActive(false);
                     bubble.setTimeout(true);
+                    UserStateModel.getInstance().getCurrentUserModel().incrementTempScore(scoreForPop);
+                    PlayerModel.getInstance().incrementPoppedBubbles();
                     checkIntersects(bob);
                 }
             }
@@ -193,5 +208,9 @@ public class BubbleManagerModel {
 
     public ArrayList<WaterModel> getWaters() {
         return waters;
+    }
+
+    public void setScoreForPop(int value) {
+        this.scoreForPop = value;
     }
 }
