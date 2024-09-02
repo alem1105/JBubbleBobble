@@ -43,7 +43,7 @@ public class PlayerModel extends EntityModel {
     private boolean ridingABubble = false;
 
     // per i power up
-    private int blowedBubbles, poppedBubbles, poppedLightingBubbles, poppedFireBubbles,  poppedWaterBubbles;
+    private int blowedBubbles, poppedBubbles, poppedLightingBubbles, poppedFireBubbles = 1,  poppedWaterBubbles = 1;
     private int jumpedTimes, eatenPinkCandies, eatenYellowCandies, runDistanceAmount, reachedFinalLevel;
     private int scoreForJump = 0;
 
@@ -401,5 +401,9 @@ public class PlayerModel extends EntityModel {
 
     public void setGravity(float value) {
         this.gravity = value;
+    }
+
+    public void setPoppedLightingBubbles(int poppedLightingBubbles) {
+        this.poppedLightingBubbles = poppedLightingBubbles;
     }
 }

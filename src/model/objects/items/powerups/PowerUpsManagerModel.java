@@ -58,21 +58,33 @@ public class PowerUpsManagerModel {
     }
 
     private void checkCandySpawningConditions() {
-        if(playerModel.getBlowedBubbles() % 2 == 0 && playerModel.getBlowedBubbles() != 0)
-            powerups.add(new CandyModel(generateRandomCoordinates()[0], generateRandomCoordinates()[1], (int) (16f * SCALE), (int) (13f * SCALE), CANDY_PINK));
-        if(playerModel.getPoppedBubbles() % 2 == 0 && playerModel.getPoppedBubbles() != 0)
-            powerups.add(new CandyModel(generateRandomCoordinates()[0], generateRandomCoordinates()[1], (int) (16f * SCALE), (int) (13f * SCALE), CANDY_PINK));
-        if(playerModel.getJumpedTimes() % 2 == 0 && playerModel.getPoppedBubbles() != 0)
-            powerups.add(new CandyModel(generateRandomCoordinates()[0], generateRandomCoordinates()[1], (int) (16f * SCALE), (int) (13f * SCALE), CANDY_PINK));
+        if(playerModel.getBlowedBubbles() == 2) {
+            powerups.add(new CandyModel(generateRandomCoordinates()[0], generateRandomCoordinates()[1], (int) (16f * SCALE), (int) (10f * SCALE), CANDY_PINK));
+            playerModel.setBlowedBubbles(0);
+        }
+        if(playerModel.getPoppedBubbles() == 2) {
+            powerups.add(new CandyModel(generateRandomCoordinates()[0], generateRandomCoordinates()[1], (int) (16f * SCALE), (int) (10f * SCALE), CANDY_PINK));
+            playerModel.setPoppedBubbles(0);
+        }
+        if(playerModel.getJumpedTimes() == 2) {
+            powerups.add(new CandyModel(generateRandomCoordinates()[0], generateRandomCoordinates()[1], (int) (16f * SCALE), (int) (10f * SCALE), CANDY_PINK));
+            playerModel.setJumpedTimes(0);
+        }
     }
 
     private void checkUmbrellaSpawningConditions() {
-        if (playerModel.getPoppedWaterBubbles() % 15 == 0 && playerModel.getPoppedWaterBubbles() != 0)
-            powerups.add(new UmbrellaModel(generateRandomCoordinates()[0],generateRandomCoordinates()[1], (int) (13 * SCALE), (int) (16 * SCALE), UMBRELLA_ORANGE));
-        if (playerModel.getPoppedWaterBubbles() % 20 == 0 && playerModel.getPoppedWaterBubbles() != 0)
+        if (playerModel.getPoppedWaterBubbles() % 16 == 0) {
+            powerups.add(new UmbrellaModel(generateRandomCoordinates()[0], generateRandomCoordinates()[1], (int) (13 * SCALE), (int) (16 * SCALE), UMBRELLA_ORANGE));
+            playerModel.incrementPoppedWaterBubbles();
+        }
+        if (playerModel.getPoppedWaterBubbles() % 21 == 0) {
             powerups.add(new UmbrellaModel(generateRandomCoordinates()[0], generateRandomCoordinates()[1], (int) (13 * SCALE), (int) (16 * SCALE), UMBRELLA_RED));
-        if (playerModel.getPoppedWaterBubbles() % 25 == 0 && playerModel.getPoppedWaterBubbles() != 0)
+            playerModel.incrementPoppedWaterBubbles();
+        }
+        if (playerModel.getPoppedWaterBubbles() % 26 == 0){
             powerups.add(new UmbrellaModel(generateRandomCoordinates()[0], generateRandomCoordinates()[1], (int) (13 * SCALE), (int) (16 * SCALE), UMBRELLA_PINK));
+            playerModel.incrementPoppedWaterBubbles();
+        }
     }
 
     private void checkRingSpawningConditions() {
@@ -91,10 +103,17 @@ public class PowerUpsManagerModel {
             powerups.add(new SneakerModel(generateRandomCoordinates()[0], generateRandomCoordinates()[1], (int) (13 * SCALE), (int) (9 * SCALE)));
             playerModel.setRunDistanceAmount(0);
         }
-        if (playerModel.getPoppedLightingBubbles() % 12 == 0 && playerModel.getPoppedLightingBubbles() != 0)
+
+        if (playerModel.getPoppedLightingBubbles() == 12) {
             powerups.add(new ClockModel(generateRandomCoordinates()[0], generateRandomCoordinates()[1], (int) (13f * SCALE), (int) (14f * SCALE)));
-        if (canBombSpawn())
+            playerModel.setPoppedLightingBubbles(0);
+        }
+
+        if (canBombSpawn()) {
             powerups.add(new BombModel(generateRandomCoordinates()[0], generateRandomCoordinates()[1], (int) (14f * SCALE), (int) (12f * SCALE)));
+            playerModel.incrementPoppedFireBubbles();
+        }
+
         if (canPotionLightingSpawn())
             powerups.add(new PotionLightningModel(generateRandomCoordinates()[0], generateRandomCoordinates()[1], (int) (16f * SCALE), (int) (16f * SCALE)));
     }
@@ -117,8 +136,8 @@ public class PowerUpsManagerModel {
 
     private boolean canBombSpawn(){
         int poppedFireBubbles = playerModel.getPoppedFireBubbles();
-        return (poppedFireBubbles % 10 == 0 || poppedFireBubbles % 13 == 0
-                || poppedFireBubbles % 16 == 0 || poppedFireBubbles % 19 == 0) && poppedFireBubbles != 0 ;
+        return (poppedFireBubbles % 11 == 0 || poppedFireBubbles % 14 == 0
+                || poppedFireBubbles % 17 == 0 || poppedFireBubbles % 20 == 0);
     }
 
     private boolean canPotionLightingSpawn(){

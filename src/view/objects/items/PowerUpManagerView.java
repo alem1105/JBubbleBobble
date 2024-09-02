@@ -1,4 +1,4 @@
-package view.objects;
+package view.objects.items;
 
 import model.objects.items.powerups.PowerUpModel;
 import model.objects.items.powerups.PowerUpsManagerModel;

@@ -1,7 +1,8 @@
-package view.objects;
+package view.objects.items;
 
 import model.objects.CustomObjectModel;
 import model.objects.items.powerups.PowerUpModel;
+import view.objects.CustomObjectView;
 import view.utilz.LoadSave;
 
 import java.awt.*;
@@ -20,6 +21,7 @@ public class PowerUpView extends CustomObjectView<PowerUpModel> {
         type = powerUpModel.getType();
         spriteIndex = type;
         sprites = LoadSave.loadAnimations(LoadSave.POWERUP_SPRITE, 12, 1, 18, 18);
+        setDrawOffset();
     }
 
     @Override
@@ -40,7 +42,7 @@ public class PowerUpView extends CustomObjectView<PowerUpModel> {
         switch (type){
             case CANDY_PINK, CANDY_BLUE, CANDY_YELLOW -> {
                 xDrawOffset = (int) (1 * SCALE);
-                yDrawOffset = (int) (1 * SCALE);
+                yDrawOffset = (int) (4 * SCALE);
             }
         }
     }

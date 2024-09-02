@@ -37,9 +37,9 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [x] pulsante restart 
 
 ### We may or may not do that
-- [ ] cancellare user
 - [ ] livello finale con boss
 - [ ] aggiungere il crea livelli al level editor
+- [ ] cancellare user
 - [x] saltare sulle bolle
 - [x] transizione livelli
 
