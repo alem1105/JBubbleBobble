@@ -3,7 +3,7 @@ package model.objects.projectiles;
 import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.GameConstants.*;
 
-public class InvaderLaserModel extends ProjectileModel{
+public class InvaderLaserModel extends ProjectileModel {
 
     private float laserSpeed = 0.5f * SCALE;
 

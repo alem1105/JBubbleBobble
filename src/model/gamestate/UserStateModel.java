@@ -21,8 +21,6 @@ public class UserStateModel {
 
     private UserStateModel() {
         // TODO TOGLIERE
-//        UserModel user = new UserModel("Utente 1", 500, 200, 200, 200, 200, LoadSave.AVATAR_1);
-//        user.serialize("res/users/user.txt");
         getAllUsers();
     }
 

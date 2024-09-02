@@ -13,4 +13,7 @@ public abstract class ProjectileModel extends CustomObjectModel {
 
     public abstract void update();
 
+    public int getDirection() {
+        return direction;
+    }
 }

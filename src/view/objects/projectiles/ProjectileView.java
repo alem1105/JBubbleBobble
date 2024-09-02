@@ -21,6 +21,6 @@ public abstract class ProjectileView<T extends ProjectileModel> extends CustomOb
 
     public void updateAndDraw(Graphics g){
         update();
-        super.draw(g);
+        draw(g);
     }
 }

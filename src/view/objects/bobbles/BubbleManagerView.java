@@ -50,9 +50,6 @@ public class BubbleManagerView {
             if ((bubbleView.getBubbleModel().isActive() || (bubbleView.getBubbleModel().isTimeOut() && bubbleView.getAniIndex() <= 2 ))) //ha finito animazione exploding
                 bubbleView.update();
         }
-//        for (BubbleView bubbleView : bubbleViews) {
-//            bubbleView.update();
-//        }
     }
 
     public void draw(Graphics g) {

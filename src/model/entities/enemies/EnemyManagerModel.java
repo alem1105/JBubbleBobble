@@ -59,7 +59,7 @@ public class EnemyManagerModel {
         monstas = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getMonstas();
         drunks = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getDrunks();
         invaders = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getInvaders();
-        hidegons = new ArrayList<>();
+        hidegons = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getHidegons();
         foods = new ArrayList<>();
         createGeneralEnemiesArray();
     }

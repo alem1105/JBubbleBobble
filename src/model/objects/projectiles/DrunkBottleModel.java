@@ -6,7 +6,7 @@ import static model.utilz.Constants.GameConstants.TILES_SIZE;
 import static model.utilz.Gravity.CanMoveHere;
 import static model.utilz.UtilityMethods.getLvlData;
 
-public class DrunkBottleModel extends ProjectileModel{
+public class DrunkBottleModel extends ProjectileModel {
 
     private float bottleSpeed = 0.5f * SCALE;
     private float startX;

@@ -25,7 +25,7 @@ public class DrunkModel extends EnemyModel{
                 checKBottleShooting();
             }
             else {
-                if(isDrunkOnPlayerY() && !PlayerModel.getInstance().isInvincible())
+                if(isEnemyOnPlayerY() && !PlayerModel.getInstance().isInvincible())
                     startShootingTimer();
                 updatePos();
             }
@@ -46,9 +46,4 @@ public class DrunkModel extends EnemyModel{
             shot = true;
         }
     }
-
-    private boolean isDrunkOnPlayerY() {
-        return (int) (hitbox.y / TILES_SIZE) == (int) (PlayerModel.getInstance().getHitbox().y / TILES_SIZE);
-    }
-
 }
