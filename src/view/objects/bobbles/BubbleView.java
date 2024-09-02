@@ -1,17 +1,13 @@
 package view.objects.bobbles;
 
-import model.objects.bobbles.BobBubbleModel;
 import model.objects.bobbles.BubbleModel;
 import view.objects.CustomObjectView;
 import view.utilz.LoadSave;
-
-import java.awt.image.BufferedImage;
 
 import static model.utilz.Constants.CustomObjects.*;
 
 import static model.utilz.Constants.CustomObjects.BUBBLE_SPAWNED;
 import static model.utilz.Constants.GameConstants.*;
-import static model.utilz.Constants.SpecialBubbles.*;
 
 public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
 

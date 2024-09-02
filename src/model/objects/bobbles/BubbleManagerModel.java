@@ -8,7 +8,10 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static model.utilz.Constants.Directions.LEFT;
+import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.GameConstants.*;
+import static model.utilz.Constants.SpecialBubbles.WATER_BUBBLE;
 
 public class BubbleManagerModel {
 
@@ -16,6 +19,7 @@ public class BubbleManagerModel {
 
     private ArrayList<BobBubbleModel> bobBubbles;
     private ArrayList<BubbleModel> bubbles;
+    private ArrayList<WaterModel> waters;
 
     private Random rand;
     int spawnBubbleTick = 0;
@@ -32,23 +36,39 @@ public class BubbleManagerModel {
         bobBubbles = new ArrayList<>();
         bubbles = new ArrayList<>();
         rand = new Random();
+        waters = new ArrayList<>();
     }
 
     public void update(){
         updateRandomBubbleSpawn();
+        updateBubbles();
+        updateBobBubble();
+        updateExplodedBubbles();
+    }
 
+    private void updateExplodedBubbles() {
+        for (WaterModel waterModel : waters) {
+            if(waterModel.isActive())
+                waterModel.update();
+        }
+    }
+
+    private void updateBubbles() {
+        for (BubbleModel bubble : bubbles){
+            if (bubble.isActive()) {
+                checkPlayerHit(bubble);
+                bubble.update();
+            }
+        }
+    }
+
+    private void updateBobBubble() {
         for( BobBubbleModel bubble : bobBubbles ){
             if (bubble.isActive()) {
                 bubble.update();
                 checkPlayerHit(bubble);
                 checkEnemyHasBeenHit(bubble);
                 checkCollisionWithOtherBubbles(bubble);
-            }
-        }
-        for (BubbleModel bubble : bubbles){
-            if (bubble.isActive()) {
-                //checkPlayerHit(bubble);
-                bubble.update();
             }
         }
     }
@@ -69,26 +89,35 @@ public class BubbleManagerModel {
     }
 
     private void checkPlayerHit(BubbleModel bubble) {
-        if (getPlayerHitbox().getY() <= bubble.getHitbox().getMaxY() + (int) (1 * SCALE) && getPlayerHitbox().getY() >= bubble.getHitbox().getMaxY() - (int)(1 * SCALE)
-                && getPlayerHitbox().getX() <= bubble.getHitbox().getMaxX() + (int) (2 * SCALE) && getPlayerHitbox().getX() >= bubble.getHitbox().getX() - (int) (2 * SCALE)
-                && PlayerModel.getInstance().getAirSpeed() < 0) {
+        if (intersectBubbleFromBelow()) {
+
             if (bubble.getHitbox().intersects(PlayerModel.getInstance().getHitbox()) && bubble.isCollision()) {
 
                 bubble.setActive(false);
                 bubble.setTimeout(true);
-                // Cosi' scoppiano tutte quelle nella floating area
-                //            if (bubble.getFloatingArea()) {
-                //                for (BobBubbleModel bobBubble : bobBubbles) {
-                //                    if (bobBubble.getFloatingArea())
-                //                        bobBubble.setActive(false);
-                //                }
-                //            }
 
-                // Con queste tutte quelle che si toccano
+                if(bubble.getBubbleType() == WATER_BUBBLE)
+                    spawnWaterWaterfall(bubble);
+
                 checkIntersects(bubble);
 
             }
         }
+    }
+
+    private void spawnWaterWaterfall(BubbleModel bubble) {
+        int direction = (bubble.getHitbox().x < (float) GAME_WIDTH / 2) ? RIGHT : LEFT;
+        for (int i = 0; i < 10; i++) {
+            waters.add(new WaterModel(bubble.getHitbox().x, bubble.getHitbox().y + (i * (int) (7 * SCALE)), (int) (8 * SCALE), (int) (8 * SCALE), direction));
+        }
+    }
+
+    private boolean intersectBubbleFromBelow(){
+//        return getPlayerHitbox().getY() <= bubble.getHitbox().getMaxY() + (int) (1 * SCALE)
+//                && getPlayerHitbox().getY() >= bubble.getHitbox().getMaxY() - (int)(1 * SCALE)
+//                && getPlayerHitbox().getX() <= bubble.getHitbox().getMaxX() + (int) (2 * SCALE)
+//                && getPlayerHitbox().getX() >= bubble.getHitbox().getX() - (int) (2 * SCALE)
+               return !PlayerModel.getInstance().getJump() && PlayerModel.getInstance().getAirSpeed() < 0;
     }
 
     private void checkIntersects(BubbleModel bubble) {
@@ -160,5 +189,9 @@ public class BubbleManagerModel {
 
     private Rectangle2D.Float getPlayerHitbox() {
         return PlayerModel.getInstance().getHitbox();
+    }
+
+    public ArrayList<WaterModel> getWaters() {
+        return waters;
     }
 }

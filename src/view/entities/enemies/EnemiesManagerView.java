@@ -2,6 +2,15 @@ package view.entities.enemies;
 
 import model.LevelManagerModel;
 import model.entities.enemies.*;
+import model.objects.items.FoodModel;
+import model.objects.projectiles.DrunkBottleModel;
+import model.objects.projectiles.InvaderLaserModel;
+import model.objects.projectiles.MaitaFireballModel;
+import model.objects.projectiles.ProjectileModel;
+import view.objects.items.FoodView;
+import view.objects.projectiles.DrunkBottleView;
+import view.objects.projectiles.InvaderLaserView;
+import view.objects.projectiles.MaitaFireballView;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -16,6 +25,9 @@ public class EnemiesManagerView {
     private int currentLevel;
     private boolean restart = false;
 
+    private ArrayList<FoodView> foodViews;
+    private ArrayList<FoodModel> foodModels;
+
     public static EnemiesManagerView getInstance() {
         if (instance == null) {
             instance = new EnemiesManagerView();
@@ -26,11 +38,19 @@ public class EnemiesManagerView {
     private EnemiesManagerView() {
         enemyManagerModel = EnemyManagerModel.getInstance();
         initEnemyViewsArrays();
+        foodViews = new ArrayList<>();
     }
 
     public void update() {
         checkIfLevelChanged();
         updateEnemies();
+        updateFood();
+    }
+
+    private void updateFood() {
+        for (FoodView foodView : foodViews) {
+            foodView.update();
+        }
     }
 
     private void updateEnemies(){
@@ -46,13 +66,28 @@ public class EnemiesManagerView {
             restart = false;
             initEnemyViewsArrays();
             currentLevel = LevelManagerModel.getInstance().getLvlIndex();
+            foodViews.clear();
         }
     }
 
     public void render(Graphics g) {
+        renderEnemies(g);
+        renderFoods(g);
+    }
+
+    private void renderEnemies(Graphics g) {
         for (EnemyView enemyView : enemyViews) {
             if(!enemyView.getEnemy().isDeathMovement()) {
                 enemyView.render(g);
+            }
+        }
+    }
+
+    private void renderFoods(Graphics g) {
+        getFoodViewsArrays();
+        for (FoodView foodView : foodViews) {
+            if (foodView.getScoreTick() <= foodView.getScoreDuration()) {
+                foodView.draw(g);
             }
         }
     }
@@ -69,6 +104,20 @@ public class EnemiesManagerView {
                 case DrunkModel drunkModel -> enemyViews.add(new DrunkView(drunkModel));
                 case null, default -> enemyViews.add(new HidegonsView((HidegonsModel) enemyModel));
             }
+    }
+
+    private void getFoodViewsArrays() {
+        foodModels = enemyManagerModel.getFoods();
+        int modelLength = foodModels.size();
+        int i = foodViews.size();
+        if (i > modelLength) {
+            foodViews.clear();
+        }
+        while (modelLength > foodViews.size()) {
+            FoodModel food = foodModels.get(i);
+            foodViews.add(new FoodView(food));
+            i++;
+        }
     }
 
     public void setRestart(boolean restart) {

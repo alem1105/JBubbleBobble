@@ -22,7 +22,7 @@ public class BubbleModel extends CustomObjectModel {
 
     protected int bubbleDirection;
 
-    protected boolean collision = false;
+    protected boolean collision = true;
     protected boolean stuck = false;
 
     public BubbleModel(float x, float y, int width, int height, int bubbleType) {

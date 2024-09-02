@@ -4,16 +4,14 @@ import model.UserModel;
 import model.gamestate.UserStateModel;
 import model.ui.buttons.ChangePageButtonModel;
 import model.ui.buttons.CreateButtonModel;
-import model.ui.buttons.UserButtonModel;
+
 import static model.utilz.Constants.Directions.*;
 import view.ui.buttons.ChangePageButtonView;
 import view.ui.buttons.CreateButtonView;
-import view.ui.buttons.UserButtonView;
 import view.utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import static model.utilz.Constants.GameConstants.*;
@@ -31,7 +29,6 @@ public class UserStateView {
     private int userIndex = 0;
 
     private UserModel currentUser;
-    private BufferedImage currentAvatar;
     private int firstWidth;
     private int firstHeight = GAME_HEIGHT / 2 - (int)(69 * SCALE);
 
@@ -68,11 +65,9 @@ public class UserStateView {
             createUser = true;
 
         if (createUser)
-            currentUser = new UserModel(inputNickname, 0, 0, 0, 0, 0, avatars[avatarIndex]);
+            currentUser = new UserModel(inputNickname, 0, 0, 0, 0, 0, 0, avatars[avatarIndex]);
         else
             currentUser = userStateModel.getUserModels().get(userIndex);
-
-        currentAvatar = currentUser.getAvatar();
     }
 
     public void update() {
@@ -116,7 +111,7 @@ public class UserStateView {
         int startWidth = firstWidth;
         int startHeight = firstHeight;
 
-        g.drawImage(currentAvatar, startWidth, startHeight  - (int) (2 * SCALE), (int) (50 * SCALE), (int)(50 * SCALE),  null);
+        g.drawImage(currentUser.getAvatar(), startWidth, startHeight  - (int) (2 * SCALE), (int) (50 * SCALE), (int)(50 * SCALE),  null);
         g.setFont(nicknameFont);
         g.setColor(new Color(242, 70, 152));
         startWidth = (int) (nicknameField.x + 5 * SCALE);
@@ -135,7 +130,7 @@ public class UserStateView {
         String[] texts = {
                 "Level: " + currentUser.getLevel(),
                 "Matches won: " + currentUser.getWins(),
-                "Max score: " + currentUser.getScore(),
+                "Max score: " + currentUser.getMaxScore(),
                 "Matches played: " + currentUser.getMatches(),
                 "Matches lost: " + currentUser.getLosses()
         };
@@ -191,7 +186,6 @@ public class UserStateView {
             this.avatarIndex += i;
             currentUser.setAvatarPath(avatars[avatarIndex]);
         }
-        this.currentAvatar = currentUser.getAvatar();
     }
 
     public void reloadUsers(){
@@ -199,6 +193,7 @@ public class UserStateView {
         createUser = false;
         userIndex = 0;
         currentUser = users.get(userIndex);
+        avatarIndex = 0;
     }
 
     public ChangePageButtonView getNextPageButton() {

@@ -3,7 +3,6 @@ package view.objects.bobbles;
 import model.objects.bobbles.BobBubbleModel;
 
 import static model.utilz.Constants.CustomObjects.*;
-import static view.utilz.LoadSave.*;
 
 public class BobBubbleView extends BubbleView<BobBubbleModel>{
 

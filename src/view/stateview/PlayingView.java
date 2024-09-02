@@ -1,11 +1,12 @@
 package view.stateview;
 
 import model.LevelManagerModel;
-import model.entities.PlayerModel;
+import model.UserModel;
+import model.gamestate.UserStateModel;
 import view.LevelView;
 import view.entities.PlayerView;
 import view.entities.enemies.EnemiesManagerView;
-import view.objects.ProjectileManagerView;
+import view.objects.projectiles.ProjectileManagerView;
 import view.objects.bobbles.BubbleManagerView;
 import view.ui.DeathScreenView;
 import view.ui.NextLevelScreenView;
@@ -56,6 +57,7 @@ public class PlayingView {
                 projectileManagerView.updateAndDraw(g);
                 enemiesManagerView.render(g);
                 drawLifeHearts(g);
+                drawStats(g);
             }
         }
     }
@@ -72,12 +74,21 @@ public class PlayingView {
             bubbleManagerView.update();
             enemiesManagerView.update();
         }
-        //enemiesManagerView.update();
     }
 
     private void drawLifeHearts(Graphics g) {
         for(int live = 0; live < playerView.getPlayerModel().getLives(); live++)
             g.drawImage(heartLifeImage, live * TILES_SIZE, GAME_HEIGHT - TILES_SIZE, TILES_SIZE, TILES_SIZE, null);
     }
+
+    private void drawStats(Graphics g) {
+        UserModel currentUser = UserStateModel.getInstance().getCurrentUserModel();
+        g.setColor(Color.WHITE);
+        g.setFont(LoadSave.BUBBLE_BOBBLE_FONT);
+        g.drawString(String.valueOf(currentUser.getTempScore()), TILES_SIZE * 5, GAME_HEIGHT);
+        g.setColor(Color.RED);
+        g.drawString(String.valueOf(currentUser.getMaxScore()), TILES_SIZE * 13, GAME_HEIGHT);
+    }
+
 
 }

@@ -51,6 +51,8 @@ public abstract class EnemyModel extends EntityModel {
     protected boolean still = false;
     protected boolean shot = false;
 
+    protected boolean foodSpawned;
+
     public EnemyModel(float x, float y, int width, int height) {
         super(x, y - 1, width, height);
     }
@@ -357,4 +359,11 @@ public abstract class EnemyModel extends EntityModel {
         this.invertDeathMovement = invertDeathMovement;
     }
 
+    public boolean isFoodSpawned() {
+        return foodSpawned;
+    }
+
+    public void setFoodSpawned(boolean foodSpawned) {
+        this.foodSpawned = foodSpawned;
+    }
 }

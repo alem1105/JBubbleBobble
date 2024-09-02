@@ -63,6 +63,9 @@ public class LoadSave {
     public static final String INVADER_LASER = "enemies/invader_laser_sprite.png";
     public static final String DRUNK_BOTTLE = "enemies/drunk_projectile_sprite.png";
 
+    // Items
+    public static final String FOOD_SPRITE = "objects/items/items.png";
+
     public static Font BUBBLE_BOBBLE_FONT, JEQO_FONT;
 
     public static BufferedImage GetSpriteAtlas(String fileName) {

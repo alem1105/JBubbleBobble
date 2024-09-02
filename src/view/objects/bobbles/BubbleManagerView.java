@@ -1,11 +1,8 @@
 package view.objects.bobbles;
 
-import model.objects.MaitaFireballModel;
-import model.objects.ProjectileModel;
-import model.objects.bobbles.BobBubbleModel;
 import model.objects.bobbles.BubbleManagerModel;
 import model.objects.bobbles.BubbleModel;
-import view.objects.MaitaFireballView;
+import model.objects.bobbles.WaterModel;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -18,6 +15,7 @@ public class BubbleManagerView {
 
     private ArrayList<BobBubbleView> bobBubbleViews;
     private ArrayList<BubbleView> bubbleViews;
+    private ArrayList<WaterView> waterViews;
 
     public static BubbleManagerView getInstance() {
         if (instance == null) {
@@ -29,13 +27,22 @@ public class BubbleManagerView {
     private BubbleManagerView() {
         bobBubbleViews = new ArrayList<>();
         bubbleViews = new ArrayList<>();
+        waterViews = new ArrayList<>();
         bubbleManagerModel = BubbleManagerModel.getInstance();
     }
 
     public void update() {
         getBubblesFromModel();
         getBobBubblesFromModel();
+        getExplodedBubblesFromModel();
         updateBubbles();
+        updateExplodedBubbles();
+    }
+
+    private void updateExplodedBubbles() {
+        for(WaterView waterView : waterViews) {
+            waterView.update();
+        }
     }
 
     private void updateBubbles() {
@@ -49,16 +56,43 @@ public class BubbleManagerView {
     }
 
     public void draw(Graphics g) {
+        drawBobBubbles(g);
+        drawBubbles(g);
+        drawExplodedBubbles(g);
+    }
+
+    private void drawBobBubbles(Graphics g) {
         for (BobBubbleView bubbleView : bobBubbleViews) {
             if ((bubbleView.getBubbleModel().isActive() || (bubbleView.getBubbleModel().isTimeOut() && bubbleView.getAniIndex() <= 2)))
                 bubbleView.draw(g);
-            }
+        }
+    }
 
+    private void drawBubbles(Graphics g) {
         for (BubbleView bubbleView : bubbleViews) {
             bubbleView.draw(g);
         }
     }
 
+    private void drawExplodedBubbles(Graphics g) {
+        for (WaterView waterView : waterViews) {
+            waterView.draw(g);
+        }
+    }
+
+    private void getExplodedBubblesFromModel() {
+        int modelLength = bubbleManagerModel.getWaters().size();
+        int i = waterViews.size();
+        if (i > modelLength) {
+            i = 0;
+            waterViews.clear();
+        }
+        while (modelLength > waterViews.size()) {
+            WaterModel water = bubbleManagerModel.getWaters().get(i);
+            waterViews.add(new WaterView(water));
+            i++;
+        }
+    }
 
     private void getBubblesFromModel() {
         int modelLength = bubbleManagerModel.getBubbles().size();

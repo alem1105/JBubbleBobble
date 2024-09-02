@@ -1,4 +1,6 @@
-package model.objects;
+package model.objects.projectiles;
+
+import model.objects.CustomObjectModel;
 
 public abstract class ProjectileModel extends CustomObjectModel {
 

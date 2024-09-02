@@ -1,12 +1,7 @@
-package view.objects;
+package view.objects.projectiles;
 
-import model.objects.InvaderLaserModel;
-import model.objects.MaitaFireballModel;
+import model.objects.projectiles.InvaderLaserModel;
 import view.utilz.LoadSave;
-
-import java.awt.*;
-
-import static model.utilz.Constants.GameConstants.SCALE;
 
 public class InvaderLaserView extends ProjectileView<InvaderLaserModel>{
 
@@ -29,9 +24,9 @@ public class InvaderLaserView extends ProjectileView<InvaderLaserModel>{
     }
 
     private void endingTimer() {
-            if (endingTick == endingTimer)
-                resetAniTick();
-            endingTick--;
+        if (endingTick == endingTimer)
+            resetAniTick();
+        endingTick--;
     }
 
     @Override
@@ -46,7 +41,6 @@ public class InvaderLaserView extends ProjectileView<InvaderLaserModel>{
 
     private void setSprite() {
         if (!objectModel.isActive()){
-            System.out.println(objectModel.isActive());
             spriteIndex = 1;}
         else
             spriteIndex = 0;

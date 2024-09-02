@@ -15,6 +15,7 @@ public class BobBubbleModel extends BubbleModel {
         super(x, y, width, height, BOB_BUBBLE);
         this.bubbleDirection = bubbleDirection;
         this.bubbleSpeed = 1.5F * SCALE;
+        this.collision = false;
     }
 
     public void update() {

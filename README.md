@@ -40,3 +40,4 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [ ] aggiungere il crea livelli al level editor
 - [x] saltare sulle bolle
 - [x] transizione livelli
+
