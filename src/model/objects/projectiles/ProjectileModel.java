@@ -1,4 +1,6 @@
-package model.objects;
+package model.objects.projectiles;
+
+import model.objects.CustomObjectModel;
 
 public abstract class ProjectileModel extends CustomObjectModel {
 
@@ -11,4 +13,7 @@ public abstract class ProjectileModel extends CustomObjectModel {
 
     public abstract void update();
 
+    public int getDirection() {
+        return direction;
+    }
 }

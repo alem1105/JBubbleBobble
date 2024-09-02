@@ -1,11 +1,10 @@
 package view.stateview;
 
 import model.LevelManagerModel;
-import model.entities.PlayerModel;
 import view.LevelView;
 import view.entities.PlayerView;
 import view.entities.enemies.EnemiesManagerView;
-import view.objects.ProjectileManagerView;
+import view.objects.projectiles.ProjectileManagerView;
 import view.objects.bobbles.BubbleManagerView;
 import view.ui.DeathScreenView;
 import view.ui.NextLevelScreenView;

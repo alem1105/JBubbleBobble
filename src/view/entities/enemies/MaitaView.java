@@ -9,9 +9,6 @@ import static view.utilz.LoadSave.loadAnimations;
 
 public class MaitaView extends EnemyView{
 
-    private static final int ROW_INDEX = 5;
-    private static final int COL_INDEX = 6;
-
     public MaitaView(MaitaModel maita) {
         super(maita);
         animations = loadAnimations(LoadSave.MAITA_SPRITE, ROW_INDEX, COL_INDEX, 18, 18);

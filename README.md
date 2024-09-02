@@ -30,6 +30,7 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [x] animazione migliore morte dei nemici
 - [x] sistemare schermata user
 - [ ] update user alla fine di una partita
+- [ ] selezionare e cancellare user
 - [x] bolle che scoppiamo tutte insieme 
 - [ ] classifica
 - [x] metodo per il caricamento del livello successivo

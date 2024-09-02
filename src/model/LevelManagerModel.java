@@ -3,7 +3,7 @@ package model;
 import model.entities.PlayerModel;
 import model.entities.enemies.EnemyManagerModel;
 import model.gamestate.Gamestate;
-import model.objects.ProjectileManagerModel;
+import model.objects.projectiles.ProjectileManagerModel;
 import model.objects.bobbles.BubbleManagerModel;
 
 import javax.imageio.ImageIO;

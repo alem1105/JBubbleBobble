@@ -1,8 +1,8 @@
 package model.entities.enemies;
 
 import model.entities.PlayerModel;
-import model.objects.MaitaFireballModel;
-import model.objects.ProjectileManagerModel;
+import model.objects.projectiles.MaitaFireballModel;
+import model.objects.projectiles.ProjectileManagerModel;
 
 import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.Enemies.*;
@@ -25,7 +25,7 @@ public class MaitaModel extends EnemyModel{
                 checKFireballShooting();
             }
             else {
-                if(isMaitaOnPlayerY() && !PlayerModel.getInstance().isInvincible())
+                if(isEnemyOnPlayerY() && !PlayerModel.getInstance().isInvincible())
                     startShootingTimer();
                 updatePos();
             }
@@ -51,11 +51,6 @@ public class MaitaModel extends EnemyModel{
 //            }
             shot = true;
         }
-    }
-
-
-    private boolean isMaitaOnPlayerY() {
-        return (int) (hitbox.y / TILES_SIZE) == (int) (PlayerModel.getInstance().getHitbox().y / TILES_SIZE);
     }
 
 }

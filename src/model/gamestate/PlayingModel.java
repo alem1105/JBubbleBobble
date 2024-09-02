@@ -3,7 +3,7 @@ package model.gamestate;
 import model.LevelManagerModel;
 import model.entities.PlayerModel;
 import model.entities.enemies.EnemyManagerModel;
-import model.objects.ProjectileManagerModel;
+import model.objects.projectiles.ProjectileManagerModel;
 import model.objects.bobbles.BubbleManagerModel;
 
 import static model.utilz.Constants.PlayerConstants.DEATH;

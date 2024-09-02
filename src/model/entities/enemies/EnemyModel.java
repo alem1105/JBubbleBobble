@@ -1,6 +1,7 @@
 package model.entities.enemies;
 
 import model.entities.EntityModel;
+import model.entities.PlayerModel;
 
 import java.util.Random;
 
@@ -265,6 +266,10 @@ public abstract class EnemyModel extends EntityModel {
             shootingTick = 0;
         }
         stillTick++;
+    }
+
+    protected boolean isEnemyOnPlayerY() {
+        return (int) (hitbox.y / TILES_SIZE) == (int) (PlayerModel.getInstance().getHitbox().y / TILES_SIZE);
     }
 
     protected boolean isPlayerToRightOfEnemy() {

@@ -1,12 +1,7 @@
-package view.objects;
+package view.objects.projectiles;
 
-import model.objects.InvaderLaserModel;
-import model.objects.MaitaFireballModel;
+import model.objects.projectiles.InvaderLaserModel;
 import view.utilz.LoadSave;
-
-import java.awt.*;
-
-import static model.utilz.Constants.GameConstants.SCALE;
 
 public class InvaderLaserView extends ProjectileView<InvaderLaserModel>{
 

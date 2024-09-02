@@ -1,7 +1,7 @@
-package view.objects;
+package view.objects.projectiles;
 
-import model.objects.CustomObjectModel;
-import model.objects.ProjectileModel;
+import model.objects.projectiles.ProjectileModel;
+import view.objects.CustomObjectView;
 
 import java.awt.*;
 
@@ -21,6 +21,6 @@ public abstract class ProjectileView<T extends ProjectileModel> extends CustomOb
 
     public void updateAndDraw(Graphics g){
         update();
-        super.draw(g);
+        draw(g);
     }
 }

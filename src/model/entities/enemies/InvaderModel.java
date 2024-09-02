@@ -1,9 +1,7 @@
 package model.entities.enemies;
 
-import model.entities.PlayerModel;
-import model.objects.InvaderLaserModel;
-import model.objects.MaitaFireballModel;
-import model.objects.ProjectileManagerModel;
+import model.objects.projectiles.InvaderLaserModel;
+import model.objects.projectiles.ProjectileManagerModel;
 
 import static model.utilz.Constants.Enemies.RUNNING;
 import static model.utilz.Constants.Enemies.RUNNING_ANGRY;

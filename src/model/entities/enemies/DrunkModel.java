@@ -1,9 +1,8 @@
 package model.entities.enemies;
 
 import model.entities.PlayerModel;
-import model.objects.DrunkBottleModel;
-import model.objects.MaitaFireballModel;
-import model.objects.ProjectileManagerModel;
+import model.objects.projectiles.DrunkBottleModel;
+import model.objects.projectiles.ProjectileManagerModel;
 
 import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.Enemies.RUNNING;
@@ -26,7 +25,7 @@ public class DrunkModel extends EnemyModel{
                 checKBottleShooting();
             }
             else {
-                if(isDrunkOnPlayerY() && !PlayerModel.getInstance().isInvincible())
+                if(isEnemyOnPlayerY() && !PlayerModel.getInstance().isInvincible())
                     startShootingTimer();
                 updatePos();
             }
@@ -47,9 +46,4 @@ public class DrunkModel extends EnemyModel{
             shot = true;
         }
     }
-
-    private boolean isDrunkOnPlayerY() {
-        return (int) (hitbox.y / TILES_SIZE) == (int) (PlayerModel.getInstance().getHitbox().y / TILES_SIZE);
-    }
-
 }

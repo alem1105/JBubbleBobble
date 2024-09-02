@@ -76,13 +76,6 @@ public class BubbleManagerModel {
 
                 bubble.setActive(false);
                 bubble.setTimeout(true);
-                // Cosi' scoppiano tutte quelle nella floating area
-                //            if (bubble.getFloatingArea()) {
-                //                for (BobBubbleModel bobBubble : bobBubbles) {
-                //                    if (bobBubble.getFloatingArea())
-                //                        bobBubble.setActive(false);
-                //                }
-                //            }
 
                 // Con queste tutte quelle che si toccano
                 checkIntersects(bubble);

@@ -1,6 +1,6 @@
-package view.objects;
+package view.objects.projectiles;
 
-import model.objects.DrunkBottleModel;
+import model.objects.projectiles.DrunkBottleModel;
 import view.utilz.LoadSave;
 
 public class DrunkBottleView extends ProjectileView<DrunkBottleModel> {
