@@ -10,14 +10,14 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [x] movimento nemici
 - [x] attacco nemici (maita)
 - [x] sistemare nemici che ti colpiscono in continuazione sullo spawn
-- [ ] aggiungere tutti i nemici
+- [x] aggiungere tutti i nemici
 - [x] sistemare movimento bolla di bob
 - [x] schermata game over
 - [ ] schermata hai vinto
 - [ ] schermata pausa
 - [ ] profilo utente
 - [x] gestione delle vite
-- [ ] gestione del punteggio
+- [x] gestione del punteggio
 - [ ] implementare tutte le bolle
 - [ ] fare i power up (12) ed extends : https://strategywiki.org/wiki/Bubble_Bobble/Special_items
 - [ ] aggiungere l'audio
@@ -29,8 +29,10 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [x] sistemare menu
 - [x] animazione migliore morte dei nemici
 - [x] sistemare schermata user
-- [ ] update user alla fine di una partita
-- [ ] selezionare e cancellare user
+- [ ] update user alla fine di una partita : 
+-       - aggiungere alla vittoria quando avremmo la schermata, 
+-       - aggiungere il livello
+- [ ] cancellare user
 - [x] bolle che scoppiamo tutte insieme 
 - [ ] classifica
 - [x] metodo per il caricamento del livello successivo
