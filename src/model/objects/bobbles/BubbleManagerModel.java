@@ -179,7 +179,7 @@ public class BubbleManagerModel {
 //                && getPlayerHitbox().getY() >= bubble.getHitbox().getMaxY() - (int)(1 * SCALE)
 //                && getPlayerHitbox().getX() <= bubble.getHitbox().getMaxX() + (int) (2 * SCALE)
 //                && getPlayerHitbox().getX() >= bubble.getHitbox().getX() - (int) (2 * SCALE)
-        return !PlayerModel.getInstance().getJump(); //&& PlayerModel.getInstance().getAirSpeed() < 0;
+        return !PlayerModel.getInstance().getJump() && PlayerModel.getInstance().getAirSpeed() != 0;
     }
 
     private void checkIntersects(BubbleModel bubble) {
