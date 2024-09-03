@@ -62,6 +62,12 @@ public class BubbleManagerModel {
             if (bubble.isActive()) {
                 checkPlayerHit(bubble);
                 bubble.update();
+            } else {
+                if(bubble.getBubbleType() == WATER_BUBBLE) {
+                    bubble.spawnWaterFall();
+                    for(WaterModel water : bubble.getWaterfall())
+                        water.update();
+                }
             }
         }
     }
@@ -105,7 +111,8 @@ public class BubbleManagerModel {
 
                 switch (bubble.getBubbleType()) {
                     case WATER_BUBBLE -> {
-                        spawnWaterWaterfall(bubble);
+                        bubble.setyWhenPopped(bubble.getHitbox().y);
+                        bubble.setxWhenPopped(bubble.getHitbox().x);
                         PlayerModel.getInstance().incrementPoppedWaterBubbles();
                     }
                     case LIGHTNING_BUBBLE -> PlayerModel.getInstance().incrementPoppedLightingBubbles();
@@ -130,7 +137,7 @@ public class BubbleManagerModel {
 //                && getPlayerHitbox().getY() >= bubble.getHitbox().getMaxY() - (int)(1 * SCALE)
 //                && getPlayerHitbox().getX() <= bubble.getHitbox().getMaxX() + (int) (2 * SCALE)
 //                && getPlayerHitbox().getX() >= bubble.getHitbox().getX() - (int) (2 * SCALE)
-               return !PlayerModel.getInstance().getJump() && PlayerModel.getInstance().getAirSpeed() < 0;
+        return !PlayerModel.getInstance().getJump() && PlayerModel.getInstance().getAirSpeed() < 0;
     }
 
     private void checkIntersects(BubbleModel bubble) {

@@ -3,6 +3,8 @@ package model.objects.bobbles;
 import model.objects.CustomObjectModel;
 import model.utilz.Fallable;
 
+import java.util.ArrayList;
+
 import static model.utilz.Constants.Directions.LEFT;
 import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.GameConstants.*;
@@ -94,7 +96,22 @@ public class WaterModel extends CustomObjectModel implements Fallable {
         return CanMoveHere(nextX, hitbox.y, hitbox.width, hitbox.height, getLvlData());
     }
 
+//    @Override
+//    public String toString() {
+//        return "WaterModel{" +
+//                "x=" + hitbox.x +
+//                ", y=" + hitbox.y +
+//                ", width=" + hitbox.width +
+//                ", height=" + hitbox.height +
+//                ", direction=" + direction +
+//                ", active=" + active +
+//                '}';
+//    }
+
     public boolean isInAir() {
         return inAir;
     }
+
+
+
 }

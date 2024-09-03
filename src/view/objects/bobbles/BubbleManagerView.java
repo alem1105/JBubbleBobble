@@ -73,6 +73,12 @@ public class BubbleManagerView {
         for (BubbleView bubbleView : bubbleViews) {
             if ((bubbleView.getModel().isActive() || (bubbleView.getModel().isTimeOut() && bubbleView.getAniIndex() < 2)))
                 bubbleView.draw(g);
+            else {
+                ArrayList<WaterView> bubbleViewArray = bubbleView.getWaterfallView();
+                for (WaterView waterView : bubbleViewArray) {
+                    waterView.draw(g);
+                }
+            }
         }
     }
 

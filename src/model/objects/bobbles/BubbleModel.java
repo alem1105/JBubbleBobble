@@ -2,6 +2,9 @@ package model.objects.bobbles;
 
 import model.objects.CustomObjectModel;
 
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+
 import static model.utilz.Gravity.*;
 import static model.utilz.UtilityMethods.*;
 import static model.utilz.Constants.Directions.LEFT;
@@ -25,10 +28,16 @@ public class BubbleModel extends CustomObjectModel {
     protected boolean collision = true;
     protected boolean stuck = false;
 
+    private ArrayList<WaterModel> waterfall;
+    private boolean hasSpawnedAllWaters = false;
+    private float yWhenPopped;
+    private float xWhenPopped;
+
     public BubbleModel(float x, float y, int width, int height, int bubbleType) {
         super(x, y, width, height);
         this.bubbleType = bubbleType;
         checkDirection();
+        waterfall = new ArrayList<>();
     }
 
     private void checkDirection() {
@@ -42,6 +51,31 @@ public class BubbleModel extends CustomObjectModel {
     public void update(){
         checkLifeTimer();
         afterShotMovement();
+    }
+
+    public void spawnWaterFall() {
+        if(!hasSpawnedAllWaters && !active) {
+            int direction = (xWhenPopped < (float) GAME_WIDTH / 2) ? RIGHT : LEFT;
+
+            if(waterfall.size() >= 10) {
+                hasSpawnedAllWaters = true;
+            }
+
+            if(waterfall.isEmpty())
+                waterfall.add(new WaterModel(xWhenPopped, yWhenPopped, (int) (8 * SCALE), (int) (8 * SCALE), direction));
+            else {
+                Rectangle2D.Float lastWaterHitbox = waterfall.getLast().getHitbox();
+                if(hasWaterMovedFromStartPoint(lastWaterHitbox)) {
+                    waterfall.add(new WaterModel(xWhenPopped, yWhenPopped, (int) (8 * SCALE), (int) (8 * SCALE), direction));
+                }
+            }
+        }
+    }
+
+    private boolean hasWaterMovedFromStartPoint(Rectangle2D.Float lastWaterHitbox) {
+        return lastWaterHitbox.y >= yWhenPopped + lastWaterHitbox.height
+                || lastWaterHitbox.x >= xWhenPopped + lastWaterHitbox.width
+                || lastWaterHitbox.x <= xWhenPopped - lastWaterHitbox.width;
     }
 
 //    protected void updatePos() {
@@ -153,6 +187,18 @@ public class BubbleModel extends CustomObjectModel {
 
     public void setBubbleSpeedAfterShot(float bubbleSpeedAfterShot) {
         this.bubbleSpeedAfterShot = bubbleSpeedAfterShot;
+    }
+
+    public ArrayList<WaterModel> getWaterfall() {
+        return waterfall;
+    }
+
+    public void setyWhenPopped(float yWhenPopped) {
+        this.yWhenPopped = yWhenPopped;
+    }
+
+    public void setxWhenPopped(float xWhenPopped) {
+        this.xWhenPopped = xWhenPopped;
     }
 }
 

@@ -4,6 +4,8 @@ import model.objects.bobbles.BubbleModel;
 import view.objects.CustomObjectView;
 import view.utilz.LoadSave;
 
+import java.util.ArrayList;
+
 import static model.utilz.Constants.CustomObjects.*;
 
 import static model.utilz.Constants.CustomObjects.BUBBLE_SPAWNED;
@@ -12,6 +14,7 @@ import static model.utilz.Constants.GameConstants.*;
 public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
 
     protected int bubbleState = BUBBLE_SPAWNED;
+    protected ArrayList<WaterView> waterfallView;
 
     public BubbleView(T model) {
         super(model);
@@ -19,12 +22,14 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
             case 3 -> sprites = LoadSave.loadAnimations(LoadSave.BOB_BUBBLE_SPRITE,3, 3, 16, 16);
             case 0 -> sprites = LoadSave.loadAnimations(LoadSave.SPECIAL_BUBBLE_SPRITE,4, 2, 16, 16);
         }
+        waterfallView = new ArrayList<>();
     }
 
     public void update() {
         updateBubbleState();
         setSpriteIndex();
         updateAnimationTick();
+        getWaterfallModelArray();
     }
 
     @Override
@@ -72,6 +77,19 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
         spriteIndex = objectModel.getBubbleType();
     }
 
+    private void getWaterfallModelArray() {
+        int modelLength = objectModel.getWaterfall().size();
+        int i = waterfallView.size();
+        if (i > modelLength) {
+            waterfallView.clear();
+            i = 0;
+        }
+        while (modelLength > waterfallView.size()) {
+            waterfallView.add(new WaterView(objectModel.getWaterfall().get(i)));
+            i++;
+        }
+    }
+
     public BubbleModel getModel() {
         return objectModel;
     }
@@ -84,4 +102,7 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
         return aniTick;
     }
 
+    public ArrayList<WaterView> getWaterfallView() {
+        return waterfallView;
+    }
 }
