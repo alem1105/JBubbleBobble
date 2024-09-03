@@ -4,6 +4,7 @@ import model.entities.PlayerModel;
 import model.entities.enemies.EnemyManagerModel;
 import model.entities.enemies.EnemyModel;
 import model.gamestate.UserStateModel;
+import model.objects.CustomObjectModel;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -61,13 +62,13 @@ public class BubbleManagerModel {
         for (LightningModel lightningModel : lightnings) {
             if (lightningModel.isActive())
                 lightningModel.update();
-            checkLightningHitEnemy(lightningModel);
+            checkObjectHitEnemy(lightningModel);
         }
     }
 
-    private void checkLightningHitEnemy(LightningModel lightningModel) {
+    private void checkObjectHitEnemy(CustomObjectModel objectModel) {
         for(EnemyModel enemy : EnemyManagerModel.getInstance().getEnemies()) {
-            if(lightningModel.getHitbox().intersects(enemy.getHitbox())) {
+            if(objectModel.getHitbox().intersects(enemy.getHitbox())) {
                 if (enemy.isActive()) {
                     //enemy.setEnemyState(DEATH);
                     enemy.setActive(false);
