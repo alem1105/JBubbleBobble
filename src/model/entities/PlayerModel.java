@@ -407,4 +407,8 @@ public class PlayerModel extends EntityModel {
         this.lives++;
     }
 
+    public int getFacing() {
+        return facing;
+    }
+
 }

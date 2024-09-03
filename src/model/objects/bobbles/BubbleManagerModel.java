@@ -4,6 +4,7 @@ import model.entities.PlayerModel;
 import model.entities.enemies.EnemyManagerModel;
 import model.entities.enemies.EnemyModel;
 import model.gamestate.UserStateModel;
+import model.objects.CustomObjectModel;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.Random;
 import static model.utilz.Constants.Directions.LEFT;
 import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.GameConstants.*;
+import static model.utilz.Constants.PlayerConstants.DEATH;
 import static model.utilz.Constants.SpecialBubbles.*;
 
 public class BubbleManagerModel {
@@ -23,6 +25,7 @@ public class BubbleManagerModel {
     private ArrayList<BobBubbleModel> bobBubbles;
     private ArrayList<BubbleModel> bubbles;
     private ArrayList<WaterModel> waters;
+    private ArrayList<LightningModel> lightnings;
 
     private Random rand;
     int spawnBubbleTick = 0;
@@ -44,6 +47,7 @@ public class BubbleManagerModel {
         bubbles = new ArrayList<>();
         rand = new Random();
         waters = new ArrayList<>();
+        lightnings = new ArrayList<>();
         extend = new HashMap<>() {{
             put('E', false);
             put('x', false);
@@ -80,6 +84,22 @@ public class BubbleManagerModel {
             if(waterModel.isActive())
                 waterModel.update();
         }
+        for (LightningModel lightningModel : lightnings) {
+            if (lightningModel.isActive())
+                lightningModel.update();
+            checkObjectHitEnemy(lightningModel);
+        }
+    }
+
+    private void checkObjectHitEnemy(CustomObjectModel objectModel) {
+        for(EnemyModel enemy : EnemyManagerModel.getInstance().getEnemies()) {
+            if(objectModel.getHitbox().intersects(enemy.getHitbox())) {
+                if (enemy.isActive()) {
+                    //enemy.setEnemyState(DEATH);
+                    enemy.setActive(false);
+                }
+            }
+        }
     }
 
     private void updateBubbles() {
@@ -112,7 +132,7 @@ public class BubbleManagerModel {
         spawnBubbleTick++;
         if (spawnBubbleTick >= spawnBubbleDuration) {
             spawnBubbleTick = 0;
-            int bubbleType = EXTEND_BUBBLE;//rand.nextInt(2);
+            int bubbleType = rand.nextInt(2); // Da cambiare con massimo numero di bolle speciali
 
             int max = (TILES_IN_WIDTH - 1) * TILES_SIZE;
             int min = TILES_SIZE;
@@ -140,7 +160,10 @@ public class BubbleManagerModel {
                         bubble.setxWhenPopped(bubble.getHitbox().x);
                         PlayerModel.getInstance().incrementPoppedWaterBubbles();
                     }
-                    case LIGHTNING_BUBBLE -> PlayerModel.getInstance().incrementPoppedLightingBubbles();
+                    case LIGHTNING_BUBBLE -> {
+                        lightnings.add(new LightningModel(bubble.getHitbox().x, bubble.getHitbox().y, (int) (16 * SCALE), (int) (16 * SCALE), PlayerModel.getInstance().getFacing()));
+                        PlayerModel.getInstance().incrementPoppedLightingBubbles();
+                    }
                     case FIRE_BUBBLE -> PlayerModel.getInstance().incrementPoppedFireBubbles();
                     case EXTEND_BUBBLE -> extend.put(bubble.getExtendChar(), true);
                 }
@@ -238,6 +261,10 @@ public class BubbleManagerModel {
 
     public void setScoreForPop(int value) {
         this.scoreForPop = value;
+    }
+
+    public ArrayList<LightningModel> getLightnings() {
+        return lightnings;
     }
 
     public HashMap<Character, Boolean> getExtend() {
