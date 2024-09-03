@@ -138,8 +138,6 @@ public class PlayerModel extends EntityModel {
 
     private void updatePos() {
 
-        System.out.println(playerSpeed);
-
         moving = false;
 
         if (jump) {
@@ -403,6 +401,10 @@ public class PlayerModel extends EntityModel {
 
     public void setPoppedLightingBubbles(int poppedLightingBubbles) {
         this.poppedLightingBubbles = poppedLightingBubbles;
+    }
+
+    public void incrementLives() {
+        this.lives++;
     }
 
 }

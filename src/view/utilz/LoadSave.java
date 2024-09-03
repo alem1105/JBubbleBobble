@@ -17,6 +17,7 @@ public class LoadSave {
     public static final String BUB_LEVEL_TRANSITION = "bubble_level_transition.png";
 
     public static final String BOB_BUBBLE_SPRITE = "objects/bubbles/bubble_sprites.png";
+    public static final String EXTEND_SPRITE = "objects/bubbles/extend_sprite.png";
     public static final String SPECIAL_BUBBLE_SPRITE = "objects/bubbles/special_bubbles.png";
     public static final String WATER_SPRITE = "objects/bubbles/water_sprites.png";
 

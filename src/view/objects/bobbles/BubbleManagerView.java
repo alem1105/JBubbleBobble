@@ -3,9 +3,15 @@ package view.objects.bobbles;
 import model.objects.bobbles.BubbleManagerModel;
 import model.objects.bobbles.BubbleModel;
 import model.objects.bobbles.WaterModel;
+import view.utilz.LoadSave;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import static model.utilz.Constants.GameConstants.*;
 
 public class BubbleManagerView {
 
@@ -13,9 +19,13 @@ public class BubbleManagerView {
 
     private BubbleManagerModel bubbleManagerModel;
 
+    private BufferedImage[][] extendSprite;
+
     private ArrayList<BobBubbleView> bobBubbleViews;
     private ArrayList<BubbleView> bubbleViews;
     private ArrayList<WaterView> waterViews;
+
+    private String extend = "Extend";
 
     public static BubbleManagerView getInstance() {
         if (instance == null) {
@@ -29,6 +39,7 @@ public class BubbleManagerView {
         bubbleViews = new ArrayList<>();
         waterViews = new ArrayList<>();
         bubbleManagerModel = BubbleManagerModel.getInstance();
+        extendSprite = LoadSave.loadAnimations(LoadSave.EXTEND_SPRITE,6, 1, 16, 16);
     }
 
     public void update() {
@@ -37,6 +48,13 @@ public class BubbleManagerView {
         getExplodedBubblesFromModel();
         updateBubbles();
         updateExplodedBubbles();
+    }
+
+    public void draw(Graphics g) {
+        drawBobBubbles(g);
+        drawBubbles(g);
+        drawExplodedBubbles(g);
+        drawExtendLetterOnTheWall(g);
     }
 
     private void updateExplodedBubbles() {
@@ -54,12 +72,6 @@ public class BubbleManagerView {
             if ((bubbleView.getModel().isActive() || (bubbleView.getModel().isTimeOut() && bubbleView.getAniIndex() < 2)))
                 bubbleView.update();
         }
-    }
-
-    public void draw(Graphics g) {
-        drawBobBubbles(g);
-        drawBubbles(g);
-        drawExplodedBubbles(g);
     }
 
     private void drawBobBubbles(Graphics g) {
@@ -126,6 +138,15 @@ public class BubbleManagerView {
         while (modelLength > bobBubbleViews.size()) {
             bobBubbleViews.add(new BobBubbleView(bubbleManagerModel.getBobBubbles().get(i)));
             i++;
+        }
+    }
+
+    private void drawExtendLetterOnTheWall(Graphics g){
+        HashMap<Character, Boolean> extendMap = BubbleManagerModel.getInstance().getExtend();
+        for(int i = 0; i < extend.length(); i++){
+            if (extendMap.get(extend.charAt(i))){
+                g.drawImage(extendSprite[i][0],0, (TILES_IN_HEIGHT / 2 - 3 + i) * TILES_SIZE, (int)(16 * SCALE) ,(int)(16 * SCALE), null);
+            }
         }
     }
 

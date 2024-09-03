@@ -10,6 +10,7 @@ import static model.utilz.Constants.CustomObjects.*;
 
 import static model.utilz.Constants.CustomObjects.BUBBLE_SPAWNED;
 import static model.utilz.Constants.GameConstants.*;
+import static model.utilz.Constants.SpecialBubbles.*;
 
 public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
 
@@ -19,8 +20,12 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
     public BubbleView(T model) {
         super(model);
         switch (model.getBubbleType()) {
-            case 3 -> sprites = LoadSave.loadAnimations(LoadSave.BOB_BUBBLE_SPRITE,3, 3, 16, 16);
-            case 0 -> sprites = LoadSave.loadAnimations(LoadSave.SPECIAL_BUBBLE_SPRITE,4, 2, 16, 16);
+            case BOB_BUBBLE ->
+                    sprites = LoadSave.loadAnimations(LoadSave.BOB_BUBBLE_SPRITE,3, 3, 16, 16);
+            case EXTEND_BUBBLE ->
+                    sprites = LoadSave.loadAnimations(LoadSave.EXTEND_SPRITE,7, 2, 16, 16);
+            case WATER_BUBBLE, LIGHTNING_BUBBLE, FIRE_BUBBLE ->
+                    sprites = LoadSave.loadAnimations(LoadSave.SPECIAL_BUBBLE_SPRITE,4, 2, 16, 16);
         }
         waterfallView = new ArrayList<>();
     }
@@ -41,7 +46,7 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
             if (aniIndex >= getSpriteAmount()) {
                 aniIndex = 0;
                 if (bubbleState == BUBBLE_EXPLODING){
-                    aniIndex = 2;
+                    aniIndex = 2; // uso questo index per riconoscere il fatto che è finita l'animazione dell'esplosione
                 }
             }
         }
@@ -71,10 +76,16 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
 
     protected void setSpriteIndex(){
         if (bubbleState == BUBBLE_EXPLODING){
-            spriteIndex = 3;
+            if (objectModel.getBubbleType() == EXTEND_BUBBLE)
+                spriteIndex = 6;
+            else spriteIndex = 3;
             return;
         }
-        spriteIndex = objectModel.getBubbleType();
+
+        if(objectModel.getBubbleType() != EXTEND_BUBBLE)
+            spriteIndex = objectModel.getBubbleType();
+        else
+            spriteIndex = "Extend".indexOf(objectModel.getExtendChar());
     }
 
     private void getWaterfallModelArray() {

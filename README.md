@@ -33,6 +33,8 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [ ] update user alla fine di una partita : 
 -       aggiungere alla vittoria quando avremmo la schermata
 - [x] bolle che scoppiamo tutte insieme 
+- [ ] sistemare spawning powerUp
+- [ ] colore caramelle - spostarle
 - [ ] fare l'ultimo power up (fulmini)
 - [ ] classifica
 - [x] metodo per il caricamento del livello successivo

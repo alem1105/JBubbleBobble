@@ -81,6 +81,7 @@ public class Constants {
         public static final int LIGHTNING_BUBBLE = 1;
         public static final int FIRE_BUBBLE = 2;
         public static final int BOB_BUBBLE = 3;
+        public static final int EXTEND_BUBBLE = 4;
 
     }
 

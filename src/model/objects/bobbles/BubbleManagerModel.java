@@ -7,6 +7,8 @@ import model.gamestate.UserStateModel;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import static model.utilz.Constants.Directions.LEFT;
@@ -28,6 +30,7 @@ public class BubbleManagerModel {
 
     // Power Up
     private int scoreForPop = 0;
+    private HashMap<Character, Boolean> extend;
 
     public static BubbleManagerModel getInstance() {
         if (instance == null) {
@@ -41,6 +44,14 @@ public class BubbleManagerModel {
         bubbles = new ArrayList<>();
         rand = new Random();
         waters = new ArrayList<>();
+        extend = new HashMap<>() {{
+            put('E', false);
+            put('x', false);
+            put('t', false);
+            put('e', false);
+            put('n', false);
+            put('d', false);
+        }};
     }
 
     public void update(){
@@ -48,6 +59,20 @@ public class BubbleManagerModel {
         updateBubbles();
         updateBobBubble();
         updateExplodedBubbles();
+        checkExtend();
+    }
+
+    private void checkExtend() {
+
+//        if (extend.values().stream().anyMatch(b -> !b)) {
+//            return;
+//        };
+
+        for (Boolean b : extend.values())
+            if(!b)
+                return;
+        PlayerModel.getInstance().incrementLives();
+        extend.keySet().forEach(k -> extend.put(k, false));
     }
 
     private void updateExplodedBubbles() {
@@ -87,7 +112,7 @@ public class BubbleManagerModel {
         spawnBubbleTick++;
         if (spawnBubbleTick >= spawnBubbleDuration) {
             spawnBubbleTick = 0;
-            int bubbleType = 0;//rand.nextInt(2);
+            int bubbleType = EXTEND_BUBBLE;//rand.nextInt(2);
 
             int max = (TILES_IN_WIDTH - 1) * TILES_SIZE;
             int min = TILES_SIZE;
@@ -117,6 +142,7 @@ public class BubbleManagerModel {
                     }
                     case LIGHTNING_BUBBLE -> PlayerModel.getInstance().incrementPoppedLightingBubbles();
                     case FIRE_BUBBLE -> PlayerModel.getInstance().incrementPoppedFireBubbles();
+                    case EXTEND_BUBBLE -> extend.put(bubble.getExtendChar(), true);
                 }
 
                 checkIntersects(bubble);
@@ -125,19 +151,12 @@ public class BubbleManagerModel {
         }
     }
 
-    private void spawnWaterWaterfall(BubbleModel bubble) {
-        int direction = (bubble.getHitbox().x < (float) GAME_WIDTH / 2) ? RIGHT : LEFT;
-        for (int i = 0; i < 10; i++) {
-            waters.add(new WaterModel(bubble.getHitbox().x, bubble.getHitbox().y + (i * (int) (7 * SCALE)), (int) (8 * SCALE), (int) (8 * SCALE), direction));
-        }
-    }
-
     private boolean intersectBubbleFromBelow(){
 //        return getPlayerHitbox().getY() <= bubble.getHitbox().getMaxY() + (int) (1 * SCALE)
 //                && getPlayerHitbox().getY() >= bubble.getHitbox().getMaxY() - (int)(1 * SCALE)
 //                && getPlayerHitbox().getX() <= bubble.getHitbox().getMaxX() + (int) (2 * SCALE)
 //                && getPlayerHitbox().getX() >= bubble.getHitbox().getX() - (int) (2 * SCALE)
-        return !PlayerModel.getInstance().getJump() && PlayerModel.getInstance().getAirSpeed() < 0;
+        return !PlayerModel.getInstance().getJump(); //&& PlayerModel.getInstance().getAirSpeed() < 0;
     }
 
     private void checkIntersects(BubbleModel bubble) {
@@ -219,5 +238,9 @@ public class BubbleManagerModel {
 
     public void setScoreForPop(int value) {
         this.scoreForPop = value;
+    }
+
+    public HashMap<Character, Boolean> getExtend() {
+        return extend;
     }
 }

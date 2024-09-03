@@ -4,7 +4,9 @@ import model.objects.CustomObjectModel;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Random;
 
+import static model.utilz.Constants.SpecialBubbles.EXTEND_BUBBLE;
 import static model.utilz.Gravity.*;
 import static model.utilz.UtilityMethods.*;
 import static model.utilz.Constants.Directions.LEFT;
@@ -18,6 +20,7 @@ public class BubbleModel extends CustomObjectModel {
     protected boolean timeOut;
     protected int lifeTime = 3000;
     protected int bubbleType;
+    protected char extendChar;
 
     protected float bubbleSpeedAfterShot = 0.3F * SCALE;
     protected int pathDuration = 240;
@@ -27,7 +30,9 @@ public class BubbleModel extends CustomObjectModel {
 
     protected boolean collision = true;
     protected boolean stuck = false;
+    protected Random random;
 
+    // waterfall variables
     private ArrayList<WaterModel> waterfall;
     private boolean hasSpawnedAllWaters = false;
     private float yWhenPopped;
@@ -36,6 +41,8 @@ public class BubbleModel extends CustomObjectModel {
     public BubbleModel(float x, float y, int width, int height, int bubbleType) {
         super(x, y, width, height);
         this.bubbleType = bubbleType;
+        random = new Random();
+        extendChar = (bubbleType == EXTEND_BUBBLE) ? "Extend".charAt(random.nextInt(6)) : 0;
         checkDirection();
         waterfall = new ArrayList<>();
     }
@@ -199,6 +206,10 @@ public class BubbleModel extends CustomObjectModel {
 
     public void setxWhenPopped(float xWhenPopped) {
         this.xWhenPopped = xWhenPopped;
+    }
+
+    public char getExtendChar() {
+        return extendChar;
     }
 }
 
