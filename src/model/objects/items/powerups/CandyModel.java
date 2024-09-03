@@ -1,5 +1,7 @@
 package model.objects.items.powerups;
 
+import model.LevelManagerModel;
+import model.gamestate.UserStateModel;
 import model.objects.CustomObjectModel;
 import model.objects.bobbles.BobBubbleModel;
 import model.objects.bobbles.BubbleManagerModel;
@@ -9,19 +11,26 @@ import static model.utilz.Constants.PowerUps.*;
 
 public class CandyModel extends PowerUpModel {
 
+    int startLevel;
 
     public CandyModel(float x, float y, int width, int height, int candyType) {
-        super(x, y, width, height, candyType);
-
+        super(x, y, width, height, candyType, 100);
+        startLevel = LevelManagerModel.getInstance().getLvlIndex();
     }
 
     @Override
     public void update() {
-
+        super.update();
+        int currentLevel = LevelManagerModel.getInstance().getLvlIndex();
+        if (startLevel != currentLevel) {
+            active = false;
+            unapplyEffect();
+        }
     }
 
     @Override
     public void applyEffect() {
+        pickedUp = true;
         for(BobBubbleModel bobBubbleModel : BubbleManagerModel.getInstance().getBobBubbles())
             switch (type) {
                 case CANDY_PINK -> bobBubbleModel.setProjectileTravelTimes(360);

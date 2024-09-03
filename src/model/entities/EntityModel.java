@@ -20,6 +20,7 @@ public abstract class EntityModel implements Fallable {
     protected float gravity = 0.04f * SCALE;
     protected float fallSpeedAfterCollision = 0.5f * SCALE;
     protected boolean inAir = true;
+    protected float fallingSpeed = 0.65f * SCALE;
 
     public EntityModel(float x, float y, int width, int height) {
         this.x = x;
@@ -45,13 +46,13 @@ public abstract class EntityModel implements Fallable {
         // Bloccati dentro un muro
         if (!CanMoveHere(hitbox.x, hitbox.y, hitbox.width, hitbox.height,getLvlData())) {
             hitbox.y += airSpeed;
-            airSpeed = 0.65f * SCALE;
+            airSpeed = fallingSpeed;
         }
         // Caduta normale
         else if (CanMoveHere(hitbox.x, hitbox.y + airSpeed,
                 hitbox.width, hitbox.height,
                 getLvlData())) {
-            airSpeed = 0.65f * SCALE; // Discesa lenta
+            airSpeed = fallingSpeed; // Discesa lenta
             hitbox.y += airSpeed;
             updateXPos(xSpeed);
             checkOutOfMap();
@@ -111,6 +112,10 @@ public abstract class EntityModel implements Fallable {
 
     public void setInAir(boolean inAir) {
         this.inAir = inAir;
+    }
+
+    public void setFallingSpeed(float fallingSpeed) {
+        this.fallingSpeed = fallingSpeed;
     }
 }
 

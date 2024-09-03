@@ -40,8 +40,6 @@ public class PlayerModel extends EntityModel {
     private int invincibleDuration = 600;
     private int invincibleTick = 0;
 
-    private boolean ridingABubble = false;
-
     // per i power up
     private int blowedBubbles, poppedBubbles, poppedLightingBubbles, poppedFireBubbles = 1,  poppedWaterBubbles = 1;
     private int jumpedTimes, eatenPinkCandies, eatenYellowCandies, runDistanceAmount, reachedFinalLevel;
@@ -139,8 +137,10 @@ public class PlayerModel extends EntityModel {
     }
 
     private void updatePos() {
+
+        System.out.println(playerSpeed);
+
         moving = false;
-        ridingABubble = false;
 
         if (jump) {
             jump();
@@ -202,10 +202,12 @@ public class PlayerModel extends EntityModel {
     @ Override
     public void updateXPos(float xSpeed) {
         if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height,
-                getLvlData()))
+                getLvlData())) {
             hitbox.x += xSpeed;
-        else
+            runDistanceAmount += (int) Math.abs(xSpeed);
+        } else {
             hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
+        }
     }
 
     private boolean canJumpHere(float xSpeed) {
@@ -281,10 +283,6 @@ public class PlayerModel extends EntityModel {
 
     public void setInvincible(boolean invincible) {
         this.invincible = invincible;
-    }
-
-    public boolean isRidingABubble() {
-        return ridingABubble;
     }
 
     public float getAirSpeed() {
@@ -396,7 +394,7 @@ public class PlayerModel extends EntityModel {
     }
 
     public void setJumpSpeed(float value) {
-        this.playerSpeed = value;
+        this.jumpSpeed = value;
     }
 
     public void setGravity(float value) {
@@ -406,4 +404,5 @@ public class PlayerModel extends EntityModel {
     public void setPoppedLightingBubbles(int poppedLightingBubbles) {
         this.poppedLightingBubbles = poppedLightingBubbles;
     }
+
 }

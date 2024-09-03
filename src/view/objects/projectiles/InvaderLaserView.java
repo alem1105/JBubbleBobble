@@ -3,15 +3,17 @@ package view.objects.projectiles;
 import model.objects.projectiles.InvaderLaserModel;
 import view.utilz.LoadSave;
 
+import java.awt.image.BufferedImage;
+
 public class InvaderLaserView extends ProjectileView<InvaderLaserModel>{
 
     private final int endingTimer = 120;
     private int endingTick = endingTimer;
 
-    public InvaderLaserView(InvaderLaserModel objectModel) {
+    public InvaderLaserView(InvaderLaserModel objectModel, BufferedImage[][] sprites) {
         super(objectModel);
         spriteIndex = 0;
-        sprites = LoadSave.loadAnimations(LoadSave.INVADER_LASER, 2, 2, 18, 18);
+        this.sprites = sprites;
     }
 
     @Override

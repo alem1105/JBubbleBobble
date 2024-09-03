@@ -6,11 +6,24 @@ import java.awt.*;
 
 public abstract class PowerUpModel extends CustomObjectModel {
 
+    protected int score;
     protected int type;
+    protected boolean pickedUp;
 
-    public PowerUpModel(float x, float y, int width, int height, int type) {
+    protected int despawnTick, despawnTimer = 1200;
+
+    public PowerUpModel(float x, float y, int width, int height, int type, int score) {
         super(x, y, width, height);
         this.type = type;
+        this.score = score;
+    }
+
+    public void update() {
+        despawnTick++;
+        if (despawnTick >= despawnTimer) {
+            despawnTick = 0;
+            active = false;
+        }
     }
 
     public abstract void applyEffect();
@@ -19,5 +32,13 @@ public abstract class PowerUpModel extends CustomObjectModel {
 
     public int getType() {
         return type;
+    }
+
+    public boolean isPickedUp() {
+        return pickedUp;
+    }
+
+    public int getScore() {
+        return score;
     }
 }

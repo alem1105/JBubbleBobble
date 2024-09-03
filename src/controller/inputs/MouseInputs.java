@@ -604,4 +604,6 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     private ChangePageButtonModel getPrevPageButton() {
         return userStateView.getPrevPageButton().getButtonModel();
     }
+
+
 }

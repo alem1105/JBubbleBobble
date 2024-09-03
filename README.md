@@ -19,7 +19,8 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [x] gestione delle vite
 - [x] gestione del punteggio
 - [ ] implementare tutte le bolle
-- [ ] fare i power up (12) ed extends : https://strategywiki.org/wiki/Bubble_Bobble/Special_items
+- [ ] fare i power up (12)  : https://strategywiki.org/wiki/Bubble_Bobble/Special_items
+- [ ] extends
 - [ ] aggiungere l'audio
 
 ### Specific things to do
@@ -32,6 +33,7 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [ ] update user alla fine di una partita : 
 -       aggiungere alla vittoria quando avremmo la schermata
 - [x] bolle che scoppiamo tutte insieme 
+- [ ] fare l'ultimo power up (fulmini)
 - [ ] classifica
 - [x] metodo per il caricamento del livello successivo
 - [x] pulsante restart 

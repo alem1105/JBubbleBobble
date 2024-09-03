@@ -3,14 +3,16 @@ package view.objects.projectiles;
 import model.objects.projectiles.MaitaFireballModel;
 import view.utilz.LoadSave;
 
+import java.awt.image.BufferedImage;
+
 public class MaitaFireballView extends ProjectileView<MaitaFireballModel> {
 
     private int exploding = 0;
 
-    public MaitaFireballView(MaitaFireballModel objectModel) {
+    public MaitaFireballView(MaitaFireballModel objectModel, BufferedImage[][] sprites) {
         super(objectModel);
         spriteIndex = 0;
-        sprites = LoadSave.loadAnimations(LoadSave.MAITA_FIREBALL, 2, 3, 18, 18);
+        this.sprites = sprites;
     }
 
     @Override

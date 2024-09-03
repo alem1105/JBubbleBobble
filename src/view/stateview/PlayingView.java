@@ -77,6 +77,7 @@ public class PlayingView {
             playerView.update();
             bubbleManagerView.update();
             enemiesManagerView.update();
+            powerUpManagerView.update();
         }
     }
 

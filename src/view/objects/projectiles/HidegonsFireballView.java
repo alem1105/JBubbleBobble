@@ -5,6 +5,7 @@ import model.objects.projectiles.MaitaFireballModel;
 import view.utilz.LoadSave;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 import static model.utilz.Constants.Directions.LEFT;
 import static model.utilz.Constants.Directions.RIGHT;
@@ -13,11 +14,11 @@ public class HidegonsFireballView extends ProjectileView<HidegonsFireballModel> 
 
     private int flipW = 1, flipX = 0;
 
-    public HidegonsFireballView(HidegonsFireballModel objectModel) {
+    public HidegonsFireballView(HidegonsFireballModel objectModel, BufferedImage[][] sprites) {
         super(objectModel);
         spriteIndex = 0;
         aniIndex = 0;
-        sprites = LoadSave.loadAnimations(LoadSave.HIDEGONS_FIREBALL, 1, 1, 18, 13);
+        this.sprites = sprites;
     }
 
     @Override

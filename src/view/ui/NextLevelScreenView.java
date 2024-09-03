@@ -61,10 +61,11 @@ public class NextLevelScreenView {
     }
 
     private void getData() {
-        prevLevelData = levelManager.getLevels().get(levelManager.getLvlIndex() - 1).getLvlData();
+        prevLevelData = levelManager.getLevels().get(levelManager.getLvlIndex() - levelManager.getLevelSkipped()).getLvlData();
         nextLevelData = levelManager.getLevels().get(levelManager.getLvlIndex()).getLvlData();
         curPlayerPos = playerView.getCurPlayerPos();
         nextPlayerSpawn = levelManager.getLevels().get(levelManager.getLvlIndex()).getPlayerSpawn();
+        levelManager.setLevelSkipped(1);
     }
 
     private void updateLvlPos(){
@@ -86,7 +87,6 @@ public class NextLevelScreenView {
                 curPlayerPos.y ++;
             else
                 curPlayerPos.y --;
-                //curPlayerPos.y -= (int) (1 * SCALE);
         }
     }
 
@@ -130,9 +130,9 @@ public class NextLevelScreenView {
 
 
                 int rgb = lvlSprites[index - 1].getRGB(3, 3);
-                g.setColor(getDarkenedColor(rgb));
+                g.setColor(LoadSave.getDarkenedColor(rgb));
                 for(int i = 0; i < 8; i++) {
-                    g.fillRect(x * TILES_SIZE + i, y * TILES_SIZE + + i + lvlY, TILES_SIZE, TILES_SIZE);
+                    g.fillRect(x * TILES_SIZE + i, y * TILES_SIZE + i + lvlY, TILES_SIZE, TILES_SIZE);
                 }
 
 
@@ -145,16 +145,6 @@ public class NextLevelScreenView {
         g.drawImage(bubTransitionImages[stateIndex][aniIndex],
                 (curPlayerPos.x - (int)(8 * SCALE)), (curPlayerPos.y - (int) (9*SCALE)),
                 (int) (SCALE * 30), (int) (SCALE * 34) , null);
-    }
-
-    private Color getDarkenedColor(int rgb) {
-        Color originalColor = new Color(rgb);
-        float darkeningFactor = 0.4f;
-        int red = (int) (originalColor.getRed() * darkeningFactor);
-        int green = (int) (originalColor.getGreen() * darkeningFactor);
-        int blue = (int) (originalColor.getBlue() * darkeningFactor);
-        Color darkColor = new Color(red, green, blue);
-        return darkColor;
     }
 
 }

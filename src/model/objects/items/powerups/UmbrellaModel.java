@@ -8,22 +8,27 @@ import static model.utilz.Constants.PowerUps.*;
 public class UmbrellaModel extends PowerUpModel {
 
     private LevelManagerModel levelManager;
+    private int levelsSkipped;
 
     public UmbrellaModel(float x, float y, int width, int height, int umbrellaType) {
-        super(x, y, width, height, umbrellaType);
+        super(x, y, width, height, umbrellaType, 200);
         levelManager = LevelManagerModel.getInstance();
+        setLevelSkipped();
     }
 
-    @Override
-    public void update() {
+    private void setLevelSkipped() {
+        switch (type) {
+            case UMBRELLA_ORANGE -> levelsSkipped = 3;
+            case UMBRELLA_RED -> levelsSkipped = 5;
+            case UMBRELLA_PINK -> levelsSkipped = 7;
+        }
     }
 
     public void applyEffect() {
-        switch (type) {
-            case UMBRELLA_ORANGE -> levelManager.setLvlIndex(levelManager.getLvlIndex() + 2);
-            case UMBRELLA_RED -> levelManager.setLvlIndex(levelManager.getLvlIndex() + 4);
-            case UMBRELLA_PINK -> levelManager.setLvlIndex(levelManager.getLvlIndex() + 6);
-        }
+        active = false;
+        pickedUp = false;
+        levelManager.setLvlIndex(levelManager.getLvlIndex() + levelsSkipped -1);
+        LevelManagerModel.getInstance().setLevelSkipped(levelsSkipped);
         LevelManagerModel.getInstance().loadNextLevel();
     }
 
@@ -32,4 +37,7 @@ public class UmbrellaModel extends PowerUpModel {
 
     }
 
+    public int getLevelsSkipped() {
+        return levelsSkipped;
+    }
 }

@@ -8,17 +8,26 @@ import static model.utilz.Constants.PowerUps.*;
 
 public class RingModel extends PowerUpModel {
 
+    private int effectTick, effectTimer = 600;
+
     public RingModel(float x, float y, int width, int height, int ringType) {
-        super(x, y, width, height, ringType);
+        super(x, y, width, height, ringType, 1000);
     }
 
     @Override
     public void update() {
-
+        super.update();
+        effectTick++;
+        if (effectTick >= effectTimer) {
+            effectTick = 0;
+            active = false;
+            unapplyEffect();
+        }
     }
 
     @Override
     public void applyEffect() {
+        pickedUp = true;
         switch (type) {
             case RING_PINK -> PlayerModel.getInstance().setScoreForJump(500);
             case RING_RED -> BubbleManagerModel.getInstance().setScoreForPop(100);

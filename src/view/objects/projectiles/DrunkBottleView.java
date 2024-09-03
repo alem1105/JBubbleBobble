@@ -3,12 +3,14 @@ package view.objects.projectiles;
 import model.objects.projectiles.DrunkBottleModel;
 import view.utilz.LoadSave;
 
+import java.awt.image.BufferedImage;
+
 public class DrunkBottleView extends ProjectileView<DrunkBottleModel> {
 
-    public DrunkBottleView(DrunkBottleModel objectModel) {
+    public DrunkBottleView(DrunkBottleModel objectModel, BufferedImage[][] sprites) {
         super(objectModel);
         spriteIndex = 0;
-        sprites = LoadSave.loadAnimations(LoadSave.DRUNK_BOTTLE, 1, 4, 18, 18);
+        this.sprites = sprites;
     }
 
     @Override

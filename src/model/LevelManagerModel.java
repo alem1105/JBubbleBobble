@@ -21,6 +21,8 @@ public class LevelManagerModel {
     private ArrayList<LevelModel> levels;
     private int lvlIndex = 0;
     private boolean nextLevel = false;
+    private int levelSkipped = 1;
+
 
     public static LevelManagerModel getInstance() {
         if (instance == null) {
@@ -115,5 +117,13 @@ public class LevelManagerModel {
 
     public void setNextLevel(boolean nextLevel) {
         this.nextLevel = nextLevel;
+    }
+
+    public int getLevelSkipped() {
+        return levelSkipped;
+    }
+
+    public void setLevelSkipped(int levelSkipped) {
+        this.levelSkipped = levelSkipped;
     }
 }

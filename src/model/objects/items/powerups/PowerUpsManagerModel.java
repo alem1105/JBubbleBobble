@@ -2,6 +2,7 @@ package model.objects.items.powerups;
 
 import model.LevelManagerModel;
 import model.entities.PlayerModel;
+import model.gamestate.UserStateModel;
 
 import static model.utilz.Constants.GameConstants.*;
 import static model.utilz.Constants.PowerUps.*;
@@ -21,6 +22,8 @@ public class PowerUpsManagerModel {
     private int potionLightningTick = 0, potionLightningTimer = 900;
 
     private Random random;
+
+    private boolean bombExploding;
 
     public static PowerUpsManagerModel getInstance() {
         if(instance == null) {
@@ -45,9 +48,15 @@ public class PowerUpsManagerModel {
     }
 
     private void updatePowerUps() {
-        for(PowerUpModel powerUp : powerups)
-            if(playerModel.getHitbox().intersects(powerUp.getHitbox()) && powerUp.isActive())
+        for(PowerUpModel powerUp : powerups) {
+            if (powerUp.isActive()) {
                 powerUp.update();
+                if (playerModel.getHitbox().intersects(powerUp.getHitbox()) && !powerUp.isPickedUp()) {
+                    UserStateModel.getInstance().getCurrentUserModel().incrementTempScore(powerUp.getScore());
+                    powerUp.applyEffect();
+                }
+            }
+        }
     }
 
     private void checkPowerUpsSpawningConditions() {
@@ -63,17 +72,17 @@ public class PowerUpsManagerModel {
             playerModel.setBlowedBubbles(0);
         }
         if(playerModel.getPoppedBubbles() == 2) {
-            powerups.add(new CandyModel(generateRandomCoordinates()[0], generateRandomCoordinates()[1], (int) (16f * SCALE), (int) (10f * SCALE), CANDY_PINK));
+            powerups.add(new CandyModel(generateRandomCoordinates()[0], generateRandomCoordinates()[1], (int) (16f * SCALE), (int) (10f * SCALE), CANDY_BLUE));
             playerModel.setPoppedBubbles(0);
         }
         if(playerModel.getJumpedTimes() == 2) {
-            powerups.add(new CandyModel(generateRandomCoordinates()[0], generateRandomCoordinates()[1], (int) (16f * SCALE), (int) (10f * SCALE), CANDY_PINK));
+            powerups.add(new CandyModel(generateRandomCoordinates()[0], generateRandomCoordinates()[1], (int) (16f * SCALE), (int) (10f * SCALE), CANDY_YELLOW));
             playerModel.setJumpedTimes(0);
         }
     }
 
     private void checkUmbrellaSpawningConditions() {
-        if (playerModel.getPoppedWaterBubbles() % 16 == 0) {
+        if (playerModel.getPoppedWaterBubbles() % 3 == 0) {
             powerups.add(new UmbrellaModel(generateRandomCoordinates()[0], generateRandomCoordinates()[1], (int) (13 * SCALE), (int) (16 * SCALE), UMBRELLA_ORANGE));
             playerModel.incrementPoppedWaterBubbles();
         }
@@ -149,5 +158,13 @@ public class PowerUpsManagerModel {
             }
         }
         return false;
+    }
+
+    public void setBombExploding(boolean bombExploding) {
+        this.bombExploding = bombExploding;
+    }
+
+    public boolean getBombExploding() {
+        return bombExploding;
     }
 }

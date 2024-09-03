@@ -127,4 +127,14 @@ public class LoadSave {
             JEQO_FONT = new Font("Serif", Font.PLAIN, 24);
         }
     }
+
+    public static Color getDarkenedColor(int rgb) {
+        Color originalColor = new Color(rgb); // Colore RGB originale
+        float darkeningFactor = 0.4f; // Riduce il colore a metà della sua intensità
+        int red = (int) (originalColor.getRed() * darkeningFactor);
+        int green = (int) (originalColor.getGreen() * darkeningFactor);
+        int blue = (int) (originalColor.getBlue() * darkeningFactor);
+        Color darkColor = new Color(red, green, blue);
+        return darkColor;
+    }
 }
