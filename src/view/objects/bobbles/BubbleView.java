@@ -17,7 +17,7 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
         super(model);
         switch (model.getBubbleType()) {
             case 3 -> sprites = LoadSave.loadAnimations(LoadSave.BOB_BUBBLE_SPRITE,3, 3, 16, 16);
-            case 0 -> sprites = LoadSave.loadAnimations(LoadSave.SPECIAL_BUBBLE_SPRITE,4, 2, 16, 16);
+            default -> sprites = LoadSave.loadAnimations(LoadSave.SPECIAL_BUBBLE_SPRITE,4, 2, 16, 16);
         }
     }
 

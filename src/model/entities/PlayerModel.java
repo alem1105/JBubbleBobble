@@ -405,4 +405,8 @@ public class PlayerModel extends EntityModel {
         this.poppedLightingBubbles = poppedLightingBubbles;
     }
 
+    public int getFacing() {
+        return facing;
+    }
+
 }

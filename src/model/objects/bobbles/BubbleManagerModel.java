@@ -12,6 +12,7 @@ import java.util.Random;
 import static model.utilz.Constants.Directions.LEFT;
 import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.GameConstants.*;
+import static model.utilz.Constants.PlayerConstants.DEATH;
 import static model.utilz.Constants.SpecialBubbles.*;
 
 public class BubbleManagerModel {
@@ -21,6 +22,7 @@ public class BubbleManagerModel {
     private ArrayList<BobBubbleModel> bobBubbles;
     private ArrayList<BubbleModel> bubbles;
     private ArrayList<WaterModel> waters;
+    private ArrayList<LightningModel> lightnings;
 
     private Random rand;
     int spawnBubbleTick = 0;
@@ -41,6 +43,7 @@ public class BubbleManagerModel {
         bubbles = new ArrayList<>();
         rand = new Random();
         waters = new ArrayList<>();
+        lightnings = new ArrayList<>();
     }
 
     public void update(){
@@ -54,6 +57,22 @@ public class BubbleManagerModel {
         for (WaterModel waterModel : waters) {
             if(waterModel.isActive())
                 waterModel.update();
+        }
+        for (LightningModel lightningModel : lightnings) {
+            if (lightningModel.isActive())
+                lightningModel.update();
+            checkLightningHitEnemy(lightningModel);
+        }
+    }
+
+    private void checkLightningHitEnemy(LightningModel lightningModel) {
+        for(EnemyModel enemy : EnemyManagerModel.getInstance().getEnemies()) {
+            if(lightningModel.getHitbox().intersects(enemy.getHitbox())) {
+                if (enemy.isActive()) {
+                    //enemy.setEnemyState(DEATH);
+                    enemy.setActive(false);
+                }
+            }
         }
     }
 
@@ -81,7 +100,7 @@ public class BubbleManagerModel {
         spawnBubbleTick++;
         if (spawnBubbleTick >= spawnBubbleDuration) {
             spawnBubbleTick = 0;
-            int bubbleType = 0;//rand.nextInt(2);
+            int bubbleType = rand.nextInt(2); // Va cambiato in 3 quando mettiamo quella di fuoco
 
             int max = (TILES_IN_WIDTH - 1) * TILES_SIZE;
             int min = TILES_SIZE;
@@ -108,7 +127,10 @@ public class BubbleManagerModel {
                         spawnWaterWaterfall(bubble);
                         PlayerModel.getInstance().incrementPoppedWaterBubbles();
                     }
-                    case LIGHTNING_BUBBLE -> PlayerModel.getInstance().incrementPoppedLightingBubbles();
+                    case LIGHTNING_BUBBLE -> {
+                        lightnings.add(new LightningModel(bubble.getHitbox().x, bubble.getHitbox().y, (int) (16 * SCALE), (int) (16 * SCALE), PlayerModel.getInstance().getFacing()));
+                        PlayerModel.getInstance().incrementPoppedLightingBubbles();
+                    }
                     case FIRE_BUBBLE -> PlayerModel.getInstance().incrementPoppedFireBubbles();
                 }
 
@@ -212,5 +234,9 @@ public class BubbleManagerModel {
 
     public void setScoreForPop(int value) {
         this.scoreForPop = value;
+    }
+
+    public ArrayList<LightningModel> getLightnings() {
+        return lightnings;
     }
 }

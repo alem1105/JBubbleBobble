@@ -19,6 +19,7 @@ public class LoadSave {
     public static final String BOB_BUBBLE_SPRITE = "objects/bubbles/bubble_sprites.png";
     public static final String SPECIAL_BUBBLE_SPRITE = "objects/bubbles/special_bubbles.png";
     public static final String WATER_SPRITE = "objects/bubbles/water_sprites.png";
+    public static final String LIGHTNING_SPRITE = "objects/bubbles/lightning.png";
 
     // Enemies
     public static final String ZEN_CHAN_SPRITE = "enemies/zen_chan_sprite.png";

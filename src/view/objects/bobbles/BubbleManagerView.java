@@ -2,6 +2,7 @@ package view.objects.bobbles;
 
 import model.objects.bobbles.BubbleManagerModel;
 import model.objects.bobbles.BubbleModel;
+import model.objects.bobbles.LightningModel;
 import model.objects.bobbles.WaterModel;
 
 import java.awt.*;
@@ -16,6 +17,7 @@ public class BubbleManagerView {
     private ArrayList<BobBubbleView> bobBubbleViews;
     private ArrayList<BubbleView> bubbleViews;
     private ArrayList<WaterView> waterViews;
+    private ArrayList<LightningView> lightningViews;
 
     public static BubbleManagerView getInstance() {
         if (instance == null) {
@@ -28,6 +30,7 @@ public class BubbleManagerView {
         bobBubbleViews = new ArrayList<>();
         bubbleViews = new ArrayList<>();
         waterViews = new ArrayList<>();
+        lightningViews = new ArrayList<>();
         bubbleManagerModel = BubbleManagerModel.getInstance();
     }
 
@@ -80,6 +83,10 @@ public class BubbleManagerView {
         for (WaterView waterView : waterViews) {
             waterView.draw(g);
         }
+        for (LightningView lightningView : lightningViews) {
+            if (lightningView.getObjectModel().isActive())
+                lightningView.draw(g);
+        }
     }
 
     private void getExplodedBubblesFromModel() {
@@ -92,6 +99,19 @@ public class BubbleManagerView {
         while (modelLength > waterViews.size()) {
             WaterModel water = bubbleManagerModel.getWaters().get(i);
             waterViews.add(new WaterView(water));
+            i++;
+        }
+
+
+        modelLength = bubbleManagerModel.getLightnings().size();
+        i = lightningViews.size();
+        if (i > modelLength) {
+            i = 0;
+            lightningViews.clear();
+        }
+        while (modelLength > lightningViews.size()) {
+            LightningModel lightning = bubbleManagerModel.getLightnings().get(i);
+            lightningViews.add(new LightningView(lightning));
             i++;
         }
     }
