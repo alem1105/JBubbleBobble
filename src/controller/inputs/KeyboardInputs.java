@@ -2,8 +2,7 @@ package controller.inputs;
 
 import model.LevelManagerModel;
 import model.entities.PlayerModel;
-import model.gamestate.Gamestate;
-import model.gamestate.UserStateModel;
+import model.gamestate.*;
 import view.stateview.UserStateView;
 
 import java.awt.event.KeyEvent;
@@ -51,7 +50,7 @@ public class KeyboardInputs implements KeyListener {
             }
             case PLAYING -> {
                 switch (e.getKeyCode()) {
-                    case KeyEvent.VK_ESCAPE -> Gamestate.state = MENU;
+                    case KeyEvent.VK_ESCAPE -> PlayingModel.getInstance().invertPaused();
                     case KeyEvent.VK_D -> PlayerModel.getInstance().setRight(true);
                     case KeyEvent.VK_A -> PlayerModel.getInstance().setLeft(true);
                     case KeyEvent.VK_SPACE -> PlayerModel.getInstance().setJump(true);

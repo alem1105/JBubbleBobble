@@ -75,10 +75,10 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                 checkPressedUser(e);
             }
             case MENU -> {
-                if (isIn(menuView.getStartButton(), e)){
+                if (isIn(menuView.getStartButton(), e) && !isGameWon()){
                     getStartButton().setPressed(true);
                 }
-                if (isIn(menuView.getEditorButton(), e)){
+                if (isIn(menuView.getEditorButton(), e) && !isGameWon()){
                     getEditorButton().setPressed(true);
                 }
             }
@@ -163,11 +163,11 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                 }
             }
             case MENU -> {
-                if (isIn(menuView.getStartButton(), e)){
+                if (isIn(menuView.getStartButton(), e) && !isGameWon()){
                     Gamestate.state = Gamestate.PLAYING;
                     justChangedScreen = true;
                 }
-                if (isIn(menuView.getEditorButton(), e)){
+                if (isIn(menuView.getEditorButton(), e) && !isGameWon()){
                     Gamestate.state = Gamestate.LEVEL_SELECTOR;
                 }
                 getEditorButton().setPressed(false);
@@ -237,12 +237,12 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     public void mouseMoved(MouseEvent e) {
         switch (Gamestate.state) {
             case MENU -> {
-                if (isIn(menuView.getStartButton(), e)){
+                if (isIn(menuView.getStartButton(), e) && !isGameWon()){
                     getStartButton().setHover(true);
                 } else {
                     getStartButton().setHover(false);
                 }
-                if (isIn(menuView.getEditorButton(), e)){
+                if (isIn(menuView.getEditorButton(), e) && !isGameWon()){
                     getEditorButton().setHover(true);
                 } else {
                     getEditorButton().setHover(false);
@@ -603,6 +603,10 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
 
     private ChangePageButtonModel getPrevPageButton() {
         return userStateView.getPrevPageButton().getButtonModel();
+    }
+
+    private boolean isGameWon() {
+        return LevelManagerModel.getInstance().isGameWon();
     }
 
 

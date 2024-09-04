@@ -2,6 +2,7 @@ package view.stateview;
 
 import model.LevelManagerModel;
 import model.UserModel;
+import model.gamestate.PlayingModel;
 import model.gamestate.UserStateModel;
 import view.LevelView;
 import view.entities.PlayerView;
@@ -49,7 +50,7 @@ public class PlayingView {
     public void render(Graphics g) {
         if (playerView.getPlayerModel().isGameOver()){
             deathScreenView.render(g);
-        } else {
+        } else if (!PlayingModel.getInstance().isPaused()){
             if (LevelManagerModel.getInstance().isNextLevel()){
                 nextLevelScreenView.render(g);
             }

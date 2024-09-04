@@ -15,6 +15,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import static model.gamestate.Gamestate.MENU;
+
 public class LevelManagerModel {
 
     private static LevelManagerModel instance;
@@ -22,7 +24,7 @@ public class LevelManagerModel {
     private int lvlIndex = 0;
     private boolean nextLevel = false;
     private int levelSkipped = 1;
-
+    private boolean gameWon;
 
     public static LevelManagerModel getInstance() {
         if (instance == null) {
@@ -81,7 +83,8 @@ public class LevelManagerModel {
             user.setMaxScore();
             user.updateLevelScore();
             user.serialize("res/users/" + user.getNickname() + ".bubblebobble");
-            Gamestate.state = Gamestate.MENU;
+            Gamestate.state = MENU;
+            gameWon = true;
             lvlIndex = 0;
         } else {
             lvlIndex++;
@@ -125,5 +128,9 @@ public class LevelManagerModel {
 
     public void setLevelSkipped(int levelSkipped) {
         this.levelSkipped = levelSkipped;
+    }
+
+    public boolean isGameWon() {
+        return gameWon;
     }
 }

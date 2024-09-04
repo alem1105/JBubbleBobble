@@ -70,7 +70,14 @@ public class LoadSave {
     public static final String FOOD_SPRITE = "objects/items/items.png";
     public static final String POWERUP_SPRITE = "objects/items/powerup_sprite.png";
 
+    // Game Won
+    public static final String HAPPY_END = "ui/winoverlay/happy_end_sprite.png";
+    public static final String HEART_SPRITE = "ui/winoverlay/heart_sprite.png";
+    public static final String PARENTS_HUGGING_SPRITE = "ui/winoverlay/parents_hugging_sprite.png";
+    public static final String CHARACTER_KISSING = "ui/winoverlay/character_kissing_sprite.png";
+
     public static Font BUBBLE_BOBBLE_FONT, JEQO_FONT;
+
 
     public static BufferedImage GetSpriteAtlas(String fileName) {
         BufferedImage img = null;

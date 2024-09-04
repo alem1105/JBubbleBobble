@@ -1,11 +1,12 @@
 package model;
 
 import model.gamestate.Gamestate;
-import model.gamestate.MenuModel;
 import model.gamestate.PlayingModel;
 import model.gamestate.UserStateModel;
 
 import java.util.Observable;
+
+import static model.gamestate.Gamestate.PLAYING;
 
 @SuppressWarnings("Deprecated")
 public class ModelManager extends Observable {
@@ -13,12 +14,10 @@ public class ModelManager extends Observable {
     private static ModelManager instance;
 
     private PlayingModel playingModel;
-    private MenuModel menuModel;
 
     private ModelManager() {
         UserStateModel.getInstance();
         playingModel = PlayingModel.getInstance();
-        menuModel = MenuModel.getInstance();
     }
 
     public static ModelManager getInstance() {
@@ -29,9 +28,8 @@ public class ModelManager extends Observable {
     }
 
     public void update() {
-        switch (Gamestate.state) {
-            case PLAYING -> playingModel.update();
-            case MENU -> menuModel.update();
+        if (Gamestate.state == PLAYING) {
+            playingModel.update();
         }
         setChanged();
         notifyObservers();

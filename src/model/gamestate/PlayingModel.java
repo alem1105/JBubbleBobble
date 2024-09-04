@@ -17,6 +17,7 @@ public class PlayingModel {
     private BubbleManagerModel bubbleManagerModel;
     private ProjectileManagerModel projectileManagerModel;
     private PowerUpsManagerModel powerUpsManagerModel;
+    private boolean paused;
 
     public static PlayingModel getInstance() {
         if (instance == null) {
@@ -34,7 +35,7 @@ public class PlayingModel {
     }
 
     public void update() {
-        if (!(player.isGameOver())) {
+        if (!player.isGameOver() && !paused) {
             if (!LevelManagerModel.getInstance().isNextLevel()){
                 if (player.getPlayerAction() != DEATH)
                     player.update();
@@ -48,6 +49,14 @@ public class PlayingModel {
 
     public PlayerModel getPlayer() {
         return player;
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void invertPaused() {
+        paused = !paused;
     }
 
 }

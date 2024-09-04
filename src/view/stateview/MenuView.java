@@ -1,14 +1,11 @@
 package view.stateview;
 
+import model.LevelManagerModel;
 import model.ui.buttons.EditorButtonModel;
-import model.ui.buttons.QuitButtonModel;
-import model.ui.buttons.RestartButtonModel;
 import model.ui.buttons.StartButtonModel;
 import model.utilz.Constants;
-import view.ui.DeathScreenView;
+import view.ui.GameWonScreenView;
 import view.ui.buttons.EditorButtonView;
-import view.ui.buttons.QuitButtonView;
-import view.ui.buttons.RestartButtonView;
 import view.ui.buttons.StartButtonView;
 import view.utilz.LoadSave;
 
@@ -23,6 +20,7 @@ public class MenuView {
     private EditorButtonView editorButton;
     private StartButtonView startButton;
     private static MenuView instance;
+    private GameWonScreenView gameWonScreenView;
 
     public static MenuView getInstance() {
         if (instance == null) {
@@ -33,6 +31,7 @@ public class MenuView {
 
     private MenuView() {
         initButtons();
+        gameWonScreenView = GameWonScreenView.getInstance();
     }
 
     private void initButtons() {
@@ -41,16 +40,24 @@ public class MenuView {
     }
 
     public void update(){
-        startButton.update();
-        editorButton.update();
+        if (LevelManagerModel.getInstance().isGameWon()) {
+            gameWonScreenView.update();
+        } else {
+            startButton.update();
+            editorButton.update();
+        }
     }
 
     public void draw(Graphics g) {
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, Constants.GameConstants.GAME_WIDTH, Constants.GameConstants.GAME_HEIGHT);
-        drawString(g);
-        startButton.draw(g);
-        editorButton.draw(g);
+        if (LevelManagerModel.getInstance().isGameWon()) {
+            gameWonScreenView.draw(g);
+        } else {
+            g.setColor(Color.BLACK);
+            g.fillRect(0, 0, Constants.GameConstants.GAME_WIDTH, Constants.GameConstants.GAME_HEIGHT);
+            drawString(g);
+            startButton.draw(g);
+            editorButton.draw(g);
+        }
     }
 
     private void drawString(Graphics g) {
