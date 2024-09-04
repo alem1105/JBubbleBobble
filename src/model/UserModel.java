@@ -135,9 +135,10 @@ public class UserModel implements Serializable {
 
     public void updateLevelScore() {
         this.levelScore += tempScore;
-        if (this.levelScore > 5000 * this.level) {
-            this.level++;
-        }
+        level = levelScore / 5000;
+//        if (this.levelScore > 5000 * this.level) {
+//            this.level++;
+//        }
     }
 
     public void setMaxScore() {

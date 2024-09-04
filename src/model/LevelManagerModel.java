@@ -78,6 +78,7 @@ public class LevelManagerModel {
     public void loadNextLevel(){
         if(lvlIndex >= levels.size() - 1) {
             UserModel user = UserStateModel.getInstance().getCurrentUserModel();
+            user.incrementTempScore(1000000);
             user.incrementMatches();
             user.incrementWins();
             user.setMaxScore();
@@ -132,5 +133,9 @@ public class LevelManagerModel {
 
     public boolean isGameWon() {
         return gameWon;
+    }
+
+    public void setGameWon(boolean gameWon) {
+        this.gameWon = gameWon;
     }
 }

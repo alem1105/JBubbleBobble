@@ -35,6 +35,8 @@ public class GameWonScreenView {
     private Color[] starColors;
     private ArrayList<Rectangle2D.Float> stars;
 
+    private int durationTick, durationTimer = 1800;
+
     public static GameWonScreenView getInstance() {
         if (instance == null) {
             instance = new GameWonScreenView();
@@ -60,6 +62,7 @@ public class GameWonScreenView {
     }
 
     public void update(){
+        checkDuration();
         updateBlackScreen();
         updateAnimationTickHeart();
         if (blackScreenFallingOver)
@@ -67,8 +70,16 @@ public class GameWonScreenView {
         createStars();
     }
 
+    private void checkDuration() {
+        durationTick++;
+        if (durationTick >= durationTimer) {
+            durationTick = 0;
+            LevelManagerModel.getInstance().setGameWon(false);
+        }
+    }
+
     private void updateBlackScreen() {
-        if (blackScreenY <= 0) {
+        if (blackScreenY < 0) {
             blackScreenY++;
             return;
         }
