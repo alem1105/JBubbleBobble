@@ -38,7 +38,7 @@ public abstract class CustomObjectView<T extends CustomObjectModel> {
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= getSpriteAmount()) {
-                aniIndex = 0;
+                resetAniTick();
             }
         }
     }

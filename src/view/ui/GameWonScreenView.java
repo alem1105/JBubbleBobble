@@ -26,7 +26,9 @@ public class GameWonScreenView {
     private BufferedImage happyEndWritingSprite;
     private BufferedImage[] lvlSprites;
     private int [][] lastLevelData;
-    private int aniTick, aniIndexHeart, aniIndexKiss, blackScreenY = - GAME_HEIGHT;
+    private int aniTick, aniIndexHeart, aniIndexKiss, aniSpeed = 25;
+    private int blackScreenY = - GAME_HEIGHT;
+    private boolean blackScreenFallingOver = false;
 
     // campi per le stelle
     private Random random;
@@ -60,18 +62,22 @@ public class GameWonScreenView {
     public void update(){
         updateBlackScreen();
         updateAnimationTickHeart();
-        updateAnimationTickKiss();
+        if (blackScreenFallingOver)
+            updateAnimationTickKiss();
         createStars();
     }
 
     private void updateBlackScreen() {
-        if (blackScreenY <= 0)
-            blackScreenY ++;
+        if (blackScreenY <= 0) {
+            blackScreenY++;
+            return;
+        }
+        blackScreenFallingOver = true;
     }
 
     private void updateAnimationTickHeart(){
         aniTick++;
-        if (aniTick >= ANI_SPEED) {
+        if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndexHeart++;
             if (aniIndexHeart >= 3) {
@@ -82,7 +88,7 @@ public class GameWonScreenView {
 
     private void updateAnimationTickKiss(){
         aniTick++;
-        if (aniTick >= ANI_SPEED) {
+        if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndexKiss++;
             if (aniIndexKiss >= 5) {
@@ -92,10 +98,10 @@ public class GameWonScreenView {
     }
 
     public void draw(Graphics g) {
-        if (blackScreenY <= 0)
+        if (!blackScreenFallingOver)
             drawLevelBehind(g);
         drawBlackScreen(g);
-        if (blackScreenY >= 0)
+        if (blackScreenFallingOver)
             drawStars(g);
 
         drawHeart(g, (int) (70 * SCALE), (int) (70 * SCALE), GAME_WIDTH / 2 - (int) (35 * SCALE), GAME_HEIGHT / 2 - (int) (35 * SCALE));
@@ -106,6 +112,7 @@ public class GameWonScreenView {
         drawHappyEnd(g, (int) (41 * SCALE), GAME_HEIGHT - (int) (150 * SCALE));
         drawKiss(g, (int) (52 * SCALE), GAME_HEIGHT - TILES_SIZE * 2 - (int) (24 * SCALE), 0);
         drawKiss(g, GAME_WIDTH - (int) (97 * SCALE), GAME_HEIGHT - TILES_SIZE * 2 - (int) (24 * SCALE), 1);
+        drawPoints(g);
     }
 
     private void drawBlackScreen(Graphics g) {
@@ -170,6 +177,14 @@ public class GameWonScreenView {
 
     private void drawKiss(Graphics g, int x, int y, int spriteIndex) {
         g.drawImage(characterKissingSprites[spriteIndex][aniIndexKiss], x, y, (int) (55 * SCALE), (int) (24 * SCALE), null);
+    }
+
+    private void drawPoints(Graphics g){
+        g.setColor(Color.GREEN);
+        Font font = LoadSave.BUBBLE_BOBBLE_FONT.deriveFont(43f * SCALE);
+        g.setFont(font);
+        FontMetrics measure = g.getFontMetrics(font);
+        g.drawString("1000000PTS!!", GAME_WIDTH/ 2 - measure.stringWidth("1000000PTS!!")/2, (int) (100 * SCALE));
     }
 
 }
