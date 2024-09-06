@@ -50,20 +50,13 @@ public class BubbleManagerView {
         getBobBubblesFromModel();
         getExplodedBubblesFromModel();
         updateBubbles();
-        updateExplodedBubbles();
     }
 
     public void draw(Graphics g) {
         drawBobBubbles(g);
-        drawBubbles(g);
+        drawBubblesAndWater(g);
         drawExplodedBubbles(g);
         drawExtendLetterOnTheWall(g);
-    }
-
-    private void updateExplodedBubbles() {
-        for(WaterView waterView : waterViews) {
-            waterView.update();
-        }
     }
 
     private void updateBubbles() {
@@ -84,19 +77,34 @@ public class BubbleManagerView {
         }
     }
 
-    private void drawBubbles(Graphics g) {
+    private void drawBubblesAndWater(Graphics g) {
         for (BubbleView bubbleView : bubbleViews) {
             if ((bubbleView.getModel().isActive() || (bubbleView.getModel().isTimeOut() && bubbleView.getAniIndex() < 2)))
                 bubbleView.draw(g);
             else {
                 bubbleView.getWaterfallModelArray();
                 ArrayList<WaterView> bubbleViewArray = bubbleView.getWaterfallView();
-                for (WaterView waterView : bubbleViewArray) {
-                    waterView.draw(g);
+                for (int i = 0; i < bubbleViewArray.size(); i++) {
+                    WaterView currentWaterView = bubbleViewArray.get(i);
+                    setWaterViewIndex(currentWaterView, bubbleViewArray, i);
+                    currentWaterView.draw(g);
+                    currentWaterView.update();
                 }
             }
         }
     }
+
+    private void setWaterViewIndex(WaterView currentWaterView, ArrayList<WaterView> bubbleViewArray, int i) {
+        if(currentWaterView.getIndex() != 0)
+            return;
+
+        if(i == 0)
+            currentWaterView.setIndex(1);
+
+        if(i == bubbleViewArray.size() - 1)
+            currentWaterView.setIndex(bubbleViewArray.size());
+    }
+
 
     private void drawExplodedBubbles(Graphics g) {
         for (WaterView waterView : waterViews) {

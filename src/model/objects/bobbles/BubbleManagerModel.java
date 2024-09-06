@@ -123,12 +123,16 @@ public class BubbleManagerModel {
     }
 
     private void checkIfWaterFellOffTheMap(WaterModel waterModel) {
-        if((int) (waterModel.getHitbox().getY() / TILES_SIZE) == -1)
-            waterModel.setActive(false);
+        if((int) (waterModel.getHitbox().getY() / TILES_SIZE) != -1)
+            return;
+
+        waterModel.setActive(false);
+        waterModel.setSpecificTrappedPlayer(false);
+        generalTrappedPlayer = false;
     }
 
     private void checkIfWaterfallHitAPlayer(WaterModel currentWater, ArrayList<WaterModel> waterfallArray, BubbleModel bubble) {
-        if(currentWater.getHitbox().intersects(getPlayerHitbox()) && !generalTrappedPlayer) {
+        if(currentWater.getHitbox().intersects(getPlayerHitbox()) && !generalTrappedPlayer && waterfallArray.size() == 10) {
             generalTrappedPlayer = true;
             currentWater.setSpecificTrappedPlayer(true);
         }
@@ -139,14 +143,14 @@ public class BubbleManagerModel {
                 currentWater.setSpecificTrappedPlayer(false);
         }
 
-        if(currentWater.isSpecificTrappedPlayer() && waterfallArray.size() == 10) {
+        if(currentWater.isSpecificTrappedPlayer()) {
             PlayerModel.getInstance().getHitbox().x = currentWater.getHitbox().x;
             PlayerModel.getInstance().getHitbox().y = currentWater.getHitbox().y - (PlayerModel.getInstance().getHitbox().height - currentWater.getHitbox().height);
         }
     }
 
     private void checkIfWaterfallHitAnEnemy(int i, ArrayList<WaterModel> waterfallArray, WaterModel currentWater, ArrayList<EnemyModel> enemies) {
-        if(i != 0 || i != waterfallArray.size() - 1)
+        if(i != 0 && i != waterfallArray.size() - 1)
             return;
 
         for (EnemyModel enemy : enemies)
