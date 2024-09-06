@@ -38,6 +38,8 @@ public class BubbleModel extends CustomObjectModel {
     private float yWhenPopped;
     private float xWhenPopped;
 
+    private boolean playerTrapped = false;
+
     public BubbleModel(float x, float y, int width, int height, int bubbleType) {
         super(x, y, width, height);
         this.bubbleType = bubbleType;
@@ -80,20 +82,11 @@ public class BubbleModel extends CustomObjectModel {
     }
 
     private boolean hasWaterMovedFromStartPoint(Rectangle2D.Float lastWaterHitbox) {
-        return lastWaterHitbox.y >= yWhenPopped + lastWaterHitbox.height
-                || lastWaterHitbox.x >= xWhenPopped + lastWaterHitbox.width
-                || lastWaterHitbox.x <= xWhenPopped - lastWaterHitbox.width;
+        return (Math.abs(Math.abs(lastWaterHitbox.y) - Math.abs(yWhenPopped))) >= lastWaterHitbox.getHeight() - 1;
+//        return lastWaterHitbox.y >= yWhenPopped + lastWaterHitbox.height
+//                || lastWaterHitbox.x >= xWhenPopped + lastWaterHitbox.width
+//                || lastWaterHitbox.x <= xWhenPopped - lastWaterHitbox.width;
     }
-
-//    protected void updatePos() {
-//        if (bubbleDirection == RIGHT) {
-//            bubbleSpeed = -Math.abs(bubbleSpeed);
-//            checkBubbleMovement();
-//        } else {
-//            bubbleSpeed = Math.abs(bubbleSpeed);
-//            checkBubbleMovement();
-//        }
-//    }
 
     protected void afterShotMovement() {
         if(!stuck) {
@@ -210,6 +203,14 @@ public class BubbleModel extends CustomObjectModel {
 
     public char getExtendChar() {
         return extendChar;
+    }
+
+    public boolean isPlayerTrapped() {
+        return playerTrapped;
+    }
+
+    public void setPlayerTrapped(boolean playerTrapped) {
+        this.playerTrapped = playerTrapped;
     }
 }
 

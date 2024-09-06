@@ -56,11 +56,11 @@ public class PlayingView {
             }
             else {
                 levelView.render(g);
-                playerView.render(g);
                 bubbleManagerView.draw(g);
                 projectileManagerView.updateAndDraw(g);
                 enemiesManagerView.render(g);
                 powerUpManagerView.draw(g);
+                playerView.render(g);
                 drawLifeHearts(g);
                 drawStats(g);
             }

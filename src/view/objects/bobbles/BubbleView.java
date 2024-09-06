@@ -34,7 +34,19 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
         updateBubbleState();
         setSpriteIndex();
         updateAnimationTick();
-        getWaterfallModelArray();
+    }
+
+    public void getWaterfallModelArray() {
+        int modelLength = objectModel.getWaterfall().size();
+        int i = waterfallView.size();
+        if (i > modelLength) {
+            waterfallView.clear();
+            i = 0;
+        }
+        while (modelLength > waterfallView.size()) {
+            waterfallView.add(new WaterView(objectModel.getWaterfall().get(i)));
+            i++;
+        }
     }
 
     @Override
@@ -86,19 +98,6 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
             spriteIndex = objectModel.getBubbleType();
         else
             spriteIndex = "Extend".indexOf(objectModel.getExtendChar());
-    }
-
-    private void getWaterfallModelArray() {
-        int modelLength = objectModel.getWaterfall().size();
-        int i = waterfallView.size();
-        if (i > modelLength) {
-            waterfallView.clear();
-            i = 0;
-        }
-        while (modelLength > waterfallView.size()) {
-            waterfallView.add(new WaterView(objectModel.getWaterfall().get(i)));
-            i++;
-        }
     }
 
     public BubbleModel getModel() {

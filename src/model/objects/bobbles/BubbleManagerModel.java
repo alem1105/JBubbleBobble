@@ -7,16 +7,13 @@ import model.gamestate.UserStateModel;
 import model.objects.CustomObjectModel;
 
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
-import static model.utilz.Constants.Directions.LEFT;
-import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.GameConstants.*;
 import static model.utilz.Constants.PlayerConstants.DEATH;
 import static model.utilz.Constants.SpecialBubbles.*;
+import static model.utilz.Gravity.CanMoveHere;
+import static model.utilz.UtilityMethods.getLvlData;
 
 public class BubbleManagerModel {
 
@@ -24,7 +21,6 @@ public class BubbleManagerModel {
 
     private ArrayList<BobBubbleModel> bobBubbles;
     private ArrayList<BubbleModel> bubbles;
-    private ArrayList<WaterModel> waters;
     private ArrayList<LightningModel> lightnings;
 
     private Random rand;
@@ -34,6 +30,8 @@ public class BubbleManagerModel {
     // Power Up
     private int scoreForPop = 0;
     private HashMap<Character, Boolean> extend;
+
+    private boolean generalTrappedPlayer;
 
     public static BubbleManagerModel getInstance() {
         if (instance == null) {
@@ -46,7 +44,6 @@ public class BubbleManagerModel {
         bobBubbles = new ArrayList<>();
         bubbles = new ArrayList<>();
         rand = new Random();
-        waters = new ArrayList<>();
         lightnings = new ArrayList<>();
         extend = new HashMap<>() {{
             put('E', false);
@@ -67,11 +64,6 @@ public class BubbleManagerModel {
     }
 
     private void checkExtend() {
-
-//        if (extend.values().stream().anyMatch(b -> !b)) {
-//            return;
-//        };
-
         for (Boolean b : extend.values())
             if(!b)
                 return;
@@ -80,10 +72,6 @@ public class BubbleManagerModel {
     }
 
     private void updateExplodedBubbles() {
-        for (WaterModel waterModel : waters) {
-            if(waterModel.isActive())
-                waterModel.update();
-        }
         for (LightningModel lightningModel : lightnings) {
             if (lightningModel.isActive())
                 lightningModel.update();
@@ -108,13 +96,62 @@ public class BubbleManagerModel {
                 checkPlayerHit(bubble);
                 bubble.update();
             } else {
-                if(bubble.getBubbleType() == WATER_BUBBLE) {
-                    bubble.spawnWaterFall();
-                    for(WaterModel water : bubble.getWaterfall())
-                        water.update();
+                createWaterfallAndUpdateIt(bubble);
+            }
+        }
+    }
+
+    private void createWaterfallAndUpdateIt(BubbleModel bubble) {
+        // controlla se il tipo di bolla è una bolla d'acqua
+        if (bubble.getBubbleType() == WATER_BUBBLE) {
+            // genera la cascata d'acqua
+            bubble.spawnWaterFall();
+            ArrayList<WaterModel> waterfallArray = bubble.getWaterfall();
+            ArrayList<EnemyModel> enemies = EnemyManagerModel.getInstance().getEnemies();
+
+            // itera attraverso la cascata d'acqua
+            for (int i = 0; i < waterfallArray.size(); i++) {
+                WaterModel currentWater = waterfallArray.get(i);
+                if(currentWater.isActive()) {
+                    currentWater.update();
+                    checkIfWaterFellOffTheMap(currentWater);
+                    checkIfWaterfallHitAnEnemy(i, waterfallArray, currentWater, enemies);
+                    checkIfWaterfallHitAPlayer(currentWater, waterfallArray, bubble);
                 }
             }
         }
+    }
+
+    private void checkIfWaterFellOffTheMap(WaterModel waterModel) {
+        if((int) (waterModel.getHitbox().getY() / TILES_SIZE) == -1)
+            waterModel.setActive(false);
+    }
+
+    private void checkIfWaterfallHitAPlayer(WaterModel currentWater, ArrayList<WaterModel> waterfallArray, BubbleModel bubble) {
+        if(currentWater.getHitbox().intersects(getPlayerHitbox()) && !generalTrappedPlayer) {
+            generalTrappedPlayer = true;
+            currentWater.setSpecificTrappedPlayer(true);
+        }
+
+        if(PlayerModel.getInstance().getJump() || PlayerModel.getInstance().getPlayerAction() == DEATH) {
+            generalTrappedPlayer = false;
+            if(currentWater.isSpecificTrappedPlayer())
+                currentWater.setSpecificTrappedPlayer(false);
+        }
+
+        if(currentWater.isSpecificTrappedPlayer() && waterfallArray.size() == 10) {
+            PlayerModel.getInstance().getHitbox().x = currentWater.getHitbox().x;
+            PlayerModel.getInstance().getHitbox().y = currentWater.getHitbox().y - (PlayerModel.getInstance().getHitbox().height - currentWater.getHitbox().height);
+        }
+    }
+
+    private void checkIfWaterfallHitAnEnemy(int i, ArrayList<WaterModel> waterfallArray, WaterModel currentWater, ArrayList<EnemyModel> enemies) {
+        if(i != 0 || i != waterfallArray.size() - 1)
+            return;
+
+        for (EnemyModel enemy : enemies)
+            if (currentWater.getHitbox().intersects(enemy.getHitbox()))
+                enemy.setActive(false);
     }
 
     private void updateBobBubble() {
@@ -148,31 +185,34 @@ public class BubbleManagerModel {
 
             if (bubble.getHitbox().intersects(PlayerModel.getInstance().getHitbox()) && bubble.isCollision()) {
 
-                UserStateModel.getInstance().getCurrentUserModel().incrementTempScore(scoreForPop);
-                PlayerModel.getInstance().incrementPoppedBubbles();
+                if(CanMoveHere(bubble.getHitbox().x, bubble.getHitbox().y, bubble.getHitbox().width, bubble.getHitbox().height, getLvlData())) {
+                    UserStateModel.getInstance().getCurrentUserModel().incrementTempScore(scoreForPop);
+                    PlayerModel.getInstance().incrementPoppedBubbles();
+                    bubble.setActive(false);
+                    bubble.setTimeout(true);
 
-                bubble.setActive(false);
-                bubble.setTimeout(true);
 
-                switch (bubble.getBubbleType()) {
-                    case WATER_BUBBLE -> {
-                        bubble.setyWhenPopped(bubble.getHitbox().y);
-                        bubble.setxWhenPopped(bubble.getHitbox().x);
-                        PlayerModel.getInstance().incrementPoppedWaterBubbles();
+                    switch (bubble.getBubbleType()) {
+                        case WATER_BUBBLE -> {
+                            bubble.setyWhenPopped(bubble.getHitbox().y);
+                            bubble.setxWhenPopped(bubble.getHitbox().x);
+                            PlayerModel.getInstance().incrementPoppedWaterBubbles();
+                        }
+                        case LIGHTNING_BUBBLE -> {
+                            lightnings.add(new LightningModel(bubble.getHitbox().x, bubble.getHitbox().y, (int) (16 * SCALE), (int) (16 * SCALE), PlayerModel.getInstance().getFacing()));
+                            PlayerModel.getInstance().incrementPoppedLightingBubbles();
+                        }
+                        case FIRE_BUBBLE -> PlayerModel.getInstance().incrementPoppedFireBubbles();
+                        case EXTEND_BUBBLE -> extend.put(bubble.getExtendChar(), true);
                     }
-                    case LIGHTNING_BUBBLE -> {
-                        lightnings.add(new LightningModel(bubble.getHitbox().x, bubble.getHitbox().y, (int) (16 * SCALE), (int) (16 * SCALE), PlayerModel.getInstance().getFacing()));
-                        PlayerModel.getInstance().incrementPoppedLightingBubbles();
-                    }
-                    case FIRE_BUBBLE -> PlayerModel.getInstance().incrementPoppedFireBubbles();
-                    case EXTEND_BUBBLE -> extend.put(bubble.getExtendChar(), true);
+
+                    checkIntersects(bubble);
                 }
-
-                checkIntersects(bubble);
 
             }
         }
     }
+
 
     private boolean intersectBubbleFromBelow(){
 //        return getPlayerHitbox().getY() <= bubble.getHitbox().getMaxY() + (int) (1 * SCALE)
@@ -253,10 +293,6 @@ public class BubbleManagerModel {
 
     private Rectangle2D.Float getPlayerHitbox() {
         return PlayerModel.getInstance().getHitbox();
-    }
-
-    public ArrayList<WaterModel> getWaters() {
-        return waters;
     }
 
     public void setScoreForPop(int value) {
