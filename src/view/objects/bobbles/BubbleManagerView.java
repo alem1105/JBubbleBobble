@@ -1,9 +1,8 @@
 package view.objects.bobbles;
 
-import model.objects.bobbles.BubbleManagerModel;
-import model.objects.bobbles.BubbleModel;
-import model.objects.bobbles.LightningModel;
-import model.objects.bobbles.WaterModel;
+import model.objects.CustomObjectModel;
+import model.objects.bobbles.*;
+import view.objects.CustomObjectView;
 import view.utilz.LoadSave;
 
 import java.awt.*;
@@ -25,6 +24,7 @@ public class BubbleManagerView {
     private ArrayList<BobBubbleView> bobBubbleViews;
     private ArrayList<BubbleView> bubbleViews;
     private ArrayList<WaterView> waterViews;
+    private ArrayList<FireView> fireViews;
     private ArrayList<LightningView> lightningViews;
 
     private String extend = "Extend";
@@ -40,6 +40,7 @@ public class BubbleManagerView {
         bobBubbleViews = new ArrayList<>();
         bubbleViews = new ArrayList<>();
         waterViews = new ArrayList<>();
+        fireViews = new ArrayList<>();
         lightningViews = new ArrayList<>();
         bubbleManagerModel = BubbleManagerModel.getInstance();
         extendSprite = LoadSave.loadAnimations(LoadSave.EXTEND_SPRITE,6, 1, 16, 16);
@@ -63,6 +64,9 @@ public class BubbleManagerView {
     private void updateExplodedBubbles() {
         for(WaterView waterView : waterViews) {
             waterView.update();
+        }
+        for (FireView fireView : fireViews){
+            fireView.update();
         }
     }
 
@@ -105,18 +109,32 @@ public class BubbleManagerView {
             if (lightningView.getObjectModel().isActive())
                 lightningView.draw(g);
         }
+        for (FireView fireView : fireViews){
+            if (fireView.canDrawFire())
+                fireView.draw(g);
+        }
     }
 
     private void getExplodedBubblesFromModel() {
         int modelLength = bubbleManagerModel.getWaters().size();
         int i = waterViews.size();
         if (i > modelLength) {
-            i = 0;
             waterViews.clear();
         }
         while (modelLength > waterViews.size()) {
             WaterModel water = bubbleManagerModel.getWaters().get(i);
             waterViews.add(new WaterView(water));
+            i++;
+        }
+
+        modelLength = bubbleManagerModel.getFires().size();
+        i = fireViews.size();
+        if (i > modelLength) {
+            fireViews.clear();
+        }
+        while (modelLength > fireViews.size()) {
+            FireModel fire = bubbleManagerModel.getFires().get(i);
+            fireViews.add(new FireView(fire));
             i++;
         }
 
