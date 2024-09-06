@@ -68,7 +68,7 @@ public class PowerUpsManagerModel {
     }
 
     private void checkCandySpawningConditions() {
-        if(playerModel.getBlowedBubbles() == 0) {
+        if(playerModel.getBlowedBubbles() == 35) {
             int[] randomCoordinates = generateRandomCoordinates();
             powerups.add(new CandyModel(randomCoordinates[0], randomCoordinates[1], (int) (16f * SCALE), (int) (10f * SCALE), CANDY_PINK));
             playerModel.setBlowedBubbles(0);
