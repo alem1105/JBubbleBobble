@@ -81,6 +81,8 @@ public class LevelModel {
     }
 
     private void loadPlayerSpawn() {
+        playerSpawn = new Point(lvlImg.getWidth() / 2, lvlImg.getHeight() / 2);
+
         for(int y = 0; y < lvlImg.getHeight(); y++) {
             for(int x = 0; x < lvlImg.getWidth(); x++) {
                 Color color = new Color(lvlImg.getRGB(x, y));

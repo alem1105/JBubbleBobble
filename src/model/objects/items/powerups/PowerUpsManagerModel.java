@@ -67,15 +67,15 @@ public class PowerUpsManagerModel {
     }
 
     private void checkCandySpawningConditions() {
-        if(playerModel.getBlowedBubbles() == 2) {
+        if(playerModel.getBlowedBubbles() == 35) {
             powerups.add(new CandyModel(generateRandomCoordinates()[0], generateRandomCoordinates()[1], (int) (16f * SCALE), (int) (10f * SCALE), CANDY_PINK));
             playerModel.setBlowedBubbles(0);
         }
-        if(playerModel.getPoppedBubbles() == 2) {
+        if(playerModel.getPoppedBubbles() == 35) {
             powerups.add(new CandyModel(generateRandomCoordinates()[0], generateRandomCoordinates()[1], (int) (16f * SCALE), (int) (10f * SCALE), CANDY_BLUE));
             playerModel.setPoppedBubbles(0);
         }
-        if(playerModel.getJumpedTimes() == 2) {
+        if(playerModel.getJumpedTimes() == 35) {
             powerups.add(new CandyModel(generateRandomCoordinates()[0], generateRandomCoordinates()[1], (int) (16f * SCALE), (int) (10f * SCALE), CANDY_YELLOW));
             playerModel.setJumpedTimes(0);
         }

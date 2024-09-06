@@ -93,6 +93,8 @@ public class AudioManager {
 
         stopAllContinuousAudios();
         continuousAudios[index].start();
-        continuousAudios[index].loop(Clip.LOOP_CONTINUOUSLY);
+
+        if(index == MAIN_THEME_INDEX)
+            continuousAudios[index].loop(Clip.LOOP_CONTINUOUSLY);
     }
 }
