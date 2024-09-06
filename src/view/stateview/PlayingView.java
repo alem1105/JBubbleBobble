@@ -17,6 +17,7 @@ import view.utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
 
 import static model.utilz.Constants.GameConstants.*;
 import static view.utilz.AudioManager.*;
@@ -37,6 +38,8 @@ public class PlayingView {
 
     private boolean deathAudioPlayed;
     private boolean mainThemeAudioPlayed;
+
+    private DecimalFormat decFormat = new DecimalFormat("00");
 
     public static PlayingView getInstance() {
         if (instance == null) {
@@ -109,10 +112,11 @@ public class PlayingView {
     private void drawStats(Graphics g) {
         UserModel currentUser = UserStateModel.getInstance().getCurrentUserModel();
         g.setColor(Color.WHITE);
-        g.setFont(LoadSave.BUBBLE_BOBBLE_FONT);
-        g.drawString(String.valueOf(currentUser.getTempScore()), TILES_SIZE * 5, GAME_HEIGHT);
+        g.setFont(LoadSave.NES_FONT);
+        g.drawString(String.valueOf(currentUser.getTempScore()), TILES_SIZE * 5, GAME_HEIGHT - (int) (5 * SCALE));
+        g.drawString(decFormat.format(LevelManagerModel.getInstance().getLvlIndex() + 1), TILES_SIZE * 9, GAME_HEIGHT - (int) (5 * SCALE));
         g.setColor(Color.RED);
-        g.drawString(String.valueOf(currentUser.getMaxScore()), TILES_SIZE * 13, GAME_HEIGHT);
+        g.drawString(String.valueOf(currentUser.getMaxScore()), TILES_SIZE * 13, GAME_HEIGHT - (int) (5 * SCALE));
     }
 
     public void setMainThemeAudioPlayed(boolean mainThemeAudioPlayed) {
