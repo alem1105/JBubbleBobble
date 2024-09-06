@@ -14,11 +14,13 @@ import static java.awt.Color.*;
 import static model.utilz.Constants.GameConstants.*;
 
 public class DeathScreenView {
-    int x, y, width, height;
+
     private BufferedImage deathScreen;
     private QuitButtonView quitButton;
     private RestartButtonView restartButton;
+
     private static DeathScreenView instance;
+
     public static DeathScreenView getInstance() {
         if (instance == null) {
             instance = new DeathScreenView();
@@ -27,10 +29,6 @@ public class DeathScreenView {
     }
 
     private DeathScreenView() {
-//        this.x = 100;
-//        this.y = 500;
-//        this.width = 300;
-//        this.height = 500;
         initButtons();
     }
 

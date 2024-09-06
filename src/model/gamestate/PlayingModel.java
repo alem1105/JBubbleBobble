@@ -55,6 +55,10 @@ public class PlayingModel {
         return paused;
     }
 
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
     public void invertPaused() {
         paused = !paused;
     }

@@ -50,7 +50,7 @@ public class KeyboardInputs implements KeyListener {
             }
             case PLAYING -> {
                 switch (e.getKeyCode()) {
-                    case KeyEvent.VK_ESCAPE -> PlayingModel.getInstance().invertPaused();
+                    case KeyEvent.VK_ESCAPE -> PlayingModel.getInstance().setPaused(true);
                     case KeyEvent.VK_D -> PlayerModel.getInstance().setRight(true);
                     case KeyEvent.VK_A -> PlayerModel.getInstance().setLeft(true);
                     case KeyEvent.VK_SPACE -> PlayerModel.getInstance().setJump(true);

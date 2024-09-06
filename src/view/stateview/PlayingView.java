@@ -48,23 +48,26 @@ public class PlayingView {
     }
 
     public void render(Graphics g) {
-        if (playerView.getPlayerModel().isGameOver()){
-            deathScreenView.render(g);
-        } else if (!PlayingModel.getInstance().isPaused()){
-            if (LevelManagerModel.getInstance().isNextLevel()){
-                nextLevelScreenView.render(g);
-            }
-            else {
-                levelView.render(g);
-                bubbleManagerView.draw(g);
-                projectileManagerView.updateAndDraw(g);
-                enemiesManagerView.render(g);
-                powerUpManagerView.draw(g);
-                playerView.render(g);
-                drawLifeHearts(g);
-                drawStats(g);
-            }
+
+        if (LevelManagerModel.getInstance().isNextLevel()){
+            nextLevelScreenView.render(g);
+            return;
         }
+
+        levelView.render(g);
+        bubbleManagerView.draw(g);
+        projectileManagerView.updateAndDraw(g);
+        enemiesManagerView.render(g);
+        powerUpManagerView.draw(g);
+        playerView.render(g);
+        drawLifeHearts(g);
+        drawStats(g);
+
+        if (playerView.getPlayerModel().isGameOver())
+            deathScreenView.render(g);
+//        else if (!PlayingModel.getInstance().isPaused())
+//            deathScreenView.render(g);
+
     }
 
     public void update(){
