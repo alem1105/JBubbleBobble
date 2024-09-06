@@ -21,6 +21,7 @@ public class BubbleManagerModel {
 
     private ArrayList<BobBubbleModel> bobBubbles;
     private ArrayList<BubbleModel> bubbles;
+    private ArrayList<FireModel> fires;
     private ArrayList<LightningModel> lightnings;
 
     private Random rand;
@@ -44,6 +45,7 @@ public class BubbleManagerModel {
         bobBubbles = new ArrayList<>();
         bubbles = new ArrayList<>();
         rand = new Random();
+        fires = new ArrayList<>();
         lightnings = new ArrayList<>();
         extend = new HashMap<>() {{
             put('E', false);
@@ -61,9 +63,15 @@ public class BubbleManagerModel {
         updateBobBubble();
         updateExplodedBubbles();
         checkExtend();
+        createFireCarpet();
     }
 
     private void checkExtend() {
+// TODO decidere se mettere gli stream !!!
+//        if (extend.values().stream().anyMatch(b -> !b)) {
+//            return;
+//        };
+
         for (Boolean b : extend.values())
             if(!b)
                 return;
@@ -72,6 +80,14 @@ public class BubbleManagerModel {
     }
 
     private void updateExplodedBubbles() {
+        for (FireModel fireModel : fires){
+            if (fireModel.isActive()) {
+                fireModel.update();
+                if (fireModel.isPartOfTheCarpet())
+                    checkObjectHitEnemy(fireModel);
+            }
+        }
+
         for (LightningModel lightningModel : lightnings) {
             if (lightningModel.isActive())
                 lightningModel.update();
@@ -173,7 +189,7 @@ public class BubbleManagerModel {
         spawnBubbleTick++;
         if (spawnBubbleTick >= spawnBubbleDuration) {
             spawnBubbleTick = 0;
-            int bubbleType = rand.nextInt(2); // Da cambiare con massimo numero di bolle speciali
+            int bubbleType = rand.nextInt(3); //2;
 
             int max = (TILES_IN_WIDTH - 1) * TILES_SIZE;
             int min = TILES_SIZE;
@@ -195,20 +211,22 @@ public class BubbleManagerModel {
                     bubble.setActive(false);
                     bubble.setTimeout(true);
 
-
-                    switch (bubble.getBubbleType()) {
-                        case WATER_BUBBLE -> {
-                            bubble.setyWhenPopped(bubble.getHitbox().y);
-                            bubble.setxWhenPopped(bubble.getHitbox().x);
-                            PlayerModel.getInstance().incrementPoppedWaterBubbles();
-                        }
-                        case LIGHTNING_BUBBLE -> {
-                            lightnings.add(new LightningModel(bubble.getHitbox().x, bubble.getHitbox().y, (int) (16 * SCALE), (int) (16 * SCALE), PlayerModel.getInstance().getFacing()));
-                            PlayerModel.getInstance().incrementPoppedLightingBubbles();
-                        }
-                        case FIRE_BUBBLE -> PlayerModel.getInstance().incrementPoppedFireBubbles();
-                        case EXTEND_BUBBLE -> extend.put(bubble.getExtendChar(), true);
+                switch (bubble.getBubbleType()) {
+                    case WATER_BUBBLE -> {
+                        bubble.setyWhenPopped(bubble.getHitbox().y);
+                        bubble.setxWhenPopped(bubble.getHitbox().x);
+                        PlayerModel.getInstance().incrementPoppedWaterBubbles();
                     }
+                    case LIGHTNING_BUBBLE -> {
+                        lightnings.add(new LightningModel(bubble.getHitbox().x, bubble.getHitbox().y, (int) (16 * SCALE), (int) (16 * SCALE), PlayerModel.getInstance().getFacing()));
+                        PlayerModel.getInstance().incrementPoppedLightingBubbles();
+                    }
+                    case FIRE_BUBBLE -> {
+                        fires.add(new FireModel(bubble.getHitbox().x, bubble.getHitbox().y, false));
+                        PlayerModel.getInstance().incrementPoppedFireBubbles();
+                    }
+                    case EXTEND_BUBBLE -> extend.put(bubble.getExtendChar(), true);
+                }
 
                     checkIntersects(bubble);
                 }
@@ -260,6 +278,24 @@ public class BubbleManagerModel {
         }
     }
 
+    private void createFireCarpet(){
+        ArrayList<FireModel> tempArray = new ArrayList<>();
+        for (FireModel fireModel: fires) {
+            if (fireModel.isCreatingCarpet()) {
+                fireModel.setCreatingCarpet(false);
+                int i = 1;
+                float currentX = fireModel.getX();
+                while (!CanMoveHere( currentX + fireModel.getWidth(), fireModel.getY() + fireModel.getHeight(), fireModel.getWidth(), fireModel.getHeight(), getLvlData())
+                && CanMoveHere(currentX + fireModel.getWidth(), fireModel.getY(), fireModel.getWidth(), fireModel.getHeight(), getLvlData())) {
+                    currentX = fireModel.getX() + fireModel.getWidth() * i;
+                    tempArray.add(new FireModel(currentX, fireModel.getY(),true));
+                    i++;
+                }
+            }
+        }
+        fires.addAll(tempArray);
+    }
+
     private void bobBubblesRandomMovements(Random random, BobBubbleModel bubble1, BobBubbleModel bubble2) {
         float randomNumberX = 0.3f + random.nextFloat() * (1.5f - 0.3f);
         float randomNumberY = 0.3f + random.nextFloat() * (1.5f - 0.3f);
@@ -280,6 +316,7 @@ public class BubbleManagerModel {
     public void resetBubbles() {
         bobBubbles.clear();
         bubbles.clear();
+        fires.clear();
         lightnings.clear();
     }
 
@@ -302,6 +339,10 @@ public class BubbleManagerModel {
 
     public void setScoreForPop(int value) {
         this.scoreForPop = value;
+    }
+
+    public ArrayList<FireModel> getFires() {
+        return fires;
     }
 
     public ArrayList<LightningModel> getLightnings() {

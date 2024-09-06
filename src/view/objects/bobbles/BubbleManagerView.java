@@ -1,9 +1,8 @@
 package view.objects.bobbles;
 
-import model.objects.bobbles.BubbleManagerModel;
-import model.objects.bobbles.BubbleModel;
-import model.objects.bobbles.LightningModel;
-import model.objects.bobbles.WaterModel;
+import model.objects.CustomObjectModel;
+import model.objects.bobbles.*;
+import view.objects.CustomObjectView;
 import view.utilz.LoadSave;
 
 import java.awt.*;
@@ -25,6 +24,7 @@ public class BubbleManagerView {
     private ArrayList<BobBubbleView> bobBubbleViews;
     private ArrayList<BubbleView> bubbleViews;
     private ArrayList<WaterView> waterViews;
+    private ArrayList<FireView> fireViews;
     private ArrayList<LightningView> lightningViews;
 
     private String extend = "Extend";
@@ -40,6 +40,7 @@ public class BubbleManagerView {
         bobBubbleViews = new ArrayList<>();
         bubbleViews = new ArrayList<>();
         waterViews = new ArrayList<>();
+        fireViews = new ArrayList<>();
         lightningViews = new ArrayList<>();
         bubbleManagerModel = BubbleManagerModel.getInstance();
         extendSprite = LoadSave.loadAnimations(LoadSave.EXTEND_SPRITE,6, 1, 16, 16);
@@ -50,6 +51,7 @@ public class BubbleManagerView {
         getBobBubblesFromModel();
         getExplodedBubblesFromModel();
         updateBubbles();
+        updateFireBubbles();
     }
 
     public void draw(Graphics g) {
@@ -57,6 +59,12 @@ public class BubbleManagerView {
         drawBubblesAndWater(g);
         drawExplodedBubbles(g);
         drawExtendLetterOnTheWall(g);
+    }
+
+    private void updateFireBubbles() {
+        for (FireView fireView : fireViews){
+            fireView.update();
+        }
     }
 
     private void updateBubbles() {
@@ -114,6 +122,10 @@ public class BubbleManagerView {
             if (lightningView.getObjectModel().isActive())
                 lightningView.draw(g);
         }
+        for (FireView fireView : fireViews){
+            if (fireView.canDrawFire())
+                fireView.draw(g);
+        }
     }
 
     private void getExplodedBubblesFromModel() {
@@ -128,6 +140,18 @@ public class BubbleManagerView {
             lightningViews.add(new LightningView(lightning));
             i++;
         }
+
+        modelLength = bubbleManagerModel.getFires().size();
+        i = fireViews.size();
+        if (i > modelLength) {
+            fireViews.clear();
+        }
+        while (modelLength > fireViews.size()) {
+            FireModel fire = bubbleManagerModel.getFires().get(i);
+            fireViews.add(new FireView(fire));
+            i++;
+        }
+
     }
 
     private void getBubblesFromModel() {
