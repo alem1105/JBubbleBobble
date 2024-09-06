@@ -10,6 +10,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.*;
 
 import static model.utilz.Constants.GameConstants.*;
+import static model.utilz.Constants.PlayerConstants.DEATH;
 import static model.utilz.Constants.SpecialBubbles.*;
 import static model.utilz.Gravity.CanMoveHere;
 import static model.utilz.UtilityMethods.getLvlData;
