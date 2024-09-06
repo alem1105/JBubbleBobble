@@ -11,6 +11,8 @@ import static model.utilz.Constants.GameConstants.SCALE;
 
 public class LoadSave {
 
+    public static final String MENU_LOGO = "ui/menu_sprite.png";
+    public static final String STARS_SPRITE = "ui/twinkle_sprite.png";
     public static final String PLAYER_SPRITE = "player_sprites.png";
     public static final String LEVEL_SPRITE = "level_sprite.png";
     public static final String ICON = "icon.png";
@@ -76,7 +78,7 @@ public class LoadSave {
     public static final String PARENTS_HUGGING_SPRITE = "ui/winoverlay/parents_hugging_sprite.png";
     public static final String CHARACTER_KISSING = "ui/winoverlay/character_kissing_sprite.png";
 
-    public static Font BUBBLE_BOBBLE_FONT, JEQO_FONT;
+    public static Font BUBBLE_BOBBLE_FONT, JEQO_FONT, NES_FONT;
 
 
     public static BufferedImage GetSpriteAtlas(String fileName) {
@@ -126,6 +128,7 @@ public class LoadSave {
         try {
             BUBBLE_BOBBLE_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("./res/BubbleFont.ttf")).deriveFont(16f * SCALE);
             JEQO_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("./res/Jeqo-5-Bit.ttf")).deriveFont(6f * SCALE);
+            NES_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("./res/nintendo-nes-font.ttf")).deriveFont(10f * SCALE);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(BUBBLE_BOBBLE_FONT);
             ge.registerFont(JEQO_FONT);
