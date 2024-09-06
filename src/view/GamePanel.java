@@ -29,7 +29,7 @@ public class GamePanel extends JPanel implements Observer {
     }
 
     private void loadViews() {
-        this.playingView = new PlayingView();
+        this.playingView = PlayingView.getInstance();
         this.menuView = MenuView.getInstance();
         this.levelEditorView = LevelEditorView.getInstance();
         this.levelSelectorView = LevelSelectorView.getInstance();

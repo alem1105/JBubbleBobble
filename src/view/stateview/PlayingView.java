@@ -12,14 +12,18 @@ import view.objects.projectiles.ProjectileManagerView;
 import view.objects.bobbles.BubbleManagerView;
 import view.ui.DeathScreenView;
 import view.ui.NextLevelScreenView;
+import view.utilz.AudioManager;
 import view.utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import static model.utilz.Constants.GameConstants.*;
+import static view.utilz.AudioManager.*;
 
 public class PlayingView {
+
+    private static PlayingView instance;
 
     private PlayerView playerView;
     private LevelView levelView;
@@ -31,7 +35,17 @@ public class PlayingView {
     private NextLevelScreenView nextLevelScreenView;
     private PowerUpManagerView powerUpManagerView;
 
-    public PlayingView() {
+    private boolean deathAudioPlayed;
+    private boolean mainThemeAudioPlayed;
+
+    public static PlayingView getInstance() {
+        if (instance == null) {
+            instance = new PlayingView();
+        }
+        return instance;
+    }
+
+    private PlayingView() {
         initViews();
         heartLifeImage = LoadSave.GetSpriteAtlas(LoadSave.HEART_LIFE_BUTTON);
     }
@@ -72,12 +86,14 @@ public class PlayingView {
 
     public void update(){
         if(playerView.getPlayerModel().isGameOver()) {
+            AudioManager.getInstance().continuousSoundPlay(GAME_OVER_INDEX);
             deathScreenView.update();
         }
         else {
             if (LevelManagerModel.getInstance().isNextLevel()){
                 nextLevelScreenView.update();
             }
+            AudioManager.getInstance().continuousSoundPlay(MAIN_THEME_INDEX);
             playerView.update();
             bubbleManagerView.update();
             enemiesManagerView.update();
@@ -99,5 +115,7 @@ public class PlayingView {
         g.drawString(String.valueOf(currentUser.getMaxScore()), TILES_SIZE * 13, GAME_HEIGHT);
     }
 
-
+    public void setMainThemeAudioPlayed(boolean mainThemeAudioPlayed) {
+        this.mainThemeAudioPlayed = mainThemeAudioPlayed;
+    }
 }

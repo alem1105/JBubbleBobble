@@ -7,6 +7,7 @@ import model.utilz.Constants;
 import view.ui.GameWonScreenView;
 import view.ui.buttons.EditorButtonView;
 import view.ui.buttons.StartButtonView;
+import view.utilz.AudioManager;
 import view.utilz.LoadSave;
 
 import java.awt.*;
@@ -16,6 +17,8 @@ import java.util.Random;
 
 import static java.awt.Color.WHITE;
 import static model.utilz.Constants.GameConstants.*;
+import static view.utilz.AudioManager.GAME_WON_INDEX;
+import static view.utilz.AudioManager.MAIN_THEME_INDEX;
 
 public class MenuView {
 
@@ -33,6 +36,8 @@ public class MenuView {
     private BufferedImage[][] twinkleAnimation;
     private ArrayList<TwinkleView> twinkles;
     private Random random;
+
+    private boolean gameWonAudioPlayed;
 
     public static MenuView getInstance() {
         if (instance == null) {
@@ -53,11 +58,13 @@ public class MenuView {
     public void update(){
         if (LevelManagerModel.getInstance().isGameWon()) {
             gameWonScreenView.update();
+            AudioManager.getInstance().continuousSoundPlay(GAME_WON_INDEX);
         } else {
             updateStars();
             updateLogo();
             startButton.update();
             editorButton.update();
+            AudioManager.getInstance().stopAllContinuousAudios();
         }
     }
 

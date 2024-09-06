@@ -8,6 +8,7 @@ import model.ui.buttons.*;
 import view.stateview.*;
 import view.ui.DeathScreenView;
 import view.ui.buttons.*;
+import view.utilz.AudioManager;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -37,7 +38,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
         this.levelEditorView = LevelEditorView.getInstance();
         this.levelManagerModel = LevelManagerModel.getInstance();
         this.levelSelectorView = LevelSelectorView.getInstance();
-        this.playingView = new PlayingView();
+        this.playingView = PlayingView.getInstance();
         this.deathScreenView = DeathScreenView.getInstance();
         this.menuView = MenuView.getInstance();
         this.userStateView = UserStateView.getInstance();

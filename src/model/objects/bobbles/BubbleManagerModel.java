@@ -280,6 +280,7 @@ public class BubbleManagerModel {
     public void resetBubbles() {
         bobBubbles.clear();
         bubbles.clear();
+        lightnings.clear();
     }
 
     public void addBobBubbles(BobBubbleModel bobBubble) {

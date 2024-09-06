@@ -1,6 +1,7 @@
 package view.ui;
 
 import model.LevelManagerModel;
+import model.utilz.UtilityMethods;
 import org.w3c.dom.css.Rect;
 import view.utilz.LoadSave;
 
@@ -27,7 +28,7 @@ public class GameWonScreenView {
     private BufferedImage[] lvlSprites;
     private int [][] lastLevelData;
     private int aniTick, aniIndexHeart, aniIndexKiss, aniSpeed = 25;
-    private int blackScreenY = - GAME_HEIGHT;
+    private float blackScreenY = - GAME_HEIGHT;
     private boolean blackScreenFallingOver = false;
 
     // campi per le stelle
@@ -35,7 +36,7 @@ public class GameWonScreenView {
     private Color[] starColors;
     private ArrayList<Rectangle2D.Float> stars;
 
-    private int durationTick, durationTimer = 1800;
+    private int durationTick, durationTimer = 10;
 
     public static GameWonScreenView getInstance() {
         if (instance == null) {
@@ -75,12 +76,13 @@ public class GameWonScreenView {
         if (durationTick >= durationTimer) {
             durationTick = 0;
             LevelManagerModel.getInstance().setGameWon(false);
+            UtilityMethods.resetAll();
         }
     }
 
     private void updateBlackScreen() {
         if (blackScreenY < 0) {
-            blackScreenY++;
+            blackScreenY+=0.5f;
             return;
         }
         blackScreenFallingOver = true;
@@ -128,7 +130,7 @@ public class GameWonScreenView {
 
     private void drawBlackScreen(Graphics g) {
         g.setColor(Color.BLACK);
-        g.fillRect(0, blackScreenY, GAME_WIDTH, GAME_HEIGHT);
+        g.fillRect(0, (int)blackScreenY, GAME_WIDTH, GAME_HEIGHT);
     }
 
     private void drawLevelBehind(Graphics g) {
@@ -196,6 +198,10 @@ public class GameWonScreenView {
         g.setFont(font);
         FontMetrics measure = g.getFontMetrics(font);
         g.drawString("1000000PTS!!", GAME_WIDTH/ 2 - measure.stringWidth("1000000PTS!!")/2, (int) (100 * SCALE));
+    }
+
+    public int getDurationTick() {
+        return durationTick;
     }
 
 }
