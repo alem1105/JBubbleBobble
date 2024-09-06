@@ -67,7 +67,7 @@ public class LevelSelectorView {
     }
 
     private void drawStrings(Graphics g){
-        Font font = (LoadSave.BUBBLE_BOBBLE_FONT).deriveFont(33 * SCALE);
+        Font font = (LoadSave.NES_FONT).deriveFont(12 * SCALE);
         g.setFont(font);
 
         // scritta level
@@ -76,7 +76,7 @@ public class LevelSelectorView {
         int offset = LevelEditorView.getInstance().getLevelWidth();
         int distance = (GAME_WIDTH - offset) / 2;
         int yLevel = (int) (40 * SCALE);
-        g.drawString("Level:",  offset + distance - (misure.stringWidth("Level:") / 2), yLevel);
+        g.drawString("LEVEL:",  offset + distance - (misure.stringWidth("Level:") / 2), yLevel);
 
         // scritta dell'indice del livello
         g.setColor(new Color(254, 238, 31));
