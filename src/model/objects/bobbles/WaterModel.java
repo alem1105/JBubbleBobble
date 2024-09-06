@@ -16,8 +16,9 @@ public class WaterModel extends CustomObjectModel implements Fallable {
 
     private boolean inAir = true;
     private float airSpeed;
-    private float waterSpeed = 0.5f * SCALE;
+    private float waterSpeed = 0.65f * SCALE;
     private int direction;
+    private boolean specificTrappedPlayer = false;
 
     public WaterModel(float x, float y, int width, int height, int direction){
         super(x, y, width, height);
@@ -96,22 +97,31 @@ public class WaterModel extends CustomObjectModel implements Fallable {
         return CanMoveHere(nextX, hitbox.y, hitbox.width, hitbox.height, getLvlData());
     }
 
-//    @Override
-//    public String toString() {
-//        return "WaterModel{" +
-//                "x=" + hitbox.x +
-//                ", y=" + hitbox.y +
-//                ", width=" + hitbox.width +
-//                ", height=" + hitbox.height +
-//                ", direction=" + direction +
-//                ", active=" + active +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "WaterModel{" +
+                "x=" + hitbox.x +
+                ", y=" + hitbox.y +
+                ", width=" + hitbox.width +
+                ", height=" + hitbox.height +
+                ", direction=" + direction +
+                ", active=" + active +
+                '}';
+    }
 
     public boolean isInAir() {
         return inAir;
     }
 
+    public int getDirection() {
+        return direction;
+    }
 
+    public boolean isSpecificTrappedPlayer() {
+        return specificTrappedPlayer;
+    }
 
+    public void setSpecificTrappedPlayer(boolean trappedPlayer) {
+        this.specificTrappedPlayer = trappedPlayer;
+    }
 }

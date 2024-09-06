@@ -89,6 +89,7 @@ public class BubbleManagerView {
             if ((bubbleView.getModel().isActive() || (bubbleView.getModel().isTimeOut() && bubbleView.getAniIndex() < 2)))
                 bubbleView.draw(g);
             else {
+                bubbleView.getWaterfallModelArray();
                 ArrayList<WaterView> bubbleViewArray = bubbleView.getWaterfallView();
                 for (WaterView waterView : bubbleViewArray) {
                     waterView.draw(g);
@@ -108,21 +109,8 @@ public class BubbleManagerView {
     }
 
     private void getExplodedBubblesFromModel() {
-        int modelLength = bubbleManagerModel.getWaters().size();
-        int i = waterViews.size();
-        if (i > modelLength) {
-            i = 0;
-            waterViews.clear();
-        }
-        while (modelLength > waterViews.size()) {
-            WaterModel water = bubbleManagerModel.getWaters().get(i);
-            waterViews.add(new WaterView(water));
-            i++;
-        }
-
-
-        modelLength = bubbleManagerModel.getLightnings().size();
-        i = lightningViews.size();
+        int modelLength = bubbleManagerModel.getLightnings().size();
+        int i = lightningViews.size();
         if (i > modelLength) {
             i = 0;
             lightningViews.clear();
