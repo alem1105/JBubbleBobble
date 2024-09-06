@@ -42,15 +42,18 @@ public class TwinkleView {
     }
 
     private void updatePos() {
-        if (x > GAME_WIDTH + 10)
-            x = - 5;
-        else if (x < -10)
-            x = GAME_WIDTH;
+        if (!MenuView.getInstance().getLogoFalling()) {
+            if (x > GAME_WIDTH + 10)
+                x = - 5;
+            else if (x < -10)
+                x = GAME_WIDTH;
+
+            x += xSpeed;
+        }
 
         if (y <= -10)
             y = GAME_HEIGHT;
 
-        x += xSpeed;
         y -= ySpeed;
     }
 

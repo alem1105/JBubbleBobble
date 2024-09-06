@@ -28,6 +28,7 @@ public class MenuView {
 
     private BufferedImage[][] logoAnimation;
     private int logoY = -(int)(130 * SCALE), logoAniTick, logoAniIndex;
+    private boolean logoFalling = true;
 
     private BufferedImage[][] twinkleAnimation;
     private ArrayList<TwinkleView> twinkles;
@@ -69,6 +70,8 @@ public class MenuView {
     private void updateLogo() {
         if (logoY < (int) (40 * SCALE))
             logoY++;
+        else
+            logoFalling = false;
         logoAniTick++;
         if (logoAniTick >= ANI_SPEED) {
             logoAniTick = 0;
@@ -97,9 +100,11 @@ public class MenuView {
             g.fillRect(0, 0, Constants.GameConstants.GAME_WIDTH, Constants.GameConstants.GAME_HEIGHT);
             drawStars(g);
             drawLogo(g);
-            drawString(g);
-            startButton.draw(g);
-            editorButton.draw(g);
+            if (!logoFalling) {
+                drawString(g);
+                startButton.draw(g);
+                editorButton.draw(g);
+            }
         }
     }
 
@@ -128,5 +133,9 @@ public class MenuView {
 
     public StartButtonView getStartButton() {
         return startButton;
+    }
+
+    public boolean getLogoFalling() {
+        return logoFalling;
     }
 }
