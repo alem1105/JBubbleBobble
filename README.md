@@ -13,14 +13,14 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [x] aggiungere tutti i nemici
 - [x] sistemare movimento bolla di bob
 - [x] schermata game over
-- [ ] schermata hai vinto
+- [x] schermata hai vinto
 - [ ] schermata pausa
 - [x] profilo utente
 - [x] gestione delle vite
 - [x] gestione del punteggio
-- [ ] implementare tutte le bolle
-- [ ] fare i power up (12)  : https://strategywiki.org/wiki/Bubble_Bobble/Special_items
-- [ ] extends
+- [x] implementare tutte le bolle
+- [x] fare i power up (12)  : https://strategywiki.org/wiki/Bubble_Bobble/Special_items
+- [x] extends
 - [ ] aggiungere l'audio
 
 ### Specific things to do
