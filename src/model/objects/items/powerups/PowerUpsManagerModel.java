@@ -45,7 +45,6 @@ public class PowerUpsManagerModel {
     }
 
     public void update(){
-        System.out.println(numberOfPotions);
         checkPowerUpsSpawningConditions();
         updatePowerUps();
     }
