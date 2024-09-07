@@ -17,6 +17,7 @@ public class LoadSave {
     public static final String LEVEL_SPRITE = "level_sprite.png";
     public static final String ICON = "icon.png";
     public static final String BUB_LEVEL_TRANSITION = "bubble_level_transition.png";
+    public static final String PAUSE_BACKGROUND = "Pause_background.png";
 
     public static final String BOB_BUBBLE_SPRITE = "objects/bubbles/bubble_sprites.png";
     public static final String EXTEND_SPRITE = "objects/bubbles/extend_sprite.png";
@@ -57,8 +58,10 @@ public class LoadSave {
     public static final String EDIT_BUTTON = "ui/edit_button.png";
     public static final String HEART_LIFE_BUTTON = "ui/life.png";
     public static final String QUIT_BUTTON = "ui/quit_button.png";
+    public static final String QUIT_BUTTON2 = "ui/quit_button2.png";
     public static final String RESTART_BUTTON = "ui/restart_button.png";
     public static final String START_BUTTON = "ui/start_button.png";
+    public static final String START_BUTTON2 = "ui/start_button2.png";
     public static final String EDITOR_BUTTON = "ui/editor_button.png";
     public static final String CREATE_BUTTON = "ui/create_button.png";
 

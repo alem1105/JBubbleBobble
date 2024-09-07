@@ -37,8 +37,6 @@ public class MenuView {
     private ArrayList<TwinkleView> twinkles;
     private Random random;
 
-    private boolean gameWonAudioPlayed;
-
     public static MenuView getInstance() {
         if (instance == null) {
             instance = new MenuView();
@@ -95,7 +93,7 @@ public class MenuView {
     }
 
     private void initButtons() {
-        startButton = new StartButtonView(new StartButtonModel(GAME_WIDTH / 2 - (int) (47 * SCALE), (int) (177 * SCALE), (int) (94 * SCALE), (int) (28 * SCALE)));
+        startButton = new StartButtonView(new StartButtonModel(GAME_WIDTH / 2 - (int) (47 * SCALE), (int) (177 * SCALE), (int) (94 * SCALE), (int) (28 * SCALE)), false);
         editorButton = new EditorButtonView(new EditorButtonModel(GAME_WIDTH / 2 - (int) (47 * SCALE), (int) (205 * SCALE), (int) (94 * SCALE), (int) (28 * SCALE)));
     }
 

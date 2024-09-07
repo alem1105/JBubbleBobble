@@ -3,10 +3,12 @@ package controller.inputs;
 import model.LevelManagerModel;
 import model.entities.PlayerModel;
 import model.gamestate.Gamestate;
+import model.gamestate.PlayingModel;
 import model.gamestate.UserStateModel;
 import model.ui.buttons.*;
 import view.stateview.*;
 import view.ui.DeathScreenView;
+import view.ui.GamePausedScreenView;
 import view.ui.buttons.*;
 import view.utilz.AudioManager;
 
@@ -32,6 +34,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     private DeathScreenView deathScreenView;
     private MenuView menuView;
     private UserStateView userStateView;
+    private GamePausedScreenView gamePausedScreenView;
     private boolean justChangedScreen;
 
     public MouseInputs(){
@@ -42,6 +45,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
         this.deathScreenView = DeathScreenView.getInstance();
         this.menuView = MenuView.getInstance();
         this.userStateView = UserStateView.getInstance();
+        this.gamePausedScreenView = GamePausedScreenView.getInstance();
     }
 
     private <T extends CustomButtonView> boolean isIn(T button, MouseEvent e) {
@@ -89,7 +93,15 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                         getQuitButton().setPressed(true);
                     if(isIn(deathScreenView.getRestartButtonView(), e))
                             getRestartButton().setPressed(true);
+                    return;
                 }
+                if (PlayingModel.getInstance().isPaused()){
+                    if (isIn(gamePausedScreenView.getStartButton(), e))
+                        gamePausedScreenView.getStartButton().getButtonModel().setPressed(true);
+                    else if (isIn(gamePausedScreenView.getQuitButton(), e))
+                        gamePausedScreenView.getQuitButton().getButtonModel().setPressed(true);
+                }
+
             }
             case LEVEL_EDITOR -> {
                 editorCheckClicks(e);
@@ -186,10 +198,24 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                             getRestartButton().restart();
                         }
                     }
+                    return;
                 }
-                else {
-                    PlayerModel.getInstance().setAttack(false);
+
+                if (PlayingModel.getInstance().isPaused()){
+                    if (isIn(gamePausedScreenView.getStartButton(), e))
+                        if (gamePausedScreenView.getStartButton().getButtonModel().isPressed())
+                            PlayingModel.getInstance().setPaused(false);
+                    if (isIn(gamePausedScreenView.getQuitButton(), e))
+                        if (gamePausedScreenView.getQuitButton().getButtonModel().isPressed())
+                            getQuitButton().quit();
+
+                    gamePausedScreenView.getStartButton().getButtonModel().setPressed(false);
+                    gamePausedScreenView.getQuitButton().getButtonModel().setPressed(false);
+                    return;
                 }
+
+                PlayerModel.getInstance().setAttack(false);
+
 
             }
             case LEVEL_EDITOR -> {
@@ -262,6 +288,19 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                     else {
                         deathScreenView.getRestartButtonView().getButtonModel().setHover(false);
                     }
+                    return;
+                }
+
+                if (PlayingModel.getInstance().isPaused()){
+                    if (isIn(gamePausedScreenView.getStartButton(), e))
+                        gamePausedScreenView.getStartButton().getButtonModel().setHover(true);
+                    else
+                        gamePausedScreenView.getStartButton().getButtonModel().setHover(false);
+
+                    if (isIn(gamePausedScreenView.getQuitButton(), e))
+                        gamePausedScreenView.getQuitButton().getButtonModel().setHover(true);
+                    else
+                        gamePausedScreenView.getQuitButton().getButtonModel().setHover(false);
                 }
             }
 

@@ -33,7 +33,7 @@ public class DeathScreenView {
     }
 
     private void initButtons() {
-        quitButton = new QuitButtonView(new QuitButtonModel(GAME_WIDTH / 2 - (int) (47 * SCALE), (int) (147 * SCALE), (int) (94 * SCALE), (int) (28 * SCALE)));
+        quitButton = new QuitButtonView(new QuitButtonModel(GAME_WIDTH / 2 - (int) (47 * SCALE), (int) (147 * SCALE), (int) (94 * SCALE), (int) (28 * SCALE)), false);
         restartButton = new RestartButtonView(new RestartButtonModel(GAME_WIDTH / 2 - (int) (47 * SCALE), (int) (185 * SCALE), (int) (94 * SCALE), (int) (28 * SCALE)));
     }
 

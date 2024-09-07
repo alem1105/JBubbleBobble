@@ -5,13 +5,21 @@ import view.utilz.LoadSave;
 
 public class QuitButtonView extends CustomButtonView<QuitButtonModel> {
 
-    public QuitButtonView(QuitButtonModel model) {
+    private boolean inPauseScreen;
+
+    public QuitButtonView(QuitButtonModel model, boolean inPauseScreen) {
         super(model);
+        this.inPauseScreen = inPauseScreen;
+        loadSprites();
     }
 
     @Override
     protected void loadSprites() {
-        sprites = LoadSave.loadAnimations(LoadSave.QUIT_BUTTON, 1, 3, 47, 14);
+        if (inPauseScreen) {
+            sprites = LoadSave.loadAnimations(LoadSave.QUIT_BUTTON2, 1, 3, 47, 14);
+        }
+        else
+            sprites = LoadSave.loadAnimations(LoadSave.QUIT_BUTTON, 1, 3, 47, 14);
     }
 }
 

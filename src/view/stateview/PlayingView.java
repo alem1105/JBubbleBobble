@@ -11,6 +11,7 @@ import view.objects.items.PowerUpManagerView;
 import view.objects.projectiles.ProjectileManagerView;
 import view.objects.bobbles.BubbleManagerView;
 import view.ui.DeathScreenView;
+import view.ui.GamePausedScreenView;
 import view.ui.NextLevelScreenView;
 import view.utilz.AudioManager;
 import view.utilz.LoadSave;
@@ -35,6 +36,7 @@ public class PlayingView {
     private ProjectileManagerView projectileManagerView;
     private NextLevelScreenView nextLevelScreenView;
     private PowerUpManagerView powerUpManagerView;
+    private GamePausedScreenView gamePausedScreenView;
 
     private boolean deathAudioPlayed;
     private boolean mainThemeAudioPlayed;
@@ -62,6 +64,7 @@ public class PlayingView {
         projectileManagerView = ProjectileManagerView.getInstance();
         nextLevelScreenView = NextLevelScreenView.getInstance();
         powerUpManagerView = PowerUpManagerView.getInstance();
+        gamePausedScreenView = GamePausedScreenView.getInstance();
     }
 
     public void render(Graphics g) {
@@ -82,8 +85,8 @@ public class PlayingView {
 
         if (playerView.getPlayerModel().isGameOver())
             deathScreenView.render(g);
-//        else if (!PlayingModel.getInstance().isPaused())
-//            deathScreenView.render(g);
+        else if (PlayingModel.getInstance().isPaused())
+            gamePausedScreenView.render(g);
 
     }
 
@@ -91,17 +94,24 @@ public class PlayingView {
         if(playerView.getPlayerModel().isGameOver()) {
             AudioManager.getInstance().continuousSoundPlay(GAME_OVER_INDEX);
             deathScreenView.update();
+            return;
         }
-        else {
-            if (LevelManagerModel.getInstance().isNextLevel()){
-                nextLevelScreenView.update();
-            }
-            AudioManager.getInstance().continuousSoundPlay(MAIN_THEME_INDEX);
-            playerView.update();
-            bubbleManagerView.update();
-            enemiesManagerView.update();
-            powerUpManagerView.update();
+
+        if (LevelManagerModel.getInstance().isNextLevel()){
+            nextLevelScreenView.update();
+            return;
         }
+
+        if (PlayingModel.getInstance().isPaused()){
+            gamePausedScreenView.update();
+            return;
+        }
+
+        AudioManager.getInstance().continuousSoundPlay(MAIN_THEME_INDEX);
+        playerView.update();
+        bubbleManagerView.update();
+        enemiesManagerView.update();
+        powerUpManagerView.update();
     }
 
     private void drawLifeHearts(Graphics g) {

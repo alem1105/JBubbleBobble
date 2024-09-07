@@ -6,12 +6,19 @@ import view.utilz.LoadSave;
 
 public class StartButtonView extends CustomButtonView<StartButtonModel> {
 
-    public StartButtonView(StartButtonModel model) {
+    private boolean inPauseScreen = false;
+
+    public StartButtonView(StartButtonModel model, boolean inPauseScreen) {
         super(model);
+        this.inPauseScreen = inPauseScreen;
+        loadSprites();
     }
 
     @Override
     protected void loadSprites() {
-        sprites = LoadSave.loadAnimations(LoadSave.START_BUTTON, 1, 3, 47, 14);
+        if (inPauseScreen)
+            sprites = LoadSave.loadAnimations(LoadSave.START_BUTTON2, 1, 3, 47, 14);
+        else
+            sprites = LoadSave.loadAnimations(LoadSave.START_BUTTON, 1, 3, 47, 14);
     }
 }
