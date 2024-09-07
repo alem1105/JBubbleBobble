@@ -21,7 +21,7 @@ public abstract class EnemyView<T extends EnemyModel> {
     protected int aniTick, aniSpeed = 25;
     protected BufferedImage[][] animations;
     protected T enemy;
-    protected int flipW, flipX, exploding = 0;
+    protected int flipW = 1, flipX, exploding = 0;
 
     public EnemyView(T enemy) {
         this.enemy = enemy;

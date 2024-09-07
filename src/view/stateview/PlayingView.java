@@ -107,11 +107,19 @@ public class PlayingView {
             return;
         }
 
-        AudioManager.getInstance().continuousSoundPlay(MAIN_THEME_INDEX);
+        chooseTrackToPlayBasedOnLevel();
+
         playerView.update();
         bubbleManagerView.update();
         enemiesManagerView.update();
         powerUpManagerView.update();
+    }
+
+    private void chooseTrackToPlayBasedOnLevel() {
+        if (LevelManagerModel.getInstance().getLvlIndex() + 1 == LevelManagerModel.getInstance().getLevels().size())
+            AudioManager.getInstance().continuousSoundPlay(SUPER_DRUNK_INDEX);
+        else
+            AudioManager.getInstance().continuousSoundPlay(MAIN_THEME_INDEX);
     }
 
     private void drawLifeHearts(Graphics g) {

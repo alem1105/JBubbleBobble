@@ -61,11 +61,11 @@ public class SuperDrunkModel extends EnemyModel{
     }
 
     private boolean canSuperDrunkMoveOnThisY(float nextY) {
-        return !(nextY >= GAME_HEIGHT - (3 * TILES_SIZE) || nextY <= TILES_SIZE);
+        return !(nextY + hitbox.height >= GAME_HEIGHT - (2 * TILES_SIZE) || nextY <= TILES_SIZE);
     }
 
     private boolean canSuperDrunkMoveOnThisX(float nextX) {
-        return !(nextX >= GAME_WIDTH - TILES_SIZE || nextX <= TILES_SIZE);
+        return !(nextX + hitbox.width  >= GAME_WIDTH - TILES_SIZE || nextX <= TILES_SIZE);
     }
 
     public void setLives(int lives) {
@@ -82,5 +82,9 @@ public class SuperDrunkModel extends EnemyModel{
 
     public void setHasBeenHit(boolean hasBeenHit) {
         this.hasBeenHit = hasBeenHit;
+    }
+
+    public void decreaseLives() {
+        this.lives--;
     }
 }

@@ -16,7 +16,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class AudioManager {
 
     private static AudioManager instance;
-    private Clip mainTheme;
     private Clip[] continuousAudios;
     private String[] continuousAudiosPaths;
 
@@ -29,7 +28,8 @@ public class AudioManager {
     public final static String GAME_OVER = "res/sounds/game_over.wav";
     public final static int GAME_OVER_INDEX = 2;
 
-    // Musica Boss
+    public final static String SUPER_DRUNK = "res/sounds/super_drunk.wav";
+    public final static int SUPER_DRUNK_INDEX = 3;
 
 
     public static AudioManager getInstance() {
@@ -39,8 +39,8 @@ public class AudioManager {
     }
 
     private AudioManager() {
-        continuousAudios = new Clip[3];
-        continuousAudiosPaths = new String[]{MAIN_THEME, GAME_WON, GAME_OVER};
+        continuousAudios = new Clip[4];
+        continuousAudiosPaths = new String[]{MAIN_THEME, GAME_WON, GAME_OVER, SUPER_DRUNK};
         loadContinuousAudios(continuousAudiosPaths);
     }
 

@@ -20,7 +20,7 @@ public class PowerUpsManagerModel {
     private ArrayList<PowerUpModel> powerups;
     private PlayerModel playerModel;
 
-    private int potionLightningTick = 0, potionLightningTimer = 900;
+    private int potionLightningTick = 0, potionLightningTimer = 120, numberOfPotions;
 
     private Random random;
 
@@ -45,6 +45,7 @@ public class PowerUpsManagerModel {
     }
 
     public void update(){
+        System.out.println(numberOfPotions);
         checkPowerUpsSpawningConditions();
         updatePowerUps();
     }
@@ -56,6 +57,8 @@ public class PowerUpsManagerModel {
                 if (playerModel.getHitbox().intersects(powerUp.getHitbox()) && !powerUp.isPickedUp()) {
                     UserStateModel.getInstance().getCurrentUserModel().incrementTempScore(powerUp.getScore());
                     powerUp.applyEffect();
+//                    if (powerUp instanceof PotionLightningModel)
+//                        numberOfPotions--;
                 }
             }
         }
@@ -138,6 +141,7 @@ public class PowerUpsManagerModel {
 
         if (canPotionLightingSpawn()) {
             int[] randomCoordinates = lightningPotionSpawnPoints[random.nextInt(lightningPotionSpawnPoints.length)];
+            //numberOfPotions++;
             powerups.add(new PotionLightningModel(randomCoordinates[0], randomCoordinates[1], (int) (16f * SCALE), (int) (16f * SCALE)));
         }
     }

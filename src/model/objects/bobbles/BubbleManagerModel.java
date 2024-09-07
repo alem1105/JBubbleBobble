@@ -1,8 +1,10 @@
 package model.objects.bobbles;
 
+import model.LevelManagerModel;
 import model.entities.PlayerModel;
 import model.entities.enemies.EnemyManagerModel;
 import model.entities.enemies.EnemyModel;
+import model.entities.enemies.SuperDrunkModel;
 import model.gamestate.UserStateModel;
 import model.objects.CustomObjectModel;
 
@@ -13,6 +15,7 @@ import static model.utilz.Constants.GameConstants.*;
 import static model.utilz.Constants.PlayerConstants.DEATH;
 import static model.utilz.Constants.SpecialBubbles.*;
 import static model.utilz.Gravity.CanMoveHere;
+import static model.utilz.Gravity.IsTileSolid;
 import static model.utilz.UtilityMethods.getLvlData;
 
 public class BubbleManagerModel {
@@ -98,13 +101,29 @@ public class BubbleManagerModel {
     private void checkObjectHitEnemy(CustomObjectModel objectModel) {
         for(EnemyModel enemy : EnemyManagerModel.getInstance().getEnemies()) {
             if(objectModel.getHitbox().intersects(enemy.getHitbox())) {
-                if (enemy.isActive()) {
+
+                if(objectModel instanceof LightningModel && enemy instanceof SuperDrunkModel)
+                    handleSuperDrunkLives((SuperDrunkModel) enemy);
+
+                else if (enemy.isActive()) {
                     //enemy.setEnemyState(DEATH);
                     enemy.setActive(false);
                 }
             }
         }
     }
+
+    private void handleSuperDrunkLives(SuperDrunkModel superDrunk) {
+        if(superDrunk.getLives() <= 0)
+            superDrunk.setInBubble(true);
+        else{
+            superDrunk.decreaseLives();
+            superDrunk.setHasBeenHit(true);
+        }
+
+
+    }
+
 
     private void updateBubbles() {
         for (BubbleModel bubble : bubbles){
@@ -204,6 +223,9 @@ public class BubbleManagerModel {
             spawnBubbleTick = 0;
             int bubbleType = rand.nextInt(3); //2;
 
+            int[] excludedFromSpawningBubbles = new int[4];
+            checkWhichBubbleCanSpawn(excludedFromSpawningBubbles);
+
             int max = (TILES_IN_WIDTH - 1) * TILES_SIZE;
             int min = TILES_SIZE;
 
@@ -211,6 +233,29 @@ public class BubbleManagerModel {
             int y = GAME_HEIGHT;
             bubbles.add(new BubbleModel(randomX, y,(int) (14 * SCALE), (int) (16 * SCALE), bubbleType));
         }
+    }
+
+    private void checkWhichBubbleCanSpawn(int[] excludedFromSpawningBubbles) {
+        LevelManagerModel levelManagerModel = LevelManagerModel.getInstance();
+
+        if(levelManagerModel.getLvlIndex() + 1 == levelManagerModel.getLevels().size()) {
+            excludedFromSpawningBubbles[WATER_BUBBLE] = 1;
+            excludedFromSpawningBubbles[FIRE_BUBBLE] = 1;
+            excludedFromSpawningBubbles[EXTEND_BUBBLE] = 1;
+        }
+
+        if(floorDoesNotHaveHoles())
+            excludedFromSpawningBubbles[WATER_BUBBLE] = 1;
+    }
+
+    private boolean floorDoesNotHaveHoles() {
+        int yTile = TILES_IN_HEIGHT - 2;
+
+        for(int x = 0; x < TILES_IN_WIDTH; x++)
+            if(IsTileSolid((int) (x / TILES_SIZE), yTile, getLvlData()))
+                return false;
+
+        return true;
     }
 
     private void checkPlayerHit(BubbleModel bubble) {
@@ -283,7 +328,7 @@ public class BubbleManagerModel {
     private void checkEnemyHasBeenHit(BobBubbleModel bubble) {
         for(EnemyModel enemy : EnemyManagerModel.getInstance().getEnemies()) {
             if(bubble.getHitbox().intersects(enemy.getHitbox()) && !(bubble.isCollision())) {
-                if (enemy.isActive()) {
+                if (enemy.isActive() && !(enemy instanceof SuperDrunkModel)) {
                     bubble.setActive(false);
                     enemy.setInBubble(true);
                 }

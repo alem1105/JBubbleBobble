@@ -36,8 +36,6 @@ public class EnemyManagerModel {
     private int levelEndTick = 0;
     private int levelEndTimerDuration = 720;
 
-    private int sideHit = 0;
-
     // Power Up
     private boolean timeFrozen;
 
@@ -70,7 +68,7 @@ public class EnemyManagerModel {
                 .flatMap(Collection::stream)
                 .collect(Collectors.toCollection(ArrayList::new));
         if (levelManagerModel.getLvlIndex() + 1 == levelManagerModel.getLevels().size())
-            enemies.add(new SuperDrunkModel(100, 100, (int) (48 * SCALE), (int) (51 * SCALE)));
+            enemies.add(new SuperDrunkModel(100, 100, (int) (36 * SCALE), (int) (39 * SCALE)));
     }
 
     public void update() {
@@ -102,28 +100,40 @@ public class EnemyManagerModel {
         }
     }
 
-    private void checkEnemiesCollisionAndUpdatePos(){
-        for (EnemyModel enemyModel : enemies) {
-            if (enemyModel.isActive()) {
-                if (!timeFrozen)
-                    enemyModel.update();
-                if (enemyModel.getHitbox().intersects(getPlayerModel().getHitbox())) {
-                    if (enemyModel.isInBubble()) {
-                        enemyModel.setEnemyState(DEAD);
-                        enemyModel.setActive(false);
-                    }
-                    else if (getPlayerModel().getPlayerAction() != DEATH && !getPlayerModel().isInvincible()) {
-                        getPlayerModel().playerHasBeenHit();
-                    }
-                }
-            } else {
-                if(!(enemyModel.isDeathMovement())) {
-                    sideHit = (enemyModel.walkDir == RIGHT) ? LEFT : RIGHT;
-                    enemyModel.doDeathMovement(enemyModel, sideHit);
-                } else {
-                    spawnFood(enemyModel);
-                }
-            }
+    private void checkEnemiesCollisionAndUpdatePos() {
+        for(EnemyModel enemy : enemies) {
+            if(enemy.isActive())
+                handleActiveEnemy(enemy);
+            else
+                handleInactiveEnemy(enemy);
+        }
+    }
+
+    private void handleActiveEnemy(EnemyModel enemy) {
+        if(!timeFrozen)
+            enemy.update();
+
+        if(enemy.getHitbox().intersects(getPlayerModel().getHitbox()))
+            handleCollisionWithPlayer(enemy);
+    }
+
+    private void handleInactiveEnemy(EnemyModel enemy) {
+        if(!enemy.isDeathMovement()) {
+            int sideHit = (enemy.walkDir == RIGHT) ? LEFT : RIGHT;
+            enemy.doDeathMovement(enemy, sideHit);
+        } else {
+           spawnFood(enemy);
+        }
+    }
+
+    private void handleCollisionWithPlayer(EnemyModel enemy) {
+        PlayerModel player = getPlayerModel();
+
+        if(enemy.isInBubble()) {
+            enemy.setEnemyState(DEAD);
+            enemy.setActive(false);
+        } else if(player.getPlayerAction() != DEATH && !player.isInvincible()) {
+            player.playerHasBeenHit();
         }
     }
 

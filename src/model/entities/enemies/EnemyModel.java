@@ -34,8 +34,8 @@ public abstract class EnemyModel extends EntityModel {
 
     private boolean deathMovement = false;
     private boolean invertDeathMovement = false;
-    private int parableTick = 0;
     private boolean alreadyDidParable = false;
+    private int parableTick = 0;
     private int parableMoveIndex = 0;
     private float[][] parableMoves = {
             {20, 1, -4.5f},
