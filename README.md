@@ -30,13 +30,13 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [x] sistemare menu
 - [x] animazione migliore morte dei nemici
 - [x] sistemare schermata user
-- [ ] update user alla fine di una partita : 
+- [x] update user alla fine di una partita : 
 -       aggiungere alla vittoria quando avremmo la schermata
 - [x] bolle che scoppiamo tutte insieme 
-- [ ] sistemare spawning powerUp
-- [ ] colore caramelle - spostarle
-- [ ] fare l'ultimo power up (fulmini)
-- [ ] classifica
+- [x] sistemare spawning powerUp
+- [x] colore caramelle - spostarle
+- [x] fare l'ultimo power up (fulmini)
+- [x] classifica
 - [x] metodo per il caricamento del livello successivo
 - [x] pulsante restart 
 

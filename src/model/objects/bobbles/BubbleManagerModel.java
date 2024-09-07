@@ -181,8 +181,21 @@ public class BubbleManagerModel {
                 checkPlayerHit(bubble);
                 checkEnemyHasBeenHit(bubble);
                 checkCollisionWithOtherBubbles(bubble);
+            } else {
+                checkLightingBubbleSpawnAfterPowerUpPickup(bubble);
             }
         }
+    }
+
+    private void checkLightingBubbleSpawnAfterPowerUpPickup(BobBubbleModel bubble) {
+        if(!PlayerModel.getInstance().isShootingLightningBubble())
+            return;
+
+        if(bubble.isAlreadyShotLighting())
+            return;
+
+        lightnings.add(new LightningModel(bubble.getHitbox().x, bubble.getHitbox().y, (int) (16 * SCALE), (int) (16 * SCALE), PlayerModel.getInstance().getFacing()));
+        bubble.setAlreadyShotLighting(true);
     }
 
     private void updateRandomBubbleSpawn() {

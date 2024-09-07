@@ -5,7 +5,7 @@ import view.utilz.LoadSave;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
-public class UserModel implements Serializable {
+public class UserModel implements Serializable, Comparable<UserModel> {
     private String nickname, avatarPath;
     private int maxScore, level, levelScore, wins, losses, matches;
     transient int tempScore; // non lo serializza
@@ -136,13 +136,15 @@ public class UserModel implements Serializable {
     public void updateLevelScore() {
         this.levelScore += tempScore;
         level = levelScore / 5000;
-//        if (this.levelScore > 5000 * this.level) {
-//            this.level++;
-//        }
     }
 
     public void setMaxScore() {
         this.maxScore = Math.max(maxScore, tempScore);
+    }
+
+    @Override
+    public int compareTo(UserModel o) {
+        return Integer.compare(o.maxScore, this.maxScore);
     }
 
     public void setAvatar(BufferedImage avatar) {
@@ -172,4 +174,5 @@ public class UserModel implements Serializable {
     public void setTempScore(int tempScore) {
         this.tempScore = tempScore;
     }
+
 }

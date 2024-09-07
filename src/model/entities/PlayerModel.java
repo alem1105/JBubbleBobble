@@ -45,6 +45,7 @@ public class PlayerModel extends EntityModel {
     private int jumpedTimes, eatenPinkCandies, eatenYellowCandies, runDistanceAmount, reachedFinalLevel;
     private int scoreForJump = 0;
 
+    private boolean shootingLightningBubble;
 
     private BubbleManagerModel bubbleManagerModel = BubbleManagerModel.getInstance();
 
@@ -411,4 +412,11 @@ public class PlayerModel extends EntityModel {
         return facing;
     }
 
+    public boolean isShootingLightningBubble() {
+        return shootingLightningBubble;
+    }
+
+    public void setShootingLightningBubble(boolean shootingLightningBubble) {
+        this.shootingLightningBubble = shootingLightningBubble;
+    }
 }

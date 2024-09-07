@@ -53,7 +53,7 @@ public class FoodView extends CustomObjectView<FoodModel> {
 
     private void drawScoreAmount(Graphics g) {
         g.setColor(Color.GREEN);
-        Font font = (LoadSave.BUBBLE_BOBBLE_FONT).deriveFont(10 * SCALE);
+        Font font = (LoadSave.NES_FONT).deriveFont(8 * SCALE);
         g.setFont(font);
         g.drawString(String.valueOf(objectModel.getGivenScoreAmount()), (int)objectModel.getX(), (int)objectModel.getY());
     }

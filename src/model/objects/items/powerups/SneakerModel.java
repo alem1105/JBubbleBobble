@@ -1,9 +1,7 @@
 package model.objects.items.powerups;
 
 import model.entities.PlayerModel;
-import model.gamestate.UserStateModel;
 
-import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.GameConstants.SCALE;
 import static model.utilz.Constants.PowerUps.SNEAKER;
 

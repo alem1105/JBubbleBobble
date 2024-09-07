@@ -25,6 +25,7 @@ public class PowerUpsManagerModel {
     private Random random;
 
     private boolean bombExploding;
+    int[][] lightningPotionSpawnPoints = {{6 * TILES_SIZE, 3 * TILES_SIZE}, {13 * TILES_SIZE, 3 * TILES_SIZE}};
 
     public static PowerUpsManagerModel getInstance() {
         if(instance == null) {
@@ -136,7 +137,7 @@ public class PowerUpsManagerModel {
         }
 
         if (canPotionLightingSpawn()) {
-            int[] randomCoordinates = generateRandomCoordinates();
+            int[] randomCoordinates = lightningPotionSpawnPoints[random.nextInt(lightningPotionSpawnPoints.length)];
             powerups.add(new PotionLightningModel(randomCoordinates[0], randomCoordinates[1], (int) (16f * SCALE), (int) (16f * SCALE)));
         }
     }
@@ -164,7 +165,7 @@ public class PowerUpsManagerModel {
     }
 
     private boolean canPotionLightingSpawn(){
-        if (LevelManagerModel.getInstance().getLvlIndex() == LevelManagerModel.getInstance().getLevels().size()){
+        if (LevelManagerModel.getInstance().getLvlIndex() + 1 == LevelManagerModel.getInstance().getLevels().size()){
             potionLightningTick++;
             if (potionLightningTimer == potionLightningTick){
                 potionLightningTick = 0;

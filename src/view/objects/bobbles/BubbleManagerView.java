@@ -80,7 +80,7 @@ public class BubbleManagerView {
 
     private void drawBobBubbles(Graphics g) {
         for (BobBubbleView bubbleView : bobBubbleViews) {
-            if ((bubbleView.getModel().isActive() || (bubbleView.getModel().isTimeOut() && bubbleView.getAniIndex() <= 2)))
+            if ((bubbleView.getModel().isActive() || (bubbleView.getModel().isTimeOut() && bubbleView.getAniIndex() < 2)))
                 bubbleView.draw(g);
         }
     }

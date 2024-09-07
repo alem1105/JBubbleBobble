@@ -12,6 +12,8 @@ public class BobBubbleModel extends BubbleModel {
     private int projectileTravelTimes = 0;
     private int projectTravelDuration = 60;
 
+    private boolean alreadyShotLighting;
+
     public BobBubbleModel(float x, float y, int width, int height, int bubbleDirection) {
         super(x, y, width, height, BOB_BUBBLE);
         this.bubbleDirection = bubbleDirection;
@@ -58,5 +60,13 @@ public class BobBubbleModel extends BubbleModel {
 
     public void setProjectileTravelTimes(int projectileTravelTimes) {
         this.projectileTravelTimes = projectileTravelTimes;
+    }
+
+    public boolean isAlreadyShotLighting() {
+        return alreadyShotLighting;
+    }
+
+    public void setAlreadyShotLighting(boolean alreadyShotLighting) {
+        this.alreadyShotLighting = alreadyShotLighting;
     }
 }

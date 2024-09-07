@@ -19,15 +19,19 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
 
     public BubbleView(T model) {
         super(model);
-        switch (model.getBubbleType()) {
+        setSprites();
+        waterfallView = new ArrayList<>();
+    }
+
+    private void setSprites(){
+        switch (objectModel.getBubbleType()) {
             case BOB_BUBBLE ->
-                    sprites = LoadSave.loadAnimations(LoadSave.BOB_BUBBLE_SPRITE,3, 3, 16, 16);
+                sprites = LoadSave.loadAnimations(LoadSave.BOB_BUBBLE_SPRITE,3, 3, 16, 16);
             case EXTEND_BUBBLE ->
                     sprites = LoadSave.loadAnimations(LoadSave.EXTEND_SPRITE,7, 2, 16, 16);
             case WATER_BUBBLE, LIGHTNING_BUBBLE, FIRE_BUBBLE ->
                     sprites = LoadSave.loadAnimations(LoadSave.SPECIAL_BUBBLE_SPRITE,4, 2, 16, 16);
         }
-        waterfallView = new ArrayList<>();
     }
 
     public void update() {

@@ -82,7 +82,7 @@ public class PowerUpView extends CustomObjectView<PowerUpModel> {
 
     private void drawPoints(Graphics g) {
         g.setColor(Color.GREEN);
-        Font font = (LoadSave.BUBBLE_BOBBLE_FONT).deriveFont(10 * SCALE);
+        Font font = (LoadSave.NES_FONT).deriveFont(8 * SCALE);
         g.setFont(font);
         g.drawString(String.valueOf(objectModel.getScore()), (int) objectModel.getX(), (int) objectModel.getY());
     }

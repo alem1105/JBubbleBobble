@@ -13,8 +13,10 @@ import view.utilz.LoadSave;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static model.utilz.Constants.GameConstants.*;
+import static view.utilz.LoadSave.NES_FONT;
 
 public class UserStateView {
 
@@ -43,6 +45,8 @@ public class UserStateView {
     private Rectangle2D.Float nicknameField;
     private boolean writingNickname;
 
+    private boolean showingLeaderboard;
+
     public static UserStateView getInstance() {
         if (instance == null) {
             instance = new UserStateView();
@@ -53,6 +57,7 @@ public class UserStateView {
     private UserStateView() {
         userStateModel = UserStateModel.getInstance();
         users = userStateModel.getUserModels();
+        Collections.sort(users);
         inputNickname = "Write Nick";
         checkCreateUser();
         firstWidth = GAME_WIDTH / 2 - (int) (110 * SCALE);
@@ -85,9 +90,50 @@ public class UserStateView {
         FontMetrics nicknameMeasures = g.getFontMetrics(nicknameFont);
         FontMetrics measures = g.getFontMetrics(LoadSave.JEQO_FONT);
 
-        drawUserStats(g, measures, nicknameMeasures, nicknameFont);
+        if (showingLeaderboard){
+            drawLeaderboard(g);
+            return;
+        }
 
+        drawUserStats(g, measures, nicknameMeasures, nicknameFont);
         drawButtons(g);
+        drawHintForLeaderboard(g);
+    }
+
+    private void drawLeaderboard(Graphics g) {
+        Color[] colors = new Color[]{new Color(142, 253, 153), new Color(255, 178, 244), new Color(175, 255, 255)};
+        Collections.sort(users);
+        g.setFont(NES_FONT);
+        FontMetrics fontMetrics = g.getFontMetrics();
+        int x = GAME_WIDTH / 2 - fontMetrics.stringWidth("00    AAAAAAAAA     000000") / 2;
+        int scoreX = GAME_WIDTH / 2 + fontMetrics.stringWidth("00    AAAAAAAAA     000000") / 2 - fontMetrics.stringWidth(" 000000");
+        for(int y = 0; y < users.size(); y++) {
+            UserModel user = users.get(y);
+
+            if (y >= 3)
+                g.setColor(Color.WHITE);
+            else
+                g.setColor(colors[y]);
+
+            g.drawString((y+1) + "    " + user.getNickname().toUpperCase(), x, y * (fontMetrics.getHeight() + (int) (10 * SCALE)) + (int)(100 * SCALE));
+            g.drawString(String.valueOf(user.getMaxScore()).toUpperCase(), scoreX, y * (fontMetrics.getHeight() + (int) (10 * SCALE)) + (int)(100 * SCALE));
+        }
+        Font font = NES_FONT.deriveFont(20f * SCALE);
+        g.setFont(font);
+        g.setColor(new Color(255, 81, 81));
+        fontMetrics = g.getFontMetrics();
+        g.drawString("LEADERBOARD", GAME_WIDTH / 2 - fontMetrics.stringWidth("LEADERBOARD") / 2, (int) (50 * SCALE));
+    }
+
+    private void drawHintForLeaderboard(Graphics g) {
+        if(createUser)
+            return;
+
+        Color lightRed = new Color(255, 81, 81);
+        g.setColor(lightRed);
+        g.setFont(NES_FONT);
+        FontMetrics fontMetrics = g.getFontMetrics(NES_FONT);
+        g.drawString("PRESS L TO SEE LEADERBOARD", GAME_WIDTH / 2 - fontMetrics.stringWidth("PRESS L TO SEE LEADERBOARD") / 2, GAME_HEIGHT - (int) (70 * SCALE));
     }
 
     private void drawButtons(Graphics g) {
@@ -258,5 +304,13 @@ public class UserStateView {
 
     public void setUserIndex(int userIndex) {
         this.userIndex = userIndex;
+    }
+
+    public boolean isShowingLeaderboard() {
+        return showingLeaderboard;
+    }
+
+    public void setShowingLeaderboard(boolean showingLeaderboard) {
+        this.showingLeaderboard = showingLeaderboard;
     }
 }

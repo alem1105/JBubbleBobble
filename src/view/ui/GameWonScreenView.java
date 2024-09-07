@@ -36,7 +36,7 @@ public class GameWonScreenView {
     private Color[] starColors;
     private ArrayList<Rectangle2D.Float> stars;
 
-    private int durationTick, durationTimer = 10;
+    private int durationTick, durationTimer = 10920;
 
     public static GameWonScreenView getInstance() {
         if (instance == null) {
