@@ -9,7 +9,7 @@ import java.awt.*;
 import static model.utilz.Constants.Enemies.*;
 import static view.utilz.LoadSave.*;
 
-public class ZenChanView extends EnemyView {
+public class ZenChanView extends EnemyView<ZenChanModel> {
 
     public ZenChanView(ZenChanModel zenChan) {
         super(zenChan);

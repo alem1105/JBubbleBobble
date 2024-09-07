@@ -10,7 +10,7 @@ import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.Enemies.*;
 
 
-public abstract class EnemyView {
+public abstract class EnemyView<T extends EnemyModel> {
 
     protected static final int ROW_INDEX = 5;
     protected static final int COL_INDEX = 6;
@@ -20,10 +20,10 @@ public abstract class EnemyView {
     protected int aniIndex;
     protected int aniTick, aniSpeed = 25;
     protected BufferedImage[][] animations;
-    protected EnemyModel enemy;
+    protected T enemy;
     protected int flipW, flipX, exploding = 0;
 
-    public EnemyView(EnemyModel enemy) {
+    public EnemyView(T enemy) {
         this.enemy = enemy;
     }
 
@@ -89,7 +89,7 @@ public abstract class EnemyView {
                 enemy.getWidth() * flipW, enemy.getHeight(), null);
     }
 
-    public EnemyModel getEnemy(){
+    public T getEnemy(){
         return enemy;
     }
 }

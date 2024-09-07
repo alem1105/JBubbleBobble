@@ -12,6 +12,8 @@ public class DrunkBottleModel extends ProjectileModel {
     private float startX;
     private int dirChanged;
 
+    private boolean superDrunk;
+
     public DrunkBottleModel(float x, float y,int direction) {
         super(x, y, (int) (18 * SCALE), (int)(18* SCALE), direction);
         startX = x;
@@ -30,7 +32,17 @@ public class DrunkBottleModel extends ProjectileModel {
     }
 
     private void updatePos() {
+        if(superDrunk)
+            updateSuperDrunkPos();
+        else
+            updateDrunkPos();
+    }
 
+    private void updateSuperDrunkPos() {
+
+    }
+
+    private void updateDrunkPos() {
         // Controlla se scoppiare, un po' di scarto per sicurezza
         if (hitbox.x >= startX - (2 * SCALE) && hitbox.x <= startX + (2 * SCALE) && dirChanged > 0) {
             active = false;
@@ -49,7 +61,6 @@ public class DrunkBottleModel extends ProjectileModel {
             dirChanged++;
             bottleSpeed = -bottleSpeed;
         }
-
     }
 
 }

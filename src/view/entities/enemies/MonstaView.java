@@ -1,6 +1,7 @@
 package view.entities.enemies;
 
 import model.entities.enemies.EnemyModel;
+import model.entities.enemies.MonstaModel;
 import model.entities.enemies.ZenChanModel;
 import model.utilz.Constants;
 import view.utilz.LoadSave;
@@ -10,12 +11,12 @@ import static model.utilz.Constants.Directions.UP_RIGHT;
 import static model.utilz.Constants.Enemies.ZEN_CHAN_WIDTH;
 import static view.utilz.LoadSave.loadAnimations;
 
-public class MonstaView extends EnemyView {
+public class MonstaView extends EnemyView<MonstaModel> {
 
     private static final int ROW_INDEX = 5;
     private static final int COL_INDEX = 6;
 
-    public MonstaView(EnemyModel enemy) {
+    public MonstaView(MonstaModel enemy) {
         super(enemy);
         animations = loadAnimations(LoadSave.MONSTA_SPRITE, ROW_INDEX, COL_INDEX, 18, 18);
         xDrawOffset = (int) (1 * Constants.GameConstants.SCALE);

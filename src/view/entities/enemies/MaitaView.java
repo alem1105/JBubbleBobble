@@ -7,7 +7,7 @@ import view.utilz.LoadSave;
 
 import static view.utilz.LoadSave.loadAnimations;
 
-public class MaitaView extends EnemyView{
+public class MaitaView extends EnemyView<MaitaModel>{
 
     public MaitaView(MaitaModel maita) {
         super(maita);

@@ -102,7 +102,9 @@ public class EnemiesManagerView {
                 case InvaderModel invaderModel -> enemyViews.add(new InvaderView(invaderModel));
                 case MonstaModel monstaModel -> enemyViews.add(new MonstaView(monstaModel));
                 case DrunkModel drunkModel -> enemyViews.add(new DrunkView(drunkModel));
-                case null, default -> enemyViews.add(new HidegonsView((HidegonsModel) enemyModel));
+                case SuperDrunkModel superDrunkModel -> enemyViews.add(new SuperDrunkView(superDrunkModel));
+                case HidegonsModel hidegonsModel -> enemyViews.add(new HidegonsView(hidegonsModel));
+                default -> System.out.println("Errore caricamento nemici");
             }
     }
 

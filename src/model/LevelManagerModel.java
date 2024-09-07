@@ -21,7 +21,7 @@ public class LevelManagerModel {
 
     private static LevelManagerModel instance;
     private ArrayList<LevelModel> levels;
-    private int lvlIndex = 0;
+    private int lvlIndex = 24;
     private boolean nextLevel = false;
     private int levelSkipped = 1;
     private boolean gameWon;

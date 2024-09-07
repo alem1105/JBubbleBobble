@@ -33,6 +33,7 @@ public class LoadSave {
     public static final String MONSTA_SPRITE = "enemies/monsta_sprite.png";
     public static final String DRUNK_SPRITE = "enemies/drunk_sprite.png";
     public static final String HIDEGONS_SPRITE = "enemies/hidegons_sprite.png";
+    public static final String SUPERDRUNK_SPRITE = "enemies/superdrunk_sprite.png";
 
     // Avatar
     public static final String AVATAR_1 = "avatars/avatar1.png";

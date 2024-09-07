@@ -7,7 +7,7 @@ import view.utilz.LoadSave;
 
 import static view.utilz.LoadSave.loadAnimations;
 
-public class InvaderView extends EnemyView {
+public class InvaderView extends EnemyView<InvaderModel> {
     public InvaderView(InvaderModel enemy) {
         super(enemy);
         animations = loadAnimations(LoadSave.INVADER_SPRITE, ROW_INDEX, COL_INDEX, 18, 18);

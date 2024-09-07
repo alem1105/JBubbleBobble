@@ -14,8 +14,7 @@ import java.util.stream.Stream;
 import static model.utilz.Constants.Directions.LEFT;
 import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.Enemies.DEAD;
-import static model.utilz.Constants.GameConstants.SCALE;
-import static model.utilz.Constants.GameConstants.TILES_SIZE;
+import static model.utilz.Constants.GameConstants.*;
 import static model.utilz.Constants.PlayerConstants.DEATH;
 
 public class EnemyManagerModel {
@@ -70,6 +69,8 @@ public class EnemyManagerModel {
         enemies = Stream.of(zenChans, invaders, monstas, maitas, hidegons, drunks)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toCollection(ArrayList::new));
+        if (levelManagerModel.getLvlIndex() + 1 == levelManagerModel.getLevels().size())
+            enemies.add(new SuperDrunkModel(100, 100, (int) (48 * SCALE), (int) (51 * SCALE)));
     }
 
     public void update() {
