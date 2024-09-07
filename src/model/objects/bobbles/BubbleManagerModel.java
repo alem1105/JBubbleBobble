@@ -221,17 +221,20 @@ public class BubbleManagerModel {
         spawnBubbleTick++;
         if (spawnBubbleTick >= spawnBubbleDuration) {
             spawnBubbleTick = 0;
-            int bubbleType = rand.nextInt(3); //2;
+            int randomBubbleType = rand.nextInt(3); //2;
 
             int[] excludedFromSpawningBubbles = new int[4];
             checkWhichBubbleCanSpawn(excludedFromSpawningBubbles);
+            while(excludedFromSpawningBubbles[randomBubbleType] == 1)
+                randomBubbleType = rand.nextInt(4);
+
 
             int max = (TILES_IN_WIDTH - 1) * TILES_SIZE;
             int min = TILES_SIZE;
 
             int randomX = rand.nextInt(max - min + 1) + min;
             int y = GAME_HEIGHT;
-            bubbles.add(new BubbleModel(randomX, y,(int) (14 * SCALE), (int) (16 * SCALE), bubbleType));
+            bubbles.add(new BubbleModel(randomX, y,(int) (14 * SCALE), (int) (16 * SCALE), randomBubbleType));
         }
     }
 
@@ -252,7 +255,7 @@ public class BubbleManagerModel {
         int yTile = TILES_IN_HEIGHT - 2;
 
         for(int x = 0; x < TILES_IN_WIDTH; x++)
-            if(IsTileSolid((int) (x / TILES_SIZE), yTile, getLvlData()))
+            if(!IsTileSolid(x, yTile, getLvlData()))
                 return false;
 
         return true;
