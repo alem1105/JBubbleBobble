@@ -27,7 +27,7 @@ public class LevelManagerModel {
     /** Lista di tutti i livelli */
     private ArrayList<LevelModel> levels;
     /** Indice del livello corrente */
-    private int lvlIndex = 2;
+    private int lvlIndex = 0;
     /** Indica se passare al prossimo livello */
     private boolean nextLevel = false;
     /** Usato per indicare quanti livelli saltare con gli ombrelli */

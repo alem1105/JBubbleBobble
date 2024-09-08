@@ -505,7 +505,7 @@ public abstract class EnemyModel extends EntityModel {
      * Avvia il timer di tiro del nemico.
      */
     protected void startShootingTimer() {
-        if(shootingTick >= shootingTimer && !inAir) {
+        if(shootingTick >= shootingTimer && !inAir && !inBubble) {
             still = true;
             shootingTick = 0;
             shot = false;
@@ -517,7 +517,7 @@ public abstract class EnemyModel extends EntityModel {
      * Avvia il timer per rimanere fermo.
      */
     protected void startStillTimer() {
-        if (stillTick >= stillTimer)  {
+        if (stillTick >= stillTimer && !inBubble)  {
             stillTick = 0;
             still = false;
             shootingTick = 0;

@@ -34,7 +34,6 @@ public class MaitaModel extends EnemyModel {
      */
     @Override
     public void update() {
-        if (enemyState == RUNNING || enemyState == RUNNING_ANGRY) {
             if (still) {
                 checKFireballShooting();
             } else {
@@ -42,7 +41,6 @@ public class MaitaModel extends EnemyModel {
                     startShootingTimer();
                 updatePos();
             }
-        }
         updateEnemyState();
     }
 

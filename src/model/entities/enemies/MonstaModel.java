@@ -31,6 +31,11 @@ public class MonstaModel extends EnemyModel {
      */
     @Override
     protected void updatePos() {
+        if(inBubble) {
+            inBubbleMovement();
+            return;
+        }
+
         switch (walkDir) {
             case UP_RIGHT -> {
                 if (canMonstaMoveOnThisX(hitbox.x + walkSpeed))

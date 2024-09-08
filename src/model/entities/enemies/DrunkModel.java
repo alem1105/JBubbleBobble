@@ -34,7 +34,6 @@ public class DrunkModel extends EnemyModel{
      */
     @Override
     public void update() {
-        if (enemyState == RUNNING || enemyState == RUNNING_ANGRY){
             if(still) {
                 checKBottleShooting();
             }
@@ -42,7 +41,6 @@ public class DrunkModel extends EnemyModel{
                 if(isEnemyOnPlayerY() && !PlayerModel.getInstance().isInvincible())
                     startShootingTimer();
                 updatePos();
-            }
         }
         updateEnemyState();
     }

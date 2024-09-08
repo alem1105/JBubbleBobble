@@ -39,10 +39,10 @@ public class InvaderModel extends EnemyModel {
     @Override
     public void update() {
         if (enemyState == RUNNING || enemyState == RUNNING_ANGRY) {
-            updatePos();
             updateShootingTimer();
             checkShooting();
         }
+        updatePos();
         updateEnemyState();
     }
 
@@ -75,6 +75,11 @@ public class InvaderModel extends EnemyModel {
      */
     @Override
     public void updatePos() {
+        if(inBubble) {
+            inBubbleMovement();
+            return;
+        }
+
         isInAirCheck();
         if (inAir) {
             fallingChecks(walkSpeed);

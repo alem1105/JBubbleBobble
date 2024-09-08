@@ -34,14 +34,12 @@ public class HidegonsModel extends EnemyModel {
      */
     @Override
     public void update() {
-        if (enemyState == RUNNING || enemyState == RUNNING_ANGRY) {
-            if (still) {
-                checKFireballShooting();
-            } else {
-                if (isEnemyOnPlayerY() && !PlayerModel.getInstance().isInvincible())
-                    startShootingTimer();
-                updatePos();
-            }
+        if (still) {
+            checKFireballShooting();
+        } else {
+            if (isEnemyOnPlayerY() && !PlayerModel.getInstance().isInvincible())
+                startShootingTimer();
+            updatePos();
         }
         updateEnemyState();
     }
