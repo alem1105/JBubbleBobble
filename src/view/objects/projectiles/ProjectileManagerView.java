@@ -73,4 +73,8 @@ public class ProjectileManagerView {
             currentLevel = LevelManagerModel.getInstance().getLvlIndex();
         }
     }
+
+    public BufferedImage[][] getDrunkBottleSprite() {
+        return drunkBottleSprite;
+    }
 }

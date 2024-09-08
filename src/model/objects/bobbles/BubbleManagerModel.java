@@ -120,10 +120,7 @@ public class BubbleManagerModel {
             superDrunk.decreaseLives();
             superDrunk.setHasBeenHit(true);
         }
-
-
     }
-
 
     private void updateBubbles() {
         for (BubbleModel bubble : bubbles){
