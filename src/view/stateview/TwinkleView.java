@@ -38,11 +38,11 @@ public class TwinkleView {
     }
 
     /**
-     * Aggiorna la posizione e l'animazione della stella scintillante.
+     * Aggiorna la posizione e l'animazione della stella.
      */
     public void update() {
-        updatePos(); // Aggiorna la posizione della stella
-        updateAnimation(); // Aggiorna l'animazione della stella
+        updatePos();
+        updateAnimation();
     }
 
     /**
@@ -61,24 +61,22 @@ public class TwinkleView {
 
     /**
      * Aggiorna la posizione della stella. Gestisce il movimento orizzontale
-     * e verticale della stella in base alla sua velocità.
+     * e verticale della stella.
      */
     private void updatePos() {
         if (!MenuView.getInstance().getLogoFalling()) {
-            // Gestisce il movimento orizzontale
             if (x > GAME_WIDTH + 10)
-                x = -5; // Riavvia la stella a sinistra se esce a destra
+                x = -5;
             else if (x < -10)
-                x = GAME_WIDTH; // Riavvia la stella a destra se esce a sinistra
+                x = GAME_WIDTH;
 
-            x += xSpeed; // Aggiorna la posizione orizzontale
+            x += xSpeed;
         }
 
-        // Gestisce il movimento verticale
         if (y <= -10)
-            y = GAME_HEIGHT; // Riavvia la stella in basso se esce in alto
+            y = GAME_HEIGHT;
 
-        y -= ySpeed; // Aggiorna la posizione verticale
+        y -= ySpeed;
     }
 
     public int getAniIndex() {

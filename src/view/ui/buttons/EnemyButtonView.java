@@ -6,6 +6,9 @@ import view.stateview.LevelEditorView;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * Classe che indica la vista dei bottoni usati per i nemici nel Level Editor
+ */
 public class EnemyButtonView extends CustomButtonView<EnemyButtonModel>{
 
     private BufferedImage imageButton;

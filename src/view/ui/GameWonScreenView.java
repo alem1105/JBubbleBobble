@@ -15,27 +15,39 @@ import static view.utilz.LoadSave.PARENTS_HUGGING_SPRITE;
 import static view.utilz.LoadSave.HAPPY_END;
 import static view.utilz.LoadSave.CHARACTER_KISSING;
 
+/**
+ * Rappresenta la vista della schermata di vittoria.
+ * Gestisce l'animazione e la visualizzazione degli elementi
+ * quando il gioco è stato vinto.
+ */
 public class GameWonScreenView {
 
+    // Istanze della classe
     private static GameWonScreenView instance;
 
+    // Sprite e dati di animazione
     private BufferedImage[][] heartSprites;
     private BufferedImage parentsHuggingSprites;
     private BufferedImage[][] characterKissingSprites;
     private BufferedImage happyEndWritingSprite;
     private BufferedImage[] lvlSprites;
-    private int [][] lastLevelData;
+    private int[][] lastLevelData;
     private int aniTick, aniIndexHeart, aniIndexKiss, aniSpeed = 25;
-    private float blackScreenY = - GAME_HEIGHT;
+    private float blackScreenY = -GAME_HEIGHT;
     private boolean blackScreenFallingOver = false;
 
-    // campi per le stelle
+    // Campi per le stelle
     private Random random;
     private Color[] starColors;
     private ArrayList<Rectangle2D.Float> stars;
 
     private int durationTick, durationTimer = 10920;
 
+    /**
+     * Restituisce l'istanza singleton di GameWonScreenView.
+     *
+     * @return l'istanza di GameWonScreenView
+     */
     public static GameWonScreenView getInstance() {
         if (instance == null) {
             instance = new GameWonScreenView();
@@ -43,6 +55,9 @@ public class GameWonScreenView {
         return instance;
     }
 
+    /**
+     * Costruttore privato per inizializzare i dati necessari.
+     */
     private GameWonScreenView() {
         heartSprites = LoadSave.loadAnimations(HEART_SPRITE, 1, 3, 50, 50);
         parentsHuggingSprites = LoadSave.GetSpriteAtlas(PARENTS_HUGGING_SPRITE);
@@ -60,7 +75,10 @@ public class GameWonScreenView {
         };
     }
 
-    public void update(){
+    /**
+     * Aggiorna lo stato della vista ad ogni frame.
+     */
+    public void update() {
         checkDuration();
         updateBlackScreen();
         updateAnimationTickHeart();
@@ -69,6 +87,10 @@ public class GameWonScreenView {
         createStars();
     }
 
+    /**
+     * Controlla la durata dello schermo di vittoria e reimposta
+     * il gioco se la durata è scaduta.
+     */
     private void checkDuration() {
         durationTick++;
         if (durationTick >= durationTimer) {
@@ -77,15 +99,21 @@ public class GameWonScreenView {
         }
     }
 
+    /**
+     * Aggiorna la posizione dello schermo nero.
+     */
     private void updateBlackScreen() {
         if (blackScreenY < 0) {
-            blackScreenY+=0.5f;
+            blackScreenY += 0.5f;
             return;
         }
         blackScreenFallingOver = true;
     }
 
-    private void updateAnimationTickHeart(){
+    /**
+     * Aggiorna il tick dell'animazione del cuore.
+     */
+    private void updateAnimationTickHeart() {
         aniTick++;
         if (aniTick >= aniSpeed) {
             aniTick = 0;
@@ -96,7 +124,10 @@ public class GameWonScreenView {
         }
     }
 
-    private void updateAnimationTickKiss(){
+    /**
+     * Aggiorna il tick dell'animazione del bacio.
+     */
+    private void updateAnimationTickKiss() {
         aniTick++;
         if (aniTick >= aniSpeed) {
             aniTick = 0;
@@ -107,6 +138,11 @@ public class GameWonScreenView {
         }
     }
 
+    /**
+     * Disegna gli elementi.
+     *
+     * @param g
+     */
     public void draw(Graphics g) {
         if (!blackScreenFallingOver)
             drawLevelBehind(g);
@@ -115,7 +151,7 @@ public class GameWonScreenView {
             drawStars(g);
 
         drawHeart(g, (int) (70 * SCALE), (int) (70 * SCALE), GAME_WIDTH / 2 - (int) (35 * SCALE), GAME_HEIGHT / 2 - (int) (35 * SCALE));
-        drawHeart(g, (int) (25 * SCALE), (int) (25 * SCALE), (int) (63 * SCALE) , GAME_HEIGHT - TILES_SIZE * 2 - (int) (59 * SCALE));
+        drawHeart(g, (int) (25 * SCALE), (int) (25 * SCALE), (int) (63 * SCALE), GAME_HEIGHT - TILES_SIZE * 2 - (int) (59 * SCALE));
         drawHeart(g, (int) (25 * SCALE), (int) (25 * SCALE), GAME_WIDTH - (int) (82 * SCALE), GAME_HEIGHT - TILES_SIZE * 2 - (int) (59 * SCALE));
         drawParents(g);
         drawHappyEnd(g, GAME_WIDTH - (int) (102 * SCALE), GAME_HEIGHT - (int) (150 * SCALE));
@@ -125,11 +161,21 @@ public class GameWonScreenView {
         drawPoints(g);
     }
 
+    /**
+     * Disegna lo schermo nero
+     *
+     * @param g
+     */
     private void drawBlackScreen(Graphics g) {
         g.setColor(Color.BLACK);
-        g.fillRect(0, (int)blackScreenY, GAME_WIDTH, GAME_HEIGHT);
+        g.fillRect(0, (int) blackScreenY, GAME_WIDTH, GAME_HEIGHT);
     }
 
+    /**
+     * Disegna il livello dietro gli elementi
+     *
+     * @param g
+     */
     private void drawLevelBehind(Graphics g) {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
@@ -139,12 +185,11 @@ public class GameWonScreenView {
                 if (index == 0 || index == 255) continue;
 
                 int rgb = lvlSprites[index - 1].getRGB(3, 3);
-                if(!(y == TILES_IN_HEIGHT - 2)) {
+                if (!(y == TILES_IN_HEIGHT - 2)) {
                     g.setColor(LoadSave.getDarkenedColor(rgb));
                     for (int i = 0; i < 8; i++)
                         g.fillRect(x * TILES_SIZE + i, y * TILES_SIZE + +i, TILES_SIZE, TILES_SIZE);
-                }
-                else {
+                } else {
                     g.fillRect(x * TILES_SIZE, y * TILES_SIZE, TILES_SIZE, TILES_SIZE);
                 }
                 g.drawImage(lvlSprites[index - 1], x * TILES_SIZE, y * TILES_SIZE, TILES_SIZE, TILES_SIZE, null);
@@ -152,19 +197,26 @@ public class GameWonScreenView {
         }
     }
 
+    /**
+     * Crea stelle casuali nello schermo
+     */
     private void createStars() {
-        if(stars.size() != GAME_HEIGHT * GAME_WIDTH) {
+        if (stars.size() != GAME_HEIGHT * GAME_WIDTH) {
             Rectangle2D.Float pixel = new Rectangle2D.Float(random.nextFloat(GAME_WIDTH), random.nextFloat(GAME_HEIGHT), (int) (1 * SCALE), (int) (1 * SCALE));
             stars.add(pixel);
         }
     }
 
+    /**
+     * Disegna le stelle sullo schermo
+     *
+     * @param g
+     */
     private void drawStars(Graphics g) {
-
-        for(int i = 0; i < stars.size(); i++) {
+        for (int i = 0; i < stars.size(); i++) {
             int randomColorIndex = random.nextInt(starColors.length);
             Color randomColor = starColors[randomColorIndex];
-            if(i % 6 == 0)
+            if (i % 6 == 0)
                 g.setColor(randomColor);
             else
                 g.setColor(Color.BLACK);
@@ -173,28 +225,62 @@ public class GameWonScreenView {
         }
     }
 
+    /**
+     * Disegna un cuore sullo schermo.
+     *
+     * @param g
+     * @param width la larghezza del cuore
+     * @param height l'altezza del cuore
+     * @param x la coordinata x in cui disegnare il cuore
+     * @param y la coordinata y in cui disegnare il cuore
+     */
     private void drawHeart(Graphics g, int width, int height, int x, int y) {
         g.drawImage(heartSprites[0][aniIndexHeart], x, y, width, height, null);
     }
 
+    /**
+     * Disegna i genitori che si abbracciano sullo schermo.
+     *
+     * @param g
+     */
     private void drawParents(Graphics g) {
-        g.drawImage(parentsHuggingSprites, GAME_WIDTH / 2 - (int) (35 * SCALE), GAME_HEIGHT / 2 + (int) (45 * SCALE) , (int) (70 * SCALE), (int) (32 * SCALE), null);
+        g.drawImage(parentsHuggingSprites, GAME_WIDTH / 2 - (int) (35 * SCALE), GAME_HEIGHT / 2 + (int) (45 * SCALE), (int) (70 * SCALE), (int) (32 * SCALE), null);
     }
 
+    /**
+     * Disegna il messaggio di "Happy Ending" sullo schermo.
+     *
+     * @param g
+     * @param x la coordinata x in cui disegnare il messaggio
+     * @param y la coordinata y in cui disegnare il messaggio
+     */
     private void drawHappyEnd(Graphics g, int x, int y) {
         g.drawImage(happyEndWritingSprite, x, y, (int) (69 * SCALE), (int) (36 * SCALE), null);
     }
 
+    /**
+     * Disegna l'animazione del bacio
+     *
+     * @param g
+     * @param x la coordinata x in cui disegnare il bacio
+     * @param y la coordinata y in cui disegnare il bacio
+     * @param spriteIndex l'indice dello sprite del bacio
+     */
     private void drawKiss(Graphics g, int x, int y, int spriteIndex) {
         g.drawImage(characterKissingSprites[spriteIndex][aniIndexKiss], x, y, (int) (55 * SCALE), (int) (24 * SCALE), null);
     }
 
-    private void drawPoints(Graphics g){
+    /**
+     * Disegna il punteggio sullo schermo.
+     *
+     * @param g
+     */
+    private void drawPoints(Graphics g) {
         g.setColor(Color.GREEN);
         Font font = LoadSave.NES_FONT.deriveFont(25f * SCALE);
         g.setFont(font);
         FontMetrics measure = g.getFontMetrics(font);
-        g.drawString("1000000PTS!!", GAME_WIDTH/ 2 - measure.stringWidth("1000000PTS!!")/2, (int) (100 * SCALE));
+        g.drawString("1000000PTS!!", GAME_WIDTH / 2 - measure.stringWidth("1000000PTS!!") / 2, (int) (100 * SCALE));
     }
 
     public int getDurationTick() {

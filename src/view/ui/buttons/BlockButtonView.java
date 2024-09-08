@@ -6,6 +6,9 @@ import view.stateview.LevelEditorView;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * Classe che indica la vissta dei bottoni dei blocchi del Level Editor
+ */
 public class BlockButtonView extends CustomButtonView<BlockButtonModel> {
 
     private BufferedImage imageButton;

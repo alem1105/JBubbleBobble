@@ -7,6 +7,10 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.image.BufferedImage;
 
+/**
+ * Classe che indica la finestra dove viene disegnato il GamePanel
+ * Imposta i paramentri necessari
+ */
 public class GameWindow {
 
     private JFrame jFrame;

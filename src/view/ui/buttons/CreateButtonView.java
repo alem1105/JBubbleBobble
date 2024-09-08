@@ -3,6 +3,9 @@ package view.ui.buttons;
 import model.ui.buttons.CreateButtonModel;
 import view.utilz.LoadSave;
 
+/**
+ * Classe che indica la vista del bottone usato per creare un nuovo utente
+ */
 public class CreateButtonView extends CustomButtonView<CreateButtonModel> {
 
     public CreateButtonView(CreateButtonModel model) {

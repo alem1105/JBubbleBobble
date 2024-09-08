@@ -18,6 +18,9 @@ import java.util.Collections;
 import static model.utilz.Constants.GameConstants.*;
 import static view.utilz.LoadSave.NES_FONT;
 
+/**
+ * Gestisce la vista della selezione degli utenti
+ */
 public class UserStateView {
 
     private static UserStateView instance;
@@ -65,6 +68,9 @@ public class UserStateView {
         nicknameField = new Rectangle2D.Float(firstWidth + (int) (60 * SCALE), firstHeight, (int) (180 * SCALE), (int) (26 * SCALE));
     }
 
+    /**
+     * Controlla se siamo nella schermata di creazione utente
+     */
     private void checkCreateUser() {
         if (userIndex == users.size())
             createUser = true;
@@ -75,6 +81,9 @@ public class UserStateView {
             currentUser = userStateModel.getUserModels().get(userIndex);
     }
 
+    /**
+     * Aggiorna i bottoni della schermata
+     */
     public void update() {
         nextPageButton.update();
         prevPageButton.update();
@@ -83,6 +92,10 @@ public class UserStateView {
         createButton.update();
     }
 
+    /**
+     * Disegna tutti gli elementi della schermata
+     * @param g
+     */
     public void draw(Graphics g) {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
@@ -100,6 +113,10 @@ public class UserStateView {
         drawHintForLeaderboard(g);
     }
 
+    /**
+     * Disegna la classifica
+     * @param g
+     */
     private void drawLeaderboard(Graphics g) {
         Color[] colors = new Color[]{new Color(142, 253, 153), new Color(255, 178, 244), new Color(175, 255, 255)};
         Collections.sort(users);
@@ -125,6 +142,10 @@ public class UserStateView {
         g.drawString("LEADERBOARD", GAME_WIDTH / 2 - fontMetrics.stringWidth("LEADERBOARD") / 2, (int) (50 * SCALE));
     }
 
+    /**
+     * Disegna la scritta per spiegare al giocatore come mostrare la classifica
+     * @param g
+     */
     private void drawHintForLeaderboard(Graphics g) {
         if(createUser)
             return;
@@ -151,6 +172,13 @@ public class UserStateView {
         }
     }
 
+    /**
+     * Disegna le statistiche del giocatore
+     * @param g
+     * @param measures
+     * @param nicknameMeasures
+     * @param nicknameFont
+     */
     private void drawUserStats(Graphics g, FontMetrics measures, FontMetrics nicknameMeasures, Font nicknameFont) {
 
         int startWidth = firstWidth;
@@ -186,6 +214,9 @@ public class UserStateView {
         }
     }
 
+    /**
+     * Inizializza i bottoni della schermata
+     */
     private void initButtons() {
         nextPageButton = new ChangePageButtonView(new ChangePageButtonModel(
                 GAME_WIDTH - (int)(30 * SCALE),
@@ -218,6 +249,10 @@ public class UserStateView {
                 RIGHT));
     }
 
+    /**
+     * Cambia indice dell'utente selezionato
+     * @param i di quanto aumentare l'indice
+     */
     public void changeIndex(int i) {
         this.userIndex += i;
         avatarIndex = 0;
@@ -226,6 +261,10 @@ public class UserStateView {
         checkCreateUser();
     }
 
+    /**
+     * Cambia l'indice per selezionare un nuovo avatar
+     * @param i
+     */
     public void changeAvatarIndex(int i) {
         if (0 <= avatarIndex + i && avatarIndex + i < avatars.length ) {
             this.avatarIndex += i;
@@ -233,6 +272,9 @@ public class UserStateView {
         }
     }
 
+    /**
+     * Ricarica tutti gli utenti
+     */
     public void reloadUsers(){
         users = userStateModel.getUserModels();
         createUser = false;

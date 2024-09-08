@@ -3,6 +3,9 @@ package view.ui.buttons;
 import model.ui.buttons.XButtonModel;
 import view.utilz.LoadSave;
 
+/**
+ * Classe che indica la vista del bottone usato per scartare le modifiche effettuate su un livello
+ */
 public class XButtonView extends CustomButtonView<XButtonModel> {
 
     public XButtonView(XButtonModel XButton) {

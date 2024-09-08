@@ -8,7 +8,11 @@ import static model.utilz.Constants.Directions.DOWN_RIGHT;
 import static model.utilz.Constants.Directions.UP_RIGHT;
 import static model.utilz.Constants.Enemies.ZEN_CHAN_WIDTH;
 import static view.utilz.LoadSave.loadAnimations;
-
+/**
+ * La classe {@code MonstaView} rappresenta la visualizzazione del nemico Monsta nel gioco.
+ * Estende la classe generica {@link EnemyView} per gestire il rendering e impostare le animazioni
+ * specifiche del nemico Monsta.
+ */
 public class MonstaView extends EnemyView<MonstaModel> {
 
     private static final int ROW_INDEX = 5;
@@ -21,6 +25,10 @@ public class MonstaView extends EnemyView<MonstaModel> {
         yDrawOffset = (int) (1 * Constants.GameConstants.SCALE);
     }
 
+    /**
+     * questi metodi servono per lo specchiamento del nemico in base alla direzione nella
+     * quale sta viaggiando.
+     */
     @Override
     public void flipX() {
         if (enemy.getWalkDir() == UP_RIGHT || enemy.getWalkDir() == DOWN_RIGHT)

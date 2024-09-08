@@ -3,6 +3,9 @@ package view.ui.buttons;
 import model.ui.buttons.EditButtonModel;
 import view.utilz.LoadSave;
 
+/**
+ * Classe che indica la vista del bottone usato per editare i livelli nel LevelEditor
+ */
 public class EditButtonView extends CustomButtonView<EditButtonModel> {
 
     public EditButtonView(EditButtonModel model) {

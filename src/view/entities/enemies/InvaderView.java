@@ -6,6 +6,11 @@ import view.utilz.LoadSave;
 
 import static view.utilz.LoadSave.loadAnimations;
 
+/**
+ * La classe {@code InvaderView} rappresenta la visualizzazione del nemico Invader nel gioco.
+ * Estende la classe generica {@link EnemyView} per gestire il rendering e le animazioni
+ * specifiche del nemico Invader.
+ */
 public class InvaderView extends EnemyView<InvaderModel> {
     public InvaderView(InvaderModel enemy) {
         super(enemy);

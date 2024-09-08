@@ -5,6 +5,9 @@ import view.utilz.LoadSave;
 
 import java.awt.*;
 
+/**
+ * Classe che indica la vista dei bottoni per cambiare pagina in varie schermate
+ */
 public class ChangePageButtonView extends CustomButtonView<ChangePageButtonModel> {
 
     int flipX;

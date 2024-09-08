@@ -3,6 +3,9 @@ package view.ui.buttons;
 import model.ui.buttons.RestartButtonModel;
 import view.utilz.LoadSave;
 
+/**
+ * Classe che indica il bottone usato per riavviare la partita
+ */
 public class RestartButtonView extends CustomButtonView<RestartButtonModel> {
 
     public RestartButtonView(RestartButtonModel model) {

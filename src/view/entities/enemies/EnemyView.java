@@ -46,11 +46,8 @@ public abstract class EnemyView<T extends EnemyModel> {
     /** Il modello del nemico associato. */
     protected T enemy;
 
-    /** La larghezza per l'animazione in base al flip . */
-    protected int flipW = 1;
-
-    /** La posizione sull'asse X del nemico in base al flip. */
-    protected int flipX;
+    /** variabili per specchiare il nemico. */
+    protected int flipW = 1, flipX;
 
     /** Contatore per l'esplosione della bolla del nemico. */
     protected int exploding = 0;
@@ -113,7 +110,7 @@ public abstract class EnemyView<T extends EnemyModel> {
 
     /**
      * Imposta il flip per l'animazione in base alla direzione di camminata del nemico :
-     * se è negativo lo disegna flippato.
+     * se è negativo lo disegna specchiato.
      */
     public void flipW() {
         if (enemy.getWalkDir() == RIGHT) {

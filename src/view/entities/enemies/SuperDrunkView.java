@@ -14,14 +14,35 @@ import static model.utilz.Constants.Directions.DOWN_RIGHT;
 import static model.utilz.Constants.Directions.UP_RIGHT;
 import static view.utilz.LoadSave.loadAnimations;
 
-public class SuperDrunkView extends EnemyView<SuperDrunkModel>{
+/**
+ * La classe {@code SuperDrunkView} rappresenta la visualizzazione del nemico Super Drunk nel gioco.
+ * Estende la classe generica {@link EnemyView} per gestire il rendering, le animazioni specifiche
+ * e i proiettili (bottiglie) lanciati dal nemico Super Drunk.
+ */
+public class SuperDrunkView extends EnemyView<SuperDrunkModel> {
 
     private int spriteIndex;
-    private int hitTimer = 180, hitTick;
+
+    /**
+     * Indica la durata dell'animazione del nemico colpito
+     */
+    private int hitTimer = 180;
+
+    /**
+     * Il tick utilizzato per calcolare quando si arriva alla durata
+     * dell'animazione del nemico colpito
+     */
+    private int hitTick;
     private ArrayList<DrunkBottleView> drunkBottlesView;
     private BufferedImage[][] drunkBottleSprites;
 
-    public SuperDrunkView(SuperDrunkModel superDrunkModel){
+    /**
+     * Costruisce un oggetto {@code SuperDrunkView} associato al modello {@link SuperDrunkModel}.
+     * Inizializza le animazioni e dei proiettili lanciati dal nemico.
+     *
+     * @param superDrunkModel Il modello del nemico {@code SuperDrunkModel}.
+     */
+    public SuperDrunkView(SuperDrunkModel superDrunkModel) {
         super(superDrunkModel);
         aniIndex = 0;
         animations = loadAnimations(LoadSave.SUPERDRUNK_SPRITE, 5, 4, 48, 51);
@@ -29,7 +50,10 @@ public class SuperDrunkView extends EnemyView<SuperDrunkModel>{
         drunkBottleSprites = ProjectileManagerView.getInstance().getDrunkBottleSprite();
     }
 
-    private void getDrunkBottlesFromModel(){
+    /**
+     * Recupera i modelli delle bottiglie lanciate dal nemico e li converte in viste.
+     */
+    private void getDrunkBottlesFromModel() {
         int modelLength = enemy.getDrunkBottles().size();
         int i = drunkBottlesView.size();
         if (i > modelLength) {
@@ -43,17 +67,10 @@ public class SuperDrunkView extends EnemyView<SuperDrunkModel>{
         }
     }
 
-    @Override
-    public int getSpriteAmount() {
-        int spriteAmount = 2;
-        if (enemy.hasBeenHit())
-            spriteAmount = 4;
-        if (enemy.isInBubble() || !enemy.isActive())
-            spriteAmount = 1;
-        return spriteAmount;
-    }
-
-    public void setSpriteIndex(){
+    /**
+     * Imposta l'indice dello sprite in base allo stato del nemico (normale, colpito, in una bolla o morto).
+     */
+    public void setSpriteIndex() {
         int tempSpriteIndex = spriteIndex;
         spriteIndex = 1;
 
@@ -70,8 +87,12 @@ public class SuperDrunkView extends EnemyView<SuperDrunkModel>{
             resetAniTick();
     }
 
+    /**
+     * Il metodo si occupa di aggiornare la visualizzazzione del nemico, il frame dell'animazione corrente
+     * indice dello sprite da disegnare e di recuperare le bottiglie
+     */
     @Override
-    public void update(){
+    public void update() {
         checkHitAnimationOver();
         setSpriteIndex();
         updateAnimationTick();
@@ -80,6 +101,9 @@ public class SuperDrunkView extends EnemyView<SuperDrunkModel>{
         getDrunkBottlesFromModel();
     }
 
+    /**
+     * Utilizzati per specchiare il nemico se necessario
+     */
     @Override
     public void flipX() {
         if (enemy.getWalkDir() == UP_RIGHT || enemy.getWalkDir() == DOWN_RIGHT)
@@ -96,9 +120,14 @@ public class SuperDrunkView extends EnemyView<SuperDrunkModel>{
             flipW = 1;
     }
 
-    private void updateAndDrawDrunkBottles(Graphics g ) {
-        for (DrunkBottleView drunkBottle : drunkBottlesView){
-            if(drunkBottle.conditionToDraw())
+    /**
+     * Aggiorna e disegna le bottiglie lanciate dal nemico sullo schermo.
+     *
+     * @param g Il contesto per disegnare le bottiglie.
+     */
+    private void updateAndDrawDrunkBottles(Graphics g) {
+        for (DrunkBottleView drunkBottle : drunkBottlesView) {
+            if (drunkBottle.conditionToDraw())
                 drunkBottle.updateAndDraw(g);
         }
     }
@@ -107,7 +136,7 @@ public class SuperDrunkView extends EnemyView<SuperDrunkModel>{
     public void render(Graphics g) {
         g.drawImage(animations[spriteIndex][aniIndex],
                 (int) (enemy.getHitbox().x) + flipX, (int) (enemy.getHitbox().y),
-                (int)enemy.getHitbox().getWidth() * flipW, (int)enemy.getHitbox().getHeight(), null);
+                (int) enemy.getHitbox().getWidth() * flipW, (int) enemy.getHitbox().getHeight(), null);
         updateAndDrawDrunkBottles(g);
     }
 
@@ -123,18 +152,25 @@ public class SuperDrunkView extends EnemyView<SuperDrunkModel>{
         }
     }
 
+    /**
+     * Reimposta i tick dell'animazione quando lo stato dello sprite cambia.
+     */
     private void resetAniTick() {
         aniIndex = 0;
         aniTick = 0;
         enemy.setResetAniTick(false);
     }
 
-    private void checkHitAnimationOver(){
+    /**
+     * Controlla se l'animazione di colpo è terminata, e reimposta lo stato "colpito" del nemico se necessario.
+     */
+    private void checkHitAnimationOver() {
         if (enemy.hasBeenHit())
-            hitTick ++;
+            hitTick++;
         if (hitTick >= hitTimer) {
             hitTick = 0;
             enemy.setHasBeenHit(false);
         }
     }
 }
+

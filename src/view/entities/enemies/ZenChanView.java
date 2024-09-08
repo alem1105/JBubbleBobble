@@ -6,6 +6,11 @@ import view.utilz.LoadSave;
 
 import static view.utilz.LoadSave.*;
 
+/**
+ * La classe {@code ZenChanView} rappresenta la visualizzazione del nemico ZenChan nel gioco.
+ * Estende la classe generica {@link EnemyView} per gestire il rendering e impostare le animazioni
+ * specifiche del nemico ZenChan.
+ */
 public class ZenChanView extends EnemyView<ZenChanModel> {
 
     public ZenChanView(ZenChanModel zenChan) {

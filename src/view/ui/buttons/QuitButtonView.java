@@ -3,6 +3,9 @@ package view.ui.buttons;
 import model.ui.buttons.QuitButtonModel;
 import view.utilz.LoadSave;
 
+/**
+ * Classe che indica la vista del bottone ussato per abbandonare la partita
+ */
 public class QuitButtonView extends CustomButtonView<QuitButtonModel> {
 
     private boolean inPauseScreen;

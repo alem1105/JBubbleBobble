@@ -3,6 +3,9 @@ package view.ui.buttons;
 import model.ui.buttons.StartButtonModel;
 import view.utilz.LoadSave;
 
+/**
+ * Classe che indica la vista del bottone usato per avviare la partita
+ */
 public class StartButtonView extends CustomButtonView<StartButtonModel> {
 
     private boolean inPauseScreen;

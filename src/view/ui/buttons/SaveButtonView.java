@@ -3,6 +3,9 @@ package view.ui.buttons;
 import model.ui.buttons.SaveButtonModel;
 import view.utilz.LoadSave;
 
+/**
+ * Classe che indica il bottone usato per salvare le modifiche fatte ad un livello
+ */
 public class SaveButtonView extends CustomButtonView<SaveButtonModel> {
 
     public SaveButtonView(SaveButtonModel saveButton){
