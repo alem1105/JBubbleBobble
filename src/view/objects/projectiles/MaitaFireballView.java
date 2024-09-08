@@ -4,6 +4,9 @@ import model.objects.projectiles.MaitaFireballModel;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * Classe che indica la vista delle fireball del nemico Maita
+ */
 public class MaitaFireballView extends ProjectileView<MaitaFireballModel> {
 
     private int exploding = 0;

@@ -50,7 +50,7 @@ public class FireModel extends CustomObjectModel implements Fallable {
     @Override
     public void isInAirCheck() {
         if (!inAir) {
-            if (!IsEntityOnFloor(hitbox, getLvlData())) {
+            if (!isEntityOnFloor(hitbox, getLvlData())) {
                 inAir = true;
             }
         }
@@ -60,21 +60,23 @@ public class FireModel extends CustomObjectModel implements Fallable {
      * Gestisce il comportamento del fuoco mentre cade. Se può continuare a cadere,
      * aggiorna la posizione Y. Se la caduta è terminata, imposta a true il booleano
      * per la creazione del tappeto di fuoco e lui stesso ne diventa parte.
+     * @param xSpeed la velocità del player sulla coordinata x (non utilizzata in questo contesto)
      */
-    public void fallingChecks() {
+    @Override
+    public void fallingChecks(float xSpeed) {
         // Controllo collisioni e movimento in aria
-        if (!CanMoveHere(hitbox.x, hitbox.y, hitbox.width, hitbox.height, getLvlData())) {
+        if (!canMoveHere(hitbox.x, hitbox.y, hitbox.width, hitbox.height, getLvlData())) {
             hitbox.y += airSpeed;
         }
 
         // Caduta continua
-        if (CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, getLvlData())) {
+        if (canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, getLvlData())) {
             hitbox.y += airSpeed;
             checkOutOfMap();
         }
         // Fine caduta
         else {
-            hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
+            hitbox.y = getEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
             resetInAir();
             partOfTheCarpet = true;
             creatingCarpet = true;
@@ -117,7 +119,7 @@ public class FireModel extends CustomObjectModel implements Fallable {
     @Override
     public void update() {
         if (inAir && !partOfTheCarpet)
-            fallingChecks();
+            fallingChecks(airSpeed);
         else if (partOfTheCarpet)
             carpetTimer();
     }

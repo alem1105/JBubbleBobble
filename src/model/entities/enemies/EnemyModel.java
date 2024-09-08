@@ -236,7 +236,7 @@ public abstract class EnemyModel extends EntityModel {
             if (canEnemyMoveHere()) {
                 hitbox.x += walkSpeed;
             } else {
-                hitbox.x = GetEntityXPosNextToWall(hitbox, walkSpeed);
+                hitbox.x = getEntityXPosNextToWall(hitbox, walkSpeed);
                 walkDir = LEFT;
             }
         } else {
@@ -244,7 +244,7 @@ public abstract class EnemyModel extends EntityModel {
             if (canEnemyMoveHere()) {
                 hitbox.x += walkSpeed;
             } else {
-                hitbox.x = GetEntityXPosNextToWall(hitbox, walkSpeed);
+                hitbox.x = getEntityXPosNextToWall(hitbox, walkSpeed);
                 walkDir = RIGHT;
             }
         }
@@ -257,7 +257,7 @@ public abstract class EnemyModel extends EntityModel {
         if(canEnemyMoveHere()) {
             hitbox.x += walkSpeed;
         } else {
-            hitbox.x = GetEntityXPosNextToWall(hitbox, walkSpeed);
+            hitbox.x = getEntityXPosNextToWall(hitbox, walkSpeed);
         }
     }
 
@@ -267,7 +267,7 @@ public abstract class EnemyModel extends EntityModel {
      * @return true se il nemico può muoversi, false altrimenti.
      */
     private boolean canEnemyMoveHere() {
-        return CanMoveHere(hitbox.x + walkSpeed, hitbox.y, hitbox.width, hitbox.height, getLvlData());
+        return canMoveHere(hitbox.x + walkSpeed, hitbox.y, hitbox.width, hitbox.height, getLvlData());
     }
 
     /**
@@ -418,7 +418,7 @@ public abstract class EnemyModel extends EntityModel {
      */
     protected boolean checkThreeYTilesSolid(int yTile, int xTile, int[][] lvldata) {
         if (xTile - 2 >= 0 && yTile - 2 >= 0 && xTile + 1 >= 0)
-            return IsTileSolid(xTile - 2, yTile, lvldata) && IsTileSolid(xTile, yTile, lvldata) && IsTileSolid(xTile + 1, yTile, lvldata);
+            return isTileSolid(xTile - 2, yTile, lvldata) && isTileSolid(xTile, yTile, lvldata) && isTileSolid(xTile + 1, yTile, lvldata);
         return false;
     }
 

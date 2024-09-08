@@ -75,16 +75,16 @@ public class BobBubbleModel extends BubbleModel {
      */
     private void firstShotMovement() {
         if (bubbleDirection == RIGHT) {
-            if (CanMoveHere(hitbox.x + bubbleSpeed, y, width, height, UtilityMethods.getLvlData())) {
+            if (canMoveHere(hitbox.x + bubbleSpeed, y, width, height, UtilityMethods.getLvlData())) {
                 hitbox.x += bubbleSpeed;
             } else {
-                hitbox.x = GetEntityXPosNextToWall(hitbox, bubbleSpeed);
+                hitbox.x = getEntityXPosNextToWall(hitbox, bubbleSpeed);
             }
         } else {
-            if (CanMoveHere(hitbox.x - bubbleSpeed, y, width, height, UtilityMethods.getLvlData())) {
+            if (canMoveHere(hitbox.x - bubbleSpeed, y, width, height, UtilityMethods.getLvlData())) {
                 hitbox.x -= bubbleSpeed;
             } else {
-                hitbox.x = GetEntityXPosNextToWall(hitbox, bubbleSpeed);
+                hitbox.x = getEntityXPosNextToWall(hitbox, bubbleSpeed);
             }
         }
         projectileTravelTimes++;

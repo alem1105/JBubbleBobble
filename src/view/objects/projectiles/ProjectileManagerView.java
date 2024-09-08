@@ -4,10 +4,14 @@ import model.LevelManagerModel;
 import model.objects.projectiles.*;
 import view.utilz.LoadSave;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import java.awt.Graphics;
+/**
+ * Rappresenta la gestione e la visualizzazione dei proiettili nel gioco.
+ * Questa classe è responsabile dell'aggiornamento e del disegno dei proiettili.
+ */
 public class ProjectileManagerView {
 
     private static ProjectileManagerView instance;
@@ -23,6 +27,11 @@ public class ProjectileManagerView {
     private BufferedImage[][] hidegonsFireballSprite;
     private BufferedImage[][] invaderLaserSprite;
 
+    /**
+     * Restituisce l'istanza singleton di ProjectileManagerView.
+     *
+     * @return L'istanza singleton di ProjectileManagerView.
+     */
     public static ProjectileManagerView getInstance() {
         if(instance == null) {
             instance = new ProjectileManagerView();
@@ -30,6 +39,10 @@ public class ProjectileManagerView {
         return instance;
     }
 
+    /**
+     * Costruttore privato per inizializzare ProjectileManagerView.
+     * Carica le sprite per i diversi tipi di proiettili e controlla eventuali cambiamenti di livello.
+     */
     private ProjectileManagerView() {
         projectileManagerModel = ProjectileManagerModel.getInstance();
         projectileViews = new ArrayList<>();
@@ -40,6 +53,11 @@ public class ProjectileManagerView {
         checkIfLevelChanged();
     }
 
+    /**
+     * Aggiorna e disegna i proiettili
+     *
+     * @param g
+     */
     public void updateAndDraw(Graphics g) {
         getProjectiles();
         projectileViews.stream()
@@ -47,6 +65,9 @@ public class ProjectileManagerView {
                 .forEach(x -> x.updateAndDraw(g));
     }
 
+    /**
+     * Ottiene i proiettili dal modello e aggiorna la lista delle visualizzazioni dei proiettili.
+     */
     private void getProjectiles() {
         int modelLength = projectileManagerModel.getProjectiles().size();
         int i = projectileViews.size();
@@ -66,6 +87,9 @@ public class ProjectileManagerView {
         }
     }
 
+    /**
+     * Controlla se il livello è cambiato e aggiorna la lista dei proiettili di conseguenza.
+     */
     private void checkIfLevelChanged() {
         if(LevelManagerModel.getInstance().getLvlIndex() != currentLevel) {
             projectileViews.clear();

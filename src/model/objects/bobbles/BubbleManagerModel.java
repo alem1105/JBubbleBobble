@@ -14,8 +14,8 @@ import java.util.*;
 import static model.utilz.Constants.GameConstants.*;
 import static model.utilz.Constants.PlayerConstants.DEATH;
 import static model.utilz.Constants.SpecialBubbles.*;
-import static model.utilz.Gravity.CanMoveHere;
-import static model.utilz.Gravity.IsTileSolid;
+import static model.utilz.Gravity.canMoveHere;
+import static model.utilz.Gravity.isTileSolid;
 import static model.utilz.UtilityMethods.getLvlData;
 
 /**
@@ -381,7 +381,7 @@ public class BubbleManagerModel {
         int yTile = TILES_IN_HEIGHT - 2;
 
         for(int x = 0; x < TILES_IN_WIDTH; x++)
-            if(!IsTileSolid(x, yTile, getLvlData()))
+            if(!isTileSolid(x, yTile, getLvlData()))
                 return false;
 
         return true;
@@ -397,7 +397,7 @@ public class BubbleManagerModel {
 
             if (bubble.getHitbox().intersects(PlayerModel.getInstance().getHitbox()) && bubble.isCollision()) {
 
-                if(CanMoveHere(bubble.getHitbox().x, bubble.getHitbox().y, bubble.getHitbox().width, bubble.getHitbox().height, getLvlData())) {
+                if(canMoveHere(bubble.getHitbox().x, bubble.getHitbox().y, bubble.getHitbox().width, bubble.getHitbox().height, getLvlData())) {
                     UserStateModel.getInstance().getCurrentUserModel().incrementTempScore(scoreForPop);
                     PlayerModel.getInstance().incrementPoppedBubbles();
                     bubble.setActive(false);
@@ -504,8 +504,8 @@ public class BubbleManagerModel {
                 fireModel.setCreatingCarpet(false);
                 int i = 1;
                 float currentX = fireModel.getX();
-                while (!CanMoveHere( currentX + fireModel.getWidth(), fireModel.getY() + fireModel.getHeight(), fireModel.getWidth(), fireModel.getHeight(), getLvlData())
-                && CanMoveHere(currentX + fireModel.getWidth(), fireModel.getY(), fireModel.getWidth(), fireModel.getHeight(), getLvlData())) {
+                while (!canMoveHere( currentX + fireModel.getWidth(), fireModel.getY() + fireModel.getHeight(), fireModel.getWidth(), fireModel.getHeight(), getLvlData())
+                && canMoveHere(currentX + fireModel.getWidth(), fireModel.getY(), fireModel.getWidth(), fireModel.getHeight(), getLvlData())) {
                     currentX = fireModel.getX() + fireModel.getWidth() * i;
                     tempArray.add(new FireModel(currentX, fireModel.getY(),true));
                     i++;

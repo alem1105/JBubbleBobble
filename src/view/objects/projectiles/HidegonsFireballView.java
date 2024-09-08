@@ -8,6 +8,9 @@ import java.awt.image.BufferedImage;
 import static model.utilz.Constants.Directions.LEFT;
 import static model.utilz.Constants.Directions.RIGHT;
 
+/**
+ * Classe che indica la vista delle fireball del nemico Hidegons
+ */
 public class HidegonsFireballView extends ProjectileView<HidegonsFireballModel> {
 
     private int flipW = 1, flipX = 0;
@@ -29,11 +32,9 @@ public class HidegonsFireballView extends ProjectileView<HidegonsFireballModel> 
         updateDirections();
     }
 
-    @Override
-    public boolean conditionToDraw(){
-        return objectModel.isActive();
-    }
-
+    /**
+     * Imposta le variabili che servono a specchiare l'immagine in base alla direzione
+     */
     private void updateDirections() {
         if (objectModel.getDirection() == RIGHT) {
             flipX = objectModel.getWidth();

@@ -1,5 +1,8 @@
 package model.ui.buttons;
 
+/**
+ * Bottone per selezionare il nemico da inserire nel livello nel level editor, utilizza un index per scegliere il nemico
+ */
 public class EnemyButtonModel extends CustomButtonModel{
 
     private int index;

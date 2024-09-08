@@ -4,6 +4,9 @@ import model.objects.projectiles.DrunkBottleModel;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * Classe che indica la vista del proiettile di Drunk
+ */
 public class DrunkBottleView extends ProjectileView<DrunkBottleModel> {
 
     public DrunkBottleView(DrunkBottleModel objectModel, BufferedImage[][] sprites) {

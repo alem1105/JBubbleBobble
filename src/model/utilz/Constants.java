@@ -1,5 +1,9 @@
 package model.utilz;
 
+/**
+ * Constanti utilizzate per gestire vari elementi all'interno del gioco,
+ * tra le quali alcuni costanti della dimensione della schermata di gioco.
+ */
 public class Constants {
 
     public static class GameConstants {

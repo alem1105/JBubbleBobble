@@ -4,6 +4,9 @@ import model.objects.projectiles.InvaderLaserModel;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * Classe che indica la vista dei laser dei nemici Invader
+ */
 public class InvaderLaserView extends ProjectileView<InvaderLaserModel>{
 
     private final int endingTimer = 120;

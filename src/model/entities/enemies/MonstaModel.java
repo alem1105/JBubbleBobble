@@ -89,7 +89,7 @@ public class MonstaModel extends EnemyModel {
      * @return true se il nemico può muoversi, false altrimenti.
      */
     private boolean canMonstaMoveOnThisY(float nextY) {
-        return CanMoveHere(hitbox.x, nextY, hitbox.width, hitbox.height, getLvlData());
+        return canMoveHere(hitbox.x, nextY, hitbox.width, hitbox.height, getLvlData());
     }
 
     /**
@@ -99,7 +99,7 @@ public class MonstaModel extends EnemyModel {
      * @return true se il nemico può muoversi, false altrimenti.
      */
     private boolean canMonstaMoveOnThisX(float nextX) {
-        return CanMoveHere(nextX, hitbox.y, hitbox.width, hitbox.height, getLvlData());
+        return canMoveHere(nextX, hitbox.y, hitbox.width, hitbox.height, getLvlData());
     }
 }
 

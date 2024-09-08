@@ -12,6 +12,7 @@ import static model.utilz.Constants.CustomObjects.WATER_WALKING;
 import static model.utilz.Constants.Directions.LEFT;
 import static model.utilz.Constants.Directions.RIGHT;
 
+// TODO EDOARDO
 public class WaterView extends CustomObjectView<WaterModel> {
 
     private int waterState;

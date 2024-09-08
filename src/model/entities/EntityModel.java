@@ -89,7 +89,7 @@ public abstract class EntityModel implements Fallable {
     @Override
     public void isInAirCheck() {
         if (!inAir) {
-            if (!IsEntityOnFloor(hitbox, getLvlData())) {
+            if (!isEntityOnFloor(hitbox, getLvlData())) {
                 inAir = true;
             }
         }
@@ -104,12 +104,12 @@ public abstract class EntityModel implements Fallable {
     @Override
     public void fallingChecks(float xSpeed) {
         // Stiamo cadendo
-        if (!CanMoveHere(hitbox.x, hitbox.y, hitbox.width, hitbox.height, getLvlData())) {
+        if (!canMoveHere(hitbox.x, hitbox.y, hitbox.width, hitbox.height, getLvlData())) {
             hitbox.y += airSpeed;
             airSpeed = fallingSpeed;
         }
         // Caduta normale
-        else if (CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, getLvlData())) {
+        else if (canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, getLvlData())) {
             airSpeed = fallingSpeed; // Discesa lenta
             hitbox.y += airSpeed;
             updateXPos(xSpeed);
@@ -117,7 +117,7 @@ public abstract class EntityModel implements Fallable {
         }
         // Fine della caduta
         else {
-            hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
+            hitbox.y = getEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
             if (airSpeed > 0) {
                 resetInAir();
             } else {

@@ -1,5 +1,8 @@
 package model.ui.buttons;
 
+/**
+ * Bottone per selezionare le tile nel Level Editor
+ */
 public class BlockButtonModel extends CustomButtonModel{
     private int index;
 

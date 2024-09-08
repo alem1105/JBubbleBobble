@@ -7,6 +7,9 @@ import model.gamestate.UserStateModel;
 import model.objects.bobbles.BubbleManagerModel;
 import model.objects.projectiles.ProjectileManagerModel;
 
+/**
+ * Classe utilizzata per alcuni metodi utili nel model
+ */
 public class UtilityMethods {
     public static int[][] getLvlData() {
         return LevelManagerModel.getInstance().getLevels().get(LevelManagerModel.getInstance().getLvlIndex()).getLvlData();
@@ -16,6 +19,9 @@ public class UtilityMethods {
         return PlayerModel.getInstance();
     }
 
+    /**
+     * Resetta lo stato del gioco per iniziare una nuova partita
+     */
     public static void resetAll() {
         PlayerModel.getInstance().setLives(3);
         LevelManagerModel.getInstance().restartGame();

@@ -4,13 +4,31 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
+/**
+ * Rappresenta un modello utente nel gioco.
+ * Contiene informazioni sul punteggio, il livello, le vittorie, le sconfitte,
+ * e il percorso dell'avatar dell'utente. Implementa Serializable per la
+ * serializzazione e Comparable per il confronto tra utenti basato sul punteggio massimo.
+ */
 public class UserModel implements Serializable, Comparable<UserModel> {
     private String nickname, avatarPath;
     private int maxScore, level, levelScore, wins, losses, matches;
-    transient int tempScore; // non lo serializza
+    transient int tempScore; // non serializza
 
-    transient private BufferedImage avatar; // non lo serializza
+    transient private BufferedImage avatar; // non serializza
 
+    /**
+     * Costruttore della classe UserModel.
+     *
+     * @param nickname Il nickname dell'utente.
+     * @param maxScore Il punteggio massimo dell'utente.
+     * @param level Il livello attuale dell'utente.
+     * @param levelScore I progressi del livello attuale.
+     * @param wins Il numero di vittorie dell'utente.
+     * @param losses Il numero di sconfitte dell'utente.
+     * @param matches Il numero totale di partite giocate.
+     * @param avatarPath Il percorso dell'avatar dell'utente.
+     */
     public UserModel(String nickname, int maxScore, int level, int levelScore, int wins, int losses, int matches, String avatarPath) {
         this.nickname = nickname;
         this.maxScore = maxScore;
@@ -23,9 +41,13 @@ public class UserModel implements Serializable, Comparable<UserModel> {
         this.avatar = GetSpriteAtlas(this.avatarPath);
     }
 
+    /**
+     * Serializza l'oggetto UserModel nel percorso specificato.
+     *
+     * @param path Il percorso in cui serializzare l'oggetto.
+     */
     public void serialize(String path) {
         try {
-
             File dir = new File("res/users/");
             if (!dir.exists()) {
                 dir.mkdir();
@@ -43,7 +65,6 @@ public class UserModel implements Serializable, Comparable<UserModel> {
             os.writeObject(matches);
             os.writeObject(avatarPath);
 
-            //os.flush();
             os.close();
             fos.close();
         } catch (Exception e) {
@@ -51,60 +72,74 @@ public class UserModel implements Serializable, Comparable<UserModel> {
         }
     }
 
+    /**
+     * Legge un oggetto UserModel da un file nel percorso specificato.
+     *
+     * @param path Il percorso da cui leggere l'oggetto.
+     * @return L'oggetto UserModel letto dal file, o null se si verifica un errore.
+     */
     public static UserModel read(String path) {
         try {
             FileInputStream fis = new FileInputStream(path);
             ObjectInputStream is = new ObjectInputStream(fis);
 
-            Object o1 = is.readObject();
-            Object o2 = is.readObject();
-            Object o3 = is.readObject();
-            Object o4 = is.readObject();
-            Object o5 = is.readObject();
-            Object o6 = is.readObject();
-            Object o7 = is.readObject();
-            Object o8 = is.readObject();
+            String nickname = (String) is.readObject();
+            int score = (Integer) is.readObject();
+            int level = (Integer) is.readObject();
+            int levelScore = (Integer) is.readObject();
+            int wins = (Integer) is.readObject();
+            int losses = (Integer) is.readObject();
+            int matches = (Integer) is.readObject();
+            String avatarPath = (String) is.readObject();
 
-            String nickname = (String) o1;
-            int score = (Integer) o2;
-            int level = (Integer) o3;
-            int levelScore = (Integer) o4;
-            int wins = (Integer) o5;
-            int losses = (Integer) o6;
-            int matches = (Integer) o7;
-            String avatarPath = (String) o8;
-
-            UserModel userModel =  new UserModel(nickname, score, level, levelScore, wins, losses, matches, avatarPath);
+            UserModel userModel = new UserModel(nickname, score, level, levelScore, wins, losses, matches, avatarPath);
 
             is.close();
             fis.close();
 
             return userModel;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-
+    /**
+     * Ottiene l'immagine dell'avatar dall'URL specificato.
+     *
+     * @param fileName Il nome del file dell'avatar.
+     * @return L'immagine dell'avatar come BufferedImage.
+     */
     public static BufferedImage GetSpriteAtlas(String fileName) {
         BufferedImage img = null;
         InputStream is = UserModel.class.getResourceAsStream("/" + fileName);
 
         try {
             img = ImageIO.read(is);
-
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
-                is.close();
+                if (is != null) {
+                    is.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         return img;
+    }
+
+    /**
+     * Confronta questo oggetto UserModel con un altro in base al punteggio massimo.
+     *
+     * @param o L'altro UserModel da confrontare.
+     * @return Un valore negativo, zero o positivo se questo UserModel è
+     *         rispettivamente minore, uguale o maggiore dell'altro UserModel.
+     */
+    @Override
+    public int compareTo(UserModel o) {
+        return Integer.compare(o.maxScore, this.maxScore);
     }
 
     public BufferedImage getAvatar() {
@@ -159,11 +194,6 @@ public class UserModel implements Serializable, Comparable<UserModel> {
 
     public void setMaxScore() {
         this.maxScore = Math.max(maxScore, tempScore);
-    }
-
-    @Override
-    public int compareTo(UserModel o) {
-        return Integer.compare(o.maxScore, this.maxScore);
     }
 
     public void incrementWins() {

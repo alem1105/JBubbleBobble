@@ -2,11 +2,56 @@ package model.ui.buttons;
 
 import java.awt.geom.Rectangle2D;
 
+/**
+ * Classe astratta che rappresenta un modello di pulsante personalizzato.
+ * Questa classe fornisce la base per la creazione di pulsanti con coordinate,
+ * dimensioni e stato in base alle azioni del cursore del mouse
+ */
 public abstract class CustomButtonModel {
-    protected int x, y, width, height;
-    protected Rectangle2D.Float bounds;
-    protected boolean mouseHover, mousePressed;
 
+    /**
+     * Coordinata X del pulsante.
+     */
+    protected int x;
+
+    /**
+     * Coordinata Y del pulsante.
+     */
+    protected int y;
+
+    /**
+     * Larghezza del pulsante.
+     */
+    protected int width;
+
+    /**
+     * Altezza del pulsante.
+     */
+    protected int height;
+
+    /**
+     * Area di interazione del pulsante, utilizzata per rilevare il passaggio del mouse e i click.
+     */
+    protected Rectangle2D.Float bounds;
+
+    /**
+     * Indica se il mouse si trova sopra il pulsante.
+     */
+    protected boolean mouseHover;
+
+    /**
+     * Indica se il pulsante è stato premuto.
+     */
+    protected boolean mousePressed;
+
+    /**
+     * Costruttore per inizializzare un pulsante personalizzato con le coordinate e le dimensioni specificate.
+     *
+     * @param x      Coordinata X iniziale del pulsante.
+     * @param y      Coordinata Y iniziale del pulsante.
+     * @param width  Larghezza del pulsante.
+     * @param height Altezza del pulsante.
+     */
     public CustomButtonModel(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;

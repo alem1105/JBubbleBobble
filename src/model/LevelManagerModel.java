@@ -17,15 +17,29 @@ import java.util.ArrayList;
 
 import static model.gamestate.Gamestate.MENU;
 
+/**
+ * Classe che gestisce i livelli del gioco, fornendo metodi per caricare,
+ * costruire e navigare tra i vari livelli.
+ */
 public class LevelManagerModel {
 
     private static LevelManagerModel instance;
+    /** Lista di tutti i livelli */
     private ArrayList<LevelModel> levels;
-    private int lvlIndex = 24;
+    /** Indice del livello corrente */
+    private int lvlIndex = 2;
+    /** Indica se passare al prossimo livello */
     private boolean nextLevel = false;
+    /** Usato per indicare quanti livelli saltare con gli ombrelli */
     private int levelSkipped = 1;
+    /** Indica se sono stati superati tutti i livelli */
     private boolean gameWon;
 
+    /**
+     * Ottiene l'istanza singleton di LevelManagerModel.
+     *
+     * @return L'istanza di LevelManagerModel.
+     */
     public static LevelManagerModel getInstance() {
         if (instance == null) {
             instance = new LevelManagerModel();
@@ -33,11 +47,18 @@ public class LevelManagerModel {
         return instance;
     }
 
+    /**
+     * Costruttore privato per inizializzare il manager dei livelli.
+     * Costruisce tutti i livelli al momento della creazione dell'istanza.
+     */
     private LevelManagerModel() {
         levels = new ArrayList<>();
         buildAllLevels();
     }
 
+    /**
+     * Costruisce tutti i livelli leggendo le immagini dalla directory.
+     */
     private void buildAllLevels() {
         BufferedImage[] allLevels = getAllLevels();
         for (BufferedImage img : allLevels) {
@@ -45,6 +66,11 @@ public class LevelManagerModel {
         }
     }
 
+    /**
+     * Ottiene tutte le immagini dei livelli dalla directory specificata.
+     *
+     * @return Un array di BufferedImage contenente tutte le immagini dei livelli.
+     */
     public static BufferedImage[] getAllLevels() {
         URL url = LevelManagerModel.class.getResource("/lvls");
         File file = null;
@@ -75,6 +101,11 @@ public class LevelManagerModel {
         return imgs;
     }
 
+    /**
+     * Carica il livello successivo, aggiornando lo stato del gioco e le
+     * statistiche del giocatore
+     * Se abbiamo superato l'ultimo livello termina la partita e aggiorna le statistiche dell'utente
+     */
     public void loadNextLevel(){
         if(lvlIndex >= levels.size() - 1) {
             UserModel user = UserStateModel.getInstance().getCurrentUserModel();
@@ -97,7 +128,9 @@ public class LevelManagerModel {
         ProjectileManagerModel.getInstance().resetProjectiles();
     }
 
-
+    /**
+     * Riavvia il gioco, ricostruendo tutti i livelli.
+     */
     public void restartGame() {
         levels.clear();
         buildAllLevels();

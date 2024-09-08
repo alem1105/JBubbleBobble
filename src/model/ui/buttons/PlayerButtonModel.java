@@ -1,5 +1,8 @@
 package model.ui.buttons;
 
+/**
+ * Bottone per impostare lo spawn del Player nel Level Editor
+ */
 public class PlayerButtonModel extends CustomButtonModel {
 
     private static PlayerButtonModel instance;

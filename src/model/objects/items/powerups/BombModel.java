@@ -7,7 +7,7 @@ import static model.utilz.Constants.PowerUps.BOMB;
 /**
  * La classe {@code BombModel} rappresenta un power-up di tipo bomba.
  * Estende {@code PowerUpModel} e implementa il comportamento specifico del potenziamento bomba,
- * inclusa l'attivazione dell'effetto e distrugge tutti i nemici  dei nemici.
+ * inclusa l'attivazione dell'effetto e la morte di tutti i nemici ancora liberi.
  */
 public class BombModel extends PowerUpModel {
 
@@ -26,9 +26,9 @@ public class BombModel extends PowerUpModel {
     /**
      * Applica l'effetto della bomba al gioco. Quando il potenziamento bomba viene raccolto:
      * <ul>
-     *     <li>Il potenziamento viene disattivato e marcato come non raccolto.</li>
-     *     <li>Tutti i nemici nel gioco vengono disattivati.</li>
-     *     <li>Il flag per l'esplosione della bomba viene impostato su {@code true} nel gestore dei potenziamenti.</li>
+     *     <li>Il potenziamento viene disattivato .</li>
+     *     <li>Uccide tutti i nemici.</li>
+     *     <li>Il flag per l'esplosione della bomba viene impostato su {@code true}.</li>
      * </ul>
      */
     @Override
@@ -45,7 +45,6 @@ public class BombModel extends PowerUpModel {
      */
     @Override
     public void unapplyEffect() {
-        // Non è necessario annullare l'effetto della bomba.
     }
 }
 

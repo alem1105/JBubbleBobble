@@ -313,12 +313,12 @@ public class PlayerModel extends EntityModel {
      */
     @Override
     public void updateXPos(float xSpeed) {
-        if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height,
+        if (canMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height,
                 getLvlData())) {
             hitbox.x += xSpeed;
             runDistanceAmount += (int) Math.abs(xSpeed);
         } else {
-            hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
+            hitbox.x = getEntityXPosNextToWall(hitbox, xSpeed);
         }
     }
 
@@ -531,5 +531,9 @@ public class PlayerModel extends EntityModel {
 
     public Point getPlayerSpawn() {
         return getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getPlayerSpawn();
+    }
+
+    public void setInAir(boolean inAir) {
+        this.inAir = inAir;
     }
 }
