@@ -51,7 +51,7 @@ public class WaterView extends CustomObjectView<WaterModel> {
     }
 
     /**
-     * Imposta l'indice dello sprite da utilizzare in base allo stato dell'acqua e alla sua posizione.
+     * Imposta l'indice dello sprite da utilizzare in base allo stato dell'acqua e alla sua posizione nell'array della "cascata".
      * Viene gestito un diverso sprite per il primo e l'ultimo "cubetto" dell'acqua.
      */
     private void setSpriteIndex() {
@@ -96,7 +96,7 @@ public class WaterView extends CustomObjectView<WaterModel> {
     }
 
     /**
-     * Disegna l'oggetto acqua sullo schermo.
+     * Disegna l'acqua sullo schermo.
      *
      * @param g l'oggetto Graphics utilizzato per disegnare l'acqua.
      */
