@@ -136,8 +136,10 @@ public class BubbleManagerView {
                 for (int i = 0; i < bubbleViewArray.size(); i++) {
                     WaterView currentWaterView = bubbleViewArray.get(i);
                     setWaterViewIndex(currentWaterView, bubbleViewArray, i);
-                    currentWaterView.draw(g);
-                    currentWaterView.update();
+                    if (currentWaterView.getObjectModel().isActive()) {
+                        currentWaterView.draw(g);
+                        currentWaterView.update();
+                    }
                 }
             }
         }

@@ -165,9 +165,6 @@ public class PlayerModel extends EntityModel {
     public void playerHasBeenHit() {
         lives--;
         invincible = true; // Il giocatore diventa invincibile temporaneamente
-        hitbox.x = getPlayerSpawn().x;
-        hitbox.y = getPlayerSpawn().y;
-        inAir = true; // Il giocatore è in aria
         playerAction = DEATH; // Imposta l'azione del giocatore a morte
     }
 

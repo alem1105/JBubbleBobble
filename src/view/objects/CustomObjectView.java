@@ -100,5 +100,9 @@ public abstract class CustomObjectView<T extends CustomObjectModel> {
      * @return Il numero di sprite.
      */
     protected abstract int getSpriteAmount();
+
+    public T getObjectModel() {
+        return objectModel;
+    }
 }
 

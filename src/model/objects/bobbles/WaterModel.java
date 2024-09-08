@@ -82,8 +82,6 @@ public class WaterModel extends CustomObjectModel implements Fallable {
                 getLvlData())) {
             airSpeed = 0.65f * SCALE; // Discesa lenta
             hitbox.y += airSpeed;
-            //updateXPos(xSpeed);
-            //checkOutOfMap();
         }
         // Finita Caduta
         else {
@@ -96,18 +94,8 @@ public class WaterModel extends CustomObjectModel implements Fallable {
     }
 
 
-    /**
-     * Controlla se l'oggetto d'acqua è uscito dalla mappa e, in tal caso evita che ricompaia.
-     */
     @Override
-    public void checkOutOfMap() {
-        int currentTileY = (int) (hitbox.y / TILES_SIZE);
-        if(currentTileY == TILES_IN_HEIGHT - 1) {
-            PlayerModel.getInstance().setInAir(true);
-            specificTrappedPlayer = false;
-            hitbox.y = -TILES_SIZE * 100;
-        }
-    }
+    public void checkOutOfMap() {}
 
     /**
      * Resetta lo stato dell'oggetto d'acqua indicando che non è più in aria e "ferma" la sua velocità verticale.

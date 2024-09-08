@@ -140,6 +140,9 @@ public class PlayerView {
                 if (playerModel.getPlayerAction() == DEATH) {
                     AudioManager.getInstance().oneTimePlay(PLAYER_DEATH);
                     playerModel.setPlayerAction(IDLE);
+                    playerModel.getHitbox().x = playerModel.getPlayerSpawn().x;
+                    playerModel.getHitbox().y = playerModel.getPlayerSpawn().y;
+                    playerModel.setInAir(true);
                 }
 
                 if (playerModel.isAttack()) {

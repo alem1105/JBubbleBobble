@@ -145,6 +145,16 @@ public abstract class EnemyModel extends EntityModel {
      */
     protected boolean foodSpawned;
 
+    protected boolean stuck;
+
+    protected float bubbleSpeed = 0.3F * SCALE;
+
+    /** Durata del percorso del nemico in bolla. */
+    protected int pathDuration = 240;
+
+    /** Tick del percorso del nemico in bolla. */
+    protected int pathTick = 0;
+
     /**
      * Costruttore della classe EnemyModel.
      *
@@ -162,8 +172,7 @@ public abstract class EnemyModel extends EntityModel {
      * aggiorna la posizione e lo stato del nemico.
      */
     public void update() {
-        if (enemyState == RUNNING || enemyState == RUNNING_ANGRY)
-            updatePos();
+        updatePos();
         updateEnemyState();
     }
 
@@ -172,6 +181,11 @@ public abstract class EnemyModel extends EntityModel {
      * Controlla se il nemico è in aria e aggiorna la posizione di conseguenza.
      */
     protected void updatePos() {
+        if(inBubble) {
+            inBubbleMovement();
+            return;
+        }
+
         isInAirCheck();
 
         if (!goingUp) {
@@ -186,6 +200,45 @@ public abstract class EnemyModel extends EntityModel {
                 goingUp = false;
             }
         }
+    }
+
+    protected void inBubbleMovement() {
+            if (!stuck) {
+                if (getEnemyTileY() > 2) {
+                    hitbox.y -= bubbleSpeed;
+                } else {
+                    if (isBubbleInXRange()) {
+                        stuck = true;
+                    } else {
+                        checkBubbleDirection();
+                    }
+                }
+            } else {
+                startFloating();
+            }
+    }
+
+    protected void startFloating() {
+        if (pathTick <= pathDuration / 2) {
+            hitbox.y -= bubbleSpeed;
+        } else if (pathTick > pathDuration / 2 && pathTick <= pathDuration) {
+            hitbox.y += bubbleSpeed;
+        } else {
+            pathTick = 0;
+        }
+        pathTick++;
+    }
+
+    protected void checkBubbleDirection() {
+        if (getEnemyTileX() < TILES_IN_WIDTH / 2 - 2) {
+            hitbox.x += bubbleSpeed;
+        } else {
+            hitbox.x -= bubbleSpeed;
+        }
+    }
+
+    protected boolean isBubbleInXRange() {
+        return TILES_IN_WIDTH / 2 - 2 <= getEnemyTileX() && getEnemyTileX() <= TILES_IN_WIDTH / 2 + 1;
     }
 
     /**
@@ -280,6 +333,7 @@ public abstract class EnemyModel extends EntityModel {
             inBubbleTime++;
             if (inBubbleTime >= 600) {
                 angry = true;
+                stuck = false;
                 inBubble = false;
                 inBubbleTime = 0;
             }

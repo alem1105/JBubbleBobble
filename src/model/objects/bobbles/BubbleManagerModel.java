@@ -251,12 +251,12 @@ public class BubbleManagerModel {
      * @param waterModel Il modello dell'acqua da controllare.
      */
     private void checkIfWaterFellOffTheMap(WaterModel waterModel) {
-        if((int) (waterModel.getHitbox().getY() / TILES_SIZE) != -1)
-            return;
-
-        waterModel.setActive(false);
-        waterModel.setSpecificTrappedPlayer(false);
-        generalTrappedPlayer = false;
+        if(waterModel.getHitbox().getY() >= GAME_HEIGHT - TILES_SIZE) {
+            waterModel.setActive(false);
+            waterModel.setSpecificTrappedPlayer(false);
+            generalTrappedPlayer = false;
+            PlayerModel.getInstance().setInAir(true);
+        }
     }
 
     /**
