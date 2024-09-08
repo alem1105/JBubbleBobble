@@ -1,6 +1,7 @@
 package view.entities.enemies;
 
 import model.entities.enemies.DrunkModel;
+import model.entities.PlayerModel;
 import model.entities.enemies.SuperDrunkModel;
 import model.objects.bobbles.BubbleModel;
 import model.objects.projectiles.DrunkBottleModel;
@@ -126,7 +127,6 @@ public class SuperDrunkView extends EnemyView<SuperDrunkModel>{
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= getSpriteAmount()) {
-
                 aniIndex = 0;
             }
         }

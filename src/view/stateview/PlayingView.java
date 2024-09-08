@@ -38,9 +38,6 @@ public class PlayingView {
     private PowerUpManagerView powerUpManagerView;
     private GamePausedScreenView gamePausedScreenView;
 
-    private boolean deathAudioPlayed;
-    private boolean mainThemeAudioPlayed;
-
     private DecimalFormat decFormat = new DecimalFormat("00");
 
     public static PlayingView getInstance() {
@@ -107,6 +104,9 @@ public class PlayingView {
             return;
         }
 
+        if (!gamePausedScreenView.isJustEnteredInPauseScreen())
+            gamePausedScreenView.resetPauseScreen();
+
         chooseTrackToPlayBasedOnLevel();
 
         playerView.update();
@@ -131,13 +131,11 @@ public class PlayingView {
         UserModel currentUser = UserStateModel.getInstance().getCurrentUserModel();
         g.setColor(Color.WHITE);
         g.setFont(LoadSave.NES_FONT);
-        g.drawString(String.valueOf(currentUser.getTempScore()), TILES_SIZE * 5, GAME_HEIGHT - (int) (5 * SCALE));
-        g.drawString(decFormat.format(LevelManagerModel.getInstance().getLvlIndex() + 1), TILES_SIZE * 9, GAME_HEIGHT - (int) (5 * SCALE));
+        FontMetrics measures = g.getFontMetrics();
+        g.drawString(String.valueOf(currentUser.getTempScore()), GAME_WIDTH - TILES_SIZE * 10 - measures.stringWidth(String.valueOf(currentUser.getTempScore())), GAME_HEIGHT - (int) (5 * SCALE));
+        String levelStat = decFormat.format(LevelManagerModel.getInstance().getLvlIndex() + 1);
+        g.drawString(levelStat, GAME_WIDTH - TILES_SIZE * 7 - measures.stringWidth(levelStat), GAME_HEIGHT - (int) (5 * SCALE));
         g.setColor(Color.RED);
-        g.drawString(String.valueOf(currentUser.getMaxScore()), TILES_SIZE * 13, GAME_HEIGHT - (int) (5 * SCALE));
-    }
-
-    public void setMainThemeAudioPlayed(boolean mainThemeAudioPlayed) {
-        this.mainThemeAudioPlayed = mainThemeAudioPlayed;
+        g.drawString(String.valueOf(currentUser.getMaxScore()), GAME_WIDTH - measures.stringWidth(String.valueOf(currentUser.getMaxScore())) - TILES_SIZE, GAME_HEIGHT - (int) (5 * SCALE));
     }
 }

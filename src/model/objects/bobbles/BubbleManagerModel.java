@@ -36,6 +36,7 @@ public class BubbleManagerModel {
     private HashMap<Character, Boolean> extend;
 
     private boolean generalTrappedPlayer;
+    private boolean playerInTheFireCarpet;
 
     public static BubbleManagerModel getInstance() {
         if (instance == null) {
@@ -83,13 +84,20 @@ public class BubbleManagerModel {
     }
 
     private void updateExplodedBubbles() {
+        playerInTheFireCarpet = false;
         for (FireModel fireModel : fires){
             if (fireModel.isActive()) {
                 fireModel.update();
-                if (fireModel.isPartOfTheCarpet())
+                if (fireModel.isPartOfTheCarpet()){
                     checkObjectHitEnemy(fireModel);
+                    checkIntersectsFireCarpet(fireModel);
+                }
+
             }
         }
+
+        if (!playerInTheFireCarpet)
+            PlayerModel.getInstance().setPlayerSpeed(1.0f * SCALE);
 
         for (LightningModel lightningModel : lightnings) {
             if (lightningModel.isActive())
@@ -286,10 +294,16 @@ public class BubbleManagerModel {
                     case EXTEND_BUBBLE -> extend.put(bubble.getExtendChar(), true);
                 }
 
-                    checkIntersects(bubble);
+                checkIntersects(bubble);
                 }
-
             }
+        }
+    }
+
+    private void checkIntersectsFireCarpet(FireModel fireModel) {
+        if (fireModel.getHitbox().intersects(PlayerModel.getInstance().getHitbox())) {
+            PlayerModel.getInstance().setPlayerSpeed(0.35f * SCALE);
+            playerInTheFireCarpet = true;
         }
     }
 

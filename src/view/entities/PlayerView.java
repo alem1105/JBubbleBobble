@@ -78,7 +78,7 @@ public class PlayerView {
         g.drawImage(animations[playerModel.getPlayerAction()][aniIndex],
                 (int) (playerModel.getHitbox().x - xDrawOffset) + flipX, (int) (playerModel.getHitbox().y - yDrawOffset),
                 playerModel.getWidth() * flipW, playerModel.getHeight(), null);
-        drawHitbox(g);
+        //drawHitbox(g);
     }
 
     public void updateAnimationTick() {
@@ -133,14 +133,6 @@ public class PlayerView {
     public Point getPlayerSpawn() {
         return playerModel.getLevelManager().getLevels().get(playerModel.getLevelManager().getLvlIndex()).getPlayerSpawn();
     }
-
-//    public float getCurX() {
-//        return curX;
-//    }
-//
-//    public float getCurY() {
-//        return curY;
-//    }
 
     public Point getCurPlayerPos() {
         return curPlayerPos;

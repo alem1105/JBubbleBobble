@@ -58,7 +58,10 @@ public class KeyboardInputs implements KeyListener {
                         UserStateModel.getInstance().setCurrentUserModel(UserStateView.getInstance().getCurrentUser());
                         Gamestate.state = MENU;
                     }
-                    case KeyEvent.VK_L -> UserStateView.getInstance().setShowingLeaderboard(true);
+                    case KeyEvent.VK_L -> {
+                        if (!UserStateView.getInstance().isCreateUser())
+                            UserStateView.getInstance().setShowingLeaderboard(true);
+                    }
                     case KeyEvent.VK_ESCAPE -> UserStateView.getInstance().setShowingLeaderboard(false);
                 }
             }

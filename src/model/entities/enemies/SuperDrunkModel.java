@@ -9,7 +9,7 @@ import static model.utilz.Constants.GameConstants.*;
 
 public class SuperDrunkModel extends EnemyModel{
 
-    private int lives = 60;
+    private int lives = 2;
     private boolean hasBeenHit;
 
     private boolean shot;
