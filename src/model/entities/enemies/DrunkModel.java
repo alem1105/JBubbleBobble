@@ -4,7 +4,7 @@ import model.entities.PlayerModel;
 import model.objects.projectiles.DrunkBottleModel;
 import model.objects.projectiles.ProjectileManagerModel;
 
-import static model.utilz.Constants.Directions.RIGHT;
+import static model.utilz.Constants.Directions.*;
 import static model.utilz.Constants.Enemies.RUNNING;
 import static model.utilz.Constants.Enemies.RUNNING_ANGRY;
 import static model.utilz.Constants.GameConstants.SCALE;

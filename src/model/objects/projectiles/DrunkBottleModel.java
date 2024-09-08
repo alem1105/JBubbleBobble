@@ -1,14 +1,14 @@
 package model.objects.projectiles;
 
-import static model.utilz.Constants.Directions.LEFT;
-import static model.utilz.Constants.GameConstants.SCALE;
-import static model.utilz.Constants.GameConstants.TILES_SIZE;
+import static model.utilz.Constants.Directions.*;
+import static model.utilz.Constants.GameConstants.*;
+import static model.utilz.Constants.GameConstants.GAME_WIDTH;
 import static model.utilz.Gravity.CanMoveHere;
 import static model.utilz.UtilityMethods.getLvlData;
 
 public class DrunkBottleModel extends ProjectileModel {
 
-    private float bottleSpeed = 0.5f * SCALE;
+    private float xBottleSpeed = 0.8f * SCALE, yBottleSpeed = 0.8f * SCALE;
     private float startX;
     private int dirChanged;
 
@@ -22,8 +22,19 @@ public class DrunkBottleModel extends ProjectileModel {
     }
 
     private void checkDirection() {
-        if(direction == LEFT)
-            bottleSpeed = -bottleSpeed;
+        switch(direction) {
+            case RIGHT -> yBottleSpeed = 0;
+            case LEFT -> {
+                xBottleSpeed = -xBottleSpeed;
+                yBottleSpeed = 0;
+            }
+            case UP_RIGHT -> yBottleSpeed = -yBottleSpeed;
+            case UP_LEFT -> {
+                xBottleSpeed = -xBottleSpeed;
+                yBottleSpeed = -yBottleSpeed;
+            }
+            case DOWN_LEFT -> xBottleSpeed = -xBottleSpeed;
+        }
     }
 
     @Override
@@ -39,7 +50,22 @@ public class DrunkBottleModel extends ProjectileModel {
     }
 
     private void updateSuperDrunkPos() {
+        if(canDrunkBottleMoveOnThisX(hitbox.x + xBottleSpeed))
+            if (canDrunkBottleMoveOnThisY(hitbox.y + yBottleSpeed)) {
+                hitbox.x += xBottleSpeed;
+                hitbox.y += yBottleSpeed;
+                return;
+            }
 
+        active = false;
+    }
+
+    private boolean canDrunkBottleMoveOnThisY(float nextY) {
+        return !(nextY + hitbox.height >= GAME_HEIGHT - (2 * TILES_SIZE) || nextY <= TILES_SIZE);
+    }
+
+    private boolean canDrunkBottleMoveOnThisX(float nextX) {
+        return !(nextX + hitbox.width  >= GAME_WIDTH - TILES_SIZE || nextX <= TILES_SIZE);
     }
 
     private void updateDrunkPos() {
@@ -51,16 +77,19 @@ public class DrunkBottleModel extends ProjectileModel {
         // Controlla se invertire direzione
         if (Math.abs(hitbox.x - startX) >= TILES_SIZE * 4) {
             dirChanged++;
-            bottleSpeed = -bottleSpeed;
+            xBottleSpeed = -xBottleSpeed;
         }
 
         // Controlla se puoi muoverti (passa attraverso i muri?)
-        if(CanMoveHere(hitbox.x + bottleSpeed, hitbox.y, hitbox.width, hitbox.height, getLvlData())) {
-            hitbox.x += bottleSpeed;
+        if(CanMoveHere(hitbox.x + xBottleSpeed, hitbox.y, hitbox.width, hitbox.height, getLvlData())) {
+            hitbox.x += xBottleSpeed;
         } else {
             dirChanged++;
-            bottleSpeed = -bottleSpeed;
+            xBottleSpeed = -xBottleSpeed;
         }
     }
 
+    public void setSuperDrunk(boolean superDrunk) {
+        this.superDrunk = superDrunk;
+    }
 }
