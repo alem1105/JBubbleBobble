@@ -52,7 +52,7 @@ public class DrunkBottleModel extends ProjectileModel {
     }
 
     private void updateSuperDrunkPos() {
-        if(hitbox.intersects(PlayerModel.getInstance().getHitbox())) {
+        if(hitbox.intersects(PlayerModel.getInstance().getHitbox()) && !PlayerModel.getInstance().isInvincible()) {
             PlayerModel.getInstance().playerHasBeenHit();
         }
 
