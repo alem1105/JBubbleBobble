@@ -101,7 +101,7 @@ public class BubbleModel extends CustomObjectModel {
 
     /**
      * Aggiorna lo stato della bolla.
-     * Controlla il timer di vita e gestisce il movimento dopo il tiro.
+     * Controlla il timer della vita e gestisce il movimento dopo lo sparo.
      */
     @Override
     public void update() {
@@ -132,7 +132,7 @@ public class BubbleModel extends CustomObjectModel {
     }
 
     /**
-     * Controlla se l'acqua si è spostata dal punto di partenza.
+     * Controlla se il "cubetto" d'acqua si è spostata dal punto di partenza.
      *
      * @param lastWaterHitbox L'area di collisione dell'ultima acqua.
      * @return true se l'acqua si è spostata, false altrimenti.
@@ -161,7 +161,7 @@ public class BubbleModel extends CustomObjectModel {
     }
 
     /**
-     * Controlla se la bolla è all'interno dell'intervallo X al centro dello schermo.
+     * Controlla se la bolla è all'interno dell'intervallo orizzontale in cui fluttuare.
      *
      * @return true se la bolla è nell'intervallo, false altrimenti.
      */
@@ -181,7 +181,7 @@ public class BubbleModel extends CustomObjectModel {
     }
 
     /**
-     * Inizia a far galleggiare la bolla dopo che è stata bloccata.
+     * Inizia a far fluttuare la bolla dopo che è entrata nell'area in cui può fluttuare.
      */
     protected void startFloating() {
         if (pathTick <= pathDuration / 2) {

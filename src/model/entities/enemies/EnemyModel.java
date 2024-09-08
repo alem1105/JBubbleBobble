@@ -48,7 +48,7 @@ public abstract class EnemyModel extends EntityModel {
     protected int enemyState = RUNNING;
 
     /**
-     * Direzione di camminata del nemico. Può assumere valori come {@link #RIGHT} o {@link #LEFT}.
+     * Direzione di camminata del nemico. Può assumere valori come {@code RIGHT} o {@code LEFT}.
      */
     protected int walkDir = RIGHT;
 
@@ -145,8 +145,14 @@ public abstract class EnemyModel extends EntityModel {
      */
     protected boolean foodSpawned;
 
+    /**
+     * Indica se la bolla è nell'area in cui può iniziare a fluttuare.
+     */
     protected boolean stuck;
 
+    /**
+     * Velocità del nemico quando è in bolla.
+     */
     protected float bubbleSpeed = 0.3F * SCALE;
 
     /** Durata del percorso del nemico in bolla. */
@@ -178,7 +184,7 @@ public abstract class EnemyModel extends EntityModel {
 
     /**
      * Metodo per aggiornare la posizione del nemico.
-     * Controlla se il nemico è in aria e aggiorna la posizione di conseguenza.
+     * Controlla se il nemico è in aria o nella bolla e aggiorna la posizione di conseguenza.
      */
     protected void updatePos() {
         if(inBubble) {
@@ -202,6 +208,11 @@ public abstract class EnemyModel extends EntityModel {
         }
     }
 
+    /**
+     * Gestisce il movimento del nemico intrappolato in una bolla.
+     * Se il nemico non è bloccato, lo sposta verticalmente fino a quando non raggiunge una certa altezza o posizione orizzontale.
+     * Una volta bloccato, attiva il movimento fluttuante.
+     */
     protected void inBubbleMovement() {
             if (!stuck) {
                 if (getEnemyTileY() > 2) {
@@ -218,6 +229,9 @@ public abstract class EnemyModel extends EntityModel {
             }
     }
 
+    /**
+     * Inizia il movimento fluttuante del nemico intrappolato in una bolla.
+     */
     protected void startFloating() {
         if (pathTick <= pathDuration / 2) {
             hitbox.y -= bubbleSpeed;
@@ -229,6 +243,10 @@ public abstract class EnemyModel extends EntityModel {
         pathTick++;
     }
 
+    /**
+     * Controlla la direzione di movimento del nemico nella bolla.
+     * Sposta il nemico orizzontalmente a destra o a sinistra a seconda della posizione rispetto all'intervallo centrale.
+     */
     protected void checkBubbleDirection() {
         if (getEnemyTileX() < TILES_IN_WIDTH / 2 - 2) {
             hitbox.x += bubbleSpeed;
@@ -237,6 +255,11 @@ public abstract class EnemyModel extends EntityModel {
         }
     }
 
+    /**
+     * Verifica se la bolla si trova nell'intervallo orizzontale corretto per iniziare a fluttuare.
+     *
+     * @return true se la bolla si trova nell'intervallo, false altrimenti.
+     */
     protected boolean isBubbleInXRange() {
         return TILES_IN_WIDTH / 2 - 2 <= getEnemyTileX() && getEnemyTileX() <= TILES_IN_WIDTH / 2 + 1;
     }
@@ -502,6 +525,9 @@ public abstract class EnemyModel extends EntityModel {
         stillTick++;
     }
 
+    /**
+     * @return true se il nemico è nella stessa y del player
+     */
     protected boolean isEnemyOnPlayerY() {
         return (int) (hitbox.y / TILES_SIZE) == (int) (PlayerModel.getInstance().getHitbox().y / TILES_SIZE);
     }
