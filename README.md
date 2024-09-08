@@ -14,14 +14,14 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [x] sistemare movimento bolla di bob
 - [x] schermata game over
 - [x] schermata hai vinto
-- [ ] schermata pausa
+- [x] schermata pausa
 - [x] profilo utente
 - [x] gestione delle vite
 - [x] gestione del punteggio
 - [x] implementare tutte le bolle
 - [x] fare i power up (12)  : https://strategywiki.org/wiki/Bubble_Bobble/Special_items
 - [x] extends
-- [ ] aggiungere l'audio
+- [x] aggiungere l'audio
 
 ### Specific things to do
 - [x] gestire la caduta del player fuori dalla schermata
@@ -41,7 +41,7 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24**.
 - [x] pulsante restart 
 
 ### We may or may not do that
-- [ ] livello finale con boss
+- [x] livello finale con boss
 - [ ] aggiungere il crea livelli al level editor
 - [ ] cancellare user
 - [x] saltare sulle bolle
