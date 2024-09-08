@@ -40,7 +40,6 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     /**
      * Costruttore della classe MouseInputs.
      * Inizializza le varie viste e il modello utilizzati durante il gioco.
-     * Non accetta parametri e non restituisce valori.
      */
     public MouseInputs(){
         this.levelEditorView = LevelEditorView.getInstance();
@@ -53,7 +52,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     }
 
     /**
-     * Controlla se il mouse si trova all'interno dei limiti di un pulsante.
+     * Controlla se il mouse si trova all'interno del perimetro di un pulsante.
      *
      * @param <T> Il tipo del pulsante personalizzato che estende CustomButtonView.
      * @param button Il pulsante da controllare.
@@ -69,8 +68,6 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
 
     /**
      * Gestisce gli eventi di click del mouse.
-     * Se lo stato di gioco è in modalità PLAYING, imposta lo stato di attacco
-     * del giocatore su vero quando viene cliccato il pulsante sinistro del mouse.
      *
      * @param e L'evento del mouse che contiene le informazioni sul click.
      */
@@ -295,7 +292,6 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
 
     /**
      * Gestisce il movimento del mouse per aggiornare lo stato di hover (passaggio del mouse) sui pulsanti.
-     * Verifica quali pulsanti vengono "sorvolati" dal puntatore e imposta lo stato di hover.
      *
      * @param e L'evento del mouse che contiene le informazioni sul movimento.
      */
@@ -378,7 +374,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
             }
         }
     }
-    
+
     /**
      * Ripristina i dati del livello corrente utilizzando le informazioni memorizzate
      * nel modello del pulsante X.

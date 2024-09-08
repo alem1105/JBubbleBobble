@@ -69,7 +69,7 @@ public abstract class EnemyModel extends EntityModel {
     protected int targetYTile;
 
     /**
-     * Indica se il nemico è in movimento di morte.
+     * Indica se il nemico sta facendo l'animazione della morte.
      * Valore predefinito è {@code false}.
      */
     private boolean deathMovement = false;
@@ -108,16 +108,42 @@ public abstract class EnemyModel extends EntityModel {
             {20, 0.8f, 2}
     };
 
+    /**
+     * Timer per il nemico che rimane fermo, utilizzato per gestire le azioni di attacco.
+     */
+    protected int stillTimer = 30;
 
-    // Variabili per l'attacco
-    protected int stillTimer = 30; // Timer per il nemico che rimane fermo
-    protected int stillTick = 0; // Tick per il timer fermo
-    protected int shootingTimer = 120; // Timer per il tiro
-    protected int shootingTick = 0; // Tick per il timer di tiro
-    protected boolean still = false; // Indica se il nemico è fermo
-    protected boolean shot = false; // Indica se il nemico ha sparato
+    /**
+     * Tick per il timer fermo, utilizzato per tenere traccia del tempo in cui il nemico rimane fermo.
+     */
+    protected int stillTick = 0;
 
-    protected boolean foodSpawned; // Indica se il cibo è stato generato
+    /**
+     * Timer per il tiro del nemico, utilizzato per controllare la frequenza di sparo.
+     */
+    protected int shootingTimer = 120;
+
+    /**
+     * Tick per il timer di tiro, utilizzato per monitorare il tempo trascorso tra i tiri.
+     */
+    protected int shootingTick = 0;
+
+    /**
+     * Indica se il nemico è fermo.
+     * Valore predefinito è {@code false}.
+     */
+    protected boolean still = false;
+
+    /**
+     * Indica se il nemico ha sparato.
+     * Valore predefinito è {@code false}.
+     */
+    protected boolean shot = false;
+
+    /**
+     * Indica se il cibo è stato generato.
+     */
+    protected boolean foodSpawned;
 
     /**
      * Costruttore della classe EnemyModel.

@@ -37,7 +37,7 @@ public class RingModel extends PowerUpModel {
     public void unapplyEffect() {
         switch (type) {
             case RING_PINK -> PlayerModel.getInstance().setScoreForJump(0);
-            case RING_RED -> BubbleManagerModel.getInstance().setScoreForPop(0);
+            case RING_RED -> BubbleManagerModel.getInstance().setScoreForPop(10);
         }
     }
 }

@@ -5,15 +5,30 @@ import static model.utilz.Constants.GameConstants.SCALE;
 import static model.utilz.Gravity.*;
 import static model.utilz.UtilityMethods.getLvlData;
 
-public class MonstaModel extends EnemyModel{
+/**
+ * Classe che rappresenta il modello di un nemico di tipo Monsta.
+ * Estende la classe {@link EnemyModel} e gestisce il comportamento di movimento
+ * di questo tipo di nemico.
+ */
+public class MonstaModel extends EnemyModel {
 
+    /**
+     * Costruttore per inizializzare il modello Monsta.
+     *
+     * @param x La coordinata X iniziale del nemico.
+     * @param y La coordinata Y iniziale del nemico.
+     */
     public MonstaModel(float x, float y) {
-        super(x, y-1, (int) (18 * SCALE), (int) (18 * SCALE));
+        super(x, y - 1, (int) (18 * SCALE), (int) (18 * SCALE));
         this.walkSpeed = 0.55f * SCALE;
         initHitbox(14, 16);
-        walkDir = UP_RIGHT;
+        walkDir = UP_RIGHT; // Direzione di camminata iniziale
     }
 
+    /**
+     * Aggiorna la posizione del nemico in base alla direzione in cui si sta muovendo.
+     * Gestisce il movimento del nemico in base alla direzione corrente.
+     */
     @Override
     protected void updatePos() {
         switch (walkDir) {
@@ -56,17 +71,35 @@ public class MonstaModel extends EnemyModel{
         }
     }
 
+    /**
+     * Muove il nemico di una certa quantità nelle direzioni specificate.
+     *
+     * @param xMovement La velocità di movimento lungo l'asse X.
+     * @param yMovement La velocità di movimento lungo l'asse Y.
+     */
     private void move(float xMovement, float yMovement) {
         hitbox.x += xMovement;
         hitbox.y += yMovement;
     }
 
+    /**
+     * Controlla se il nemico può muoversi lungo l'asse Y alla coordinata specificata.
+     *
+     * @param nextY La prossima coordinata Y da controllare.
+     * @return true se il nemico può muoversi, false altrimenti.
+     */
     private boolean canMonstaMoveOnThisY(float nextY) {
         return CanMoveHere(hitbox.x, nextY, hitbox.width, hitbox.height, getLvlData());
     }
 
+    /**
+     * Controlla se il nemico può muoversi lungo l'asse X alla coordinata specificata.
+     *
+     * @param nextX La prossima coordinata X da controllare.
+     * @return true se il nemico può muoversi, false altrimenti.
+     */
     private boolean canMonstaMoveOnThisX(float nextX) {
         return CanMoveHere(nextX, hitbox.y, hitbox.width, hitbox.height, getLvlData());
     }
-
 }
+

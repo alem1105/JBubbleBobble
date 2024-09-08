@@ -131,12 +131,13 @@ public class PlayingView {
         UserModel currentUser = UserStateModel.getInstance().getCurrentUserModel();
         String currentLevelIndex = decFormat.format(LevelManagerModel.getInstance().getLvlIndex() + 1);
 
-        g.setFont(LoadSave.NES_FONT);
+        Font font = LoadSave.NES_FONT.deriveFont(7f * SCALE);
+        g.setFont(font);
         FontMetrics measures = g.getFontMetrics();
 
         // posizione del testo
-        int x = 0;
-        int y = TILES_SIZE - TILES_SIZE / 3;
+        int x = TILES_SIZE / 7;
+        int y = 2 * TILES_SIZE - measures.getHeight() + 2;
 
         // distanza del contorno in pixel
         int shadowOffset = 2;
@@ -152,13 +153,15 @@ public class PlayingView {
             }
         }
 
-        // disegniamo il testo originale sopra il contorno
+        // punteggio della partita corrente
         g.setColor(Color.WHITE);
         g.drawString(currentLevelIndex, x, y);
+        DecimalFormat decFormat2 = new DecimalFormat("0000000");
 
-        g.drawString(String.valueOf(currentUser.getTempScore()), GAME_WIDTH - TILES_SIZE * 7 - measures.stringWidth(String.valueOf(currentUser.getTempScore())), GAME_HEIGHT - (int) (5 * SCALE));
+        g.drawString(decFormat2.format(currentUser.getTempScore()), ((TILES_IN_WIDTH - 3)/2 +3) * TILES_SIZE - measures.stringWidth(decFormat2.format(currentUser.getTempScore())), GAME_HEIGHT - (int) (5 * SCALE));
 
+        // punteggio massimo dello user
         g.setColor(Color.RED);
-        g.drawString(String.valueOf(currentUser.getMaxScore()), GAME_WIDTH - measures.stringWidth(String.valueOf(currentUser.getMaxScore())) - TILES_SIZE, GAME_HEIGHT - (int) (5 * SCALE));
+        g.drawString(String.valueOf(currentUser.getMaxScore()), ((TILES_IN_WIDTH - 3)/2 +4) * TILES_SIZE, GAME_HEIGHT - (int) (5 * SCALE));
     }
 }

@@ -16,40 +16,117 @@ import static model.utilz.Constants.PlayerConstants.*;
 import static model.utilz.Gravity.*;
 import static model.utilz.UtilityMethods.getLvlData;
 
+/**
+ * Classe che rappresenta il modello del giocatore nel gioco.
+ * Estende la classe {@link EntityModel} e gestisce le azioni e le interazioni del giocatore.
+ */
 public class PlayerModel extends EntityModel {
 
+    /**
+     * Istanza statica del modello del giocatore.
+     */
     private static PlayerModel instance;
 
+    /**
+     * Azione attuale del giocatore.
+     * Rappresenta lo stato di animazione attuale del giocatore.
+     */
     private int playerAction = IDLE;
+
+    /**
+     * Stati dei comandi del giocatore.
+     * Indica se il giocatore sta premendo i tasti per andare a sinistra, a destra, saltare o resettare il tick dell'animazione.
+     */
     private boolean left, right, jump, resetAniTick;
+
+    /**
+     * Indica se il giocatore si sta muovendo.
+     */
     private boolean moving = false;
+
+    /**
+     * Velocità del giocatore.
+     * Rappresenta la velocità di movimento del giocatore, scalata per la dimensione del gioco.
+     */
     private float playerSpeed = 1.0f * SCALE;
 
-    // Gravity
+    /**
+     * Velocità di salto.
+     * Rappresenta la velocità con cui il giocatore salta, scalata per la dimensione del gioco.
+     */
     private float jumpSpeed = -2.25f * SCALE;
 
+    /**
+     * Numero di vite del giocatore.
+     * Indica quante vite ha il giocatore attualmente.
+     */
     private int lives = 3;
 
-    // segnala che ha perso tutte le vite
+    /**
+     * Indica se il gioco è finito.
+     * Segnala che il giocatore ha perso tutte le vite.
+     */
     private boolean gameOver = false;
 
+    /**
+     * Stati dell'attacco del giocatore.
+     * Indica se il giocatore sta attaccando e se ha effettuato un clic per attaccare.
+     */
     private boolean attack, attackingClick;
+
+    /**
+     * Direzione in cui il giocatore sta affrontando.
+     * Rappresenta la direzione attuale del giocatore (sinistra o destra).
+     */
     private int facing = RIGHT;
 
-    // invincibilità
+    /**
+     * Indica se il giocatore è invincibile.
+     * Il giocatore non può subire danni quando è in stato di invincibilità.
+     */
     private boolean invincible = true;
+
+    /**
+     * Durata dell'invincibilità.
+     * Indica per quanto tempo il giocatore rimane invincibile dopo essere stato colpito.
+     */
     private int invincibleDuration = 600;
+
+    /**
+     * Tick per la gestione dell'invincibilità.
+     * Contatore utilizzato per monitorare la durata dell'invincibilità.
+     */
     private int invincibleTick = 0;
 
-    // per i power up
-    private int blowedBubbles, poppedBubbles, poppedLightingBubbles, poppedFireBubbles = 1,  poppedWaterBubbles = 1;
-    private int jumpedTimes, eatenPinkCandies, eatenYellowCandies, runDistanceAmount, reachedFinalLevel;
+    /**
+     * Variabili per i power-up.
+     * Contatori per vari eventi, come bolle soffiate, bolle esplose, e oggetti raccolti.
+     */
+    private int blowedBubbles, poppedBubbles, poppedLightingBubbles, poppedFireBubbles = 1, poppedWaterBubbles = 1;
+    private int jumpedTimes, eatenPinkCandies, eatenYellowCandies, runDistanceAmount;
+
+    /**
+     * Punti guadagnati per i salti.
+     * Rappresenta il punteggio guadagnato dal giocatore per ogni salto effettuato.
+     */
     private int scoreForJump = 0;
 
+    /**
+     * Indica se il giocatore sta sparando una bolla di fulmine.
+     */
     private boolean shootingLightningBubble;
 
+    /**
+     * Gestore delle bolle.
+     * Rappresenta l'istanza del gestore delle bolle, responsabile della gestione delle bolle nel gioco.
+     */
     private BubbleManagerModel bubbleManagerModel = BubbleManagerModel.getInstance();
 
+    /**
+     * Restituisce l'istanza singleton di PlayerModel.
+     *
+     * @return L'istanza di PlayerModel.
+     */
     public static PlayerModel getInstance() {
         if (instance == null) {
             instance = new PlayerModel(100, 100, (int) (18 * SCALE), (int) (18 * SCALE));
@@ -57,46 +134,68 @@ public class PlayerModel extends EntityModel {
         return instance;
     }
 
+    /**
+     * Costruttore privato per inizializzare il modello del giocatore.
+     *
+     * @param x La coordinata X iniziale del giocatore.
+     * @param y La coordinata Y iniziale del giocatore.
+     * @param width Larghezza della hitbox del giocatore.
+     * @param height Altezza della hitbox del giocatore.
+     */
     private PlayerModel(float x, float y, int width, int height) {
         super(x, y, width, height);
         this.x = getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getPlayerSpawn().x;
         this.y = getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getPlayerSpawn().y;
-        initHitbox(13, 14);
+        initHitbox(13, 14); // Inizializza la hitbox del giocatore
     }
 
-    public void moveToSpawn(){
+    /**
+     * Muove il giocatore alla posizione di spawn.
+     */
+    public void moveToSpawn() {
         hitbox.x = getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getPlayerSpawn().x;
         hitbox.y = getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getPlayerSpawn().y;
-        inAir = true;
+        inAir = true; // Imposta il giocatore in aria
     }
 
+    /**
+     * Gestisce la collisione del giocatore.
+     * Riduce le vite e riposiziona il giocatore allo spawn se colpito.
+     */
     public void playerHasBeenHit() {
         lives--;
-        invincible = true;
+        invincible = true; // Il giocatore diventa invincibile temporaneamente
         hitbox.x = getPlayerSpawn().x;
         hitbox.y = getPlayerSpawn().y;
-        inAir = true;
-        playerAction = DEATH;
+        inAir = true; // Il giocatore è in aria
+        playerAction = DEATH; // Imposta l'azione del giocatore a morte
     }
 
+    /**
+     * Controlla se il giocatore sta attaccando e gestisce l'attacco.
+     */
     private void checkAttack() {
         if (attack && !attackingClick) {
-            blowedBubbles++;
-            attackingClick = true;
+            blowedBubbles++; // Incrementa il conteggio delle bolle soffiato
+            attackingClick = true; // Segna che il giocatore ha effettuato un attacco
             float bubbleX = hitbox.x;
-            if (right)
-                bubbleX += hitbox.width;
+            if (right) {
+                bubbleX += hitbox.width; // Posizione della bolla
+            }
             bubbleManagerModel.addBobBubbles(new BobBubbleModel(bubbleX, hitbox.y - (BUBBLE_SIZE - hitbox.height), BUBBLE_SIZE, BUBBLE_SIZE, facing));
         }
     }
 
+    /**
+     * Aggiorna lo stato del giocatore ad ogni frame.
+     */
     public void update() {
         updatePos();
         checkRidingABubble();
         checkAttack();
         setPlayerAction();
         updateInvincibleStatus();
-        if(lives <= 0) {
+        if (lives <= 0) {
             gameOver = true;
             UserModel user = UserStateModel.getInstance().getCurrentUserModel();
             user.updateLevelScore();
@@ -107,23 +206,28 @@ public class PlayerModel extends EntityModel {
         }
     }
 
+    /**
+     * Aggiorna lo stato di invincibilità del giocatore.
+     */
     private void updateInvincibleStatus() {
         if (invincible) {
             invincibleTick++;
             if (invincibleTick >= invincibleDuration) {
-                invincible = false;
-                invincibleTick = 0;
+                invincible = false; // Termina l'invincibilità
+                invincibleTick = 0; // Resetta il tick
             }
         }
     }
 
+    /**
+     * Imposta l'azione attuale del giocatore in base ai comandi.
+     */
     private void setPlayerAction() {
         int startAni = playerAction;
 
         if (attack) {
             playerAction = ATTACK;
-        }
-        else {
+        } else {
             if (moving)
                 playerAction = RUNNING;
             else if (playerAction != DEATH)
@@ -135,14 +239,13 @@ public class PlayerModel extends EntityModel {
             }
         }
 
-        if (startAni != playerAction)
-            resetAniTick = true;
-        else
-            resetAniTick = false;
+        resetAniTick = startAni != playerAction;
     }
 
+    /**
+     * Aggiorna la posizione del giocatore in base ai comandi.
+     */
     private void updatePos() {
-
         moving = false;
 
         if (jump) {
@@ -169,44 +272,46 @@ public class PlayerModel extends EntityModel {
         isInAirCheck();
 
         if (inAir) {
-            // In aria
             if (airSpeed < 0) {
-                // Stiamo saltando
-                hitbox.y += airSpeed; // Controllo y
+                hitbox.y += airSpeed;
                 airSpeed += gravity;
                 if (canJumpHere(xSpeed)) hitbox.x += xSpeed;
-            }
-            else {
+            } else {
                 fallingChecks(xSpeed);
             }
-        }
-        else {
+        } else {
             updateXPos(xSpeed);
         }
         moving = true;
     }
 
-
+    /**
+     * Controlla se il giocatore sta cavalcando una bolla.
+     */
     private void checkRidingABubble() {
         if (airSpeed > 0) {
             bubbleManagerModel.getBobBubbles().stream()
                     .filter(BobBubbleModel::isActive)
                     .filter(BobBubbleModel::isCollision)
-                    .filter(bobBubble -> hitbox.getMaxY() >= bobBubble.getHitbox().getY() - (5 * SCALE) // Controlla se il player è precisamente sopra la bolla
+                    .filter(bobBubble -> hitbox.getMaxY() >= bobBubble.getHitbox().getY() - (5 * SCALE) // Controlla se il giocatore è sopra la bolla
                             && hitbox.getMaxY() <= bobBubble.getHitbox().getY() + (5 * SCALE)
                             && hitbox.x >= bobBubble.getHitbox().getX()
                             && hitbox.x <= bobBubble.getHitbox().getMaxX()
-                            && jump)
-                    .findFirst() // si ferma alla prima bolla trovata
+                            && jump) // Verifica se sta saltando
+                    .findFirst() // Si ferma alla prima bolla trovata
                     .ifPresent(bobBubble -> {
-                        inAir = true;
-                        airSpeed = jumpSpeed;
+                        inAir = true; // Imposta il giocatore in aria
+                        airSpeed = jumpSpeed; // Imposta la velocità di salto
                     });
         }
     }
 
-
-    @ Override
+    /**
+     * Aggiorna la posizione orizzontale del giocatore.
+     *
+     * @param xSpeed La velocità orizzontale da applicare.
+     */
+    @Override
     public void updateXPos(float xSpeed) {
         if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height,
                 getLvlData())) {
@@ -217,12 +322,20 @@ public class PlayerModel extends EntityModel {
         }
     }
 
+    /**
+     * Controlla se il giocatore può saltare nella posizione attuale.
+     *
+     * @param xSpeed La velocità orizzontale da considerare.
+     * @return True se il giocatore può saltare, false altrimenti.
+     */
     private boolean canJumpHere(float xSpeed) {
-        if (hitbox.x + xSpeed > Constants.GameConstants.TILES_SIZE && hitbox.x + xSpeed + hitbox.width < Constants.GameConstants.GAME_WIDTH - Constants.GameConstants.TILES_SIZE)
-            return true;
-        return false;
+        return hitbox.x + xSpeed > Constants.GameConstants.TILES_SIZE &&
+                hitbox.x + xSpeed + hitbox.width < Constants.GameConstants.GAME_WIDTH - Constants.GameConstants.TILES_SIZE;
     }
 
+    /**
+     * Esegue il salto del giocatore.
+     */
     private void jump() {
         if (inAir)
             return;

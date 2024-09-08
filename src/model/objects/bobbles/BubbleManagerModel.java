@@ -18,26 +18,79 @@ import static model.utilz.Gravity.CanMoveHere;
 import static model.utilz.Gravity.IsTileSolid;
 import static model.utilz.UtilityMethods.getLvlData;
 
+/**
+ * Questa classe gestisce la logica delle bolle, inclusi gli aggiornamenti e la creazione di bolle,
+ * effetti speciali e interazioni con il giocatore e i nemici.
+ */
 public class BubbleManagerModel {
 
+    /**
+     * L'istanza singleton della classe BubbleManagerModel.
+     */
     private static BubbleManagerModel instance;
 
+    /**
+     * La lista delle bolle di Bob attive nel gioco.
+     */
     private ArrayList<BobBubbleModel> bobBubbles;
+
+    /**
+     * La lista delle bolle attive nel gioco.
+     */
     private ArrayList<BubbleModel> bubbles;
+
+    /**
+     * La lista dei modelli di fuoco attivi nel gioco.
+     */
     private ArrayList<FireModel> fires;
+
+    /**
+     * La lista dei modelli di fulmine attivi nel gioco.
+     */
     private ArrayList<LightningModel> lightnings;
 
+    /**
+     * Generatore casuale utilizzato per spawnare bolle casualmente.
+     */
     private Random rand;
+
+    /**
+     * Contatore per il tempo trascorso dall'ultimo spawn di una bolla.
+     */
     int spawnBubbleTick = 0;
+
+    /**
+     * Durata tra lo spawn di una bolla e un'altra.
+     */
     int spawnBubbleDuration = 360;
 
-    // Power Up
-    private int scoreForPop = 0;
+    /**
+     * Il punteggio guadagnato per ogni bolla esplosa.
+     */
+    private int scoreForPop = 10;
+
+    /**
+     * Mappa che tiene traccia degli estensioni dei potenziamenti attivi.
+     * La chiave rappresenta un tipo di potenziamento, il valore indica se è attivo o meno.
+     */
     private HashMap<Character, Boolean> extend;
 
+    /**
+     * Indica se il giocatore è stato intrappolato dall'acqua.
+     */
     private boolean generalTrappedPlayer;
+
+    /**
+     * Indica se il giocatore si trova su un tappeto di fuoco.
+     */
     private boolean playerInTheFireCarpet;
 
+
+    /**
+     * Restituisce l'istanza singleton della classe BubbleManagerModel.
+     *
+     * @return L'istanza singleton di BubbleManagerModel.
+     */
     public static BubbleManagerModel getInstance() {
         if (instance == null) {
             instance = new BubbleManagerModel();
@@ -45,6 +98,9 @@ public class BubbleManagerModel {
         return instance;
     }
 
+    /**
+     * Costruttore privato per inizializzare le variabili della classe.
+     */
     private BubbleManagerModel() {
         bobBubbles = new ArrayList<>();
         bubbles = new ArrayList<>();
@@ -61,6 +117,9 @@ public class BubbleManagerModel {
         }};
     }
 
+    /**
+     * Aggiorna lo stato delle bolle e gestisce le interazioni.
+     */
     public void update(){
         updateRandomBubbleSpawn();
         updateBubbles();
@@ -70,6 +129,9 @@ public class BubbleManagerModel {
         createFireCarpet();
     }
 
+    /**
+     * Controlla se attivare extend e incrementa le vite del giocatore.
+     */
     private void checkExtend() {
         if (extend.values().stream().anyMatch(b -> !b))
             return;
@@ -78,6 +140,9 @@ public class BubbleManagerModel {
         extend.keySet().forEach(k -> extend.put(k, false));
     }
 
+    /**
+     * Aggiorna le bolle esplose e gestisce gli effetti del fuoco e del fulmine.
+     */
     private void updateExplodedBubbles() {
         playerInTheFireCarpet = false;
         for (FireModel fireModel : fires){
@@ -102,29 +167,47 @@ public class BubbleManagerModel {
         }
     }
 
+    /**
+     * Controlla se un fulmine o il fuoco hanno colpito un nemico.
+     *
+     * @param objectModel L'oggetto da controllare.
+     */
     private void checkObjectHitEnemy(CustomObjectModel objectModel) {
         for(EnemyModel enemy : EnemyManagerModel.getInstance().getEnemies()) {
             if(objectModel.getHitbox().intersects(enemy.getHitbox())) {
 
                 if(objectModel instanceof LightningModel && enemy instanceof SuperDrunkModel)
-                    handleSuperDrunkLives((SuperDrunkModel) enemy);
-
-                else if (enemy.isActive()) {
+                    handleSuperDrunkLives((SuperDrunkModel) enemy, (LightningModel) objectModel);
+                else if (enemy.isActive())
                     enemy.setActive(false);
-                }
+
             }
         }
     }
 
-    private void handleSuperDrunkLives(SuperDrunkModel superDrunk) {
+    /**
+     * Gestisce la logica delle vite del boss SuperDrunk se colpito da un fulmine.
+     *
+     * @param superDrunk Il nemico SuperDrunk colpito.
+     * @param lightningModel Il fulmine che ha colpito il nemico.
+     */
+    private void handleSuperDrunkLives(SuperDrunkModel superDrunk, LightningModel lightningModel) {
+        if(lightningModel.isAlreadyHitBoss())
+            return;
+
         if(superDrunk.getLives() <= 0)
             superDrunk.setInBubble(true);
         else{
             superDrunk.decreaseLives();
             superDrunk.setHasBeenHit(true);
         }
+
+        lightningModel.setAlreadyHitBoss(true);
     }
 
+    /**
+     * Aggiorna lo stato delle bolle attive e della cascata d'acqua.
+     */
     private void updateBubbles() {
         for (BubbleModel bubble : bubbles){
             if (bubble.isActive()) {
@@ -136,6 +219,11 @@ public class BubbleManagerModel {
         }
     }
 
+    /**
+     * Crea e aggiorna una cascata d'acqua associata a una bolla.
+     *
+     * @param bubble La bolla da controllare.
+     */
     private void createWaterfallAndUpdateIt(BubbleModel bubble) {
         // controlla se il tipo di bolla è una bolla d'acqua
         if (bubble.getBubbleType() == WATER_BUBBLE) {
@@ -151,12 +239,17 @@ public class BubbleManagerModel {
                     currentWater.update();
                     checkIfWaterFellOffTheMap(currentWater);
                     checkIfWaterfallHitAnEnemy(i, waterfallArray, currentWater, enemies);
-                    checkIfWaterfallHitAPlayer(currentWater, waterfallArray, bubble);
+                    checkIfWaterfallHitAPlayer(currentWater, waterfallArray);
                 }
             }
         }
     }
 
+    /**
+     * Controlla se l'acqua è uscita dalla mappa.
+     *
+     * @param waterModel Il modello dell'acqua da controllare.
+     */
     private void checkIfWaterFellOffTheMap(WaterModel waterModel) {
         if((int) (waterModel.getHitbox().getY() / TILES_SIZE) != -1)
             return;
@@ -166,7 +259,13 @@ public class BubbleManagerModel {
         generalTrappedPlayer = false;
     }
 
-    private void checkIfWaterfallHitAPlayer(WaterModel currentWater, ArrayList<WaterModel> waterfallArray, BubbleModel bubble) {
+    /**
+     * Controlla se una cascata d'acqua ha colpito il giocatore.
+     *
+     * @param currentWater L'acqua corrente da controllare.
+     * @param waterfallArray L'array delle cascate d'acqua.
+     */
+    private void checkIfWaterfallHitAPlayer(WaterModel currentWater, ArrayList<WaterModel> waterfallArray) {
         if(currentWater.getHitbox().intersects(getPlayerHitbox()) && !generalTrappedPlayer && waterfallArray.size() == 10) {
             generalTrappedPlayer = true;
             currentWater.setSpecificTrappedPlayer(true);
@@ -184,6 +283,14 @@ public class BubbleManagerModel {
         }
     }
 
+    /**
+     * Controlla se una cascata d'acqua ha colpito un nemico.
+     *
+     * @param i Indice della cascata d'acqua.
+     * @param waterfallArray L'array delle cascate d'acqua.
+     * @param currentWater L'acqua corrente.
+     * @param enemies L'elenco dei nemici.
+     */
     private void checkIfWaterfallHitAnEnemy(int i, ArrayList<WaterModel> waterfallArray, WaterModel currentWater, ArrayList<EnemyModel> enemies) {
         if(i != 0 && i != waterfallArray.size() - 1)
             return;
@@ -193,6 +300,9 @@ public class BubbleManagerModel {
                 enemy.setActive(false);
     }
 
+    /**
+     * Aggiorna lo stato delle bolle di Bob.
+     */
     private void updateBobBubble() {
         for( BobBubbleModel bubble : bobBubbles ){
             if (bubble.isActive()) {
@@ -206,6 +316,11 @@ public class BubbleManagerModel {
         }
     }
 
+    /**
+     * Controlla se una bolla di Bob ha generato un fulmine dopo il pickup di un potenziamento.
+     *
+     * @param bubble La bolla di Bob da controllare.
+     */
     private void checkLightingBubbleSpawnAfterPowerUpPickup(BobBubbleModel bubble) {
         if(!PlayerModel.getInstance().isShootingLightningBubble())
             return;
@@ -217,6 +332,9 @@ public class BubbleManagerModel {
         bubble.setAlreadyShotLighting(true);
     }
 
+    /**
+     * Fa lo spawn casuale delle bolle speciali (acqua, fuoco, fulmini, EXTEND)
+     */
     private void updateRandomBubbleSpawn() {
         spawnBubbleTick++;
         if (spawnBubbleTick >= spawnBubbleDuration) {
@@ -238,6 +356,10 @@ public class BubbleManagerModel {
         }
     }
 
+    /**
+     * Genera le bolle speciali in base al livello in cui ci troviamo
+     * @param excludedFromSpawningBubbles Array che indica quali bolle speciale possono spawnare in base al livello
+     */
     private void checkWhichBubbleCanSpawn(int[] excludedFromSpawningBubbles) {
         LevelManagerModel levelManagerModel = LevelManagerModel.getInstance();
 
@@ -251,6 +373,10 @@ public class BubbleManagerModel {
             excludedFromSpawningBubbles[WATER_BUBBLE] = 1;
     }
 
+    /**
+     * Controlla se il pavimento non ha buchi
+     * @return boolean
+     */
     private boolean floorDoesNotHaveHoles() {
         int yTile = TILES_IN_HEIGHT - 2;
 
@@ -261,6 +387,11 @@ public class BubbleManagerModel {
         return true;
     }
 
+    /**
+     * Controlla se un giocatore è stato colpito da una bolla.
+     *
+     * @param bubble La bolla da controllare.
+     */
     private void checkPlayerHit(BubbleModel bubble) {
         if (intersectBubbleFromBelow()) {
 
@@ -295,6 +426,10 @@ public class BubbleManagerModel {
         }
     }
 
+    /**
+     * Controlla se il player ha toccato del fuoco, lo rallenta se succede
+     * @param fireModel il modello del fuoco
+     */
     private void checkIntersectsFireCarpet(FireModel fireModel) {
         if (fireModel.getHitbox().intersects(PlayerModel.getInstance().getHitbox())) {
             PlayerModel.getInstance().setPlayerSpeed(0.35f * SCALE);
@@ -302,11 +437,18 @@ public class BubbleManagerModel {
         }
     }
 
-
+    /**
+     * Controlla se il player sta toccando una bolla con la testa
+     * @return boolean
+     */
     private boolean intersectBubbleFromBelow(){
         return !PlayerModel.getInstance().getJump() && PlayerModel.getInstance().getAirSpeed() != 0;
     }
 
+    /**
+     * Controlla le intersezioni della bolla con il player e con le altre bolle per farle scoppiare tutte insieme
+     * @param bubble la bolla da controllare
+     */
     private void checkIntersects(BubbleModel bubble) {
         for (BobBubbleModel bob : bobBubbles) {
             if (bob.isActive()) {
@@ -321,6 +463,11 @@ public class BubbleManagerModel {
         }
     }
 
+    /**
+     * Controlla se ci sono collisioni tra le bolle.
+     *
+     * @param bubble1 La bolla da controllare.
+     */
     private void checkCollisionWithOtherBubbles(BobBubbleModel bubble1) {
         for( BobBubbleModel bubble2 : bobBubbles ){
             if(bubble1.getHitbox().intersects(bubble2.getHitbox()) && bubble1.isActive() && bubble2.isActive()){
@@ -330,6 +477,12 @@ public class BubbleManagerModel {
         }
     }
 
+    /**
+     * Controlla se un nemico è stato colpito da una bolla di Bob,
+     * e in tal caso lo intappola in una bolla.
+     *
+     * @param bubble La bolla di Bob da controllare.
+     */
     private void checkEnemyHasBeenHit(BobBubbleModel bubble) {
         for(EnemyModel enemy : EnemyManagerModel.getInstance().getEnemies()) {
             if(bubble.getHitbox().intersects(enemy.getHitbox()) && !(bubble.isCollision())) {
@@ -341,6 +494,9 @@ public class BubbleManagerModel {
         }
     }
 
+    /**
+     * Crea un tappeto di fuoco, a seguito dello scoppio della bolla di fuoco.
+     */
     private void createFireCarpet(){
         ArrayList<FireModel> tempArray = new ArrayList<>();
         for (FireModel fireModel: fires) {
@@ -359,6 +515,12 @@ public class BubbleManagerModel {
         fires.addAll(tempArray);
     }
 
+    /**
+     * Quando due bolle si toccano le fa muovere in modo random
+     * @param random
+     * @param bubble1 prima bolla
+     * @param bubble2 seconda bolla
+     */
     private void bobBubblesRandomMovements(Random random, BobBubbleModel bubble1, BobBubbleModel bubble2) {
         float randomNumberX = 0.3f + random.nextFloat() * (1.5f - 0.3f);
         float randomNumberY = 0.3f + random.nextFloat() * (1.5f - 0.3f);
@@ -376,6 +538,9 @@ public class BubbleManagerModel {
             bubble2.getHitbox().y -= randomNumberY;
     }
 
+    /**
+     * Resetta tutti gli array delle bolle e degli oggetti associati
+     */
     public void resetBubbles() {
         bobBubbles.clear();
         bubbles.clear();
