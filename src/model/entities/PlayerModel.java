@@ -72,7 +72,6 @@ public class PlayerModel extends EntityModel {
     public void playerHasBeenHit() {
         lives--;
         playerAction = DEATH;
-
     }
 
     private void checkAttack() {

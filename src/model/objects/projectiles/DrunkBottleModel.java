@@ -1,5 +1,7 @@
 package model.objects.projectiles;
 
+import model.entities.PlayerModel;
+
 import static model.utilz.Constants.Directions.*;
 import static model.utilz.Constants.GameConstants.*;
 import static model.utilz.Constants.GameConstants.GAME_WIDTH;
@@ -50,6 +52,10 @@ public class DrunkBottleModel extends ProjectileModel {
     }
 
     private void updateSuperDrunkPos() {
+        if(hitbox.intersects(PlayerModel.getInstance().getHitbox())) {
+            PlayerModel.getInstance().playerHasBeenHit();
+        }
+
         if(canDrunkBottleMoveOnThisX(hitbox.x + xBottleSpeed))
             if (canDrunkBottleMoveOnThisY(hitbox.y + yBottleSpeed)) {
                 hitbox.x += xBottleSpeed;
