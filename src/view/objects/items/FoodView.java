@@ -2,16 +2,19 @@ package view.objects.items;
 
 import model.objects.items.FoodModel;
 import view.objects.CustomObjectView;
+import view.utilz.AudioManager;
 import view.utilz.LoadSave;
 
 import java.awt.*;
 
 import static model.utilz.Constants.Fruit.*;
 import static model.utilz.Constants.GameConstants.SCALE;
+import static view.utilz.AudioManager.*;
 
 public class FoodView extends CustomObjectView<FoodModel> {
 
     private int scoreDuration = 40, scoreTick = 0;
+    private boolean playedPickupSound;
 
     public FoodView(FoodModel model) {
         super(model);
@@ -45,10 +48,12 @@ public class FoodView extends CustomObjectView<FoodModel> {
 
     @Override
     public void draw(Graphics g) {
-        if (objectModel.isActive())
+        if (objectModel.isActive()) {
             super.draw(g);
-        else
+        } else {
+            playPickupSound(FOOD_PICKUP);
             drawScoreAmount(g);
+        }
     }
 
     private void drawScoreAmount(Graphics g) {

@@ -3,6 +3,7 @@ package view.entities;
 import model.LevelManagerModel;
 import model.entities.PlayerModel;
 import view.ui.NextLevelScreenView;
+import view.utilz.AudioManager;
 import view.utilz.LoadSave;
 
 import java.awt.*;
@@ -11,6 +12,8 @@ import java.awt.image.BufferedImage;
 import static model.utilz.Constants.GameConstants.SCALE;
 import static model.utilz.Constants.PlayerConstants.*;
 import static model.utilz.Constants.GameConstants.ANI_SPEED;
+import static model.utilz.Constants.PlayerConstants.JUMP;
+import static view.utilz.AudioManager.*;
 
 public class PlayerView {
 
@@ -85,16 +88,23 @@ public class PlayerView {
             aniIndex++;
             if (aniIndex >= getSpriteAmount(playerModel.getPlayerAction())) {
                 if (playerModel.getPlayerAction() == DEATH) {
+                    AudioManager.getInstance().oneTimePlay(PLAYER_DEATH);
                     playerModel.setPlayerAction(IDLE);
                     playerModel.getHitbox().x = getPlayerSpawn().x;
                     playerModel.getHitbox().y = getPlayerSpawn().y;
                     playerModel.setInAir(true);
                     playerModel.setInvincible(true);
                 }
+
                 if (playerModel.isAttack()) {
+                    AudioManager.getInstance().oneTimePlay(SHOOT_BUBBLE);
                     playerModel.setAttack(false);
                     playerModel.setAttackingClick(false);
                 }
+
+                if(playerModel.getPlayerAction() == JUMP)
+                    AudioManager.getInstance().oneTimePlay(AudioManager.JUMP);
+
                 aniIndex = 0;
             }
         }

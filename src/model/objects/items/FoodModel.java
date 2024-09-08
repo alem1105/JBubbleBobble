@@ -1,6 +1,7 @@
 package model.objects.items;
 
 import model.objects.CustomObjectModel;
+
 import static model.utilz.Constants.Fruit.*;
 
 public class FoodModel extends CustomObjectModel {

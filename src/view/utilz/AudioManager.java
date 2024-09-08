@@ -31,6 +31,16 @@ public class AudioManager {
     public final static String SUPER_DRUNK = "res/sounds/super_drunk.wav";
     public final static int SUPER_DRUNK_INDEX = 3;
 
+    // Interaction Sounds
+    public static String FOOD_PICKUP = "res/sounds/interactionsounds/food_pickup.wav";
+    public static String ITEM_PICKUP = "res/sounds/interactionsounds/item_pickup.wav";
+    public static String JUMP = "res/sounds/interactionsounds/jump.wav";
+    public static String PLAYER_DEATH = "res/sounds/interactionsounds/player_death.wav";
+    public static String LETTER_BUBBLE_POP = "res/sounds/interactionsounds/letter_bubble_pop.wav";
+    public static String POP_BUBBLE_SINGLE_ENEMY = "res/sounds/interactionsounds/pop_bubble_single_enemy.wav";
+    public static String SHOOT_BUBBLE = "res/sounds/interactionsounds/shoot_bubble.wav";
+    public static String WATER_FLOW = "res/sounds/interactionsounds/water_flow.wav";
+
 
     public static AudioManager getInstance() {
         if (instance == null)

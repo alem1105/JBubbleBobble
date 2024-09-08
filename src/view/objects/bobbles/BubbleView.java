@@ -11,6 +11,7 @@ import static model.utilz.Constants.CustomObjects.*;
 import static model.utilz.Constants.CustomObjects.BUBBLE_SPAWNED;
 import static model.utilz.Constants.GameConstants.*;
 import static model.utilz.Constants.SpecialBubbles.*;
+import static view.utilz.AudioManager.*;
 
 public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
 
@@ -62,9 +63,18 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
             if (aniIndex >= getSpriteAmount()) {
                 aniIndex = 0;
                 if (bubbleState == BUBBLE_EXPLODING){
+                    checkBubbleSound();
                     aniIndex = 2; // uso questo index per riconoscere il fatto che è finita l'animazione dell'esplosione
                 }
             }
+        }
+    }
+
+    private void checkBubbleSound() {
+        switch (objectModel.getBubbleType()) {
+            case EXTEND_BUBBLE -> playPickupSound(LETTER_BUBBLE_POP);
+            case WATER_BUBBLE -> playPickupSound(WATER_FLOW);
+            default -> playPickupSound(POP_BUBBLE_SINGLE_ENEMY);
         }
     }
 

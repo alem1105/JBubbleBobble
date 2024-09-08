@@ -1,16 +1,20 @@
 package view.objects;
 
 import model.objects.CustomObjectModel;
+import view.utilz.AudioManager;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import static model.utilz.Constants.GameConstants.ANI_SPEED;
+import static view.utilz.AudioManager.ITEM_PICKUP;
 
 public abstract class CustomObjectView<T extends CustomObjectModel> {
 
     protected T objectModel;
     protected int spriteIndex, aniIndex, aniTick;
     protected BufferedImage[][] sprites;
+
+    protected boolean playedPickupSound;
 
     public CustomObjectView(T objectModel) {
         this.objectModel = objectModel;
@@ -30,6 +34,14 @@ public abstract class CustomObjectView<T extends CustomObjectModel> {
         g.drawRect((int) (objectModel.getHitbox().x), (int) (objectModel.getHitbox().y),
                 (int) objectModel.getHitbox().width,
                 (int) objectModel.getHitbox().height);
+    }
+
+    protected void playPickupSound(String path) {
+        if(playedPickupSound)
+            return;
+
+        AudioManager.getInstance().oneTimePlay(path);
+        playedPickupSound = true;
     }
 
     protected void updateAnimationTick() {
