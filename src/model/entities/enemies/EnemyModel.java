@@ -3,8 +3,6 @@ package model.entities.enemies;
 import model.entities.EntityModel;
 import model.entities.PlayerModel;
 
-import java.util.Random;
-
 import static model.utilz.Constants.Directions.*;
 import static model.utilz.Constants.Enemies.*;
 
@@ -14,29 +12,95 @@ import static model.utilz.Gravity.*;
 import static model.utilz.UtilityMethods.getLvlData;
 import static model.utilz.UtilityMethods.getPlayer;
 
+/**
+ * Classe astratta che rappresenta il modello di un nemico nel gioco.
+ * Estende la classe {@link EntityModel} e gestisce le funzionalità e gli stati dei nemici.
+ */
 public abstract class EnemyModel extends EntityModel {
+    /**
+     * Indica se il nemico è attivo.
+     */
     protected boolean active = true;
+
+    /**
+     * Indica se il nemico è intrappolato in una bolla.
+     */
     protected boolean inBubble = false;
+
+    /**
+     * Indica se il nemico è arrabbiato.
+     */
     protected boolean angry = false;
+
+    /**
+     * Indica se il contatore dell'animazione deve essere azzerato.
+     */
     protected boolean resetAniTick = false;
 
+    /**
+     * Tempo in cui il nemico rimane intrappolato nella bolla.
+     */
     protected int inBubbleTime;
 
+    /**
+     * Stato attuale del nemico.
+     */
     protected int enemyState = RUNNING;
 
-    // movimenti e gravità
-    //protected float fallSpeed;
+    /**
+     * Direzione di camminata del nemico. Può assumere valori come {@link #RIGHT} o {@link #LEFT}.
+     */
     protected int walkDir = RIGHT;
+
+    /**
+     * Velocità di camminata del nemico.
+     */
     protected float walkSpeed;
+
+    /**
+     * Indica se il nemico sta salendo.
+     * Valore predefinito è {@code false}.
+     */
     protected boolean goingUp = false;
+
+    /**
+     * Obiettivo verticale del nemico, rappresentato come indice di tile.
+     */
     protected int targetYTile;
 
-
+    /**
+     * Indica se il nemico è in movimento di morte.
+     * Valore predefinito è {@code false}.
+     */
     private boolean deathMovement = false;
+
+    /**
+     * Indica se il movimento di morte deve essere invertito.
+     * Valore predefinito è {@code false}.
+     */
     private boolean invertDeathMovement = false;
+
+    /**
+     * Indica se il nemico ha già eseguito il movimento parabolico.
+     * Valore predefinito è {@code false}.
+     */
     private boolean alreadyDidParable = false;
+
+    /**
+     * Tick per il movimento parabolico.
+     */
     private int parableTick = 0;
+
+    /**
+     * Indice del movimento parabolico, che determina quale movimento parabolico eseguire.
+     */
     private int parableMoveIndex = 0;
+
+    /**
+     * Array bidimensionale che rappresenta i movimenti parabolici del nemico.
+     * Ogni riga contiene tre valori: il numero di tick per il movimento,
+     * il valore di spostamento orizzontale e il valore di spostamento verticale.
+     */
     private float[][] parableMoves = {
             {20, 1, -4.5f},
             {20, 2, -0.7f},
@@ -44,28 +108,43 @@ public abstract class EnemyModel extends EntityModel {
             {20, 0.8f, 2}
     };
 
-    // per l'attacco
-    protected int stillTimer = 30;
-    protected int stillTick = 0;
-    protected int shootingTimer = 120;
-    protected int shootingTick = 0;
-    protected boolean still = false;
-    protected boolean shot = false;
 
-    protected boolean foodSpawned;
+    // Variabili per l'attacco
+    protected int stillTimer = 30; // Timer per il nemico che rimane fermo
+    protected int stillTick = 0; // Tick per il timer fermo
+    protected int shootingTimer = 120; // Timer per il tiro
+    protected int shootingTick = 0; // Tick per il timer di tiro
+    protected boolean still = false; // Indica se il nemico è fermo
+    protected boolean shot = false; // Indica se il nemico ha sparato
 
+    protected boolean foodSpawned; // Indica se il cibo è stato generato
+
+    /**
+     * Costruttore della classe EnemyModel.
+     *
+     * @param x      La posizione x del nemico.
+     * @param y      La posizione y del nemico.
+     * @param width  La larghezza del nemico.
+     * @param height L'altezza del nemico.
+     */
     public EnemyModel(float x, float y, int width, int height) {
         super(x, y - 1, width, height);
     }
 
+    /**
+     * Aggiorna lo stato del nemico. Se il nemico è in uno stato di corsa,
+     * aggiorna la posizione e lo stato del nemico.
+     */
     public void update() {
         if (enemyState == RUNNING || enemyState == RUNNING_ANGRY)
             updatePos();
         updateEnemyState();
     }
 
-    // metodo "default" per nemici tipo Zen Chan
-
+    /**
+     * Metodo per aggiornare la posizione del nemico.
+     * Controlla se il nemico è in aria e aggiorna la posizione di conseguenza.
+     */
     protected void updatePos() {
         isInAirCheck();
 
@@ -83,6 +162,12 @@ public abstract class EnemyModel extends EntityModel {
         }
     }
 
+    /**
+     * Aggiorna la posizione orizzontale del nemico in base alla velocità di camminata.
+     *
+     * @param walkSpeed La velocità di camminata del nemico.
+     */
+    @Override
     public void updateXPos(float walkSpeed) {
         if (playerAndEnemyAreOnTheSameRow() && !getPlayer().isInvincible()) {
             walkwithSameY();
@@ -99,6 +184,9 @@ public abstract class EnemyModel extends EntityModel {
         }
     }
 
+    /**
+     * Gestisce il movimento del nemico quando si trova sulla stessa riga del giocatore.
+     */
     protected void walkwithSameY() {
         if(isPlayerToLeftOfEnemy()) {
             walkDir = LEFT;
@@ -113,6 +201,9 @@ public abstract class EnemyModel extends EntityModel {
         }
     }
 
+    /**
+     * Gestisce il movimento del nemico quando si trova su una riga diversa rispetto al giocatore.
+     */
     protected void walkWithDifferentY() {
         if (walkDir == RIGHT) {
             walkSpeed = Math.abs(walkSpeed);
@@ -133,6 +224,9 @@ public abstract class EnemyModel extends EntityModel {
         }
     }
 
+    /**
+     * Controlla e aggiorna la posizione del nemico in base alla possibilità di movimento.
+     */
     private void checkEnemyMovement() {
         if(canEnemyMoveHere()) {
             hitbox.x += walkSpeed;
@@ -141,10 +235,18 @@ public abstract class EnemyModel extends EntityModel {
         }
     }
 
+    /**
+     * Controlla se il nemico può muoversi nella posizione attuale.
+     *
+     * @return true se il nemico può muoversi, false altrimenti.
+     */
     private boolean canEnemyMoveHere() {
         return CanMoveHere(hitbox.x + walkSpeed, hitbox.y, hitbox.width, hitbox.height, getLvlData());
     }
 
+    /**
+     * Aggiorna lo stato del nemico in base alla sua condizione attuale (es. intrappolato nella bolla, arrabbiato).
+     */
     public void updateEnemyState() {
         int startAni = enemyState;
 
@@ -171,11 +273,23 @@ public abstract class EnemyModel extends EntityModel {
             resetAniTick = false;
     }
 
+    /**
+     * Gestisce il movimento del nemico alla morte.
+     *
+     * @param enemyModel Il modello del nemico.
+     * @param direction   La direzione del movimento.
+     */
     public void doDeathMovement(EnemyModel enemyModel, int direction) {
         if(!(deathMovement))
             parableMovement(enemyModel, direction);
     }
-    
+
+    /**
+     * Esegue il movimento parabolico alla morte del nemico.
+     *
+     * @param enemyModel Il modello del nemico.
+     * @param direction   La direzione del movimento.
+     */
     private void parableMovement(EnemyModel enemyModel, int direction) {
         if (invertDeathMovement) {
             if(direction == RIGHT) {
@@ -196,11 +310,22 @@ public abstract class EnemyModel extends EntityModel {
         }
     }
 
+    /**
+     * Controlla se il nemico ha colpito il bordo laterale.
+     *
+     * @param enemyModel Il modello del nemico.
+     */
     private void checkIfEnemyHitASideBorder(EnemyModel enemyModel) {
         if((enemyModel.getEnemyTileX() >= TILES_IN_WIDTH - 1 || enemyModel.getEnemyTileX() <= 0))
             invertDeathMovement = true;
     }
 
+    /**
+     * Esegue il movimento parabolico.
+     *
+     * @param enemyModel Il modello del nemico.
+     * @param direction   La direzione del movimento.
+     */
     private void doParableMovement(EnemyModel enemyModel, int direction) {
         if(parableMoveIndex > 3) {
             if(checkIfEnemyIsOnTheFloorBorder(enemyModel)){
@@ -227,11 +352,23 @@ public abstract class EnemyModel extends EntityModel {
         parableTick++;
     }
 
+    /**
+     * Controlla se il nemico si trova al bordo del pavimento.
+     *
+     * @param enemyModel Il modello del nemico.
+     * @return true se il nemico è al bordo del pavimento, false altrimenti.
+     */
     private boolean checkIfEnemyIsOnTheFloorBorder(EnemyModel enemyModel) {
         return enemyModel.getEnemyTileY() >= TILES_IN_HEIGHT - 3 || enemyModel.getEnemyTileY() <= 0;
     }
 
-    protected boolean checkUpSolid(int[][] lvlData) { // controlla se sopra il nemico si hanno almeno tre tile su cui saltare
+    /**
+     * Controlla se sopra il nemico ci sono tre tile solidi.
+     *
+     * @param lvlData Dati di livello per controllare la solidità delle tile.
+     * @return true se ci sono tre tile solidi sopra il nemico, false altrimenti.
+     */
+    protected boolean checkUpSolid(int[][] lvlData) {
         int currentTileY = (int) (hitbox.y / TILES_SIZE);
         int currentTileX = (int) (hitbox.x / TILES_SIZE);
         if(checkThreeYTilesSolid(currentTileY - 2, currentTileX, lvlData)) {
@@ -240,18 +377,30 @@ public abstract class EnemyModel extends EntityModel {
         } else if(checkThreeYTilesSolid(currentTileY - 1, currentTileX, lvlData)) {
             targetYTile = currentTileY - 3;
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
+    /**
+     * Controlla se ci sono tre tile solide in una certa posizione verticale.
+     *
+     * @param yTile  La coordinata Y della tile.
+     * @param xTile  La coordinata X della tile.
+     * @param lvldata Dati di livello per controllare la solidità delle tile.
+     * @return true se ci sono tre tile solide, false altrimenti.
+     */
     protected boolean checkThreeYTilesSolid(int yTile, int xTile, int[][] lvldata) {
-        if (xTile - 2 >= 0 && yTile -2 >= 0 && xTile + 1 >= 0)
+        if (xTile - 2 >= 0 && yTile - 2 >= 0 && xTile + 1 >= 0)
             return IsTileSolid(xTile - 2, yTile, lvldata) && IsTileSolid(xTile, yTile, lvldata) && IsTileSolid(xTile + 1, yTile, lvldata);
         return false;
     }
 
-    // attacco
+    // Metodi per la gestione dell'attacco
+
+    /**
+     * Avvia il timer di tiro del nemico.
+     */
     protected void startShootingTimer() {
         if(shootingTick >= shootingTimer && !inAir) {
             still = true;
@@ -261,6 +410,9 @@ public abstract class EnemyModel extends EntityModel {
         shootingTick++;
     }
 
+    /**
+     * Avvia il timer per rimanere fermo.
+     */
     protected void startStillTimer() {
         if (stillTick >= stillTimer)  {
             stillTick = 0;
@@ -320,10 +472,6 @@ public abstract class EnemyModel extends EntityModel {
 
     public void setInBubble(boolean inBubble) {this.inBubble = inBubble;}
 
-    public boolean isAngry() {
-        return angry;
-    }
-
     public int getWalkDir() {
         return walkDir;
     }
@@ -346,22 +494,6 @@ public abstract class EnemyModel extends EntityModel {
 
     public boolean isDeathMovement() {
         return deathMovement;
-    }
-
-    public void setDeathMovement(boolean deathMovement) {
-        this.deathMovement = deathMovement;
-    }
-
-    public boolean isInvertDeathMovement() {
-        return invertDeathMovement;
-    }
-
-    public boolean isAlreadyDidParable() {
-        return alreadyDidParable;
-    }
-
-    public void setInvertDeathMovement(boolean invertDeathMovement) {
-        this.invertDeathMovement = invertDeathMovement;
     }
 
     public boolean isFoodSpawned() {

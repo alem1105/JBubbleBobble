@@ -2,14 +2,10 @@ package model.entities.enemies;
 
 import static model.utilz.Constants.Directions.*;
 import static model.utilz.Constants.GameConstants.SCALE;
-import static model.utilz.Constants.GameConstants.TILES_SIZE;
 import static model.utilz.Gravity.*;
 import static model.utilz.UtilityMethods.getLvlData;
 
 public class MonstaModel extends EnemyModel{
-
-    private float xSpeed = (float) (0.55 * SCALE);
-    private float ySpeed = (float) (0.55 * SCALE);
 
     public MonstaModel(float x, float y) {
         super(x, y-1, (int) (18 * SCALE), (int) (18 * SCALE));
@@ -18,12 +14,7 @@ public class MonstaModel extends EnemyModel{
         walkDir = UP_RIGHT;
     }
 
-    // TODO DEVE MUOVERSI ANCHE QUANDO STA IN BOLLA?
-//    public void update() {
-//        updatePos();
-//        updateEnemyState();
-//    }
-
+    @Override
     protected void updatePos() {
         switch (walkDir) {
             case UP_RIGHT -> {

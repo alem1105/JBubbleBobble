@@ -4,6 +4,7 @@ import model.UserModel;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class UserStateModel {
 
@@ -20,7 +21,6 @@ public class UserStateModel {
     }
 
     private UserStateModel() {
-        // TODO TOGLIERE
         getAllUsers();
     }
 
@@ -30,12 +30,16 @@ public class UserStateModel {
         final File folder = new File("res/users");
         File[] files = folder.listFiles();
 
-        if (files != null) {
-            for (File f : files) {
-                userModels.add(UserModel.read(f.getPath()));
-            }
-        }
+        if(files == null)
+            return;
 
+        files = Arrays.stream(files)
+                .filter(f -> f.getName().endsWith(".bb"))
+                .toArray(File[]::new);
+
+        for (File f : files) {
+            userModels.add(UserModel.read(f.getPath()));
+        }
     }
 
     public void setCurrentUserModel(UserModel currentUserModel) {

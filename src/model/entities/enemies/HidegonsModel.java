@@ -2,14 +2,12 @@ package model.entities.enemies;
 
 import model.entities.PlayerModel;
 import model.objects.projectiles.HidegonsFireballModel;
-import model.objects.projectiles.MaitaFireballModel;
 import model.objects.projectiles.ProjectileManagerModel;
 
 import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.Enemies.RUNNING;
 import static model.utilz.Constants.Enemies.RUNNING_ANGRY;
 import static model.utilz.Constants.GameConstants.SCALE;
-import static model.utilz.Constants.GameConstants.TILES_SIZE;
 
 public class HidegonsModel extends EnemyModel{
 

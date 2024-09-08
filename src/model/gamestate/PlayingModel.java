@@ -47,10 +47,6 @@ public class PlayingModel {
         }
     }
 
-    public PlayerModel getPlayer() {
-        return player;
-    }
-
     public boolean isPaused() {
         return paused;
     }

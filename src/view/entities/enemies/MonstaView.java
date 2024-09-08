@@ -1,8 +1,6 @@
 package view.entities.enemies;
 
-import model.entities.enemies.EnemyModel;
 import model.entities.enemies.MonstaModel;
-import model.entities.enemies.ZenChanModel;
 import model.utilz.Constants;
 import view.utilz.LoadSave;
 
@@ -23,6 +21,7 @@ public class MonstaView extends EnemyView<MonstaModel> {
         yDrawOffset = (int) (1 * Constants.GameConstants.SCALE);
     }
 
+    @Override
     public void flipX() {
         if (enemy.getWalkDir() == UP_RIGHT || enemy.getWalkDir() == DOWN_RIGHT)
             flipX = ZEN_CHAN_WIDTH;
@@ -30,6 +29,7 @@ public class MonstaView extends EnemyView<MonstaModel> {
             flipX = 0;
     }
 
+    @Override
     public void flipW() {
         if (enemy.getWalkDir() == UP_RIGHT || enemy.getWalkDir() == DOWN_RIGHT)
             flipW = -1;

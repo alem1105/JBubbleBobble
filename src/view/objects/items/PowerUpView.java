@@ -1,9 +1,7 @@
 package view.objects.items;
 
-import model.objects.CustomObjectModel;
 import model.objects.items.powerups.PowerUpModel;
 import view.objects.CustomObjectView;
-import view.utilz.AudioManager;
 import view.utilz.LoadSave;
 
 import java.awt.*;
@@ -11,7 +9,6 @@ import java.awt.image.BufferedImage;
 
 import static model.utilz.Constants.GameConstants.SCALE;
 import static model.utilz.Constants.PowerUps.*;
-import static view.utilz.AudioManager.FOOD_PICKUP;
 import static view.utilz.AudioManager.ITEM_PICKUP;
 
 public class PowerUpView extends CustomObjectView<PowerUpModel> {
@@ -19,8 +16,6 @@ public class PowerUpView extends CustomObjectView<PowerUpModel> {
     private int xDrawOffset, yDrawOffset;
     private int type;
     private int pointsDuration = 40, pointsTick = 0;
-
-    private boolean playedPickupSound;
 
     public PowerUpView(PowerUpModel powerUpModel, BufferedImage[][] sprites) {
         super(powerUpModel);
@@ -53,6 +48,7 @@ public class PowerUpView extends CustomObjectView<PowerUpModel> {
 
     }
 
+    @Override
     protected int getSpriteAmount(){
         return 1;
     }

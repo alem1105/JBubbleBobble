@@ -8,7 +8,6 @@ import java.util.Observable;
 
 import static model.gamestate.Gamestate.PLAYING;
 
-@SuppressWarnings("Deprecated")
 public class ModelManager extends Observable {
 
     private static ModelManager instance;

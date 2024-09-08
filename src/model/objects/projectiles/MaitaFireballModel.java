@@ -32,6 +32,4 @@ public class MaitaFireballModel extends ProjectileModel {
         }
     }
 
-
-
 }

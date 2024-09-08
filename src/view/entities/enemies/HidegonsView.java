@@ -1,6 +1,5 @@
 package view.entities.enemies;
 
-import model.entities.enemies.EnemyModel;
 import model.entities.enemies.HidegonsModel;
 import model.utilz.Constants;
 import view.utilz.LoadSave;

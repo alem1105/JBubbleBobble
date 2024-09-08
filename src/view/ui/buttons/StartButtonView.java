@@ -1,12 +1,11 @@
 package view.ui.buttons;
 
-import model.ui.buttons.RestartButtonModel;
 import model.ui.buttons.StartButtonModel;
 import view.utilz.LoadSave;
 
 public class StartButtonView extends CustomButtonView<StartButtonModel> {
 
-    private boolean inPauseScreen = false;
+    private boolean inPauseScreen;
 
     public StartButtonView(StartButtonModel model, boolean inPauseScreen) {
         super(model);

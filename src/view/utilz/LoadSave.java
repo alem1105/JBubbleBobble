@@ -83,7 +83,7 @@ public class LoadSave {
     public static final String PARENTS_HUGGING_SPRITE = "ui/winoverlay/parents_hugging_sprite.png";
     public static final String CHARACTER_KISSING = "ui/winoverlay/character_kissing_sprite.png";
 
-    public static Font BUBBLE_BOBBLE_FONT, JEQO_FONT, NES_FONT;
+    public static Font JEQO_FONT, NES_FONT;
 
 
     public static BufferedImage GetSpriteAtlas(String fileName) {
@@ -131,17 +131,15 @@ public class LoadSave {
 
     public static void loadCustomFont() {
         try {
-            BUBBLE_BOBBLE_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("./res/BubbleFont.ttf")).deriveFont(16f * SCALE);
             JEQO_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("./res/Jeqo-5-Bit.ttf")).deriveFont(6f * SCALE);
             NES_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("./res/nintendo-nes-font.ttf")).deriveFont(10f * SCALE);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(BUBBLE_BOBBLE_FONT);
             ge.registerFont(JEQO_FONT);
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
             // Se il font non viene caricato, usa un font di fallback
-            BUBBLE_BOBBLE_FONT = new Font("Serif", Font.PLAIN, 24);
             JEQO_FONT = new Font("Serif", Font.PLAIN, 24);
+            NES_FONT = new Font("Serif", Font.PLAIN, 24);
         }
     }
 

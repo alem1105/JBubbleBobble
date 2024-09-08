@@ -17,6 +17,11 @@ import static model.utilz.Constants.Enemies.DEAD;
 import static model.utilz.Constants.GameConstants.*;
 import static model.utilz.Constants.PlayerConstants.DEATH;
 
+/**
+ * La classe {@code EnemyManagerModel} gestisce tutti i nemici nel gioco, inclusi
+ * il loro stato, la posizione e le interazioni con il giocatore. È implementata come
+ * un singleton per garantire un'unica istanza durante il ciclo di vita dell'applicazione.
+ */
 public class EnemyManagerModel {
 
     private static EnemyManagerModel instance;
@@ -39,6 +44,11 @@ public class EnemyManagerModel {
     // Power Up
     private boolean timeFrozen;
 
+    /**
+     * Restituisce l'istanza singleton della classe {@code EnemyManagerModel}.
+     *
+     * @return l'istanza singleton di {@code EnemyManagerModel}
+     */
     public static EnemyManagerModel getInstance() {
         if (instance == null) {
             instance = new EnemyManagerModel();
@@ -46,12 +56,18 @@ public class EnemyManagerModel {
         return instance;
     }
 
+    /**
+     * Costruttore privato per inizializzare il gestore dei nemici.
+     */
     private EnemyManagerModel() {
         levelManagerModel = LevelManagerModel.getInstance();
         initEnemyAndFoodArrays();
         random = new Random();
     }
 
+    /**
+     * Inizializza gli array di nemici e cibo per il livello attuale.
+     */
     public void initEnemyAndFoodArrays(){
         zenChans = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getZenChans();
         maitas = levelManagerModel.getLevels().get(levelManagerModel.getLvlIndex()).getMaitas();
@@ -63,6 +79,9 @@ public class EnemyManagerModel {
         createGeneralEnemiesArray();
     }
 
+    /**
+     * Crea un array generale di nemici combinando tutti i nemici attivi nel livello corrente.
+     */
     private void createGeneralEnemiesArray() {
         enemies = Stream.of(zenChans, invaders, monstas, maitas, hidegons, drunks)
                 .flatMap(Collection::stream)
@@ -71,6 +90,9 @@ public class EnemyManagerModel {
             enemies.add(new SuperDrunkModel(100, 100, (int) (36 * SCALE), (int) (39 * SCALE)));
     }
 
+    /**
+     * Aggiorna lo stato di tutti i nemici, controllando collisioni e posizioni.
+     */
     public void update() {
         checkIfAllEnemiesAreDead();
         checkEnemiesCollisionAndUpdatePos();
@@ -78,6 +100,9 @@ public class EnemyManagerModel {
         checkFoodCollision();
     }
 
+    /**
+     * Controlla le collisioni tra il cibo e il giocatore.
+     */
     private void checkFoodCollision() {
         for(FoodModel food : foods) {
             if (food.getHitbox().intersects(getPlayerModel().getHitbox())) {
@@ -89,6 +114,9 @@ public class EnemyManagerModel {
         }
     }
 
+    /**
+     * Controlla il timer per la fine del livello e carica il livello successivo se necessario.
+     */
     private void checkLevelEndTimer() {
         if(levelEndTimer) {
             if (levelEndTick >= levelEndTimerDuration) {
@@ -100,6 +128,9 @@ public class EnemyManagerModel {
         }
     }
 
+    /**
+     * Controlla le collisioni tra i nemici e aggiorna le loro posizioni.
+     */
     private void checkEnemiesCollisionAndUpdatePos() {
         for(EnemyModel enemy : enemies) {
             if(enemy.isActive())
@@ -109,6 +140,11 @@ public class EnemyManagerModel {
         }
     }
 
+    /**
+     * Gestisce un nemico attivo, aggiornandone lo stato e controllando le collisioni con il giocatore.
+     *
+     * @param enemy il nemico attivo da gestire
+     */
     private void handleActiveEnemy(EnemyModel enemy) {
         if(!timeFrozen)
             enemy.update();
@@ -117,15 +153,25 @@ public class EnemyManagerModel {
             handleCollisionWithPlayer(enemy);
     }
 
+    /**
+     * Gestisce un nemico inattivo e la sua morte.
+     *
+     * @param enemy il nemico inattivo da gestire
+     */
     private void handleInactiveEnemy(EnemyModel enemy) {
         if(!enemy.isDeathMovement()) {
             int sideHit = (enemy.walkDir == RIGHT) ? LEFT : RIGHT;
             enemy.doDeathMovement(enemy, sideHit);
         } else {
-           spawnFood(enemy);
+            spawnFood(enemy);
         }
     }
 
+    /**
+     * Gestisce la collisione tra un nemico e il giocatore.
+     *
+     * @param enemy il nemico con cui il giocatore ha colliso
+     */
     private void handleCollisionWithPlayer(EnemyModel enemy) {
         PlayerModel player = getPlayerModel();
 
@@ -137,6 +183,11 @@ public class EnemyManagerModel {
         }
     }
 
+    /**
+     * Genera cibo quando un nemico muore.
+     *
+     * @param enemyModel il modello del nemico che ha generato il cibo
+     */
     private void spawnFood(EnemyModel enemyModel) {
         if(!enemyModel.isFoodSpawned()) {
             foods.add(new FoodModel(enemyModel.getEnemyTileX() * TILES_SIZE, enemyModel.getEnemyTileY() * TILES_SIZE, (int) (18 * SCALE), (int) (18 * SCALE), random.nextInt(5)));
@@ -144,6 +195,9 @@ public class EnemyManagerModel {
         }
     }
 
+    /**
+     * Controlla se tutti i nemici sono stati sconfitti e carica il livello successivo se necessario.
+     */
     private void checkIfAllEnemiesAreDead() {
         int i = 0;
         if (enemies.isEmpty()){
@@ -159,20 +213,12 @@ public class EnemyManagerModel {
         }
     }
 
-    public ArrayList<ZenChanModel> getZenChans() {
-        return zenChans;
-    }
-
     private PlayerModel getPlayerModel() {
         return PlayerModel.getInstance();
     }
 
     public ArrayList<EnemyModel> getEnemies() {
         return enemies;
-    }
-
-    public ArrayList<MaitaModel> getMaitas() {
-        return maitas;
     }
 
     public ArrayList<FoodModel> getFoods() {
@@ -183,3 +229,4 @@ public class EnemyManagerModel {
         this.timeFrozen = timeFrozen;
     }
 }
+

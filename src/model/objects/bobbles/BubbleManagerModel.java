@@ -71,14 +71,9 @@ public class BubbleManagerModel {
     }
 
     private void checkExtend() {
-// TODO decidere se mettere gli stream !!!
-//        if (extend.values().stream().anyMatch(b -> !b)) {
-//            return;
-//        };
+        if (extend.values().stream().anyMatch(b -> !b))
+            return;
 
-        for (Boolean b : extend.values())
-            if(!b)
-                return;
         PlayerModel.getInstance().incrementLives();
         extend.keySet().forEach(k -> extend.put(k, false));
     }
@@ -100,9 +95,10 @@ public class BubbleManagerModel {
             PlayerModel.getInstance().setPlayerSpeed(1.0f * SCALE);
 
         for (LightningModel lightningModel : lightnings) {
-            if (lightningModel.isActive())
+            if (lightningModel.isActive()) {
                 lightningModel.update();
-            checkObjectHitEnemy(lightningModel);
+                checkObjectHitEnemy(lightningModel);
+            }
         }
     }
 
@@ -114,7 +110,6 @@ public class BubbleManagerModel {
                     handleSuperDrunkLives((SuperDrunkModel) enemy);
 
                 else if (enemy.isActive()) {
-                    //enemy.setEnemyState(DEATH);
                     enemy.setActive(false);
                 }
             }
@@ -309,10 +304,6 @@ public class BubbleManagerModel {
 
 
     private boolean intersectBubbleFromBelow(){
-//        return getPlayerHitbox().getY() <= bubble.getHitbox().getMaxY() + (int) (1 * SCALE)
-//                && getPlayerHitbox().getY() >= bubble.getHitbox().getMaxY() - (int)(1 * SCALE)
-//                && getPlayerHitbox().getX() <= bubble.getHitbox().getMaxX() + (int) (2 * SCALE)
-//                && getPlayerHitbox().getX() >= bubble.getHitbox().getX() - (int) (2 * SCALE)
         return !PlayerModel.getInstance().getJump() && PlayerModel.getInstance().getAirSpeed() != 0;
     }
 
@@ -394,7 +385,6 @@ public class BubbleManagerModel {
 
     public void addBobBubbles(BobBubbleModel bobBubble) {
         bobBubbles.add(bobBubble);
-        //bubbles.add(bobBubble);
     }
 
     public ArrayList<BobBubbleModel> getBobBubbles() {

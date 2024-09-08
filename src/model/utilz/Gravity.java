@@ -1,7 +1,5 @@
 package model.utilz;
 
-import model.entities.PlayerModel;
-
 import java.awt.geom.Rectangle2D;
 
 import static model.utilz.Constants.GameConstants.GAME_HEIGHT;
@@ -72,10 +70,4 @@ public class Gravity {
 
     }
 
-    public static boolean IsFloor(Rectangle2D.Float hitbox, float xSpeed, int[][] lvlData) {
-        if (xSpeed > 0)
-            return IsSolid(hitbox.x + hitbox.width + xSpeed, hitbox.y + hitbox.height + 1, lvlData);
-        else
-            return IsSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, lvlData);
-    }
 }

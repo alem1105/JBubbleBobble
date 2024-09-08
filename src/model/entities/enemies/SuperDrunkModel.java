@@ -9,7 +9,7 @@ import static model.utilz.Constants.GameConstants.*;
 
 public class SuperDrunkModel extends EnemyModel{
 
-    private int lives = 2;
+    private int lives = 60;
     private boolean hasBeenHit;
 
     private boolean shot;
@@ -35,6 +35,7 @@ public class SuperDrunkModel extends EnemyModel{
         walkDir = UP_RIGHT;
     }
 
+    @Override
     public void update() {
         super.update();
         checkShotCondition();
@@ -53,9 +54,8 @@ public class SuperDrunkModel extends EnemyModel{
     }
 
     private boolean areAllBottlesInactive() {
-        for(DrunkBottleModel drunkBottleModel : drunkBottles)
-            if(drunkBottleModel.isActive())
-                return false;
+        if (drunkBottles.stream().anyMatch(DrunkBottleModel::isActive))
+            return false;
         return true;
     }
 
@@ -83,9 +83,11 @@ public class SuperDrunkModel extends EnemyModel{
 
     private void updateDrunkBottles() {
         for(DrunkBottleModel drunkBottleModel : drunkBottles)
-            drunkBottleModel.update();
+            if (drunkBottleModel.isActive())
+                drunkBottleModel.update();
     }
 
+    @Override
     protected void updatePos() {
         switch (walkDir) {
             case UP_RIGHT -> {
@@ -138,10 +140,6 @@ public class SuperDrunkModel extends EnemyModel{
 
     private boolean canSuperDrunkMoveOnThisX(float nextX) {
         return !(nextX + hitbox.width  >= GAME_WIDTH - TILES_SIZE || nextX <= TILES_SIZE);
-    }
-
-    public void setLives(int lives) {
-        this.lives = lives;
     }
 
     public int getLives() {

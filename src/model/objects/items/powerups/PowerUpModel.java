@@ -2,8 +2,6 @@ package model.objects.items.powerups;
 
 import model.objects.CustomObjectModel;
 
-import java.awt.*;
-
 public abstract class PowerUpModel extends CustomObjectModel {
 
     protected int score;
@@ -18,6 +16,7 @@ public abstract class PowerUpModel extends CustomObjectModel {
         this.score = score;
     }
 
+    @Override
     public void update() {
         despawnTick++;
         if (despawnTick >= despawnTimer) {

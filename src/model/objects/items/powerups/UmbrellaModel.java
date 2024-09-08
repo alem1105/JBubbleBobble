@@ -1,7 +1,6 @@
 package model.objects.items.powerups;
 
 import model.LevelManagerModel;
-import model.objects.CustomObjectModel;
 
 import static model.utilz.Constants.PowerUps.*;
 
@@ -24,6 +23,7 @@ public class UmbrellaModel extends PowerUpModel {
         }
     }
 
+    @Override
     public void applyEffect() {
         active = false;
         pickedUp = false;
@@ -35,9 +35,5 @@ public class UmbrellaModel extends PowerUpModel {
     @Override
     public void unapplyEffect() {
 
-    }
-
-    public int getLevelsSkipped() {
-        return levelsSkipped;
     }
 }

@@ -3,8 +3,6 @@ package view.ui.buttons;
 import model.ui.buttons.EditButtonModel;
 import view.utilz.LoadSave;
 
-import java.awt.*;
-
 public class EditButtonView extends CustomButtonView<EditButtonModel> {
 
     public EditButtonView(EditButtonModel model) {

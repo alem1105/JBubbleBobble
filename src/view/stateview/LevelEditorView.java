@@ -105,7 +105,6 @@ public class LevelEditorView {
                 x = 0;
                 y++;
             }
-            // TODO SISTEMARE
             buttons[i] = new BlockButtonView(new BlockButtonModel(10 + x++ * (int)(24 * SCALE),
                     levelHeight + 10 + ((int)(18 * y * SCALE)),
                     (int)(16 * SCALE),

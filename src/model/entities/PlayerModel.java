@@ -1,11 +1,12 @@
 package model.entities;
 
-import jdk.jshell.spi.ExecutionControl;
 import model.UserModel;
 import model.gamestate.UserStateModel;
 import model.objects.bobbles.BobBubbleModel;
 import model.objects.bobbles.BubbleManagerModel;
 import model.utilz.Constants;
+
+import java.awt.*;
 
 import static model.utilz.Constants.CustomObjects.BUBBLE_SIZE;
 import static model.utilz.Constants.Directions.LEFT;
@@ -71,6 +72,10 @@ public class PlayerModel extends EntityModel {
 
     public void playerHasBeenHit() {
         lives--;
+        invincible = true;
+        hitbox.x = getPlayerSpawn().x;
+        hitbox.y = getPlayerSpawn().y;
+        inAir = true;
         playerAction = DEATH;
     }
 
@@ -98,7 +103,7 @@ public class PlayerModel extends EntityModel {
             user.incrementLosses();
             user.incrementMatches();
             user.setMaxScore();
-            user.serialize("res/users/" + user.getNickname() + ".bubblebobble");
+            user.serialize("res/users/" + user.getNickname() + ".bb");
         }
     }
 
@@ -181,21 +186,25 @@ public class PlayerModel extends EntityModel {
         moving = true;
     }
 
+
     private void checkRidingABubble() {
-        // Vanno aggiunti e sottratti valori altrimenti e' quasi impossibile prendere la bolla
         if (airSpeed > 0) {
-            for(BobBubbleModel bobBubble : BubbleManagerModel.getInstance().getBobBubbles()) {
-                if (bobBubble.isActive() && bobBubble.isCollision()) {
-                    if (hitbox.getMaxY() >= bobBubble.getHitbox().getY() - (5 * SCALE) && hitbox.getMaxY() <= bobBubble.getHitbox().getY() + (5 * SCALE)
-                            && hitbox.x >= bobBubble.getHitbox().getX() && hitbox.x <= bobBubble.getHitbox().getMaxX() && jump) {
+            bubbleManagerModel.getBobBubbles().stream()
+                    .filter(BobBubbleModel::isActive)
+                    .filter(BobBubbleModel::isCollision)
+                    .filter(bobBubble -> hitbox.getMaxY() >= bobBubble.getHitbox().getY() - (5 * SCALE) // Controlla se il player è precisamente sopra la bolla
+                            && hitbox.getMaxY() <= bobBubble.getHitbox().getY() + (5 * SCALE)
+                            && hitbox.x >= bobBubble.getHitbox().getX()
+                            && hitbox.x <= bobBubble.getHitbox().getMaxX()
+                            && jump)
+                    .findFirst() // si ferma alla prima bolla trovata
+                    .ifPresent(bobBubble -> {
                         inAir = true;
                         airSpeed = jumpSpeed;
-                        //bobBubble.decreaseY(-15f * SCALE);
-                    }
-                }
-            }
+                    });
         }
     }
+
 
     @ Override
     public void updateXPos(float xSpeed) {
@@ -277,10 +286,6 @@ public class PlayerModel extends EntityModel {
 
     public boolean isInvincible() {
         return invincible;
-    }
-
-    public void setInvincible(boolean invincible) {
-        this.invincible = invincible;
     }
 
     public float getAirSpeed() {
@@ -379,14 +384,6 @@ public class PlayerModel extends EntityModel {
         this.runDistanceAmount = runDistanceAmount;
     }
 
-    public int getReachedFinalLevel() {
-        return reachedFinalLevel;
-    }
-
-    public void setReachedFinalLevel(int reachedFinalLevel) {
-        this.reachedFinalLevel = reachedFinalLevel;
-    }
-
     public void setPlayerSpeed(float value) {
         this.playerSpeed = value;
     }
@@ -417,5 +414,9 @@ public class PlayerModel extends EntityModel {
 
     public void setShootingLightningBubble(boolean shootingLightningBubble) {
         this.shootingLightningBubble = shootingLightningBubble;
+    }
+
+    public Point getPlayerSpawn() {
+        return getLevelManager().getLevels().get(getLevelManager().getLvlIndex()).getPlayerSpawn();
     }
 }

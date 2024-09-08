@@ -21,11 +21,11 @@ public class BobBubbleModel extends BubbleModel {
         this.collision = false;
     }
 
+    @Override
     public void update() {
         updatePos();
     }
 
-    //@Override
     protected void updatePos() {
         if(projectileTravelTimes <= projectTravelDuration) {
             firstShotMovement();

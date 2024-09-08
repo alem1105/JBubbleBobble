@@ -1,15 +1,12 @@
 package view.objects.bobbles;
 
-import model.objects.CustomObjectModel;
 import model.objects.bobbles.*;
-import view.objects.CustomObjectView;
 import view.utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import static model.utilz.Constants.GameConstants.*;
 

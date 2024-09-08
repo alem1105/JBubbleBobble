@@ -1,8 +1,6 @@
 package view.objects.projectiles;
 
 import model.objects.projectiles.HidegonsFireballModel;
-import model.objects.projectiles.MaitaFireballModel;
-import view.utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

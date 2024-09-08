@@ -4,50 +4,62 @@ import model.LevelManagerModel;
 import model.entities.PlayerModel;
 import model.gamestate.Gamestate;
 import model.gamestate.PlayingModel;
-import model.gamestate.UserStateModel;
 import model.ui.buttons.*;
+import view.entities.enemies.EnemiesManagerView;
 import view.stateview.*;
 import view.ui.DeathScreenView;
 import view.ui.GamePausedScreenView;
 import view.ui.buttons.*;
-import view.utilz.AudioManager;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static model.utilz.Constants.GameConstants.TILES_IN_HEIGHT;
 import static model.utilz.Constants.GameConstants.TILES_SIZE;
 
-
+/**
+ * La classe MouseInputs gestisce gli eventi del mouse, come click, movimenti e
+ * trascinamenti, per diverse schermate e stati del gioco. Implementa
+ * MouseMotionListener e MouseListener per rispondere agli input dell'utente.
+ */
 public class MouseInputs implements MouseMotionListener, MouseListener {
 
     private LevelEditorView levelEditorView;
     private LevelManagerModel levelManagerModel;
     private LevelSelectorView levelSelectorView;
-    private PlayingView playingView;
     private DeathScreenView deathScreenView;
     private MenuView menuView;
     private UserStateView userStateView;
     private GamePausedScreenView gamePausedScreenView;
     private boolean justChangedScreen;
 
+    /**
+     * Costruttore della classe MouseInputs.
+     * Inizializza le varie viste e il modello utilizzati durante il gioco.
+     * Non accetta parametri e non restituisce valori.
+     */
     public MouseInputs(){
         this.levelEditorView = LevelEditorView.getInstance();
         this.levelManagerModel = LevelManagerModel.getInstance();
         this.levelSelectorView = LevelSelectorView.getInstance();
-        this.playingView = PlayingView.getInstance();
         this.deathScreenView = DeathScreenView.getInstance();
         this.menuView = MenuView.getInstance();
         this.userStateView = UserStateView.getInstance();
         this.gamePausedScreenView = GamePausedScreenView.getInstance();
     }
 
+    /**
+     * Controlla se il mouse si trova all'interno dei limiti di un pulsante.
+     *
+     * @param <T> Il tipo del pulsante personalizzato che estende CustomButtonView.
+     * @param button Il pulsante da controllare.
+     * @param e L'evento del mouse che contiene la posizione corrente del mouse.
+     * @return true se il mouse si trova all'interno dei confini del pulsante, altrimenti false.
+     */
     private <T extends CustomButtonView> boolean isIn(T button, MouseEvent e) {
         if(button.getButtonModel().getBounds().contains(e.getX(), e.getY()))
             return true;
@@ -55,6 +67,13 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
             return false;
     }
 
+    /**
+     * Gestisce gli eventi di click del mouse.
+     * Se lo stato di gioco è in modalità PLAYING, imposta lo stato di attacco
+     * del giocatore su vero quando viene cliccato il pulsante sinistro del mouse.
+     *
+     * @param e L'evento del mouse che contiene le informazioni sul click.
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         switch (Gamestate.state) {
@@ -73,6 +92,12 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
         }
     }
 
+    /**
+     * Gestisce gli eventi di pressione del pulsante del mouse.
+     * A seconda dello stato del gioco, verifica quale pulsante è stato premuto e imposta lo stato appropriato.
+     *
+     * @param e L'evento del mouse che contiene le informazioni sul pulsante premuto.
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         switch (Gamestate.state) {
@@ -92,7 +117,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                     if(isIn(deathScreenView.getQuitButtonView(), e))
                         getQuitButton().setPressed(true);
                     if(isIn(deathScreenView.getRestartButtonView(), e))
-                            getRestartButton().setPressed(true);
+                        getRestartButton().setPressed(true);
                     return;
                 }
                 if (PlayingModel.getInstance().isPaused()){
@@ -141,6 +166,13 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
         }
     }
 
+    /**
+     * Gestisce gli eventi di rilascio del pulsante del mouse.
+     * Quando l'utente rilascia un pulsante del mouse, vengono eseguite azioni come
+     * il cambiamento di stato del gioco o la modifica dei dati dell'utente.
+     *
+     * @param e L'evento del mouse che contiene le informazioni sul rilascio.
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         switch (Gamestate.state) {
@@ -196,6 +228,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                     else if(isIn(deathScreenView.getRestartButtonView(), e)){
                         if(getRestartButton().isPressed()){
                             getRestartButton().restart();
+                            EnemiesManagerView.getInstance().setRestart(true);
                         }
                     }
                     return;
@@ -222,7 +255,7 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                 if(isIn(levelEditorView.getXButtonView(), e)){
                     if(getXButton().isPressed()){
                         setXButtonPressed(false);
-                        levelEditorView.getXButtonView().getButtonModel().isClicked();
+                        xButtonClick(levelEditorView.getXButtonView().getButtonModel());
                         Gamestate.state = Gamestate.MENU;
                     }
                 }
@@ -260,6 +293,12 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
         mousePressed(e);
     }
 
+    /**
+     * Gestisce il movimento del mouse per aggiornare lo stato di hover (passaggio del mouse) sui pulsanti.
+     * Verifica quali pulsanti vengono "sorvolati" dal puntatore e imposta lo stato di hover.
+     *
+     * @param e L'evento del mouse che contiene le informazioni sul movimento.
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
         switch (Gamestate.state) {
@@ -339,7 +378,44 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
             }
         }
     }
+    
+    /**
+     * Ripristina i dati del livello corrente utilizzando le informazioni memorizzate
+     * nel modello del pulsante X.
+     *
+     * @param xButtonModel Il modello del pulsante X che contiene i dati del livello, i nemici e la posizione del giocatore.
+     */
+    private void xButtonClick(XButtonModel xButtonModel){
+        LevelManagerModel.getInstance()
+                .getLevels()
+                .get(LevelEditorView.getInstance()
+                        .getLevelIndex())
+                .setLvlData(xButtonModel.getOldLvlData());
 
+        LevelManagerModel.getInstance()
+                .getLevels()
+                .get(LevelEditorView
+                        .getInstance()
+                        .getLevelIndex())
+                .setEnemiesData(xButtonModel.getOldEnemiesData());
+
+        LevelManagerModel.getInstance()
+                .getLevels()
+                .get(LevelEditorView
+                        .getInstance()
+                        .getLevelIndex())
+                .setPlayerSpawn(xButtonModel.getOldPlayerSpawn());
+
+        LevelEditorView.getInstance().setLevelIndex(0);
+    }
+
+    /**
+     * Verifica quali pulsanti dell'interfaccia utente sono stati premuti e imposta
+     * lo stato dei pulsanti corrispondenti. Gestisce l'interazione con la pagina
+     * successiva, precedente e la creazione di un nuovo utente.
+     *
+     * @param e L'evento del mouse contenente le coordinate e le informazioni sul click.
+     */
     private void checkPressedUser(MouseEvent e){
         if (isIn(userStateView.getNextPageButton(), e)){
             if (!userStateView.isCreateUser())
@@ -357,7 +433,9 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
             if (userStateView.getNicknameField().contains(e.getX(), e.getY())) {
                 userStateView.setWritingNickname(true);
                 userStateView.getCurrentUser().setNickname("");
-            }
+            } else
+                userStateView.setWritingNickname(false);
+
             if (isIn(userStateView.getPrevAvatarButton(), e)) {
                 userStateView.getPrevAvatarButton().getButtonModel().setPressed(true);
             }
@@ -367,6 +445,13 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
         }
     }
 
+    /**
+     * Verifica e modifica i blocchi e i nemici del livello corrente a seconda delle
+     * interazioni dell'utente con il mouse. Gestisce il click su piastrelle del livello,
+     * aggiornando i dati del livello e dei nemici.
+     *
+     * @param e L'evento del mouse contenente le informazioni sul click.
+     */
     private void editorCheckEditedTiles(MouseEvent e) {
         int currentTileX = (e.getX()) / (TILES_SIZE - levelEditorView.getDrawOffset());
         int currentTileY = (e.getY()) / (TILES_SIZE - levelEditorView.getDrawOffset());
@@ -389,16 +474,30 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
 
             checkPlayerButtonClick(currentTileX, currentTileY);
 
-            if(levelEditorView.getEnemyIndex() > 0 || isPlayerButtonSelected())
+            if(levelEditorView.getEnemyIndex() > 0)
                 lvlData[currentTileY][currentTileX] = 0;
             enemiesData[currentTileY][currentTileX] = levelEditorView.getEnemyIndex();
         }
     }
 
+    /**
+     * Controlla se il blocco o la piastrella si trova in corrispondenza del tetto
+     * o del pavimento del livello e se il pulsante gomma o giocatore è attivo.
+     *
+     * @param currentTileY La posizione Y della piastrella corrente.
+     * @return true se è un blocco di tetto o pavimento, altrimenti false.
+     */
     private boolean checkRoofAndBottomTile(int currentTileY) {
         return (currentTileY == TILES_IN_HEIGHT - 2 || currentTileY == 0) && (isEraserButtonPressed() || isPlayerButtonPressed());
     }
 
+    /**
+     * Gestisce il click del pulsante giocatore per impostare la posizione di spawn
+     * del giocatore nel livello corrente.
+     *
+     * @param currentTileX La posizione X della piastrella corrente.
+     * @param currentTileY La posizione Y della piastrella corrente.
+     */
     private void checkPlayerButtonClick(int currentTileX, int currentTileY) {
         if(isPlayerButtonPressed()) {
             setEraserButtonPressed(false);
@@ -410,8 +509,14 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
         }
     }
 
+    /**
+     * Gestisce il click sui pulsanti dell'editor, controllando se l'utente ha premuto
+     * su un pulsante di blocco o nemico e attivando l'azione corrispondente.
+     *
+     * @param e L'evento del mouse contenente le informazioni sul click.
+     */
     private void editorCheckClicks(MouseEvent e) {
-        // TODO ABBIAMO USATO GLI STREAM QUI
+
         CustomButtonView[] allButtons = Stream
                 .concat(Arrays.stream(levelEditorView.getButtons()),
                         Arrays.stream(levelEditorView.getEnemies()))
@@ -427,6 +532,12 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
         }
     }
 
+    /**
+     * Verifica quali pulsanti dell'editor sono stati premuti e imposta lo stato dei pulsanti
+     * corrispondenti, come il pulsante di salvataggio, il pulsante gomma o il pulsante giocatore.
+     *
+     * @param e L'evento del mouse contenente le informazioni sul click.
+     */
     private void editorCheckPressed(MouseEvent e) {
         setEraserButtonPressed(false);
         if (isIn(levelEditorView.getSaveButtonView(), e)) {
@@ -445,8 +556,9 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
         if(isIn(levelEditorView.getPlayerButtonView(), e)) {
             playerButtonClick();
         }
-
     }
+
+    // METODI HELPER
 
     private void enemyButtonClick(EnemyButtonView button) {
         setLevelEditorEnemyIndex(button.getButtonModel().getIndex());
@@ -461,13 +573,6 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
         setPlayerButtonPressed(false);
         setLevelEditorEnemyIndex(0);
     }
-
-    private void userButtonClick(UserButtonView button) {
-        UserStateModel.getInstance().setCurrentUserModel(button.getButtonModel().getUserModel());
-        button.getButtonModel().setPressed(true);
-    }
-
-    // METODI HELPER
 
     private StartButtonModel getStartButton(){
         return menuView.getStartButton().getButtonModel();
@@ -555,13 +660,6 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
                 .isPressed();
     }
 
-    private boolean isPlayerButtonSelected() {
-        return levelEditorView
-                .getPlayerButtonView()
-                .getButtonModel()
-                .isSelected();
-    }
-
     private void setXButtonPressed(boolean pressed) {
         levelEditorView
                 .getXButtonView()
@@ -578,12 +676,6 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
 
     private void setEditButtonPressed(boolean pressed) {
         levelSelectorView.getEditButtonView().getButtonModel().setPressed(pressed);
-    }
-
-    private PlayerButtonModel getPlayerButtonModel() {
-        return levelEditorView
-                .getPlayerButtonView()
-                .getButtonModel();
     }
 
     private void setSaveButtonHover(boolean hover) {
@@ -648,6 +740,5 @@ public class MouseInputs implements MouseMotionListener, MouseListener {
     private boolean isGameWon() {
         return LevelManagerModel.getInstance().isGameWon();
     }
-
 
 }

@@ -1,7 +1,6 @@
 package model;
 
-import view.utilz.LoadSave;
-
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
@@ -10,7 +9,7 @@ public class UserModel implements Serializable, Comparable<UserModel> {
     private int maxScore, level, levelScore, wins, losses, matches;
     transient int tempScore; // non lo serializza
 
-    transient private BufferedImage avatar;
+    transient private BufferedImage avatar; // non lo serializza
 
     public UserModel(String nickname, int maxScore, int level, int levelScore, int wins, int losses, int matches, String avatarPath) {
         this.nickname = nickname;
@@ -21,7 +20,7 @@ public class UserModel implements Serializable, Comparable<UserModel> {
         this.losses = losses;
         this.matches = matches;
         this.avatarPath = avatarPath;
-        this.avatar = LoadSave.GetSpriteAtlas(this.avatarPath);
+        this.avatar = GetSpriteAtlas(this.avatarPath);
     }
 
     public void serialize(String path) {
@@ -88,6 +87,26 @@ public class UserModel implements Serializable, Comparable<UserModel> {
         return null;
     }
 
+
+    public static BufferedImage GetSpriteAtlas(String fileName) {
+        BufferedImage img = null;
+        InputStream is = UserModel.class.getResourceAsStream("/" + fileName);
+
+        try {
+            img = ImageIO.read(is);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return img;
+    }
+
     public BufferedImage getAvatar() {
         return avatar;
     }
@@ -126,7 +145,7 @@ public class UserModel implements Serializable, Comparable<UserModel> {
 
     public void setAvatarPath(String path) {
         this.avatarPath = path;
-        this.avatar = LoadSave.GetSpriteAtlas(avatarPath);
+        this.avatar = GetSpriteAtlas(avatarPath);
     }
 
     public void incrementTempScore(int value) {
@@ -147,14 +166,6 @@ public class UserModel implements Serializable, Comparable<UserModel> {
         return Integer.compare(o.maxScore, this.maxScore);
     }
 
-    public void setAvatar(BufferedImage avatar) {
-        this.avatar = avatar;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
     public void incrementWins() {
         this.wins++;
     }
@@ -165,10 +176,6 @@ public class UserModel implements Serializable, Comparable<UserModel> {
 
     public void incrementMatches() {
         this.matches++;
-    }
-
-    public void setWins(int wins) {
-        this.wins = wins;
     }
 
     public void setTempScore(int tempScore) {

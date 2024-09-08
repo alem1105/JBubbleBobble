@@ -90,10 +90,6 @@ public class FireModel extends CustomObjectModel implements Fallable {
         return partOfTheCarpet;
     }
 
-    public void setPartOfTheCarpet(boolean partOfTheCarpet) {
-        this.partOfTheCarpet = partOfTheCarpet;
-    }
-
     public void setCreatingCarpet(boolean creatingCarpet) {
         this.creatingCarpet = creatingCarpet;
     }

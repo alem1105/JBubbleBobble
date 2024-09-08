@@ -1,7 +1,6 @@
 package view.entities.enemies;
 
 import model.entities.enemies.InvaderModel;
-import model.entities.enemies.ZenChanModel;
 import model.utilz.Constants;
 import view.utilz.LoadSave;
 

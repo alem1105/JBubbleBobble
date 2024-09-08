@@ -21,7 +21,7 @@ public class LevelManagerModel {
 
     private static LevelManagerModel instance;
     private ArrayList<LevelModel> levels;
-    private int lvlIndex = 0;
+    private int lvlIndex = 24;
     private boolean nextLevel = false;
     private int levelSkipped = 1;
     private boolean gameWon;
@@ -83,7 +83,7 @@ public class LevelManagerModel {
             user.incrementWins();
             user.setMaxScore();
             user.updateLevelScore();
-            user.serialize("res/users/" + user.getNickname() + ".bubblebobble");
+            user.serialize("res/users/" + user.getNickname() + ".bb");
             Gamestate.state = MENU;
             gameWon = true;
             lvlIndex = 0;

@@ -2,7 +2,6 @@ package view.objects.items;
 
 import model.objects.items.FoodModel;
 import view.objects.CustomObjectView;
-import view.utilz.AudioManager;
 import view.utilz.LoadSave;
 
 import java.awt.*;
@@ -14,7 +13,6 @@ import static view.utilz.AudioManager.*;
 public class FoodView extends CustomObjectView<FoodModel> {
 
     private int scoreDuration = 40, scoreTick = 0;
-    private boolean playedPickupSound;
 
     public FoodView(FoodModel model) {
         super(model);

@@ -14,6 +14,7 @@ public class EraserButtonView extends CustomButtonView<EraserButtonModel> {
         sprites = LoadSave.loadAnimations(LoadSave.ERASER_BUTTON, 1, 3, 18, 18);
     }
 
+    @Override
     public EraserButtonModel getButtonModel() {
         return buttonModel;
     }

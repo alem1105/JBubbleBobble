@@ -1,7 +1,6 @@
 package model.objects.items.powerups;
 
 import model.entities.enemies.EnemyManagerModel;
-import model.gamestate.UserStateModel;
 
 import static model.utilz.Constants.PowerUps.BOMB;
 

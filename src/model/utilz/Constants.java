@@ -30,7 +30,6 @@ public class Constants {
         public static final int LEFT = 2;
         public static final int UP = 1;
         public static final int RIGHT = -2;
-        public static final int DOWN = 3;
 
         public static final int UP_RIGHT = 4;
         public static final int UP_LEFT = -4;
@@ -40,9 +39,6 @@ public class Constants {
     }
     
     public static class Enemies {
-
-        public static final int ZEN_CHAN = 0;
-        public static final int MAITA = 1;
 
         public static final int RUNNING = 0;
         public static final int RUNNING_ANGRY = 1;

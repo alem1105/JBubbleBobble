@@ -2,9 +2,6 @@ package model.ui.buttons;
 
 public class PlayerButtonModel extends CustomButtonModel {
 
-    private boolean alreadyThere;
-    private boolean selected;
-
     private static PlayerButtonModel instance;
 
     private PlayerButtonModel(int x, int y, int width, int height) {
@@ -16,22 +13,5 @@ public class PlayerButtonModel extends CustomButtonModel {
             instance = new PlayerButtonModel(x, y, width, height);
         }
         return instance;
-    }
-
-
-    public void setAlreadyThere(boolean alreadyThere) {
-        this.alreadyThere = alreadyThere;
-    }
-
-    public boolean isAlreadyThere() {
-        return alreadyThere;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
-
-    public boolean isSelected() {
-        return selected;
     }
 }

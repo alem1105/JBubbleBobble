@@ -1,7 +1,6 @@
 package view.ui;
 
 import model.ui.buttons.QuitButtonModel;
-import model.ui.buttons.RestartButtonModel;
 import model.ui.buttons.StartButtonModel;
 import view.entities.PlayerView;
 import view.stateview.TwinkleView;
@@ -38,7 +37,6 @@ public class GamePausedScreenView {
 
     private QuitButtonView quitButton;
     private StartButtonView startButton;
-    private RestartButtonView restartButton;
 
     private BufferedImage gamePausedBackground;
     private Point curPlayerPos;
@@ -64,7 +62,6 @@ public class GamePausedScreenView {
     private void initButtons() {
         quitButton = new QuitButtonView(new QuitButtonModel(GAME_WIDTH / 2 - (int) (47 * SCALE) - (int)(10 * SCALE), (int) (147 * SCALE), (int) (94 * SCALE), (int) (28 * SCALE)), true);
         startButton = new StartButtonView(new StartButtonModel(GAME_WIDTH / 2 - (int) (47 * SCALE) - (int)(10 * SCALE), (int) (177 * SCALE), (int) (94 * SCALE), (int) (28 * SCALE)), true);
-        //restartButton = new RestartButtonView(new RestartButtonModel(GAME_WIDTH / 2 - (int) (47 * SCALE) ))
     }
 
     private void initTwinkles() {

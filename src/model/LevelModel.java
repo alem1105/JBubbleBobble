@@ -108,10 +108,6 @@ public class LevelModel {
         return lvlData;
     }
 
-    public BufferedImage getLvlImg() {
-        return lvlImg;
-    }
-
     public int getSpriteIndex(int x, int y) {
         return lvlData[y][x];
     }

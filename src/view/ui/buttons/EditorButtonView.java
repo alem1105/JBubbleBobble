@@ -1,7 +1,6 @@
 package view.ui.buttons;
 
 import model.ui.buttons.EditorButtonModel;
-import model.ui.buttons.RestartButtonModel;
 import view.utilz.LoadSave;
 
 public class EditorButtonView extends CustomButtonView<EditorButtonModel> {

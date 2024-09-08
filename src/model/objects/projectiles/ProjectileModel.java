@@ -11,6 +11,7 @@ public abstract class ProjectileModel extends CustomObjectModel {
         this.direction = direction;
     }
 
+    @Override
     public abstract void update();
 
     public int getDirection() {

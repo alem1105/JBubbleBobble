@@ -17,11 +17,11 @@ public class ChangePageButtonView extends CustomButtonView<ChangePageButtonModel
 
     private void setDirection(ChangePageButtonModel model) {
         if (model.getDirection() == 2) {
-            flipX = 0;
-            flipW = 1;
-        } else {
             flipX = model.getWidth();
             flipW = -1;
+        } else {
+            flipX = 0;
+            flipW = 1;
         }
     }
 

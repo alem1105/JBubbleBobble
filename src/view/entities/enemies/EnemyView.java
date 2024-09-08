@@ -1,14 +1,12 @@
 package view.entities.enemies;
 
 import model.entities.enemies.EnemyModel;
-import static view.utilz.LoadSave.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.Enemies.*;
-
 
 public abstract class EnemyView<T extends EnemyModel> {
 
@@ -68,13 +66,13 @@ public abstract class EnemyView<T extends EnemyModel> {
             flipW = 1;
     }
 
-
-    protected void drawHitbox(Graphics g) {
-        g.setColor(Color.PINK);
-        g.drawRect((int) (enemy.getHitbox().x), (int) (enemy.getHitbox().y),
-                (int) enemy.getHitbox().width,
-                (int) enemy.getHitbox().height);
-    }
+// For Debugging
+//    protected void drawHitbox(Graphics g) {
+//        g.setColor(Color.PINK);
+//        g.drawRect((int) (enemy.getHitbox().x), (int) (enemy.getHitbox().y),
+//                (int) enemy.getHitbox().width,
+//                (int) enemy.getHitbox().height);
+//    }
 
     public int getSpriteAmount() {
         return switch (enemy.getEnemyState()) {

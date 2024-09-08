@@ -122,10 +122,6 @@ public class BubbleView<T extends BubbleModel> extends CustomObjectView<T> {
         return aniIndex;
     }
 
-    public int getAniTick() {
-        return aniTick;
-    }
-
     public ArrayList<WaterView> getWaterfallView() {
         return waterfallView;
     }

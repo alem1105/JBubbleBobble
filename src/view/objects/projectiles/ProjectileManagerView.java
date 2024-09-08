@@ -14,7 +14,6 @@ public class ProjectileManagerView {
 
     private ProjectileManagerModel projectileManagerModel;
 
-    private ArrayList<ProjectileModel> projectileModels;
     private ArrayList<ProjectileView> projectileViews;
 
     protected int currentLevel;

@@ -1,7 +1,6 @@
 package model.objects.items.powerups;
 
 import model.entities.PlayerModel;
-import model.objects.CustomObjectModel;
 import model.objects.bobbles.BubbleManagerModel;
 
 import static model.utilz.Constants.PowerUps.*;

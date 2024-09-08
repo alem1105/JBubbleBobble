@@ -129,12 +129,35 @@ public class PlayingView {
 
     private void drawStats(Graphics g) {
         UserModel currentUser = UserStateModel.getInstance().getCurrentUserModel();
-        g.setColor(Color.WHITE);
+        String currentLevelIndex = decFormat.format(LevelManagerModel.getInstance().getLvlIndex() + 1);
+
         g.setFont(LoadSave.NES_FONT);
         FontMetrics measures = g.getFontMetrics();
-        g.drawString(String.valueOf(currentUser.getTempScore()), GAME_WIDTH - TILES_SIZE * 10 - measures.stringWidth(String.valueOf(currentUser.getTempScore())), GAME_HEIGHT - (int) (5 * SCALE));
-        String levelStat = decFormat.format(LevelManagerModel.getInstance().getLvlIndex() + 1);
-        g.drawString(levelStat, GAME_WIDTH - TILES_SIZE * 7 - measures.stringWidth(levelStat), GAME_HEIGHT - (int) (5 * SCALE));
+
+        // posizione del testo
+        int x = 0;
+        int y = TILES_SIZE - TILES_SIZE / 3;
+
+        // distanza del contorno in pixel
+        int shadowOffset = 2;
+
+        // disegna il contorno nero intorno al testo bianco
+        g.setColor(Color.BLACK);
+        for (int i = -shadowOffset; i <= shadowOffset; i++) {
+            for (int j = -shadowOffset; j <= shadowOffset; j++) {
+                // evitiamo di ridisegnare il testo al centro (0, 0) dove andrà il testo principale
+                if (i != 0 || j != 0) {
+                    g.drawString(currentLevelIndex, x + i, y + j);
+                }
+            }
+        }
+
+        // disegniamo il testo originale sopra il contorno
+        g.setColor(Color.WHITE);
+        g.drawString(currentLevelIndex, x, y);
+
+        g.drawString(String.valueOf(currentUser.getTempScore()), GAME_WIDTH - TILES_SIZE * 7 - measures.stringWidth(String.valueOf(currentUser.getTempScore())), GAME_HEIGHT - (int) (5 * SCALE));
+
         g.setColor(Color.RED);
         g.drawString(String.valueOf(currentUser.getMaxScore()), GAME_WIDTH - measures.stringWidth(String.valueOf(currentUser.getMaxScore())) - TILES_SIZE, GAME_HEIGHT - (int) (5 * SCALE));
     }

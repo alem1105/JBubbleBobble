@@ -1,15 +1,20 @@
 package view;
 
 import model.LevelModel;
+import model.entities.enemies.EnemyManagerModel;
+import model.entities.enemies.EnemyModel;
+import model.entities.enemies.SuperDrunkModel;
 import model.objects.items.powerups.PowerUpsManagerModel;
 import view.utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import model.LevelManagerModel;
 
+import static java.awt.Color.WHITE;
 import static model.utilz.Constants.GameConstants.*;
 
 public class LevelView {
@@ -23,6 +28,8 @@ public class LevelView {
     private Color[] colors = {Color.RED, null, Color.YELLOW};
     private int colorIndex = 0;
 
+    private DecimalFormat decFormat = new DecimalFormat("00");
+
     public LevelView() {
         lvlSprites = LoadSave.importSprites();
         lvlManager = LevelManagerModel.getInstance();
@@ -33,6 +40,7 @@ public class LevelView {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         checkAndUpdateBombDrawing(g);
+        drawBossLives(g);
         for (int y = 0; y < TILES_IN_HEIGHT; y++) {
             for (int x = 0; x < levels.get(lvlManager.getLvlIndex()).getLvlData()[0].length; x++) {
                 int index = levels.get(lvlManager.getLvlIndex()).getSpriteIndex(x, y);
@@ -50,6 +58,24 @@ public class LevelView {
                 g.drawImage(lvlSprites[index - 1], x * TILES_SIZE, y * TILES_SIZE, TILES_SIZE, TILES_SIZE, null);
             }
         }
+    }
+
+    private void drawBossLives(Graphics g) {
+        if(lvlManager.getLvlIndex() == 24) {
+            SuperDrunkModel superDrunk = getSuperDrunkModelFromEnemiesArray();
+            g.setFont(LoadSave.NES_FONT);
+            g.setColor(WHITE);
+            String superDrunkLives = decFormat.format(superDrunk.getLives());
+            g.drawString(superDrunkLives, 9 * TILES_SIZE + TILES_SIZE / 2, TILES_SIZE - TILES_SIZE / 4);
+        }
+    }
+
+    private SuperDrunkModel getSuperDrunkModelFromEnemiesArray() {
+        for(EnemyModel enemyModel : EnemyManagerModel.getInstance().getEnemies()) {
+            if(enemyModel instanceof SuperDrunkModel)
+                return (SuperDrunkModel) enemyModel;
+        }
+        return null;
     }
 
     private void checkAndUpdateBombDrawing(Graphics g) {
@@ -73,15 +99,16 @@ public class LevelView {
         }
     }
 
-    private void drawGrid(Graphics g) {
-        g.setColor(Color.RED);
-        for (int x = 0; x <= GAME_WIDTH; x += TILES_SIZE) {
-            g.drawLine(x, 0, x, GAME_HEIGHT);
-        }
-        for (int y = 0; y <= GAME_HEIGHT; y += TILES_SIZE) {
-            g.drawLine(0, y, GAME_WIDTH, y);
-        }
-    }
 
+// For debugging
+//    private void drawGrid(Graphics g) {
+//        g.setColor(Color.RED);
+//        for (int x = 0; x <= GAME_WIDTH; x += TILES_SIZE) {
+//            g.drawLine(x, 0, x, GAME_HEIGHT);
+//        }
+//        for (int y = 0; y <= GAME_HEIGHT; y += TILES_SIZE) {
+//            g.drawLine(0, y, GAME_WIDTH, y);
+//        }
+//    }
 
 }

@@ -2,7 +2,6 @@ package view.entities;
 
 import model.LevelManagerModel;
 import model.entities.PlayerModel;
-import view.ui.NextLevelScreenView;
 import view.utilz.AudioManager;
 import view.utilz.LoadSave;
 
@@ -78,7 +77,6 @@ public class PlayerView {
         g.drawImage(animations[playerModel.getPlayerAction()][aniIndex],
                 (int) (playerModel.getHitbox().x - xDrawOffset) + flipX, (int) (playerModel.getHitbox().y - yDrawOffset),
                 playerModel.getWidth() * flipW, playerModel.getHeight(), null);
-        //drawHitbox(g);
     }
 
     public void updateAnimationTick() {
@@ -90,10 +88,6 @@ public class PlayerView {
                 if (playerModel.getPlayerAction() == DEATH) {
                     AudioManager.getInstance().oneTimePlay(PLAYER_DEATH);
                     playerModel.setPlayerAction(IDLE);
-                    playerModel.getHitbox().x = getPlayerSpawn().x;
-                    playerModel.getHitbox().y = getPlayerSpawn().y;
-                    playerModel.setInAir(true);
-                    playerModel.setInvincible(true);
                 }
 
                 if (playerModel.isAttack()) {
@@ -118,20 +112,16 @@ public class PlayerView {
         };
     }
 
-    private void drawHitbox(Graphics g) {
-        // For debugging the hitbox
-        g.setColor(Color.PINK);
-        g.drawRect((int) (playerModel.getHitbox().x), (int) (playerModel.getHitbox().y),
-                (int) playerModel.getHitbox().width,
-                (int) playerModel.getHitbox().height);
-    }
+// For Debugging
+//    private void drawHitbox(Graphics g) {
+//        g.setColor(Color.PINK);
+//        g.drawRect((int) (playerModel.getHitbox().x), (int) (playerModel.getHitbox().y),
+//                (int) playerModel.getHitbox().width,
+//                (int) playerModel.getHitbox().height);
+//    }
 
     public PlayerModel getPlayerModel() {
         return playerModel;
-    }
-
-    public Point getPlayerSpawn() {
-        return playerModel.getLevelManager().getLevels().get(playerModel.getLevelManager().getLvlIndex()).getPlayerSpawn();
     }
 
     public Point getCurPlayerPos() {

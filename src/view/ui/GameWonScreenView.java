@@ -1,8 +1,6 @@
 package view.ui;
 
 import model.LevelManagerModel;
-import model.utilz.UtilityMethods;
-import org.w3c.dom.css.Rect;
 import view.utilz.LoadSave;
 
 import java.awt.*;
@@ -76,7 +74,6 @@ public class GameWonScreenView {
         if (durationTick >= durationTimer) {
             durationTick = 0;
             LevelManagerModel.getInstance().setGameWon(false);
-            UtilityMethods.resetAll();
         }
     }
 
@@ -194,7 +191,7 @@ public class GameWonScreenView {
 
     private void drawPoints(Graphics g){
         g.setColor(Color.GREEN);
-        Font font = LoadSave.BUBBLE_BOBBLE_FONT.deriveFont(43f * SCALE);
+        Font font = LoadSave.NES_FONT.deriveFont(25f * SCALE);
         g.setFont(font);
         FontMetrics measure = g.getFontMetrics(font);
         g.drawString("1000000PTS!!", GAME_WIDTH/ 2 - measure.stringWidth("1000000PTS!!")/2, (int) (100 * SCALE));

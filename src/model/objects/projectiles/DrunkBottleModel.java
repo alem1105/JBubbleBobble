@@ -86,7 +86,7 @@ public class DrunkBottleModel extends ProjectileModel {
             xBottleSpeed = -xBottleSpeed;
         }
 
-        // Controlla se puoi muoverti (passa attraverso i muri?)
+        // Controlla se puoi muoverti
         if(CanMoveHere(hitbox.x + xBottleSpeed, hitbox.y, hitbox.width, hitbox.height, getLvlData())) {
             hitbox.x += xBottleSpeed;
         } else {

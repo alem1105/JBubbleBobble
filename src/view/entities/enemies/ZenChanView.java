@@ -4,9 +4,6 @@ import model.entities.enemies.ZenChanModel;
 import model.utilz.Constants;
 import view.utilz.LoadSave;
 
-import java.awt.*;
-
-import static model.utilz.Constants.Enemies.*;
 import static view.utilz.LoadSave.*;
 
 public class ZenChanView extends EnemyView<ZenChanModel> {

@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static model.utilz.Constants.SpecialBubbles.EXTEND_BUBBLE;
-import static model.utilz.Gravity.*;
-import static model.utilz.UtilityMethods.*;
 import static model.utilz.Constants.Directions.LEFT;
 import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.GameConstants.*;
@@ -38,8 +36,6 @@ public class BubbleModel extends CustomObjectModel {
     private float yWhenPopped;
     private float xWhenPopped;
 
-    private boolean playerTrapped = false;
-
     public BubbleModel(float x, float y, int width, int height, int bubbleType) {
         super(x, y, width, height);
         this.bubbleType = bubbleType;
@@ -57,6 +53,7 @@ public class BubbleModel extends CustomObjectModel {
         }
     }
 
+    @Override
     public void update(){
         checkLifeTimer();
         afterShotMovement();
@@ -83,9 +80,6 @@ public class BubbleModel extends CustomObjectModel {
 
     private boolean hasWaterMovedFromStartPoint(Rectangle2D.Float lastWaterHitbox) {
         return (Math.abs(Math.abs(lastWaterHitbox.y) - Math.abs(yWhenPopped))) >= lastWaterHitbox.getHeight() - 1;
-//        return lastWaterHitbox.y >= yWhenPopped + lastWaterHitbox.height
-//                || lastWaterHitbox.x >= xWhenPopped + lastWaterHitbox.width
-//                || lastWaterHitbox.x <= xWhenPopped - lastWaterHitbox.width;
     }
 
     protected void afterShotMovement() {
@@ -127,18 +121,6 @@ public class BubbleModel extends CustomObjectModel {
         pathTick++;
     }
 
-    protected void checkBubbleMovement() {
-        if (canBubbleMoveHere()) {
-            hitbox.x += bubbleSpeed;
-        } else {
-            hitbox.x = GetEntityXPosNextToWall(hitbox, bubbleSpeed);
-        }
-    }
-
-    private boolean canBubbleMoveHere() {
-        return CanMoveHere(hitbox.x, hitbox.y, hitbox.width, hitbox.height, getLvlData());
-    }
-
     private void checkLifeTimer() {
         if (active){
             lifeTimer++;
@@ -149,10 +131,12 @@ public class BubbleModel extends CustomObjectModel {
         }
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -203,14 +187,6 @@ public class BubbleModel extends CustomObjectModel {
 
     public char getExtendChar() {
         return extendChar;
-    }
-
-    public boolean isPlayerTrapped() {
-        return playerTrapped;
-    }
-
-    public void setPlayerTrapped(boolean playerTrapped) {
-        this.playerTrapped = playerTrapped;
     }
 }
 

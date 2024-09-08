@@ -23,7 +23,7 @@ public class UserStateView {
     private static UserStateView instance;
 
     private UserStateModel userStateModel;
-    ArrayList<UserModel> users;
+    private ArrayList<UserModel> users;
 
     private ChangePageButtonView nextPageButton;
     private ChangePageButtonView prevPageButton;
@@ -149,7 +149,6 @@ public class UserStateView {
             if (avatarIndex != 0)
                 prevAvatarButton.draw(g);
         }
-
     }
 
     private void drawUserStats(Graphics g, FontMetrics measures, FontMetrics nicknameMeasures, Font nicknameFont) {
@@ -258,14 +257,6 @@ public class UserStateView {
         return prevAvatarButton;
     }
 
-    public String getInputNickname() {
-        return inputNickname;
-    }
-
-    public void setInputNickname(String nickname) {
-        this.inputNickname = nickname;
-    }
-
     public void setWritingNickname(boolean writingNickname) {
         this.writingNickname = writingNickname;
     }
@@ -282,10 +273,6 @@ public class UserStateView {
         return nicknameField;
     }
 
-    public void setCurrentUser(UserModel currentUser) {
-        this.currentUser = currentUser;
-    }
-
     public UserModel getCurrentUser() {
         return currentUser;
     }
@@ -296,18 +283,6 @@ public class UserStateView {
 
     public CreateButtonView getCreateButton() {
         return createButton;
-    }
-
-    public void setUsers(ArrayList<UserModel> users) {
-        this.users = users;
-    }
-
-    public void setUserIndex(int userIndex) {
-        this.userIndex = userIndex;
-    }
-
-    public boolean isShowingLeaderboard() {
-        return showingLeaderboard;
     }
 
     public void setShowingLeaderboard(boolean showingLeaderboard) {

@@ -7,7 +7,6 @@ import static model.utilz.Constants.Enemies.RUNNING;
 import static model.utilz.Constants.Enemies.RUNNING_ANGRY;
 import static model.utilz.Constants.GameConstants.SCALE;
 
-
 public class InvaderModel extends EnemyModel{
 
     private boolean shooting = false;

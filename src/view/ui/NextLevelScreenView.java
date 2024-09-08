@@ -1,15 +1,12 @@
 package view.ui;
 
 import model.LevelManagerModel;
-import model.LevelModel;
 import view.entities.PlayerView;
 import view.utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
-import static java.awt.Color.*;
 import static model.utilz.Constants.GameConstants.*;
 import static model.utilz.Constants.GameConstants.SCALE;
 import static view.utilz.LoadSave.BUB_LEVEL_TRANSITION;

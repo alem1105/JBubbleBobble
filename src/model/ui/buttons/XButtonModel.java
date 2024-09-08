@@ -1,7 +1,6 @@
 package model.ui.buttons;
 
 import model.LevelManagerModel;
-import view.stateview.LevelEditorView;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -38,33 +37,21 @@ public class XButtonModel extends CustomButtonModel {
         oldPlayerSpawn = LevelManagerModel.getInstance().getLevels().get(index).getPlayerSpawn();
     }
 
-    public void isClicked() {
-        LevelManagerModel.getInstance()
-                .getLevels()
-                .get(LevelEditorView
-                        .getInstance()
-                        .getLevelIndex())
-                .setLvlData(oldLvlData);
-        LevelManagerModel.getInstance()
-                .getLevels()
-                .get(LevelEditorView
-                        .getInstance()
-                        .getLevelIndex())
-                .setEnemiesData(oldEnemiesData);
-        LevelManagerModel.getInstance()
-                .getLevels()
-                .get(LevelEditorView
-                        .getInstance()
-                        .getLevelIndex())
-                .setPlayerSpawn(oldPlayerSpawn);
-
-        LevelEditorView.getInstance().setLevelIndex(0);
-    }
-
     public void updateData(int index){
         updateLvlData(index);
         updateEnemiesData(index);
         updatePlayerSpawn(index);
     }
 
+    public int[][] getOldEnemiesData() {
+        return oldEnemiesData;
+    }
+
+    public int[][] getOldLvlData() {
+        return oldLvlData;
+    }
+
+    public Point getOldPlayerSpawn() {
+        return oldPlayerSpawn;
+    }
 }

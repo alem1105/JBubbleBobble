@@ -3,14 +3,7 @@ package view.entities.enemies;
 import model.LevelManagerModel;
 import model.entities.enemies.*;
 import model.objects.items.FoodModel;
-import model.objects.projectiles.DrunkBottleModel;
-import model.objects.projectiles.InvaderLaserModel;
-import model.objects.projectiles.MaitaFireballModel;
-import model.objects.projectiles.ProjectileModel;
 import view.objects.items.FoodView;
-import view.objects.projectiles.DrunkBottleView;
-import view.objects.projectiles.InvaderLaserView;
-import view.objects.projectiles.MaitaFireballView;
 
 import java.awt.*;
 import java.util.ArrayList;

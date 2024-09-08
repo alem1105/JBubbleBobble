@@ -1,7 +1,6 @@
 package view.objects.projectiles;
 
 import model.objects.projectiles.InvaderLaserModel;
-import view.utilz.LoadSave;
 
 import java.awt.image.BufferedImage;
 

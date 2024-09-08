@@ -2,20 +2,17 @@ package view.ui;
 
 import model.ui.buttons.QuitButtonModel;
 import model.ui.buttons.RestartButtonModel;
-import view.stateview.LevelEditorView;
 import view.ui.buttons.QuitButtonView;
 import view.ui.buttons.RestartButtonView;
 import view.utilz.LoadSave;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 import static java.awt.Color.*;
 import static model.utilz.Constants.GameConstants.*;
 
 public class DeathScreenView {
 
-    private BufferedImage deathScreen;
     private QuitButtonView quitButton;
     private RestartButtonView restartButton;
 
@@ -47,14 +44,13 @@ public class DeathScreenView {
         g.setColor(myColour);
         g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
-        //g.drawImage(deathScreen, x, y, width, height, null);
         drawString(g);
         quitButton.draw(g);
         restartButton.draw(g);
     }
 
     private void drawString(Graphics g) {
-        Font font = (LoadSave.BUBBLE_BOBBLE_FONT).deriveFont(33 * SCALE);
+        Font font = (LoadSave.NES_FONT).deriveFont(30 * SCALE);
         g.setColor(GREEN);
         g.setFont(font);
 

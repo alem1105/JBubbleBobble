@@ -13,15 +13,14 @@ public class InvaderLaserModel extends ProjectileModel {
 
     @Override
     public void update() {
-        if (!AtTheLastTile())
+        if (!atTheLastTile())
             hitbox.y += laserSpeed;
         else
             active = false;
     }
 
-    private boolean AtTheLastTile() {
-        return (hitbox.y + hitbox.height) >= GAME_HEIGHT - TILES_SIZE; // TODO controllare se fa difetto
+    private boolean atTheLastTile() {
+        return (hitbox.y + hitbox.height) >= GAME_HEIGHT - TILES_SIZE;
     }
-
 
 }

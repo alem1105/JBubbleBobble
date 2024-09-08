@@ -18,7 +18,6 @@ import java.util.Random;
 import static java.awt.Color.WHITE;
 import static model.utilz.Constants.GameConstants.*;
 import static view.utilz.AudioManager.GAME_WON_INDEX;
-import static view.utilz.AudioManager.MAIN_THEME_INDEX;
 
 public class MenuView {
 

@@ -3,8 +3,6 @@ package model.objects.bobbles;
 import model.objects.CustomObjectModel;
 import model.utilz.Fallable;
 
-import java.util.ArrayList;
-
 import static model.utilz.Constants.Directions.LEFT;
 import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.GameConstants.*;

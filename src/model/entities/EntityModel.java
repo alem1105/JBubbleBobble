@@ -33,6 +33,7 @@ public abstract class EntityModel implements Fallable {
         hitbox = new Rectangle2D.Float(x, y, width * SCALE, height * SCALE);
     }
 
+    @Override
     public void isInAirCheck() {
         if (!inAir) {
             if (!IsEntityOnFloor(hitbox, getLvlData())) {
@@ -41,6 +42,7 @@ public abstract class EntityModel implements Fallable {
         }
     }
 
+    @Override
     public void fallingChecks(float xSpeed){
         // Stiamo cadendo
         // Bloccati dentro un muro
@@ -69,17 +71,20 @@ public abstract class EntityModel implements Fallable {
         }
     }
 
+    @Override
     public void checkOutOfMap() {
         int currentTileY = (int) (hitbox.y / TILES_SIZE);
         if(currentTileY == TILES_IN_HEIGHT - 1)
             hitbox.y = -TILES_SIZE;
     }
 
+    @Override
     public void resetInAir() {
         inAir = false;
         airSpeed = 0;
     }
 
+    @Override
     public abstract void updateXPos(float xSpeed);
 
     public Rectangle2D.Float getHitbox() {
@@ -108,10 +113,6 @@ public abstract class EntityModel implements Fallable {
 
     public boolean isInAir() {
         return inAir;
-    }
-
-    public void setInAir(boolean inAir) {
-        this.inAir = inAir;
     }
 
     public void setFallingSpeed(float fallingSpeed) {

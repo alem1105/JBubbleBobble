@@ -2,8 +2,6 @@ package model.ui.buttons;
 
 import model.UserModel;
 import model.gamestate.UserStateModel;
-import view.ui.buttons.CustomButtonView;
-import view.utilz.LoadSave;
 
 public class CreateButtonModel extends CustomButtonModel{
 
@@ -12,7 +10,7 @@ public class CreateButtonModel extends CustomButtonModel{
     }
 
     public void saveUser(UserModel user) {
-        user.serialize("res/users/" + user.getNickname() + ".bubblebobble");
+        user.serialize("res/users/" + user.getNickname() + ".bb");
         UserStateModel.getInstance().getAllUsers();
     }
 }

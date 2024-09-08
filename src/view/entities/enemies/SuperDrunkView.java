@@ -1,14 +1,9 @@
 package view.entities.enemies;
 
-import model.entities.enemies.DrunkModel;
-import model.entities.PlayerModel;
 import model.entities.enemies.SuperDrunkModel;
-import model.objects.bobbles.BubbleModel;
 import model.objects.projectiles.DrunkBottleModel;
-import view.objects.bobbles.BubbleView;
 import view.objects.projectiles.DrunkBottleView;
 import view.objects.projectiles.ProjectileManagerView;
-import view.objects.projectiles.ProjectileView;
 import view.utilz.LoadSave;
 
 import java.awt.*;
@@ -17,9 +12,6 @@ import java.util.ArrayList;
 
 import static model.utilz.Constants.Directions.DOWN_RIGHT;
 import static model.utilz.Constants.Directions.UP_RIGHT;
-import static model.utilz.Constants.Enemies.DEAD;
-import static model.utilz.Constants.Enemies.ZEN_CHAN_WIDTH;
-import static model.utilz.Constants.GameConstants.SCALE;
 import static view.utilz.LoadSave.loadAnimations;
 
 public class SuperDrunkView extends EnemyView<SuperDrunkModel>{
@@ -116,7 +108,6 @@ public class SuperDrunkView extends EnemyView<SuperDrunkModel>{
         g.drawImage(animations[spriteIndex][aniIndex],
                 (int) (enemy.getHitbox().x) + flipX, (int) (enemy.getHitbox().y),
                 (int)enemy.getHitbox().getWidth() * flipW, (int)enemy.getHitbox().getHeight(), null);
-        drawHitbox(g);
         updateAndDrawDrunkBottles(g);
     }
 

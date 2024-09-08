@@ -10,7 +10,6 @@ import static model.utilz.Gravity.*;
 import static model.utilz.UtilityMethods.getLvlData;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 public class PowerUpsManagerModel {
@@ -56,8 +55,6 @@ public class PowerUpsManagerModel {
                 if (playerModel.getHitbox().intersects(powerUp.getHitbox()) && !powerUp.isPickedUp()) {
                     UserStateModel.getInstance().getCurrentUserModel().incrementTempScore(powerUp.getScore());
                     powerUp.applyEffect();
-//                    if (powerUp instanceof PotionLightningModel)
-//                        numberOfPotions--;
                 }
             }
         }
@@ -140,7 +137,6 @@ public class PowerUpsManagerModel {
 
         if (canPotionLightingSpawn()) {
             int[] randomCoordinates = lightningPotionSpawnPoints[random.nextInt(lightningPotionSpawnPoints.length)];
-            //numberOfPotions++;
             powerups.add(new PotionLightningModel(randomCoordinates[0], randomCoordinates[1], (int) (16f * SCALE), (int) (16f * SCALE)));
         }
     }
