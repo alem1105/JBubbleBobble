@@ -12,7 +12,7 @@ import static model.utilz.UtilityMethods.getLvlData;
  * La classe {@code FireModel} rappresenta un oggetto di fuoco,
  * creato a seguito dell'esplosione di una bolla di fuoco nel gioco, che può cadere
  * e comportarsi come parte di un "tappeto" di fuoco. Implementa l'interfaccia {@code Fallable},
- * consentendo un comportamento di caduta, e deriva da {@code CustomObjectModel}.
+ * consentendo un comportamento di caduta, e estende {@code CustomObjectModel}.
  */
 public class FireModel extends CustomObjectModel implements Fallable {
 
@@ -22,7 +22,7 @@ public class FireModel extends CustomObjectModel implements Fallable {
     /** Velocità di caduta del fuoco. */
     private float airSpeed = 0.65f * SCALE;
 
-    /** Indica se il fuoco è parte di un tappeto di fuoco. */
+    /** Indica se il fuoco è parte di un tappeto di fuoco e se deve creare un tappeto di fuoco. */
     private boolean partOfTheCarpet, creatingCarpet = false;
 
     /** Durata del tappeto di fuoco. */
@@ -58,12 +58,10 @@ public class FireModel extends CustomObjectModel implements Fallable {
 
     /**
      * Gestisce il comportamento del fuoco mentre cade. Se può continuare a cadere,
-     * aggiorna la posizione Y. Se la caduta è terminata, diventa parte del tappeto di fuoco.
-     *
-     * @param xSpeed velocità lungo l'asse X (non utilizzata in questo contesto).
+     * aggiorna la posizione Y. Se la caduta è terminata, imposta a true il booleano
+     * per la creazione del tappeto di fuoco e lui stesso ne diventa parte.
      */
-    @Override
-    public void fallingChecks(float xSpeed) {
+    public void fallingChecks() {
         // Controllo collisioni e movimento in aria
         if (!CanMoveHere(hitbox.x, hitbox.y, hitbox.width, hitbox.height, getLvlData())) {
             hitbox.y += airSpeed;
@@ -110,24 +108,23 @@ public class FireModel extends CustomObjectModel implements Fallable {
      */
     @Override
     public void updateXPos(float xSpeed) {
-        // Non utilizzato per FireModel
     }
 
     /**
      * Aggiorna lo stato del fuoco. Se è in aria, esegue i controlli di caduta.
-     * Se fa parte di un tappeto, avvia il timer del tappeto.
+     * Se fa parte di un tappeto, ne aggiorna il timer.
      */
     @Override
     public void update() {
         if (inAir && !partOfTheCarpet)
-            fallingChecks(airSpeed);
+            fallingChecks();
         else if (partOfTheCarpet)
             carpetTimer();
     }
 
     /**
      * Esegue il conteggio del tempo in cui il fuoco rimane attivo come parte del tappeto di fuoco.
-     * Dopo la scadenza della durata del tappeto, l'oggetto viene disattivato.
+     * Dopo la scadenza del timer, l'oggetto viene disattivato.
      */
     private void carpetTimer() {
         if (carpetTick <= carpetDuration)
