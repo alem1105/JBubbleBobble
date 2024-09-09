@@ -3,6 +3,7 @@ package view;
 import view.utilz.LoadSave;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.image.BufferedImage;
@@ -22,6 +23,7 @@ public class GameWindow {
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setTitle("JBubbleBobble");
         jFrame.setIconImage(icon);
+        Taskbar.getTaskbar().setIconImage(icon);
         jFrame.add(gamePanel);
         jFrame.setResizable(false);
         jFrame.pack();
