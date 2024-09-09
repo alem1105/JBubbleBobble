@@ -181,7 +181,7 @@ public class MenuView {
         g.setFont(font);
 
         FontMetrics metrics = g.getFontMetrics(font);
-        g.drawString("ALESSIO - EDOARDO - GIADA", GAME_WIDTH / 2 - (metrics.stringWidth("ALESSIO - EDOARDO - GIADA") / 2), (int) (260 * SCALE));
+        g.drawString("A. MARINI - E. NOTO - G. GULLO", GAME_WIDTH / 2 - (metrics.stringWidth("A. MARINI - E. NOTO - G. GULLO") / 2), (int) (260 * SCALE));
     }
 
     public EditorButtonView getEditorButton() {

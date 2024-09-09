@@ -63,7 +63,7 @@ public class BubbleManagerModel {
     /**
      * Durata tra lo spawn di una bolla e un'altra.
      */
-    int spawnBubbleDuration = 360;
+    int spawnBubbleDuration = 1200;
 
     /**
      * Il punteggio guadagnato per ogni bolla esplosa.
