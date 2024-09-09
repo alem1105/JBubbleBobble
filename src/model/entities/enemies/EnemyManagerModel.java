@@ -3,6 +3,8 @@ package model.entities.enemies;
 import model.LevelManagerModel;
 import model.entities.PlayerModel;
 import model.gamestate.UserStateModel;
+import model.objects.bobbles.BobBubbleModel;
+import model.objects.bobbles.BubbleManagerModel;
 import model.objects.items.FoodModel;
 
 import java.util.ArrayList;
@@ -178,8 +180,32 @@ public class EnemyManagerModel {
         if(enemy.isInBubble()) {
             enemy.setEnemyState(DEAD);
             enemy.setActive(false);
+            checkCollisionWithOtherBubbles(enemy);
         } else if(player.getPlayerAction() != DEATH && !player.isInvincible()) {
             player.playerHasBeenHit();
+        }
+    }
+
+    /**
+     * Controolla se i nemici in bolla quando vengono fatti scoppiare stanno toccando altre bolle o nemici
+     * @param enemy1
+     */
+    public void checkCollisionWithOtherBubbles(EnemyModel enemy1) {
+        for (BobBubbleModel bob : BubbleManagerModel.getInstance().getBobBubbles())
+            if (bob.isActive() && enemy1.isActive())
+                if (bob.getHitbox().intersects(enemy1.getHitbox())) {
+                    bob.setActive(false);
+                    bob.setTimeout(true);
+                    BubbleManagerModel.getInstance().checkIntersects(bob);
+                }
+        for (EnemyModel enemy2 : enemies) {
+            if (enemy2.isActive() && enemy2.isInBubble())
+                if (enemy1.getHitbox().intersects(enemy2.getHitbox())){
+                    enemy2.setEnemyState(DEAD);
+                    enemy2.setActive(false);
+                    checkCollisionWithOtherBubbles(enemy2);
+                }
+
         }
     }
 

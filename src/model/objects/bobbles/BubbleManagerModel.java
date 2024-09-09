@@ -11,6 +11,7 @@ import model.objects.CustomObjectModel;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 
+import static model.utilz.Constants.Enemies.DEAD;
 import static model.utilz.Constants.GameConstants.*;
 import static model.utilz.Constants.PlayerConstants.DEATH;
 import static model.utilz.Constants.SpecialBubbles.*;
@@ -449,7 +450,7 @@ public class BubbleManagerModel {
      * Controlla le intersezioni della bolla con il player e con le altre bolle per farle scoppiare tutte insieme
      * @param bubble la bolla da controllare
      */
-    private void checkIntersects(BubbleModel bubble) {
+    public void checkIntersects(BubbleModel bubble) {
         for (BobBubbleModel bob : bobBubbles) {
             if (bob.isActive()) {
                 if (bob.getHitbox().intersects(bubble.getHitbox())) {
@@ -461,6 +462,14 @@ public class BubbleManagerModel {
                 }
             }
         }
+        for (EnemyModel enemy : EnemyManagerModel.getInstance().getEnemies())
+            if (enemy.isActive() && enemy.isInBubble()) {
+                if (bubble.getHitbox().intersects(enemy.getHitbox())) {
+                    enemy.setEnemyState(DEAD);
+                    enemy.setActive(false);
+                    EnemyManagerModel.getInstance().checkCollisionWithOtherBubbles(enemy);
+                }
+            }
     }
 
     /**
