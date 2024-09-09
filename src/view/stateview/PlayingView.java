@@ -198,12 +198,12 @@ public class PlayingView {
         // punteggio della partita corrente
         g.setColor(Color.WHITE);
         g.drawString(currentLevelIndex, x, y);
-        DecimalFormat decFormat2 = new DecimalFormat("0000000");
+        DecimalFormat decFormat2 = new DecimalFormat("000000000");
 
-        g.drawString(decFormat2.format(currentUser.getTempScore()), ((TILES_IN_WIDTH - 3) / 2 + 3) * TILES_SIZE - measures.stringWidth(decFormat2.format(currentUser.getTempScore())), GAME_HEIGHT - (int) (5 * SCALE));
+        g.drawString(decFormat2.format(currentUser.getTempScore()), GAME_WIDTH / 2  - measures.stringWidth(decFormat2.format(currentUser.getTempScore()))/ 2, GAME_HEIGHT - (int) (5 * SCALE));
 
         // punteggio massimo dello user
         g.setColor(Color.RED);
-        g.drawString(String.valueOf(currentUser.getMaxScore()), ((TILES_IN_WIDTH - 3) / 2 + 4) * TILES_SIZE, GAME_HEIGHT - (int) (5 * SCALE));
+        g.drawString(decFormat2.format(currentUser.getMaxScore()), (GAME_WIDTH - (int) (7 * SCALE)- measures.stringWidth(decFormat2.format(currentUser.getTempScore()))), GAME_HEIGHT - (int) (5 * SCALE));
     }
 }
