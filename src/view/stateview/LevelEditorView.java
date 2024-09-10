@@ -76,7 +76,7 @@ public class LevelEditorView {
                         (int) (90 * SCALE) + (int) (25 * SCALE),
                         (int) (24 * SCALE),
                         (int) (24 * SCALE)
-                ), LoadSave.GetSpriteAtlas(LoadSave.PLAYER_BUTTON)
+                ), LoadSave.getSpriteAtlas(LoadSave.PLAYER_BUTTON)
         );
         saveButton = new SaveButtonView(new SaveButtonModel(levelWidth + (int) (58 * SCALE),
                 levelHeight + (int) (46 * SCALE),

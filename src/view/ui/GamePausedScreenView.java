@@ -119,7 +119,7 @@ public class GamePausedScreenView {
     private GamePausedScreenView() {
         random = new Random();
         twinkleAnimation = LoadSave.loadAnimations(LoadSave.STARS_SPRITE, 1, 4, 8, 8);
-        gamePausedBackground = LoadSave.GetSpriteAtlas(LoadSave.PAUSE_BACKGROUND);
+        gamePausedBackground = LoadSave.getSpriteAtlas(LoadSave.PAUSE_BACKGROUND);
         bubTransitionImages = loadAnimations(BUB_LEVEL_TRANSITION, 2, 2, 30, 34);
         targetPlayerPos = new Point((int)(250 * SCALE), (int) (200 * SCALE));
         initTwinkles();

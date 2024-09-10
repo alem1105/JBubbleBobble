@@ -86,7 +86,7 @@ public class LoadSave {
     public static Font JEQO_FONT, NES_FONT;
 
 
-    public static BufferedImage GetSpriteAtlas(String fileName) {
+    public static BufferedImage getSpriteAtlas(String fileName) {
         BufferedImage img = null;
         InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
 
@@ -106,7 +106,7 @@ public class LoadSave {
     }
 
     public static BufferedImage[][] loadAnimations(String path, int rowIndex, int colIndex, int width, int height) {
-        BufferedImage img = LoadSave.GetSpriteAtlas(path);
+        BufferedImage img = LoadSave.getSpriteAtlas(path);
         BufferedImage[][] animations = new BufferedImage[rowIndex][colIndex];
         for (int i = 0; i < rowIndex; i++) {
             for (int j = 0; j < colIndex; j++) {
@@ -117,7 +117,7 @@ public class LoadSave {
     }
 
     public static BufferedImage[] importSprites() {
-        BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.LEVEL_SPRITE);
+        BufferedImage img = LoadSave.getSpriteAtlas(LoadSave.LEVEL_SPRITE);
         int index = 0;
         BufferedImage[] lvlSprites = new BufferedImage[30];
         for (int j = 0; j < 6; j++) {

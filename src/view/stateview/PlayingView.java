@@ -66,7 +66,7 @@ public class PlayingView {
      */
     private PlayingView() {
         initViews();
-        heartLifeImage = LoadSave.GetSpriteAtlas(LoadSave.HEART_LIFE_BUTTON);
+        heartLifeImage = LoadSave.getSpriteAtlas(LoadSave.HEART_LIFE_BUTTON);
     }
 
     /**

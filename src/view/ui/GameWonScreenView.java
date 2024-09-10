@@ -60,8 +60,8 @@ public class GameWonScreenView {
      */
     private GameWonScreenView() {
         heartSprites = LoadSave.loadAnimations(HEART_SPRITE, 1, 3, 50, 50);
-        parentsHuggingSprites = LoadSave.GetSpriteAtlas(PARENTS_HUGGING_SPRITE);
-        happyEndWritingSprite = LoadSave.GetSpriteAtlas(HAPPY_END);
+        parentsHuggingSprites = LoadSave.getSpriteAtlas(PARENTS_HUGGING_SPRITE);
+        happyEndWritingSprite = LoadSave.getSpriteAtlas(HAPPY_END);
         characterKissingSprites = LoadSave.loadAnimations(CHARACTER_KISSING, 2, 5, 37, 16);
         lastLevelData = LevelManagerModel.getInstance().getLevels().getLast().getLvlData();
         lvlSprites = LoadSave.importSprites();

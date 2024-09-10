@@ -16,7 +16,7 @@ public class GameWindow {
 
     private JFrame jFrame;
 
-    private BufferedImage icon = LoadSave.GetSpriteAtlas(LoadSave.ICON);
+    private BufferedImage icon = LoadSave.getSpriteAtlas(LoadSave.ICON);
 
     public GameWindow(GamePanel gamePanel) {
         jFrame = new JFrame();
