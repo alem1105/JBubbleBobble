@@ -23,7 +23,11 @@ public class GameWindow {
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setTitle("JBubbleBobble");
         jFrame.setIconImage(icon);
-        Taskbar.getTaskbar().setIconImage(icon);
+        try {
+            Taskbar.getTaskbar().setIconImage(icon);
+        } catch (UnsupportedOperationException e) {
+            System.out.println("TaskBar non supportata su Windows!");
+        }
         jFrame.add(gamePanel);
         jFrame.setResizable(false);
         jFrame.pack();
