@@ -60,9 +60,9 @@ public class ProjectileManagerView {
      */
     public void updateAndDraw(Graphics g) {
         getProjectiles();
-        projectileViews.stream()
-                .filter(ProjectileView::conditionToDraw)
-                .forEach(x -> x.updateAndDraw(g));
+        for(ProjectileView projectileView : projectileViews)
+            if (projectileView.conditionToDraw())
+                projectileView.updateAndDraw(g);
     }
 
     /**
