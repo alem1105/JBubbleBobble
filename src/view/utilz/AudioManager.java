@@ -36,6 +36,9 @@ public class AudioManager {
     public final static String SUPER_DRUNK = "res/sounds/super_drunk.wav";
     public final static int SUPER_DRUNK_INDEX = 3;
 
+    public final static String LEVEL_EDITOR = "res/sounds/level_editor.wav";
+    public final static int LEVEL_EDITOR_INDEX = 4;
+
     // Interaction Sounds
     public static String FOOD_PICKUP = "res/sounds/interactionsounds/food_pickup.wav";
     public static String ITEM_PICKUP = "res/sounds/interactionsounds/item_pickup.wav";
@@ -54,8 +57,8 @@ public class AudioManager {
     }
 
     private AudioManager() {
-        continuousAudios = new Clip[4];
-        continuousAudiosPaths = new String[]{MAIN_THEME, GAME_WON, GAME_OVER, SUPER_DRUNK};
+        continuousAudios = new Clip[5];
+        continuousAudiosPaths = new String[]{MAIN_THEME, GAME_WON, GAME_OVER, SUPER_DRUNK, LEVEL_EDITOR};
         loadContinuousAudios(continuousAudiosPaths);
     }
 
@@ -124,7 +127,7 @@ public class AudioManager {
         stopAllContinuousAudios();
         continuousAudios[index].start();
 
-        if(index == MAIN_THEME_INDEX)
+        if(index == MAIN_THEME_INDEX || index == LEVEL_EDITOR_INDEX)
             continuousAudios[index].loop(Clip.LOOP_CONTINUOUSLY);
     }
 }

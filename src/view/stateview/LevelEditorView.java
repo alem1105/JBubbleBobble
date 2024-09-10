@@ -3,12 +3,14 @@ package view.stateview;
 import model.LevelManagerModel;
 import model.ui.buttons.*;
 import view.ui.buttons.*;
+import view.utilz.AudioManager;
 import view.utilz.LoadSave;
 
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
 import static model.utilz.Constants.GameConstants.*;
+import static view.utilz.AudioManager.LEVEL_EDITOR_INDEX;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -141,6 +143,7 @@ public class LevelEditorView {
      * Aggiorna lo stato dei pulsanti nell'editor di livelli.
      */
     public void update() {
+        AudioManager.getInstance().continuousSoundPlay(LEVEL_EDITOR_INDEX);
         playerButton.update();
         saveButton.update();
         XButton.update();

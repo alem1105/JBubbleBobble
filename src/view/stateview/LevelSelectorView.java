@@ -4,10 +4,12 @@ import model.ui.buttons.ChangePageButtonModel;
 import model.ui.buttons.EditButtonModel;
 import view.ui.buttons.ChangePageButtonView;
 import view.ui.buttons.EditButtonView;
+import view.utilz.AudioManager;
 import view.utilz.LoadSave;
 
 import static model.utilz.Constants.Directions.*;
 import static model.utilz.Constants.GameConstants.*;
+import static view.utilz.AudioManager.LEVEL_EDITOR_INDEX;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -117,6 +119,7 @@ public class LevelSelectorView {
      * Aggiorna lo stato dei pulsanti nel selettore di livelli.
      */
     public void update() {
+        AudioManager.getInstance().continuousSoundPlay(LEVEL_EDITOR_INDEX);
         nextLevelButtonView.update();
         prevLevelButtonView.update();
         editButtonView.update();
