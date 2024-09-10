@@ -13,10 +13,15 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+/**
+ * Questa classe si occupa di creare l'istanza dell'audio manager e riprodurre suoni
+ */
 public class AudioManager {
 
     private static AudioManager instance;
+    /** Array utilizzato per collezionare le Clip audio delle varie colonne sonore */
     private Clip[] continuousAudios;
+    /** Array che contiene i percorsi delle colonne sonore */
     private String[] continuousAudiosPaths;
 
     public final static String MAIN_THEME = "res/sounds/main_theme.wav";
@@ -54,6 +59,10 @@ public class AudioManager {
         loadContinuousAudios(continuousAudiosPaths);
     }
 
+    /**
+     * Carica nell'array delle clip tutte le colonne sonore di: gioco, vittoria, sconfitta e boss finale
+     * @param continuousAudiosPaths Array con i percorsi dei file audio
+     */
     private void loadContinuousAudios(String[] continuousAudiosPaths) {
         try {
             for(int i = 0; i < continuousAudiosPaths.length; i++) {
@@ -74,11 +83,18 @@ public class AudioManager {
         }
     }
 
+    /**
+     * Ferma tutte le colonne sonore che stanno venendo riprodotte, lo utilizziamo per farne partire una diversa
+     */
     public void stopAllContinuousAudios() {
         for (int i = 0; i < continuousAudios.length; i++)
             continuousAudios[i].stop();
     }
 
+    /**
+     * Metodo utilizzato per riprodurre un file audio una sola volta, utilizzato per effetti sonori
+     * @param filename
+     */
     public void oneTimePlay(String filename) {
         try {
             InputStream in = new BufferedInputStream(new FileInputStream(filename));
@@ -97,6 +113,10 @@ public class AudioManager {
         }
     }
 
+    /**
+     * Permette di riprodurre una colonna sonora prendendo come parametro l'indice corrispondente in {@code continuousAudios}
+     * @param index
+     */
     public void continuousSoundPlay(int index) {
         if (continuousAudios[index].isRunning())
             return;

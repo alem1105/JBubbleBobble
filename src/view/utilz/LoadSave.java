@@ -9,6 +9,9 @@ import java.io.InputStream;
 
 import static model.utilz.Constants.GameConstants.SCALE;
 
+/**
+ * Classe utilizzata per caricare i file immagine e i font personalizzati
+ */
 public class LoadSave {
 
     public static final String MENU_LOGO = "ui/menu_sprite.png";
@@ -85,7 +88,10 @@ public class LoadSave {
 
     public static Font JEQO_FONT, NES_FONT;
 
-
+    /**
+     * @param fileName Percorso del file immagine
+     * @return l'immagine come tipo {@link BufferedImage}
+     */
     public static BufferedImage getSpriteAtlas(String fileName) {
         BufferedImage img = null;
         InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
@@ -105,6 +111,15 @@ public class LoadSave {
         return img;
     }
 
+    /**
+     * Lo utilizziamo per caricare le sprites
+     * @param path percorso del file
+     * @param rowIndex quante righe sono presenti
+     * @param colIndex quante colonne sono presenti
+     * @param width larghezza di un frame
+     * @param height altezza di un frame
+     * @return tutti i frame dell'animazione in una matrice bidimensionale di tipo {@link BufferedImage}
+     */
     public static BufferedImage[][] loadAnimations(String path, int rowIndex, int colIndex, int width, int height) {
         BufferedImage img = LoadSave.getSpriteAtlas(path);
         BufferedImage[][] animations = new BufferedImage[rowIndex][colIndex];
@@ -116,6 +131,9 @@ public class LoadSave {
         return animations;
     }
 
+    /**
+     * @return Un array do tipo {@code BufferedImage} contenente le sprites delle tiles dei livelli
+     */
     public static BufferedImage[] importSprites() {
         BufferedImage img = LoadSave.getSpriteAtlas(LoadSave.LEVEL_SPRITE);
         int index = 0;
@@ -129,6 +147,9 @@ public class LoadSave {
         return lvlSprites;
     }
 
+    /**
+     * Carica i vari font personalizzati nelle rispettive variabili
+     */
     public static void loadCustomFont() {
         try {
             JEQO_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("./res/Jeqo-5-Bit.ttf")).deriveFont(6f * SCALE);
@@ -143,6 +164,11 @@ public class LoadSave {
         }
     }
 
+    /**
+     * Metodo utilizzato per disegnare le ombre sui livelli, scurisce un colore
+     * @param rgb Colore in input da scurire
+     * @return {@link Color} piu' scuro da inserire dietro le tiles
+     */
     public static Color getDarkenedColor(int rgb) {
         Color originalColor = new Color(rgb); // Colore RGB originale
         float darkeningFactor = 0.4f; // Riduce il colore a metà della sua intensità
