@@ -127,7 +127,7 @@ public class AudioManager {
         stopAllContinuousAudios();
         continuousAudios[index].start();
 
-        if(index == MAIN_THEME_INDEX || index == LEVEL_EDITOR_INDEX)
+        if(index == MAIN_THEME_INDEX || index == LEVEL_EDITOR_INDEX || index == SUPER_DRUNK_INDEX)
             continuousAudios[index].loop(Clip.LOOP_CONTINUOUSLY);
     }
 }
