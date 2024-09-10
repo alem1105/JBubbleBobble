@@ -347,11 +347,7 @@ public class BubbleManagerModel {
             while(excludedFromSpawningBubbles[randomBubbleType] == 1)
                 randomBubbleType = rand.nextInt(4);
 
-
-            int max = (TILES_IN_WIDTH - 1) * TILES_SIZE;
-            int min = TILES_SIZE;
-
-            int randomX = rand.nextInt(max - min + 1) + min;
+            int randomX = (rand.nextInt(GAME_WIDTH - TILES_SIZE * 2) + TILES_SIZE);
             int y = GAME_HEIGHT;
             bubbles.add(new BubbleModel(randomX, y,(int) (14 * SCALE), (int) (16 * SCALE), randomBubbleType));
         }
