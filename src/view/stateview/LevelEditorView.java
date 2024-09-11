@@ -1,6 +1,6 @@
 package view.stateview;
 
-import model.LevelManagerModel;
+import model.level.LevelManagerModel;
 import model.ui.buttons.*;
 import view.ui.buttons.*;
 import view.utilz.AudioManager;

@@ -1,4 +1,4 @@
-package model;
+package model.level;
 
 import model.entities.enemies.*;
 

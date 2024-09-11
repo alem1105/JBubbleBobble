@@ -1,6 +1,6 @@
 package model.entities;
 
-import model.LevelManagerModel;
+import model.level.LevelManagerModel;
 import model.utilz.Fallable;
 
 import java.awt.geom.Rectangle2D;

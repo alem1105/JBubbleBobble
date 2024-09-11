@@ -1,6 +1,6 @@
 package model.objects.bobbles;
 
-import model.LevelManagerModel;
+import model.level.LevelManagerModel;
 import model.entities.PlayerModel;
 import model.entities.enemies.EnemyManagerModel;
 import model.entities.enemies.EnemyModel;
@@ -395,29 +395,30 @@ public class BubbleManagerModel {
             if (bubble.getHitbox().intersects(PlayerModel.getInstance().getHitbox()) && bubble.isCollision()) {
 
                 if(canMoveHere(bubble.getHitbox().x, bubble.getHitbox().y, bubble.getHitbox().width, bubble.getHitbox().height, getLvlData())) {
+
                     UserStateModel.getInstance().getCurrentUserModel().incrementTempScore(scoreForPop);
                     PlayerModel.getInstance().incrementPoppedBubbles();
                     bubble.setActive(false);
                     bubble.setTimeout(true);
 
-                switch (bubble.getBubbleType()) {
-                    case WATER_BUBBLE -> {
-                        bubble.setyWhenPopped(bubble.getHitbox().y);
-                        bubble.setxWhenPopped(bubble.getHitbox().x);
-                        PlayerModel.getInstance().incrementPoppedWaterBubbles();
+                    switch (bubble.getBubbleType()) {
+                        case WATER_BUBBLE -> {
+                            bubble.setyWhenPopped(bubble.getHitbox().y);
+                            bubble.setxWhenPopped(bubble.getHitbox().x);
+                            PlayerModel.getInstance().incrementPoppedWaterBubbles();
+                        }
+                        case LIGHTNING_BUBBLE -> {
+                            lightnings.add(new LightningModel(bubble.getHitbox().x, bubble.getHitbox().y, (int) (16 * SCALE), (int) (16 * SCALE), PlayerModel.getInstance().getFacing()));
+                            PlayerModel.getInstance().incrementPoppedLightingBubbles();
+                        }
+                        case FIRE_BUBBLE -> {
+                            fires.add(new FireModel(bubble.getHitbox().x, bubble.getHitbox().y, false));
+                            PlayerModel.getInstance().incrementPoppedFireBubbles();
+                        }
+                        case EXTEND_BUBBLE -> extend.put(bubble.getExtendChar(), true);
                     }
-                    case LIGHTNING_BUBBLE -> {
-                        lightnings.add(new LightningModel(bubble.getHitbox().x, bubble.getHitbox().y, (int) (16 * SCALE), (int) (16 * SCALE), PlayerModel.getInstance().getFacing()));
-                        PlayerModel.getInstance().incrementPoppedLightingBubbles();
-                    }
-                    case FIRE_BUBBLE -> {
-                        fires.add(new FireModel(bubble.getHitbox().x, bubble.getHitbox().y, false));
-                        PlayerModel.getInstance().incrementPoppedFireBubbles();
-                    }
-                    case EXTEND_BUBBLE -> extend.put(bubble.getExtendChar(), true);
-                }
 
-                checkIntersects(bubble);
+                    checkIntersects(bubble);
                 }
             }
         }

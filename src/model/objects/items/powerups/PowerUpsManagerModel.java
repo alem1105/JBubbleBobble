@@ -1,6 +1,6 @@
 package model.objects.items.powerups;
 
-import model.LevelManagerModel;
+import model.level.LevelManagerModel;
 import model.entities.PlayerModel;
 import model.gamestate.UserStateModel;
 

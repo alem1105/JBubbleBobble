@@ -5,7 +5,6 @@ import model.objects.projectiles.MaitaFireballModel;
 import model.objects.projectiles.ProjectileManagerModel;
 
 import static model.utilz.Constants.Directions.RIGHT;
-import static model.utilz.Constants.Enemies.*;
 import static model.utilz.Constants.GameConstants.SCALE;
 
 /**

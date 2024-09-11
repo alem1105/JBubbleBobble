@@ -1,6 +1,6 @@
 package controller.inputs;
 
-import model.LevelManagerModel;
+import model.level.LevelManagerModel;
 import model.entities.PlayerModel;
 import model.gamestate.*;
 import model.utilz.UtilityMethods;

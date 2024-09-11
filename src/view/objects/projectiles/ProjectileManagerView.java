@@ -1,6 +1,6 @@
 package view.objects.projectiles;
 
-import model.LevelManagerModel;
+import model.level.LevelManagerModel;
 import model.objects.projectiles.*;
 import view.utilz.LoadSave;
 

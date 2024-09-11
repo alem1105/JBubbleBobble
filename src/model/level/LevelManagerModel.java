@@ -1,5 +1,6 @@
-package model;
+package model.level;
 
+import model.UserModel;
 import model.entities.PlayerModel;
 import model.entities.enemies.EnemyManagerModel;
 import model.gamestate.Gamestate;

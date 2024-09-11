@@ -1,6 +1,6 @@
 package model.entities.enemies;
 
-import model.LevelManagerModel;
+import model.level.LevelManagerModel;
 import model.entities.PlayerModel;
 import model.gamestate.UserStateModel;
 import model.objects.bobbles.BobBubbleModel;

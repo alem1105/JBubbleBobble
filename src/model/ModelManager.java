@@ -6,10 +6,6 @@ import model.gamestate.UserStateModel;
 
 import java.util.Observable;
 
-import static model.gamestate.Gamestate.PLAYING;
-
-import java.util.Observable;
-
 /**
  * La classe {@code ModelManager} è un singleton che gestisce l'aggiornamento dei modelli di gioco.
  * Estende {@code Observable} per permettere la notifica agli osservatori (la view) quando lo stato cambia.

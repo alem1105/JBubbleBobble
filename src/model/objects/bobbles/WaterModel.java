@@ -1,13 +1,11 @@
 package model.objects.bobbles;
 
-import model.entities.PlayerModel;
 import model.objects.CustomObjectModel;
 import model.utilz.Fallable;
 
 import static model.utilz.Constants.Directions.LEFT;
 import static model.utilz.Constants.Directions.RIGHT;
 import static model.utilz.Constants.GameConstants.*;
-import static model.utilz.Constants.GameConstants.TILES_SIZE;
 import static model.utilz.Gravity.*;
 import static model.utilz.UtilityMethods.getLvlData;
 

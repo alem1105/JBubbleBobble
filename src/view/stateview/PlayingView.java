@@ -1,10 +1,10 @@
 package view.stateview;
 
-import model.LevelManagerModel;
+import model.level.LevelManagerModel;
 import model.UserModel;
 import model.gamestate.PlayingModel;
 import model.gamestate.UserStateModel;
-import view.LevelView;
+import view.level.LevelView;
 import view.entities.PlayerView;
 import view.entities.enemies.EnemiesManagerView;
 import view.objects.items.PowerUpManagerView;

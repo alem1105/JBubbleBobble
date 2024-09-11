@@ -1,6 +1,6 @@
 package model.gamestate;
 
-import model.LevelManagerModel;
+import model.level.LevelManagerModel;
 import model.entities.PlayerModel;
 import model.entities.enemies.EnemyManagerModel;
 import model.objects.items.powerups.PowerUpsManagerModel;

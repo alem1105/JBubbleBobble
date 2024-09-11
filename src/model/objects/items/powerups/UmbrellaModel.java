@@ -1,6 +1,6 @@
 package model.objects.items.powerups;
 
-import model.LevelManagerModel;
+import model.level.LevelManagerModel;
 
 import static model.utilz.Constants.PowerUps.*;
 

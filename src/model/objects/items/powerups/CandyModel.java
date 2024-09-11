@@ -1,6 +1,6 @@
 package model.objects.items.powerups;
 
-import model.LevelManagerModel;
+import model.level.LevelManagerModel;
 import model.objects.bobbles.BobBubbleModel;
 import model.objects.bobbles.BubbleManagerModel;
 

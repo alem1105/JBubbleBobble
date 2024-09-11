@@ -5,8 +5,6 @@ import model.objects.projectiles.DrunkBottleModel;
 import model.objects.projectiles.ProjectileManagerModel;
 
 import static model.utilz.Constants.Directions.*;
-import static model.utilz.Constants.Enemies.RUNNING;
-import static model.utilz.Constants.Enemies.RUNNING_ANGRY;
 import static model.utilz.Constants.GameConstants.SCALE;
 
 /**
@@ -16,6 +14,7 @@ import static model.utilz.Constants.GameConstants.SCALE;
 public class DrunkModel extends EnemyModel{
 
     /**
+     * Crea un nuovo modello di Drunk con le coordinate specificate.
      * Crea un nuovo modello di Drunk con le coordinate specificate.
      *
      * @param x la coordinata X iniziale

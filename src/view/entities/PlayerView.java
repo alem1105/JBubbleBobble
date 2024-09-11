@@ -1,6 +1,6 @@
 package view.entities;
 
-import model.LevelManagerModel;
+import model.level.LevelManagerModel;
 import model.entities.PlayerModel;
 import view.utilz.AudioManager;
 import view.utilz.LoadSave;

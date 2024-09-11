@@ -1,6 +1,6 @@
 package model.ui.buttons;
 
-import model.LevelManagerModel;
+import model.level.LevelManagerModel;
 
 import java.util.Arrays;
 

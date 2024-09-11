@@ -1,15 +1,13 @@
 package view.entities.enemies;
 
-import model.LevelManagerModel;
+import model.level.LevelManagerModel;
 import model.entities.enemies.*;
 import model.objects.items.FoodModel;
 import view.objects.items.FoodView;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import java.awt.Graphics;
-import java.util.ArrayList;
 
 /**
  * La classe {@code EnemiesManagerView} gestisce la visualizzazione di nemici e del food

@@ -1,6 +1,6 @@
-package view;
+package view.level;
 
-import model.LevelModel;
+import model.level.LevelModel;
 import model.entities.enemies.EnemyManagerModel;
 import model.entities.enemies.EnemyModel;
 import model.entities.enemies.SuperDrunkModel;
@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import model.LevelManagerModel;
+import model.level.LevelManagerModel;
 
 import static model.utilz.Constants.GameConstants.*;
 

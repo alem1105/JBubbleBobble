@@ -1,6 +1,6 @@
 package view.stateview;
 
-import model.LevelManagerModel;
+import model.level.LevelManagerModel;
 import model.ui.buttons.EditorButtonModel;
 import model.ui.buttons.StartButtonModel;
 import model.utilz.Constants;

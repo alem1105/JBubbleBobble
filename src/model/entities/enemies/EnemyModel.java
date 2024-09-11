@@ -214,19 +214,19 @@ public abstract class EnemyModel extends EntityModel {
      * Una volta bloccato, attiva il movimento fluttuante.
      */
     protected void inBubbleMovement() {
-            if (!stuck) {
-                if (getEnemyTileY() > 2) {
-                    hitbox.y -= bubbleSpeed;
-                } else {
-                    if (isBubbleInXRange()) {
-                        stuck = true;
-                    } else {
-                        checkBubbleDirection();
-                    }
-                }
+        if (!stuck) {
+            if (getEnemyTileY() > 2) {
+                hitbox.y -= bubbleSpeed;
             } else {
-                startFloating();
+                if (isBubbleInXRange()) {
+                    stuck = true;
+                } else {
+                    checkBubbleDirection();
+                }
             }
+        } else {
+            startFloating();
+        }
     }
 
     /**
@@ -271,19 +271,16 @@ public abstract class EnemyModel extends EntityModel {
      */
     @Override
     public void updateXPos(float walkSpeed) {
-        if (playerAndEnemyAreOnTheSameRow() && !getPlayer().isInvincible()) {
+        if (playerAndEnemyAreOnTheSameRow() && !getPlayer().isInvincible())
             walkwithSameY();
-        } else {
-            if(isPlayerOnTopOfTheEnemy() && !(getPlayer().isInAir())) {
-                if(checkUpSolid(getLvlData()) && !inAir) {
+        else
+            if(isPlayerOnTopOfTheEnemy() && !(getPlayer().isInAir()))
+                if(checkUpSolid(getLvlData()) && !inAir)
                     goingUp = true;
-                } else {
+                else
                     walkWithDifferentY();
-                }
-            } else {
+            else
                 walkWithDifferentY();
-            }
-        }
     }
 
     /**
