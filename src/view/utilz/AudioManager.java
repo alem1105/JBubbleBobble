@@ -24,30 +24,30 @@ public class AudioManager {
     /** Array che contiene i percorsi delle colonne sonore */
     private String[] continuousAudiosPaths;
 
-    public final static String MAIN_THEME = "res/sounds/main_theme.wav";
+    public final static String MAIN_THEME = "/sounds/main_theme.wav";
     public final static int MAIN_THEME_INDEX = 0;
 
-    public final static String GAME_WON = "res/sounds/real_ending.wav";
+    public final static String GAME_WON = "/sounds/real_ending.wav";
     public final static int GAME_WON_INDEX = 1;
 
-    public final static String GAME_OVER = "res/sounds/game_over.wav";
+    public final static String GAME_OVER = "/sounds/game_over.wav";
     public final static int GAME_OVER_INDEX = 2;
 
-    public final static String SUPER_DRUNK = "res/sounds/super_drunk.wav";
+    public final static String SUPER_DRUNK = "/sounds/super_drunk.wav";
     public final static int SUPER_DRUNK_INDEX = 3;
 
-    public final static String LEVEL_EDITOR = "res/sounds/level_editor.wav";
+    public final static String LEVEL_EDITOR = "/sounds/level_editor.wav";
     public final static int LEVEL_EDITOR_INDEX = 4;
 
     // Interaction Sounds
-    public static String FOOD_PICKUP = "res/sounds/interactionsounds/food_pickup.wav";
-    public static String ITEM_PICKUP = "res/sounds/interactionsounds/item_pickup.wav";
-    public static String JUMP = "res/sounds/interactionsounds/jump.wav";
-    public static String PLAYER_DEATH = "res/sounds/interactionsounds/player_death.wav";
-    public static String LETTER_BUBBLE_POP = "res/sounds/interactionsounds/letter_bubble_pop.wav";
-    public static String POP_BUBBLE_SINGLE_ENEMY = "res/sounds/interactionsounds/pop_bubble_single_enemy.wav";
-    public static String SHOOT_BUBBLE = "res/sounds/interactionsounds/shoot_bubble.wav";
-    public static String WATER_FLOW = "res/sounds/interactionsounds/water_flow.wav";
+    public static String FOOD_PICKUP = "/sounds/interactionsounds/food_pickup.wav";
+    public static String ITEM_PICKUP = "/sounds/interactionsounds/item_pickup.wav";
+    public static String JUMP = "/sounds/interactionsounds/jump.wav";
+    public static String PLAYER_DEATH = "/sounds/interactionsounds/player_death.wav";
+    public static String LETTER_BUBBLE_POP = "/sounds/interactionsounds/letter_bubble_pop.wav";
+    public static String POP_BUBBLE_SINGLE_ENEMY = "/sounds/interactionsounds/pop_bubble_single_enemy.wav";
+    public static String SHOOT_BUBBLE = "/sounds/interactionsounds/shoot_bubble.wav";
+    public static String WATER_FLOW = "/sounds/interactionsounds/water_flow.wav";
 
 
     public static AudioManager getInstance() {
@@ -69,7 +69,8 @@ public class AudioManager {
     private void loadContinuousAudios(String[] continuousAudiosPaths) {
         try {
             for(int i = 0; i < continuousAudiosPaths.length; i++) {
-                InputStream in = new BufferedInputStream(new FileInputStream(continuousAudiosPaths[i]));
+                InputStream is = AudioManager.class.getResourceAsStream(continuousAudiosPaths[i]);
+                InputStream in = new BufferedInputStream(is);
                 AudioInputStream audioIn = AudioSystem.getAudioInputStream(in);
                 Clip currentClip = AudioSystem.getClip();
                 currentClip.open(audioIn);
@@ -100,7 +101,8 @@ public class AudioManager {
      */
     public void oneTimePlay(String filename) {
         try {
-            InputStream in = new BufferedInputStream(new FileInputStream(filename));
+            InputStream is = AudioManager.class.getResourceAsStream(filename);
+            InputStream in = new BufferedInputStream(is);
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(in);
             Clip clip = AudioSystem.getClip();
             clip.open(audioIn);

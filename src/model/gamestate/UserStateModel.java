@@ -6,6 +6,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static model.UserModel.PROFILE_DIR;
+
 /**
  * La classe {@code UserStateModel} è responsabile della gestione dello stato degli utenti
  * nel gioco. Utilizza il pattern Singleton per garantire che ci sia un'unica istanza
@@ -42,6 +44,10 @@ public class UserStateModel {
      * Inizializza la lista di utenti caricando i dati da file.
      */
     private UserStateModel() {
+        File dir = new File(PROFILE_DIR);
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
         getAllUsers();
     }
 
@@ -53,7 +59,7 @@ public class UserStateModel {
     public void getAllUsers() {
         userModels = new ArrayList<>();
 
-        final File folder = new File("res/users");
+        final File folder = new File(PROFILE_DIR);
         File[] files = folder.listFiles();
 
         // Se non ci sono file nella cartella, non eseguire nessuna operazione

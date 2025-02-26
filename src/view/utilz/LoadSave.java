@@ -152,8 +152,10 @@ public class LoadSave {
      */
     public static void loadCustomFont() {
         try {
-            JEQO_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("./res/Jeqo-5-Bit.ttf")).deriveFont(6f * SCALE);
-            NES_FONT = Font.createFont(Font.TRUETYPE_FONT, new File("./res/nintendo-nes-font.ttf")).deriveFont(10f * SCALE);
+            InputStream is = LoadSave.class.getResourceAsStream("/Jeqo-5-Bit.ttf");
+            JEQO_FONT = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(6f * SCALE);
+            is = LoadSave.class.getResourceAsStream("/nintendo-nes-font.ttf");
+            NES_FONT = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(10f * SCALE);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(JEQO_FONT);
         } catch (IOException | FontFormatException e) {

@@ -199,7 +199,7 @@ public class PlayerModel extends EntityModel {
             user.incrementLosses();
             user.incrementMatches();
             user.setMaxScore();
-            user.serialize("res/users/" + user.getNickname() + ".bb");
+            user.serialize(user.getNickname());
         }
     }
 

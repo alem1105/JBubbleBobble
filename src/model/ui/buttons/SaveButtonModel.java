@@ -1,5 +1,7 @@
 package model.ui.buttons;
 
+import model.level.LevelManagerModel;
+
 import javax.imageio.ImageIO;
 
 import static model.utilz.Constants.GameConstants.*;
@@ -47,7 +49,7 @@ public class SaveButtonModel extends CustomButtonModel {
         }
 
         try {
-            File outputfile = new File("./res/lvls/" + (levelIndex + 1) + ".png");
+            File outputfile = new File(LevelManagerModel.EDITED_LEVELS_DIR + File.separator + (levelIndex + 1) + ".png");
             ImageIO.write(image, "png", outputfile);
         } catch (IOException e) {
             System.out.println("ERRORE NEL SALVATAGGIO IMMAGINE");

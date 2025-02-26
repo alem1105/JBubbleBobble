@@ -15,6 +15,8 @@ public class UserModel implements Serializable, Comparable<UserModel> {
     private int maxScore, level, levelScore, wins, losses, matches;
     transient int tempScore; // non serializza
 
+    public static final String PROFILE_DIR = System.getProperty("user.home") + File.separator + "JBubbleBobble" + File.separator + "profiles";
+
     transient private BufferedImage avatar; // non serializza
 
     /**
@@ -46,14 +48,14 @@ public class UserModel implements Serializable, Comparable<UserModel> {
      *
      * @param path Il percorso in cui serializzare l'oggetto.
      */
-    public void serialize(String path) {
+    public void serialize(String profileName) {
         try {
-            File dir = new File("res/users/");
+            File dir = new File(PROFILE_DIR);
             if (!dir.exists()) {
                 dir.mkdir();
             }
 
-            FileOutputStream fos = new FileOutputStream(path);
+            FileOutputStream fos = new FileOutputStream(PROFILE_DIR + File.separator + profileName + ".bb");
             ObjectOutputStream os = new ObjectOutputStream(fos);
 
             os.writeObject(nickname);

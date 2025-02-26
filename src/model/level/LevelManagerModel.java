@@ -11,7 +11,9 @@ import model.objects.bobbles.BubbleManagerModel;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -36,6 +38,8 @@ public class LevelManagerModel {
     /** Indica se sono stati superati tutti i livelli */
     private boolean gameWon;
 
+    public static final String EDITED_LEVELS_DIR = System.getProperty("user.home") + File.separator + "JBubbleBobble" + File.separator + "levels";
+
     /**
      * Ottiene l'istanza singleton di LevelManagerModel.
      *
@@ -55,6 +59,10 @@ public class LevelManagerModel {
     private LevelManagerModel() {
         levels = new ArrayList<>();
         buildAllLevels();
+        File dir = new File(EDITED_LEVELS_DIR);
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
     }
 
     /**
@@ -73,33 +81,37 @@ public class LevelManagerModel {
      * @return Un array di BufferedImage contenente tutte le immagini dei livelli.
      */
     public static BufferedImage[] getAllLevels() {
-        URL url = LevelManagerModel.class.getResource("/lvls");
-        File file = null;
 
-        try {
-            file = new File(url.toURI());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+        BufferedImage[] imgs = new BufferedImage[25];
 
-        File[] files = file.listFiles();
-        File[] filesSorted = new File[files.length];
-
-        for (int i = 0; i < filesSorted.length; i++)
-            for (int j = 0; j < files.length; j++)
-                if (files[j].getName().equals((i + 1) + ".png"))
-                    filesSorted[i] = files[j];
-
-        BufferedImage[] imgs = new BufferedImage[filesSorted.length];
-
-        for (int i = 0; i < imgs.length; i++)
+        for (int i = 0; i < 25; i++) {
+            InputStream is = null;
+            File editedLevel = new File(EDITED_LEVELS_DIR + File.separator + (i+1) + ".png");
+            if (editedLevel.exists()) {
+                try {
+                    is = new FileInputStream(EDITED_LEVELS_DIR + File.separator + (i+1) + ".png");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                is = LevelManagerModel.class.getResourceAsStream("/lvls/" + (i+1) + ".png");
+            }
             try {
-                imgs[i] = ImageIO.read(filesSorted[i]);
+                imgs[i] = ImageIO.read(is);
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+        }
 
         return imgs;
+
     }
 
     /**
@@ -115,7 +127,7 @@ public class LevelManagerModel {
             user.incrementWins();
             user.setMaxScore();
             user.updateLevelScore();
-            user.serialize("res/users/" + user.getNickname() + ".bb");
+            user.serialize(user.getNickname());
             Gamestate.state = MENU;
             gameWon = true;
             lvlIndex = 0;

@@ -13,7 +13,7 @@ public class CreateButtonModel extends CustomButtonModel{
     }
 
     public void saveUser(UserModel user) {
-        user.serialize("res/users/" + user.getNickname() + ".bb");
+        user.serialize(user.getNickname());
         UserStateModel.getInstance().getAllUsers();
     }
 }
