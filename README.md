@@ -5,6 +5,8 @@ Progetto per l'esame di **Metodologie di Programmazione 23/24** svolto da Gullo 
 
 Per giocare al gioco si puo' scaricare il codice e runnare JBubbleBobble nel package controller, oppure scaricare il [JAR](https://github.com/alem1105/JBubbleBobble/releases/tag/v1.0.0).
 
+https://github.com/user-attachments/assets/32add888-1127-4594-9e52-b6f5475a24ed
+
 ## Specifiche che abbiamo implementato
 
 ### Very Important things 
